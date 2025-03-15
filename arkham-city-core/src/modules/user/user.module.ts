@@ -24,7 +24,7 @@ import { UserController } from './user.controller';
     ]),
     MongooseModule.forFeature(
       [{ name: User.name, schema: UserSchema }],
-      databaseConfig.MONGO_DB_USER,
+      databaseConfig.MONGO_DB_METADATA,
     ),
   ],
   providers: [UserService, HashService],

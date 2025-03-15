@@ -11,8 +11,8 @@ import { databaseConfig } from './config/database.config';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    MongooseModule.forRoot(process.env.MONGO_DB_USER as string, {
-      connectionName: databaseConfig.MONGO_DB_USER,
+    MongooseModule.forRoot(process.env.MONGO_DB_METADATA as string, {
+      connectionName: databaseConfig.MONGO_DB_METADATA,
     }),
     FirestoreModule,
     StorageModule,

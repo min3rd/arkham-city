@@ -4,10 +4,18 @@ import { AuthService } from './auth.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { ConfigModule } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_PRIVATE_KEY,
+      signOptions: {
+        expiresIn: '1H',
+      },
+    }),
     ClientsModule.register([
       {
         name: microserviceConfig.auth.name,

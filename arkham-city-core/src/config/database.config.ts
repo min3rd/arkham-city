@@ -1,3 +1,3 @@
 export const databaseConfig = {
-  MONGO_DB_USER: 'users',
+  MONGO_DB_METADATA: 'metadata',
 };
