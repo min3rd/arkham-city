@@ -4,6 +4,6 @@ import { FirestoreService } from './firestore.service';
 
 @Module({
   controllers: [FirestoreController],
-  providers: [FirestoreService]
+  providers: [FirestoreService],
 })
 export class FirestoreModule {}
