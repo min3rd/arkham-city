@@ -2,8 +2,8 @@
   "name": "arkham-city-core",
   "version": "0.0.1",
   "description": "",
-  "author": "",
-  "private": true,
+  "author": "vanminh.vu",
+  "private": false,
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
