@@ -5,10 +5,17 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { AuthService } from './auth/auth.service';
 import { User, UserSchema } from './user/user.type';
-import { databaseConfig } from 'src/config/database.config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserService } from './user/user.service';
 import { HashService } from 'src/core/hash/hash.service';
+import { MongooseService } from './mongoose/mongoose.service';
+import { FirestoreService } from './firestore/firestore.service';
+import {
+  DynamicSchema,
+  DynamicSchemaSchema,
+  Field,
+  FieldSchema,
+} from './firestore/firestore.type';
 
 @Module({
   imports: [
@@ -32,10 +39,23 @@ import { HashService } from 'src/core/hash/hash.service';
     ]),
     MongooseModule.forFeature(
       [{ name: User.name, schema: UserSchema }],
-      databaseConfig.MONGO_DB_METADATA,
+      'metadata',
+    ),
+    MongooseModule.forFeature(
+      [
+        { name: DynamicSchema.name, schema: DynamicSchemaSchema },
+        { name: Field.name, schema: FieldSchema },
+      ],
+      'firestore',
     ),
   ],
-  providers: [AuthService, UserService, HashService],
+  providers: [
+    AuthService,
+    UserService,
+    HashService,
+    MongooseService,
+    FirestoreService,
+  ],
   exports: [AuthService, UserService],
 })
 export class ModulesModule {}

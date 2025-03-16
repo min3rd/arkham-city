@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './user.type';
-import { databaseConfig } from 'src/config/database.config';
 import { Model } from 'mongoose';
 import { HashService } from 'src/core/hash/hash.service';
 import {
@@ -13,7 +12,7 @@ import {
 @Injectable()
 export class UserService {
   constructor(
-    @InjectModel(User.name, databaseConfig.MONGO_DB_METADATA)
+    @InjectModel(User.name, 'metadata')
     private readonly userModel: Model<User>,
     private readonly hashService: HashService,
   ) {}
