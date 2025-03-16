@@ -2,9 +2,9 @@ import { Body, Controller, Post } from '@nestjs/common';
 import {
   LogInByEmailAndPassword,
   RegisterByEmailAndPasswordDto,
-} from './auth.type';
+} from '../../modules/auth/auth.type';
 import { GatewayController } from 'src/core/gateway/gateway.controller';
-import { AuthService } from './auth.service';
+import { AuthService } from '../../modules/auth/auth.service';
 import { Public } from 'src/core/decorators/public';
 
 @Controller('auth')

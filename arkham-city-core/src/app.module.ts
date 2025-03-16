@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { databaseConfig } from './config/database.config';
 import { MicroservicesModule } from './microservices/microservices.module';
 import { GatewayModule } from './gateway/gateway.module';
+import { ModulesModule } from './modules/modules.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { GatewayModule } from './gateway/gateway.module';
     CoreModule,
     MicroservicesModule,
     GatewayModule,
+    ModulesModule,
   ],
   controllers: [],
   providers: [],

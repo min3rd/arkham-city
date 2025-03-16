@@ -1,11 +1,11 @@
 import { Controller, Inject } from '@nestjs/common';
 import { ClientProxy, MessagePattern, Payload } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
-import { UserService } from '../../gateway/user/user.service';
+import { UserService } from '../../modules/user/user.service';
 import {
   LogInByEmailAndPassword,
   RegisterByEmailAndPasswordDto,
-} from '../../gateway/auth/auth.type';
+} from '../../modules/auth/auth.type';
 
 @Controller('user')
 export class UserController {
