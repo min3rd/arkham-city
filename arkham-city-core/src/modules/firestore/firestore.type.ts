@@ -18,10 +18,6 @@ export class Field {
   defaultValue?: string;
 }
 
-export type FieldDocument = HydratedDocument<Field>;
-
-export const FieldSchema = SchemaFactory.createForClass(Field);
-
 @Schema()
 export class DynamicSchema {
   @Prop()

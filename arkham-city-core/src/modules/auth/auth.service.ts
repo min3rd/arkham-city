@@ -4,7 +4,7 @@ import { microserviceConfig } from 'src/config/microservice.config';
 import { MicroserviceResponse } from 'src/core/microservice/microservice.type';
 import { User } from '../user/user.type';
 import { firstValueFrom } from 'rxjs';
-import { BaseService } from 'src/core/base/base.service';
+import { BaseService } from 'src/modules/base/base.service';
 import { JwtService } from '@nestjs/jwt';
 import { JWTPayload, LogInResponseDto, RegisterResponseDto } from './auth.type';
 

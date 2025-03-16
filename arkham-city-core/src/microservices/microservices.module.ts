@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { ModulesModule } from 'src/modules/modules.module';
+import { FirestoreController } from './firestore/firestore.controller';
 
 @Module({
   imports: [
@@ -28,7 +29,7 @@ import { ModulesModule } from 'src/modules/modules.module';
     ]),
     ModulesModule,
   ],
-  controllers: [UserController],
+  controllers: [UserController, FirestoreController],
   providers: [],
 })
 export class MicroservicesModule {}

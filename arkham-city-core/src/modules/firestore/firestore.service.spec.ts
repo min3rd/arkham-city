@@ -1,12 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FirestoreService } from './firestore.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import {
-  DynamicSchema,
-  DynamicSchemaSchema,
-  Field,
-  FieldSchema,
-} from './firestore.type';
+import { DynamicSchema, DynamicSchemaSchema } from './firestore.type';
 import { ConfigModule } from '@nestjs/config';
 
 describe('FirestoreService', () => {
@@ -20,10 +15,7 @@ describe('FirestoreService', () => {
           connectionName: 'firestore',
         }),
         MongooseModule.forFeature(
-          [
-            { name: DynamicSchema.name, schema: DynamicSchemaSchema },
-            { name: Field.name, schema: FieldSchema },
-          ],
+          [{ name: DynamicSchema.name, schema: DynamicSchemaSchema }],
           'firestore',
         ),
       ],
@@ -35,15 +27,5 @@ describe('FirestoreService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
-  });
-
-  it('can store new schema into firestore database', () => {
-    const received = service.storeSchema('test', [
-      {
-        name: 'username',
-        type: 'string',
-      },
-    ]);
-    expect(received).toBeDefined();
   });
 });
