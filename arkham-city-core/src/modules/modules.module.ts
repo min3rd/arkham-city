@@ -10,12 +10,7 @@ import { UserService } from './user/user.service';
 import { HashService } from 'src/core/hash/hash.service';
 import { MongooseService } from './mongoose/mongoose.service';
 import { FirestoreService } from './firestore/firestore.service';
-import {
-  DynamicSchema,
-  DynamicSchemaSchema,
-  Field,
-  FieldSchema,
-} from './firestore/firestore.type';
+import { DynamicSchema, DynamicSchemaSchema } from './firestore/firestore.type';
 
 @Module({
   imports: [
@@ -36,16 +31,21 @@ import {
           port: parseInt(process.env.REDIS_PORT as string),
         },
       },
+      {
+        name: microserviceConfig.firestore.name,
+        transport: Transport.REDIS,
+        options: {
+          host: process.env.REDIS_HOST as string,
+          port: parseInt(process.env.REDIS_PORT as string),
+        },
+      },
     ]),
     MongooseModule.forFeature(
       [{ name: User.name, schema: UserSchema }],
       'metadata',
     ),
     MongooseModule.forFeature(
-      [
-        { name: DynamicSchema.name, schema: DynamicSchemaSchema },
-        { name: Field.name, schema: FieldSchema },
-      ],
+      [{ name: DynamicSchema.name, schema: DynamicSchemaSchema }],
       'firestore',
     ),
   ],
@@ -56,6 +56,6 @@ import {
     MongooseService,
     FirestoreService,
   ],
-  exports: [AuthService, UserService],
+  exports: [AuthService, UserService, FirestoreService],
 })
 export class ModulesModule {}

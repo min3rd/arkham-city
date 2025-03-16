@@ -8,6 +8,8 @@ export const microserviceConfig = {
   },
   firestore: {
     name: 'firestore',
-    patterns: {},
+    patterns: {
+      createRecord: 'createRecord',
+    },
   },
 };
