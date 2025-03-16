@@ -1,25 +1,19 @@
 import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
-import { AuthModule } from './auth/auth.module';
-import { FirestoreModule } from './firestore/firestore.module';
-import { StorageModule } from './storage/storage.module';
-import { UserModule } from './user/user.module';
 import { AuthGuard } from 'src/core/guards/auth/auth.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { ModulesModule } from 'src/modules/modules.module';
+import { AuthController } from './auth/auth.controller';
+import { FirestoreController } from './firestore/firestore.controller';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot(),
-    AuthModule,
-    FirestoreModule,
-    StorageModule,
-    UserModule,
-  ],
+  imports: [ConfigModule.forRoot(), ModulesModule],
   providers: [
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
   ],
+  controllers: [AuthController, FirestoreController],
 })
 export class GatewayModule {}

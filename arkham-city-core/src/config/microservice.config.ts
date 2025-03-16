@@ -6,8 +6,8 @@ export const microserviceConfig = {
       logInByEmailAndPassword: 'v1.auth.log-in-by-email-password',
     },
   },
-  user: {
-    name: 'user',
+  firestore: {
+    name: 'firestore',
     patterns: {},
   },
 };
