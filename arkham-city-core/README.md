@@ -40,6 +40,9 @@ $ npm run start
 # watch mode
 $ npm run start:dev
 
+# debug mode
+$ npm run start:debug
+
 # production mode
 $ npm run start:prod
 ```
@@ -56,6 +59,7 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+## API Handle Flow
 
 ## Deployment
 
