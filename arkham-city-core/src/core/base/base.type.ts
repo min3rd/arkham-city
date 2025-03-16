@@ -1,5 +1,5 @@
 export interface ResponseDto {
-  time?: Date;
+  timestamp?: Date;
   error?: boolean;
   errorCode?: any;
   data?: any;

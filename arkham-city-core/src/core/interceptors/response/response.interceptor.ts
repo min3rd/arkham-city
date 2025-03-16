@@ -13,7 +13,7 @@ export class ResponseInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((data) => {
         const response: ResponseDto = {
-          time: new Date(),
+          timestamp: new Date(),
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           data: data,
           error: false,
