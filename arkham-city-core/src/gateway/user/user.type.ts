@@ -9,8 +9,20 @@ export class User {
   @Prop()
   email: string;
 
-  @Prop({})
+  @Prop()
   password: string;
+
+  @Prop()
+  phoneNumber: string;
+
+  @Prop()
+  firstName: string;
+
+  @Prop()
+  lastName: string;
+
+  @Prop()
+  middleName: string;
 }
 
 export type UserDocument = HydratedDocument<User>;

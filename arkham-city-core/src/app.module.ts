@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
-import { FirestoreModule } from './modules/firestore/firestore.module';
-import { StorageModule } from './modules/storage/storage.module';
 import { CoreModule } from './core/core.module';
-import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
-import { UserModule } from './modules/user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { databaseConfig } from './config/database.config';
+import { MicroservicesModule } from './microservices/microservices.module';
+import { GatewayModule } from './gateway/gateway.module';
 
 @Module({
   imports: [
@@ -14,11 +12,9 @@ import { databaseConfig } from './config/database.config';
     MongooseModule.forRoot(process.env.MONGO_DB_METADATA as string, {
       connectionName: databaseConfig.MONGO_DB_METADATA,
     }),
-    FirestoreModule,
-    StorageModule,
     CoreModule,
-    AuthModule,
-    UserModule,
+    MicroservicesModule,
+    GatewayModule,
   ],
   controllers: [],
   providers: [],

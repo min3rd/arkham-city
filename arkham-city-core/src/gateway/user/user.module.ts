@@ -7,7 +7,6 @@ import { HashService } from 'src/core/hash/hash.service';
 import { ConfigModule } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
-import { UserController } from './user.controller';
 
 @Module({
   imports: [
@@ -29,6 +28,6 @@ import { UserController } from './user.controller';
   ],
   providers: [UserService, HashService],
   exports: [UserService],
-  controllers: [UserController],
+  controllers: [],
 })
 export class UserModule {}

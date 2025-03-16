@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { VersioningType } from '@nestjs/common';
+import { ResponseInterceptor } from './core/interceptors/response/response.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,6 +19,7 @@ async function bootstrap() {
     prefix: 'v',
     defaultVersion: '1',
   });
+  app.useGlobalInterceptors(new ResponseInterceptor());
   await app.listen(process.env.PORT || 3000);
 }
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
