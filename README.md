@@ -18,14 +18,30 @@ arkham-city
 ```
 ## Arkham City Core
 
-Enviroment
+Place
+```bash
+cd arkham-city/arkham-city-core
+```
+
+Development enviroment
 ```
 Nodejs >= 18
+Docker
 ```
 
 Setup
 ```bash
 npm i
+```
+
+Before start develope
+
+```bash
+# run redis and mongo
+docker compose -f docker-compose-dev.yml
+
+# create .env
+cp .env.example .env
 ```
 
 Compile and run the project
@@ -49,7 +65,9 @@ npm run test
 ```
 
 API handle flow
+
 ![alt](/docs/images/Main%20Structure-API%20handle.drawio.png)
+
 Notice:
 - We use response interceptor to format all response to template, so we no need do format in service or controller, just focus into bussiness process
     ```json
