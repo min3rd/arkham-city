@@ -1,13 +1,14 @@
-import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
-import { microserviceConfig } from 'src/config/microservice.config';
-import { UserService } from '../../modules/user/user.service';
+import { Controller } from "@nestjs/common";
+import { MessagePattern, Payload } from "@nestjs/microservices";
+import { microserviceConfig } from "src/config/microservice.config";
+import { UserService } from "../../modules/user/user.service";
 import {
   LogInByEmailAndPassword,
+  LogInByRefreshToken,
   RegisterByEmailAndPasswordDto,
-} from '../../modules/auth/auth.type';
+} from "../../modules/auth/auth.type";
 
-@Controller('user')
+@Controller("user")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -18,6 +19,8 @@ export class UserController {
     return this.userService.registerByEmailAndPassword(
       payload.email,
       payload.password,
+      payload.firstName,
+      payload.lastName,
     );
   }
 
@@ -27,5 +30,10 @@ export class UserController {
       payload.email,
       payload.password,
     );
+  }
+
+  @MessagePattern(microserviceConfig.auth.patterns.logInByRefreshToken)
+  logInByRefreshToken(@Payload() payload: LogInByRefreshToken) {
+    return this.userService.findOneByRefreshToken(payload.refreshToken);
   }
 }

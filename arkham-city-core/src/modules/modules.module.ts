@@ -19,7 +19,7 @@ import { DynamicSchema, DynamicSchemaSchema } from './firestore/firestore.type';
       global: true,
       secret: process.env.JWT_SECRET,
       signOptions: {
-        expiresIn: '1h',
+        expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN,
       },
     }),
     ClientsModule.register([

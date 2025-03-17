@@ -1,12 +1,17 @@
 export interface RegisterByEmailAndPasswordDto {
   email: string;
-  username: string;
   password: string;
+  firstName: string;
+  lastName: string;
 }
 
 export interface LogInByEmailAndPassword {
   email: string;
   password: string;
+}
+
+export interface LogInByRefreshToken {
+  refreshToken: string;
 }
 
 export interface JWTPayload {
