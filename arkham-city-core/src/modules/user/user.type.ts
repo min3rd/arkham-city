@@ -23,6 +23,9 @@ export class User {
 
   @Prop()
   middleName: string;
+
+  @Prop()
+  refreshToken: string;
 }
 
 export type UserDocument = HydratedDocument<User>;

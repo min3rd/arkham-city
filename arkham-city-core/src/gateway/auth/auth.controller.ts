@@ -1,6 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import {
   LogInByEmailAndPassword,
+  LogInByRefreshToken,
   RegisterByEmailAndPasswordDto,
 } from '../../modules/auth/auth.type';
 import { GatewayController } from 'src/core/gateway/gateway.controller';
@@ -18,6 +19,8 @@ export class AuthController extends GatewayController {
     return this.authService.registerByEmailAndPassword(
       payload.email,
       payload.password,
+      payload.firstName,
+      payload.lastName
     );
   }
 
@@ -28,5 +31,11 @@ export class AuthController extends GatewayController {
       payload.email,
       payload.password,
     );
+  }
+
+  @Public()
+  @Post('log-in-by-refresh-token')
+  logInByRefreshToken(@Body() payload: LogInByRefreshToken){
+    return this.authService.logInByRefreshToken(payload.refreshToken);
   }
 }
