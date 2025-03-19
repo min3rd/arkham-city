@@ -1,2 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+
+/* Preline UI */
+@import "preline/variants.css";
+
+/* Optional Preline UI Datepicker Plugin */
+@import "preline/src/plugins/datepicker/styles.css";
+
+/* Plugins */
+/* @plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/aspect-ratio"; */
