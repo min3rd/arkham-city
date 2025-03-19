@@ -29,7 +29,15 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/lodash/lodash.min.js",
+              "node_modules/dropzone/dist/dropzone-min.js",
+              "node_modules/nouislider/dist/nouislider.min.js",
+              "node_modules/datatables.net/js/dataTables.min.js",
+              "node_modules/vanilla-calendar-pro/index.js",
+              "node_modules/preline/dist/index.js"
+            ]
           },
           "configurations": {
             "production": {
