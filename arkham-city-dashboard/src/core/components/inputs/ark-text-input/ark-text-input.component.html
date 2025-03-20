@@ -1,0 +1,57 @@
+<div>
+  <label
+    for="text-input-{{ label.toLocaleLowerCase() }}"
+    class="block text-sm font-medium mb-2 dark:text-white"
+  >
+    {{ label }}
+  </label>
+  <div class="relative">
+    <input
+      *ngIf="!controlName"
+      type="{{ type }}"
+      id="text-input-{{ label.toLocaleLowerCase() }}"
+      name="text-input-{{ label.toLocaleLowerCase() }}"
+      class="py-2.5 sm:py-3 px-4 block w-full rounded-lg sm:text-sm"
+      placeholder="{{ placeholder }}"
+      aria-describedby="text-input-helper"
+    />
+    <input
+      *ngIf="controlName"
+      type="{{ type }}"
+      [formControlName]="controlName"
+      id="text-input-{{ label.toLocaleLowerCase() }}"
+      name="text-input-{{ label.toLocaleLowerCase() }}"
+      class="py-2.5 sm:py-3 px-4 block w-full rounded-lg sm:text-sm"
+      [ngClass]="{
+        'bg-neutral-100': !invalid,
+        'bg-red-100 border-red-500 dark:bg-red-100 dark:border-red-500 border-2':
+          invalid
+      }"
+      placeholder="{{ placeholder }}"
+      required=""
+      aria-describedby="text-input-helper"
+    />
+    <div
+      *ngIf="invalid"
+      class="absolute inset-y-0 end-0 flex items-center pe-3"
+    >
+      <svg
+        class="shrink-0 size-4 text-red-500"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" x2="12" y1="8" y2="12"></line>
+        <line x1="12" x2="12.01" y1="16" y2="16"></line>
+      </svg>
+    </div>
+  </div>
+  <div class="min-h-6 text-red-500"></div>
+</div>
