@@ -1,17 +1,19 @@
 <div class="flex w-full h-full p-2">
   <form
     [formGroup]="form"
-    class="w-full h-fit md:max-w-1/2 lg:max-w-1/4 mx-auto my-auto flex flex-col gap-2 p-6 rounded-3xl drop-shadow-2xl bg-neutral-50 dark:bg-neutral-800"
+    class="w-full h-fit md:w-fit mx-auto my-auto flex flex-col gap-2 px-6 py-12 rounded-3xl drop-shadow-2xl bg-neutral-50 dark:bg-neutral-800"
   >
     <ark-text-input
       controlName="email"
       type="email"
       label="Email"
+      class="md:min-w-96"
     ></ark-text-input>
     <ark-text-input
       controlName="password"
       type="password"
       label="Password"
+      class="md:min-w-96"
     ></ark-text-input>
   </form>
 </div>
