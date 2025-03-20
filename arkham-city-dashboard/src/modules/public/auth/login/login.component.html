@@ -1,13 +1,17 @@
-<div class="w-full h-full p-2 flex">
+<div class="flex w-full h-full p-2">
   <form
     [formGroup]="form"
-    class="w-full h-fit md:max-w-80 mx-auto my-auto flex flex-col gap-2"
+    class="w-full h-fit md:max-w-1/2 lg:max-w-1/4 mx-auto my-auto flex flex-col gap-2 p-6 rounded-3xl drop-shadow-2xl bg-neutral-50 dark:bg-neutral-800"
   >
-    <text-input controlName="email" type="email" label="Email"></text-input>
-    <text-input
+    <ark-text-input
+      controlName="email"
+      type="email"
+      label="Email"
+    ></ark-text-input>
+    <ark-text-input
       controlName="password"
       type="password"
       label="Password"
-    ></text-input>
+    ></ark-text-input>
   </form>
 </div>

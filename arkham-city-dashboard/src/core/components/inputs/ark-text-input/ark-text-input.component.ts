@@ -18,9 +18,9 @@ import {
 } from '@angular/forms';
 
 @Component({
-  selector: 'text-input',
+  selector: 'ark-text-input',
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  templateUrl: './text-input.component.html',
+  templateUrl: './ark-text-input.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [
     {
@@ -29,7 +29,7 @@ import {
     },
   ],
 })
-export class TextInputComponent implements AfterViewInit {
+export class ArkTextInputComponent implements AfterViewInit {
   @Input() type!: string;
   @Input() placeholder!: string;
   @Input() value!: string;
