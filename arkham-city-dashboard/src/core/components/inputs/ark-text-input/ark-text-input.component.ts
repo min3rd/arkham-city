@@ -36,6 +36,11 @@ export class ArkTextInputComponent implements AfterViewInit {
   @Input() label!: string;
   @Input() controlName!: string;
 
+  @Input() rounded: 'xs' | 'md' | 'lg' | 'full' = 'lg';
+  @Input() color: 'gray' | 'teal' | 'blue' | 'red' | 'yellow' | 'white' =
+    'teal';
+  @Input() size: 'default' | 'small' | 'large' = 'default';
+
   @ViewChild(FormControlName)
   public formControl!: FormControl;
 

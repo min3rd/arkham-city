@@ -3,17 +3,25 @@
     [formGroup]="form"
     class="w-full h-fit md:w-fit mx-auto my-auto flex flex-col gap-2 px-6 py-12 rounded-3xl drop-shadow-2xl bg-neutral-50 dark:bg-neutral-800"
   >
+    <div class="absolute top-0 right-0 p-2">
+      <ark-switch-theme></ark-switch-theme>
+    </div>
     <ark-text-input
       controlName="email"
       type="email"
       label="Email"
+      placeholder="email@domain.com"
       class="md:min-w-96"
+      rounded="lg"
     ></ark-text-input>
     <ark-text-input
       controlName="password"
       type="password"
       label="Password"
+      placeholder="********"
       class="md:min-w-96"
+      rounded="lg"
     ></ark-text-input>
+    <ark-button (click)="onLogIn()" label="Log In" soft [loading]="loading"></ark-button>
   </form>
 </div>
