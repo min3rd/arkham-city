@@ -1,0 +1,60 @@
+<button
+  (click)="onClick()"
+  type="button"
+  class="w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium focus:outline-hidden disabled:opacity-50 disabled:pointer-events-none"
+  [ngClass]="{
+    'bg-gray-500 text-white hover:bg-gray-600 focus:bg-gray-600':
+      color === 'gray' && isSolid(),
+    'bg-teal-500 text-white hover:bg-teal-600 focus:bg-teal-600':
+      color === 'teal' && isSolid(),
+    'bg-blue-600 text-white hover:bg-blue-700 focus:bg-blue-700':
+      color === 'blue' && isSolid(),
+    'bg-red-500 text-white hover:bg-red-600 focus:bg-red-600':
+      color === 'red' && isSolid(),
+    'bg-yellow-500 text-white hover:bg-yellow-600 focus:bg-yellow-600':
+      color === 'yellow' && isSolid(),
+    'bg-white text-gray-800 hover:bg-gray-200 focus:bg-gray-200':
+      color === 'white' && isSolid(),
+    'border': isOutline(),
+    'border-gray-500 text-gray-500 hover:border-gray-800 hover:text-gray-800 focus:border-gray-800 focus:text-gray-800 dark:border-neutral-400 dark:text-neutral-400 dark:hover:text-neutral-300 dark:hover:border-neutral-300': color === 'gray' && isOutline(),
+    'border-teal-500 text-teal-500 hover:border-teal-400 hover:text-teal-400 focus:border-teal-400 focus:text-teal-400': color === 'teal' && isOutline(),
+    'border-blue-600 text-blue-600 hover:border-blue-500 hover:text-blue-500 focus:border-blue-500 focus:text-blue-500 dark:border-blue-500 dark:text-blue-500 dark:hover:text-blue-400 dark:hover:border-blue-400': color === 'blue' && isOutline(),
+    'border-red-500 text-red-500 hover:border-red-400 hover:text-red-400 focus:border-red-400 focus:text-red-400': color === 'red' && isOutline(),
+    'border-yellow-500 text-yellow-500 hover:border-yellow-400 focus:border-yellow-400 focus:text-yellow-400': color === 'yellow' && isOutline(),
+    'border-neutral-200 text-neutral-600 dark:border-white dark:text-white hover:border-neutral-300 hover:text-neutral-700 dark:hover:border-white/70 dark:hover:text-white/70 focus:border-white/70 focus:text-white/70': color === 'white' && isOutline(),
+    'border border-transparent': isGhost() || isSoft(),
+    'text-gray-500 hover:bg-gray-100 focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800': color === 'gray' && isGhost(),
+    'text-teal-500 hover:bg-teal-100 focus:bg-teal-100 hover:text-teal-800 dark:hover:bg-teal-800/30 dark:hover:text-teal-400 dark:focus:text-teal-400': color === 'teal' && isGhost(),
+    'text-blue-600 hover:bg-blue-100 focus:bg-blue-100 hover:text-blue-800 focus:text-blue-800 dark:text-blue-500 dark:hover:bg-blue-800/30 dark:hover:text-blue-400 dark:focus:bg-blue-800/30 dark:focus:text-blue-400': color === 'blue' && isGhost(),
+    'text-red-500 hover:bg-red-100 focus:bg-red-100 hover:text-red-800 dark:hover:bg-red-800/30 dark:hover:text-red-400 dark:focus:bg-red-800/30 dark:focus:text-red-400': color === 'red' && isGhost(),
+    'text-yellow-500 hover:bg-yellow-100 focus:bg-yellow-100 hover:text-yellow-800 dark:hover:bg-yellow-800/30 dark:hover:text-yellow-400 dark:focus:bg-yellow-800/30 dark:focus:text-yellow-400': color === 'yellow' && isGhost(),
+    'text-gray-800 hover:bg-gray-100 focus:bg-gray-100 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700': color === 'white' && isGhost(),
+    'bg-gray-100 text-gray-500 hover:bg-gray-200 focus:bg-gray-200 dark:bg-white/10 dark:text-neutral-400 dark:hover:bg-white/20 dark:hover:text-neutral-300 dark:focus:bg-white/20 dark:focus:text-neutral-300': color === 'gray' && isSoft(),
+    'bg-teal-100 text-teal-800 hover:bg-teal-200 focus:bg-teal-200 dark:text-teal-500 dark:bg-teal-800/30 dark:hover:bg-teal-800/20 dark:focus:bg-teal-800/20': color === 'teal' && isSoft(),
+    'bg-blue-100 text-blue-800 hover:bg-blue-200 focus:bg-blue-200 dark:text-blue-400 dark:bg-blue-800/30 dark:hover:bg-blue-800/20 dark:focus:bg-blue-800/20': color === 'blue' && isSoft(),
+    'bg-red-100 text-red-800 hover:bg-red-200 focus:bg-red-200 dark:text-red-500 dark:bg-red-800/30 dark:hover:bg-red-800/20 dark:focus:bg-red-800/20': color === 'red' && isSoft(),
+    'bg-yellow-100 text-yellow-800 hover:bg-yellow-200 focus:bg-yellow-200 dark:text-yellow-500 dark:bg-yellow-800/30 dark:hover:bg-yellow-800/20 dark:focus:bg-yellow-800/20': color === 'yellow' && isSoft(),
+    'bg-gray-100 text-gray-800 hover:bg-gray-200 focus:bg-gray-200 dark:bg-white/10 dark:text-white dark:hover:bg-white/20 dark:hover:text-white dark:focus:bg-white/20 dark:focus:text-white': color === 'white' && isSoft(),
+    'rounded-xs': rounded === 'xs',
+    'rounded-md': rounded === 'md',
+    'rounded-lg': rounded === 'lg',
+    'rounded-full': rounded === 'full',
+    'py-3 px-4': size ==='default',
+    'py-2 px-3': size ==='small',
+    'p-4 sm:p-5': size ==='large',
+  }"
+>
+  <span
+    *ngIf="enableLoading()"
+    class="animate-spin inline-block size-4 border-3 border-current border-t-transparent text-white rounded-full"
+    role="status"
+    aria-label="loading"
+  >
+    <span class="sr-only">
+      {{ label }}
+    </span>
+  </span>
+  <span *ngIf="!enableLoading()">
+    {{ label }}
+  </span>
+</button>

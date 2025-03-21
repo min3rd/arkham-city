@@ -11,7 +11,16 @@
       type="{{ type }}"
       id="text-input-{{ label.toLocaleLowerCase() }}"
       name="text-input-{{ label.toLocaleLowerCase() }}"
-      class="py-2.5 sm:py-3 px-4 block w-full rounded-lg sm:text-sm"
+      class="block w-full sm:text-sm"
+      [ngClass]="{
+      'rounded-xs': rounded === 'xs',
+      'rounded-md': rounded === 'md',
+      'rounded-lg': rounded === 'lg',
+      'rounded-full': rounded === 'full',
+      'py-3 px-4': size ==='default',
+      'py-2 px-3': size ==='small',
+      'p-4 sm:p-5': size ==='large',
+      }"
       placeholder="{{ placeholder }}"
       aria-describedby="text-input-helper"
     />
@@ -21,11 +30,18 @@
       [formControlName]="controlName"
       id="text-input-{{ label.toLocaleLowerCase() }}"
       name="text-input-{{ label.toLocaleLowerCase() }}"
-      class="py-2.5 sm:py-3 px-4 block w-full rounded-lg sm:text-sm"
+      class="block w-full sm:text-sm"
       [ngClass]="{
-        'bg-neutral-100': !invalid,
-        'bg-red-100 border-red-500 dark:bg-red-100 dark:border-red-500 border-2':
-          invalid
+        'bg-neutral-200': !invalid,
+        'bg-red-100 border-red-500 dark:bg-red-100 dark:border-red-500 border':
+          invalid,
+      'rounded-xs': rounded === 'xs',
+      'rounded-md': rounded === 'md',
+      'rounded-lg': rounded === 'lg',
+      'rounded-full': rounded === 'full',
+      'py-3 px-4': size ==='default',
+      'py-2 px-3': size ==='small',
+      'p-4 sm:p-5': size ==='large',
       }"
       placeholder="{{ placeholder }}"
       required=""

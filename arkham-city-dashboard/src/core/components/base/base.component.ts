@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   inject,
   OnDestroy,
@@ -16,8 +17,10 @@ import { Subject } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseComponent implements OnInit, OnDestroy {
+  loading:boolean = false;
   form!: UntypedFormGroup;
   formBuilder: UntypedFormBuilder = inject(UntypedFormBuilder);
+  changeDetectorRef: ChangeDetectorRef =  inject(ChangeDetectorRef);
   unsubscribeAll: Subject<any> = new Subject();
   ngOnInit(): void {}
   ngOnDestroy(): void {
