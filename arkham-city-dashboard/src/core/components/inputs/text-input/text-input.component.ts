@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   inject,
@@ -21,7 +20,6 @@ import {
   selector: 'text-input',
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './text-input.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [
     {
       provide: ControlContainer,

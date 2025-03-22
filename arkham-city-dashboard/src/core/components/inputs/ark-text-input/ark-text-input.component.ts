@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   inject,
@@ -21,7 +20,6 @@ import {
   selector: 'ark-text-input',
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './ark-text-input.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [
     {
       provide: ControlContainer,

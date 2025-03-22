@@ -1,17 +1,18 @@
 <button
-  (click)="onClick()"
+  (click)="onClickEvent()"
   type="button"
   class="w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium focus:outline-hidden disabled:opacity-50 disabled:pointer-events-none"
   [ngClass]="{
-    'bg-gray-500 text-white hover:bg-gray-600 focus:bg-gray-600':
+    'text-white': isSolid(),
+    'bg-gray-500 hover:bg-gray-600 focus:bg-gray-600':
       color === 'gray' && isSolid(),
-    'bg-teal-500 text-white hover:bg-teal-600 focus:bg-teal-600':
+    'bg-teal-500 hover:bg-teal-600 focus:bg-teal-600':
       color === 'teal' && isSolid(),
-    'bg-blue-600 text-white hover:bg-blue-700 focus:bg-blue-700':
+    'bg-blue-600 hover:bg-blue-700 focus:bg-blue-700':
       color === 'blue' && isSolid(),
-    'bg-red-500 text-white hover:bg-red-600 focus:bg-red-600':
+    'bg-red-500 hover:bg-red-600 focus:bg-red-600':
       color === 'red' && isSolid(),
-    'bg-yellow-500 text-white hover:bg-yellow-600 focus:bg-yellow-600':
+    'bg-yellow-500 hover:bg-yellow-600 focus:bg-yellow-600':
       color === 'yellow' && isSolid(),
     'bg-white text-gray-800 hover:bg-gray-200 focus:bg-gray-200':
       color === 'white' && isSolid(),
@@ -43,6 +44,7 @@
     'py-2 px-3': size ==='small',
     'p-4 sm:p-5': size ==='large',
   }"
+  [disabled]="enableDisabled()"
 >
   <span
     *ngIf="enableLoading()"
