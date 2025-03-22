@@ -7,6 +7,4 @@
 /* Optional Preline UI Datepicker Plugin */
 @import "preline/src/plugins/datepicker/styles.css";
 
-/* Plugins */
-/* @plugin "@tailwindcss/forms";
-@plugin "@tailwindcss/aspect-ratio"; */
+@custom-variant dark (&:where(.dark, .dark *));
