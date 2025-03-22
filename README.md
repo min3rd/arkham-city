@@ -16,10 +16,16 @@ arkham-city
 |-- arkham-city-dashboard (Dashboard web application base on angular 19)
 (still on working)
 ```
+
 ## Arkham City Core
 
 Place
 ```bash
+cd arkham-city
+
+# run redis and mongo
+docker compose -f docker-compose-dev.yml
+
 cd arkham-city/arkham-city-core
 ```
 
@@ -37,9 +43,6 @@ npm i
 Before start develope
 
 ```bash
-# run redis and mongo
-docker compose -f docker-compose-dev.yml
-
 # create .env
 cp .env.example .env
 ```
@@ -80,6 +83,12 @@ Notice:
 - It may be hard to understand how microservice working, but we can simplize that: we have more than 1 microservice which subscribe message "A", when a service call help by message "A" then 1 of which subscribed can do process and return the output. Just imagine, that will make sence when our system become bigger than google, and that is the way we can deploy our system.
 
 ## Arkham City Dashboard (on working)
+
+Figma design
+
+```link
+https://www.figma.com/design/nA2SZouWXs0g1S9FvQCU4O/Arkham-City-Dashboard?node-id=220802-40276&t=jVRWiCPA0gHjynXk-1
+```
 
 ## Author
 1. Vũ Văn Minh [Github](https://github.com/min3rd) [Facebook](https://fb.com/min3rd)
