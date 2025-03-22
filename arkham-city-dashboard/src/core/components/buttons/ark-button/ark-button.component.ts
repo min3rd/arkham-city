@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -12,7 +11,6 @@ import {
   selector: 'ark-button',
   imports: [CommonModule],
   templateUrl: './ark-button.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArkButtonComponent implements OnInit {
   @Input() label!: string;
@@ -26,8 +24,9 @@ export class ArkButtonComponent implements OnInit {
   @Input() soft: boolean | string = false;
   @Input() icon!: string;
   @Input() loading: boolean | string = false;
+  @Input() disabled: boolean | string = false;
 
-  @Output() click: EventEmitter<any> = new EventEmitter();
+  @Output() onClick: EventEmitter<any> = new EventEmitter();
   ngOnInit(): void {
     if (
       !this.isSolid() &&
@@ -39,8 +38,11 @@ export class ArkButtonComponent implements OnInit {
     }
   }
 
-  onClick() {
-    this.click.emit('click');
+  onClickEvent() {
+    if (this.disabled || this.loading) {
+      return;
+    }
+    this.onClick.emit('click');
   }
   enableSolid(): boolean {
     return (this.solid || this.solid === '') as boolean;
@@ -56,6 +58,10 @@ export class ArkButtonComponent implements OnInit {
   }
   enableLoading(): boolean {
     return (this.loading || this.loading === '') as boolean;
+  }
+
+  enableDisabled() {
+    return (this.disabled || this.disabled === '') as boolean;
   }
 
   isSolid(): boolean {
