@@ -25,6 +25,7 @@ export class ArkButtonComponent implements OnInit {
   @Input() icon!: string;
   @Input() loading: boolean | string = false;
   @Input() disabled: boolean | string = false;
+  @Input() link: boolean | string = false;
 
   @Output() onClick: EventEmitter<any> = new EventEmitter();
   ngOnInit(): void {
@@ -59,9 +60,11 @@ export class ArkButtonComponent implements OnInit {
   enableLoading(): boolean {
     return (this.loading || this.loading === '') as boolean;
   }
-
   enableDisabled() {
     return (this.disabled || this.disabled === '') as boolean;
+  }
+  enableLink() {
+    return (this.link || this.link === '') as boolean;
   }
 
   isSolid(): boolean {
@@ -69,7 +72,8 @@ export class ArkButtonComponent implements OnInit {
       this.enableSolid() &&
       !this.enableOutline() &&
       !this.enableGhost() &&
-      !this.enableSoft()
+      !this.enableSoft() &&
+      !this.enableLink()
     );
   }
   isOutline(): boolean {
@@ -77,7 +81,8 @@ export class ArkButtonComponent implements OnInit {
       this.enableOutline() &&
       !this.enableSolid() &&
       !this.enableGhost() &&
-      !this.enableSoft()
+      !this.enableSoft() &&
+      !this.enableLink()
     );
   }
   isGhost(): boolean {
@@ -85,7 +90,8 @@ export class ArkButtonComponent implements OnInit {
       this.enableGhost() &&
       !this.enableSolid() &&
       !this.enableOutline() &&
-      !this.enableSoft()
+      !this.enableSoft() &&
+      !this.enableLink()
     );
   }
   isSoft(): boolean {
@@ -93,7 +99,17 @@ export class ArkButtonComponent implements OnInit {
       this.enableSoft() &&
       !this.enableSolid() &&
       !this.enableOutline() &&
-      !this.enableGhost()
+      !this.enableGhost() &&
+      !this.enableLink()
+    );
+  }
+  isLink(): boolean {
+    return (
+      this.enableLink() &&
+      !this.enableSolid() &&
+      !this.enableGhost() &&
+      !this.enableOutline() &&
+      !this.enableSoft()
     );
   }
 }

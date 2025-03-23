@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ArkTextInputComponent } from '../../../../core/components/inputs/ark-text-input/ark-text-input.component';
 import { ArkSwitchThemeComponent } from '../../../../core/components/buttons/ark-switch-theme/ark-switch-theme.component';
 import { ArkButtonComponent } from '../../../../core/components/buttons/ark-button/ark-button.component';
+import { ArkCheckboxComponent } from '../../../../core/components/checkboxes/ark-checkbox/ark-checkbox.component';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ import { ArkButtonComponent } from '../../../../core/components/buttons/ark-butt
     ArkTextInputComponent,
     ArkSwitchThemeComponent,
     ArkButtonComponent,
+    ArkCheckboxComponent,
   ],
   templateUrl: './login.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,6 +26,7 @@ export class LoginComponent extends BaseComponent {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],
+      rememberMe: [false],
     });
   }
   onLogIn() {
