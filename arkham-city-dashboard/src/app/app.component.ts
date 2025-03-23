@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   inject,
   OnInit,
@@ -14,10 +15,14 @@ import { Event, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   router: Router = inject(Router);
+  changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
   ngOnInit(): void {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
-        setTimeout(() => window.HSStaticMethods.autoInit(), 100);
+        setTimeout(() => {
+          window.HSStaticMethods.autoInit();
+          this.changeDetectorRef.markForCheck();
+        }, 100);
       }
     });
   }
