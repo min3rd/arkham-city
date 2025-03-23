@@ -3,12 +3,14 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { LogInData, User } from './auth.type';
 import { Response } from '../type/response.type';
+import { ConfigService } from '../services/config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private httpClient: HttpClient = inject(HttpClient);
+  private configService: ConfigService = inject(ConfigService);
   private _user: BehaviorSubject<User> = new BehaviorSubject<any>(null);
   private _accessToken: BehaviorSubject<string> = new BehaviorSubject<any>(
     null
@@ -33,7 +35,7 @@ export class AuthService {
   }) {
     return this.httpClient
       .post<Response<LogInData>>(
-        'http://localhost:3000/v1/auth/log-in-by-email-and-password',
+        this.configService.endpoint('/auth/log-in-by-email-and-password'),
         data
       )
       .pipe(
