@@ -6,6 +6,7 @@ import { ArkTextInputComponent } from '../../../../core/components/inputs/ark-te
 import { ArkSwitchThemeComponent } from '../../../../core/components/buttons/ark-switch-theme/ark-switch-theme.component';
 import { ArkButtonComponent } from '../../../../core/components/buttons/ark-button/ark-button.component';
 import { ArkCheckboxComponent } from '../../../../core/components/checkboxes/ark-checkbox/ark-checkbox.component';
+import { ArkDividerComponent } from '../../../../core/components/dividers/ark-divider/ark-divider.component';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ import { ArkCheckboxComponent } from '../../../../core/components/checkboxes/ark
     ArkSwitchThemeComponent,
     ArkButtonComponent,
     ArkCheckboxComponent,
+    ArkDividerComponent,
   ],
   templateUrl: './login.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
