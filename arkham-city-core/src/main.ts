@@ -14,12 +14,15 @@ async function bootstrap() {
     },
   });
   await app.startAllMicroservices();
+
   app.enableVersioning({
     type: VersioningType.URI,
     prefix: 'v',
     defaultVersion: '1',
   });
-
+  app.enableCors({
+    origin: 'http://localhost:4200',
+  });
   app.useGlobalInterceptors(new ResponseInterceptor());
 
   await app.listen(process.env.PORT || 3000);

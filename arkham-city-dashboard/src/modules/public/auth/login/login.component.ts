@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { BaseComponent } from '../../../../core/components/base/base.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -8,6 +8,7 @@ import { ArkButtonComponent } from '../../../../core/components/buttons/ark-butt
 import { ArkCheckboxComponent } from '../../../../core/components/checkboxes/ark-checkbox/ark-checkbox.component';
 import { ArkDividerComponent } from '../../../../core/components/dividers/ark-divider/ark-divider.component';
 import { TranslocoModule } from '@jsverse/transloco';
+import { AuthService } from '../../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -26,18 +27,22 @@ import { TranslocoModule } from '@jsverse/transloco';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent extends BaseComponent {
+  authService: AuthService = inject(AuthService);
   override ngOnInit(): void {
     this.form = this.formBuilder.group({
-      email: ['', [Validators.required]],
-      password: ['', [Validators.required]],
+      email: ['email@domain.com', [Validators.required]],
+      password: ['ThisIsNewPassword', [Validators.required]],
       rememberMe: [false],
     });
   }
   onLogIn() {
-    this.loading = true;
-    setTimeout(() => {
-      this.loading = false;
-      this.changeDetectorRef.markForCheck();
-    }, 1000);
+    if (this.form.invalid) {
+      return;
+    }
+    this.authService
+      .logInByEmailAndPassword(this.form.getRawValue())
+      .subscribe((response) => {
+        console.log(response);
+      });
   }
 }
