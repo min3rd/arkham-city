@@ -33,7 +33,8 @@ export class ArkButtonComponent implements OnInit {
       !this.isSolid() &&
       !this.isOutline() &&
       !this.isGhost() &&
-      !this.isSoft()
+      !this.isSoft() &&
+      !this.isLink()
     ) {
       this.solid = true;
     }
