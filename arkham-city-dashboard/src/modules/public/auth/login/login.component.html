@@ -10,7 +10,7 @@
     <ark-text-input
       controlName="email"
       type="email"
-      label="Email"
+      label="{{ 'Email' | transloco }}"
       placeholder="email@domain.com"
       class="md:min-w-96"
       rounded="lg"
@@ -18,23 +18,29 @@
     <ark-text-input
       controlName="password"
       type="password"
-      label="Password"
+      label="{{ 'Password' | transloco }}"
       placeholder="********"
       class="md:min-w-96"
       rounded="lg"
     ></ark-text-input>
     <div class="flex items-center justify-between pb-3">
-      <ark-checkbox controlName="rememberMe" label="Remember me"></ark-checkbox>
-      <ark-button label="Forgot the password" link></ark-button>
+      <ark-checkbox
+        controlName="rememberMe"
+        label="{{ 'Remember me' | transloco }}"
+      ></ark-checkbox>
+      <ark-button
+        label="{{ 'Forgot the password' | transloco }}"
+        link
+      ></ark-button>
     </div>
     <ark-button
       (onClick)="onLogIn()"
-      label="Log In"
+      label="{{ 'Log In' | transloco }}"
       [loading]="loading"
     ></ark-button>
-    <ark-divider label="Or"></ark-divider>
+    <ark-divider label="{{ 'Or' | transloco }}"></ark-divider>
     <ark-button
-      label="Create a new account"
+      label="{{ 'Create a new account' | transloco }}"
       [loading]="loading"
       color="teal"
       outline
