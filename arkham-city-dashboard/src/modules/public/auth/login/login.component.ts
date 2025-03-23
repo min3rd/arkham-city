@@ -7,6 +7,7 @@ import { ArkSwitchThemeComponent } from '../../../../core/components/buttons/ark
 import { ArkButtonComponent } from '../../../../core/components/buttons/ark-button/ark-button.component';
 import { ArkCheckboxComponent } from '../../../../core/components/checkboxes/ark-checkbox/ark-checkbox.component';
 import { ArkDividerComponent } from '../../../../core/components/dividers/ark-divider/ark-divider.component';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,7 @@ import { ArkDividerComponent } from '../../../../core/components/dividers/ark-di
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    TranslocoModule,
     ArkTextInputComponent,
     ArkSwitchThemeComponent,
     ArkButtonComponent,
