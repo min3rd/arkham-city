@@ -1,7 +1,8 @@
 <div class="flex w-full h-full p-2">
   <form
     [formGroup]="form"
-    class="w-full h-fit md:w-fit mx-auto my-auto flex flex-col gap-2 px-6 py-12 rounded-3xl drop-shadow-2xl bg-neutral-50 dark:bg-neutral-800"
+    (onSubmit)="onLogIn()"
+    class="w-full h-fit md:w-fit mx-auto my-auto flex flex-col gap-2 px-6 py-12 rounded-3xl md:drop-shadow-2xl md:bg-neutral-50 md:dark:bg-neutral-800"
   >
     <div class="absolute top-0 right-0 p-2">
       <ark-switch-theme></ark-switch-theme>
@@ -22,6 +23,10 @@
       class="md:min-w-96"
       rounded="lg"
     ></ark-text-input>
+    <div class="flex items-center justify-between pb-3">
+      <ark-checkbox controlName="rememberMe" label="Remember me"></ark-checkbox>
+      <ark-button label="Forgot the password" link></ark-button>
+    </div>
     <ark-button
       (onClick)="onLogIn()"
       label="Log In"
