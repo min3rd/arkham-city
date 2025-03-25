@@ -12,6 +12,7 @@ import { TranslocoHttpLoader } from '../core/transloco/transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
 import { ConfigService } from '../core/services/config.service';
 import { AuthService } from '../core/auth/auth.service';
+import { provideAuth } from '../core/auth/auth.provider';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,6 +23,7 @@ export const appConfig: ApplicationConfig = {
       inject(ConfigService).load().subscribe();
       inject(AuthService).load();
     }),
+    provideAuth(),
     provideTransloco({
       config: {
         availableLangs: ['en', 'es'],
