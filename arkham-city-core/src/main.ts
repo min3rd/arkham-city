@@ -21,7 +21,7 @@ async function bootstrap() {
     defaultVersion: '1',
   });
   app.enableCors({
-    origin: 'http://localhost:4200',
+    origin: '*',
   });
   app.useGlobalInterceptors(new ResponseInterceptor());
 
