@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 import { LogInData, User } from './auth.type';
 import { Response } from '../type/response.type';
 import { ConfigService } from '../services/config.service';
@@ -16,46 +16,58 @@ export class AuthService {
   private httpClient: HttpClient = inject(HttpClient);
   private configService: ConfigService = inject(ConfigService);
   private securityService: SecurityService = inject(SecurityService);
-  private _user: BehaviorSubject<User> = new BehaviorSubject<any>(null);
-  private _accessToken: BehaviorSubject<string> = new BehaviorSubject<any>(
-    null
-  );
-  private _refreshToken: BehaviorSubject<string> = new BehaviorSubject<any>(
-    null
-  );
   constructor() {}
-  get user$(): Observable<User> {
-    return this._user.asObservable();
+  set accessToken(value: string) {
+    localStorage.setItem(
+      AuthService.KEY_ACCESS_TOKEN,
+      this.securityService.encrypt(value)
+    );
   }
-  get accessToken$(): Observable<string> {
-    return this._accessToken.asObservable();
+  get accessToken(): string {
+    return this.securityService.decrypt(
+      localStorage.getItem(AuthService.KEY_ACCESS_TOKEN) as string
+    );
   }
-  get refreshToken(): Observable<string> {
-    return this._refreshToken.asObservable();
+  set refreshToken(value: string) {
+    localStorage.setItem(
+      AuthService.KEY_REFRESH_TOKEN,
+      this.securityService.encrypt(value)
+    );
   }
+  get refreshToken(): string {
+    return this.securityService.decrypt(
+      localStorage.getItem(AuthService.KEY_REFRESH_TOKEN) as string
+    );
+  }
+  set user(value: User) {
+    localStorage.setItem(
+      AuthService.KEY_USER,
+      this.securityService.encrypt(this.user)
+    );
+  }
+  get user(): User | string {
+    return this.securityService.decrypt<User>(
+      localStorage.getItem(AuthService.KEY_USER) as string
+    );
+  }
+
   load() {
     if (localStorage.getItem(AuthService.KEY_ACCESS_TOKEN)) {
-      this._accessToken.next(
-        this.securityService.decrypt(
-          localStorage.getItem(AuthService.KEY_ACCESS_TOKEN) as string
-        )
+      this.accessToken = this.securityService.decrypt(
+        localStorage.getItem(AuthService.KEY_ACCESS_TOKEN) as string
       );
     }
 
     if (localStorage.getItem(AuthService.KEY_REFRESH_TOKEN)) {
-      this._refreshToken.next(
-        this.securityService.decrypt(
-          localStorage.getItem(AuthService.KEY_REFRESH_TOKEN) as string
-        )
+      this.refreshToken = this.securityService.decrypt(
+        localStorage.getItem(AuthService.KEY_REFRESH_TOKEN) as string
       );
     }
 
     if (localStorage.getItem(AuthService.KEY_USER)) {
-      this._user.next(
-        this.securityService.decrypt<User>(
-          localStorage.getItem(AuthService.KEY_USER) as string
-        ) as any
-      );
+      this.user = this.securityService.decrypt<User>(
+        localStorage.getItem(AuthService.KEY_USER) as string
+      ) as any;
     }
   }
 
@@ -71,22 +83,11 @@ export class AuthService {
       )
       .pipe(
         tap((response: Response<LogInData>) => {
-          this._user.next(response.data.metadata);
-          this._accessToken.next(response.data.accessToken);
-          this._refreshToken.next(response.data.refreshToken);
-
-          localStorage.setItem(
-            AuthService.KEY_ACCESS_TOKEN,
-            this.securityService.encrypt(response.data.accessToken)
-          );
-          localStorage.setItem(
-            AuthService.KEY_REFRESH_TOKEN,
-            this.securityService.encrypt(response.data.refreshToken)
-          );
-          localStorage.setItem(
-            AuthService.KEY_USER,
-            this.securityService.encrypt(response.data.metadata)
-          );
+          if (response.data.accessToken) {
+            this.accessToken = response.data.accessToken;
+            this.refreshToken = response.data.refreshToken;
+            this.user = response.data.metadata;
+          }
         })
       );
   }
