@@ -11,6 +11,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { TranslocoHttpLoader } from '../core/transloco/transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
 import { ConfigService } from '../core/services/config.service';
+import { AuthService } from '../core/auth/auth.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,6 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideAppInitializer(() => {
       inject(ConfigService).load().subscribe();
+      inject(AuthService).load();
     }),
     provideTransloco({
       config: {
