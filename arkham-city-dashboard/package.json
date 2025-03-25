@@ -20,7 +20,6 @@
     "@angular/router": "^19.1.0",
     "@jsverse/transloco": "^7.5.1",
     "@tailwindcss/postcss": "^4.0.14",
-    "bcrypt": "^5.1.1",
     "crypto-js": "^4.2.0",
     "datatables.net": "^2.2.2",
     "dropzone": "^6.0.0-beta.2",
