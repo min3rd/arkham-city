@@ -9,6 +9,7 @@ import { ArkCheckboxComponent } from '../../../../core/components/checkboxes/ark
 import { ArkDividerComponent } from '../../../../core/components/dividers/ark-divider/ark-divider.component';
 import { TranslocoModule } from '@jsverse/transloco';
 import { AuthService } from '../../../../core/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -28,6 +29,7 @@ import { AuthService } from '../../../../core/auth/auth.service';
 })
 export class LoginComponent extends BaseComponent {
   authService: AuthService = inject(AuthService);
+  router: Router = inject(Router);
   override ngOnInit(): void {
     this.form = this.formBuilder.group({
       email: ['email@domain.com', [Validators.required]],
@@ -42,7 +44,9 @@ export class LoginComponent extends BaseComponent {
     this.authService
       .logInByEmailAndPassword(this.form.getRawValue())
       .subscribe((response) => {
-        console.log(response);
+        if (!response.error) {
+          this.router.navigate(['dashboard']);
+        }
       });
   }
 }
