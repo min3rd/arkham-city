@@ -64,7 +64,7 @@ export class AuthService extends BaseService {
       }),
     );
     this.afterCallMicroservice(res);
-    return await this.compileLogInResponse(res.data, true);
+    return await this.compileLogInResponse(res.data, false);
   }
 
   async compileLogInResponse(
