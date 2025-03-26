@@ -1,6 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  Observable,
+  of,
+  switchMap,
+  tap,
+  throwError,
+} from 'rxjs';
 import { LogInData, User } from './auth.type';
 import { Response } from '../type/response.type';
 import { ConfigService } from '../services/config.service';
@@ -91,14 +99,34 @@ export class AuthService {
         data
       )
       .pipe(
-        tap((response: Response<LogInData>) => {
+        switchMap((response: Response<LogInData>) => {
           if (response.data.accessToken) {
             this.accessToken = response.data.accessToken;
             this.refreshToken = response.data.refreshToken;
             this.user = response.data.metadata;
           }
+          return of(response);
         })
       );
   }
-  RegisterByEmailAndPassword(email: string, password: string) {}
+  logInByRefreshToken() {
+    return this.httpClient
+      .post<Response<LogInData>>(
+        this.configService.endpoint('/auth/log-in-by-refresh-token'),
+        {
+          refreshToken: this.refreshToken,
+        }
+      )
+      .pipe(
+        switchMap((response: Response<LogInData>) => {
+          if (response.data.accessToken) {
+            this.accessToken = response.data.accessToken;
+            this.refreshToken = response.data.refreshToken;
+            this.user = response.data.metadata;
+          }
+          return of(response);
+        })
+      );
+  }
+  registerByEmailAndPassword(email: string, password: string) {}
 }
