@@ -23,7 +23,10 @@ export class AuthService {
       this.securityService.encrypt(value)
     );
   }
-  get accessToken(): string {
+  get accessToken(): string | null {
+    if (!localStorage.getItem(AuthService.KEY_ACCESS_TOKEN)) {
+      return null;
+    }
     return this.securityService.decrypt(
       localStorage.getItem(AuthService.KEY_ACCESS_TOKEN) as string
     );
@@ -34,7 +37,10 @@ export class AuthService {
       this.securityService.encrypt(value)
     );
   }
-  get refreshToken(): string {
+  get refreshToken(): string | null {
+    if (!localStorage.getItem(AuthService.KEY_REFRESH_TOKEN)) {
+      return null;
+    }
     return this.securityService.decrypt(
       localStorage.getItem(AuthService.KEY_REFRESH_TOKEN) as string
     );
@@ -42,10 +48,13 @@ export class AuthService {
   set user(value: User) {
     localStorage.setItem(
       AuthService.KEY_USER,
-      this.securityService.encrypt(this.user)
+      this.securityService.encrypt(value)
     );
   }
-  get user(): User | string {
+  get user(): User | null {
+    if (!localStorage.getItem(AuthService.KEY_USER)) {
+      return null;
+    }
     return this.securityService.decrypt<User>(
       localStorage.getItem(AuthService.KEY_USER) as string
     );
@@ -55,13 +64,13 @@ export class AuthService {
     if (localStorage.getItem(AuthService.KEY_ACCESS_TOKEN)) {
       this.accessToken = this.securityService.decrypt(
         localStorage.getItem(AuthService.KEY_ACCESS_TOKEN) as string
-      );
+      ) as string;
     }
 
     if (localStorage.getItem(AuthService.KEY_REFRESH_TOKEN)) {
       this.refreshToken = this.securityService.decrypt(
         localStorage.getItem(AuthService.KEY_REFRESH_TOKEN) as string
-      );
+      ) as string;
     }
 
     if (localStorage.getItem(AuthService.KEY_USER)) {

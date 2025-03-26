@@ -10,7 +10,7 @@ export class SecurityService {
   encrypt<T>(data: T): string {
     return AES.encrypt(JSON.stringify(data), this.PRIVATE_KEY).toString();
   }
-  decrypt<T>(encrypted: string): string | T {
+  decrypt<T>(encrypted: string): null | T {
     const decrypted = AES.decrypt(encrypted, this.PRIVATE_KEY).toString(
       enc.Utf8
     );
@@ -18,7 +18,7 @@ export class SecurityService {
       const data = JSON.parse(decrypted);
       return data;
     } catch (e) {
-      return decrypted;
+      return null;
     }
   }
 }
