@@ -1,13 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import {
-  of,
-  switchMap,
-} from 'rxjs';
+import { catchError, Observable, of, switchMap } from 'rxjs';
 import { LogInData, User } from './auth.type';
 import { Response } from '../type/response.type';
 import { ConfigService } from '../services/config.service';
 import { SecurityService } from '../services/security.service';
+import { AuthUtils } from './auth.utils';
 
 @Injectable({
   providedIn: 'root',
@@ -104,22 +102,23 @@ export class AuthService {
         })
       );
   }
-  logInByRefreshToken() {
+  logInByRefreshToken(): Observable<any> {
     return this.httpClient
-      .post<Response<LogInData>>(
-        this.configService.endpoint('/auth/log-in-by-refresh-token'),
-        {
-          refreshToken: this.refreshToken,
-        }
-      )
+      .post<any>(this.configService.endpoint('/auth/log-in-by-refresh-token'), {
+        refreshToken: this.refreshToken,
+      })
       .pipe(
+        catchError(() => {
+          return of(false);
+        }),
         switchMap((response: Response<LogInData>) => {
           if (response.data.accessToken) {
             this.accessToken = response.data.accessToken;
             this.refreshToken = response.data.refreshToken;
             this.user = response.data.metadata;
+            return of(true);
           }
-          return of(response);
+          return of(false);
         })
       );
   }
@@ -138,5 +137,21 @@ export class AuthService {
         lastName: lastName,
       }
     );
+  }
+
+  check(): Observable<boolean> {
+    if (!this.accessToken) {
+      return of(false);
+    }
+
+    if (!this.refreshToken) {
+      return of(false);
+    }
+
+    if (AuthUtils.isExpired(this.refreshToken)) {
+      return of(false);
+    }
+
+    return this.logInByRefreshToken();
   }
 }

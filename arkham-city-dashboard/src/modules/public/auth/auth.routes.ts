@@ -5,10 +5,10 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'login',
+    redirectTo: 'log-in',
   },
   {
-    path: 'login',
+    path: 'log-in',
     component: LoginComponent,
   },
 ];
