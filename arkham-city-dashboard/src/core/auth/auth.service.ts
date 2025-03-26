@@ -1,13 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
-  BehaviorSubject,
-  catchError,
-  Observable,
   of,
   switchMap,
-  tap,
-  throwError,
 } from 'rxjs';
 import { LogInData, User } from './auth.type';
 import { Response } from '../type/response.type';
@@ -128,5 +123,20 @@ export class AuthService {
         })
       );
   }
-  registerByEmailAndPassword(email: string, password: string) {}
+  registerByEmailAndPassword(
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string
+  ) {
+    return this.httpClient.post(
+      this.configService.endpoint('/auth/register-by-email-and-password'),
+      {
+        email: email,
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+      }
+    );
+  }
 }
