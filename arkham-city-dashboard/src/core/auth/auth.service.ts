@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, of, switchMap } from 'rxjs';
-import { LogInData, User } from './auth.type';
+import { LogInResDto, User } from './auth.type';
 import { Response } from '../type/response.type';
 import { ConfigService } from '../services/config.service';
 import { SecurityService } from '../services/security.service';
@@ -87,12 +87,12 @@ export class AuthService {
     rememberMe: boolean;
   }) {
     return this.httpClient
-      .post<Response<LogInData>>(
+      .post<Response<LogInResDto>>(
         this.configService.endpoint('/auth/log-in-by-email-and-password'),
         data
       )
       .pipe(
-        switchMap((response: Response<LogInData>) => {
+        switchMap((response: Response<LogInResDto>) => {
           if (response.data.accessToken) {
             this.accessToken = response.data.accessToken;
             this.refreshToken = response.data.refreshToken;
@@ -111,7 +111,7 @@ export class AuthService {
         catchError(() => {
           return of(false);
         }),
-        switchMap((response: Response<LogInData>) => {
+        switchMap((response: Response<LogInResDto>) => {
           if (response.data.accessToken) {
             this.accessToken = response.data.accessToken;
             this.refreshToken = response.data.refreshToken;
