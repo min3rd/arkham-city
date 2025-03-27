@@ -5,6 +5,6 @@ import { Component, type OnInit } from '@angular/core';
   imports: [],
   templateUrl: './ark-switch-theme.component.html',
 })
-export class ArkSwitchThemeComponent implements OnInit {
+export class ArkSwitchTheme implements OnInit {
   ngOnInit(): void {}
 }

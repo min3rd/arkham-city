@@ -12,7 +12,7 @@ import {
   imports: [CommonModule],
   templateUrl: './ark-button.component.html',
 })
-export class ArkButtonComponent implements OnInit {
+export class ArkButton implements OnInit {
   @Input() label!: string;
   @Input() rounded: 'xs' | 'md' | 'lg' | 'full' = 'lg';
   @Input() color: 'gray' | 'teal' | 'blue' | 'red' | 'yellow' | 'white' =
