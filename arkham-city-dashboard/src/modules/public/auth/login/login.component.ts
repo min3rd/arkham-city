@@ -8,7 +8,7 @@ import { ArkCheckbox } from '../../../../core/components/checkboxes/ark-checkbox
 import { ArkDivider } from '../../../../core/components/dividers/ark-divider/ark-divider.component';
 import { TranslocoModule } from '@jsverse/transloco';
 import { AuthService } from '../../../../core/auth/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
     FormsModule,
     ReactiveFormsModule,
     TranslocoModule,
+    RouterModule,
     ArkTextInput,
     ArkButton,
     ArkCheckbox,
