@@ -23,6 +23,19 @@ export class AppComponent implements OnInit {
           window.HSStaticMethods.autoInit();
           this.changeDetectorRef.markForCheck();
         }, 100);
+        if (
+          window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches
+        ) {
+          // dark mode
+          if (!localStorage.getItem('hs_theme')) {
+            localStorage.setItem('hs_theme', 'dark');
+          }
+        } else {
+          if (!localStorage.getItem('hs_theme')) {
+            localStorage.setItem('hs_theme', 'light');
+          }
+        }
       }
     });
   }
