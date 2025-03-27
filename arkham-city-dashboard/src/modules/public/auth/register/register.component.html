@@ -1,3 +1,42 @@
 <div class="min-w-96">
-
+  <form [formGroup]="form">
+    <ark-text-input
+      controlName="firstNane"
+      type="text"
+      label="{{ 'first name' | transloco | titlecase }}"
+    ></ark-text-input>
+    <ark-text-input
+      controlName="lastName"
+      type="text"
+      label="{{ 'last name' | transloco | titlecase }}"
+    ></ark-text-input>
+    <ark-text-input
+      controlName="email"
+      type="email"
+      label="{{ 'email' | transloco | titlecase }}"
+    ></ark-text-input>
+    <ark-text-input
+      controlName="password"
+      type="password"
+      label="{{ 'password' | transloco | titlecase }}"
+    ></ark-text-input>
+    <ark-text-input
+      controlName="confirmPassword"
+      type="password"
+      label="{{ 'confirm password' | transloco | titlecase }}"
+    ></ark-text-input>
+    <div class="flex w-full pb-3">
+      <ark-checkbox
+        controlName="agree"
+        label="{{ 'agree' | transloco | titlecase }}"
+      ></ark-checkbox>
+    </div>
+    <ark-button (onClick)="register()" label="{{ 'register' | transloco | titlecase }}"></ark-button>
+    <div class="h-3"></div>
+    <ark-button
+      [routerLink]="['../', 'log-in']"
+      label="{{ 'back to log in' | transloco | titlecase }}"
+      outline
+    ></ark-button>
+  </form>
 </div>

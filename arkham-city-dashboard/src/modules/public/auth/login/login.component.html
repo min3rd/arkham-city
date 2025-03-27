@@ -31,6 +31,7 @@
     ></ark-button>
     <ark-divider label="{{ 'Or' | transloco }}"></ark-divider>
     <ark-button
+    [routerLink]="['../', 'register']"
       label="{{ 'Create a new account' | transloco }}"
       [loading]="loading"
       color="teal"
