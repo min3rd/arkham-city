@@ -1,12 +1,5 @@
-<div class="flex w-full h-full p-2">
-  <form
-    [formGroup]="form"
-    (onSubmit)="onLogIn()"
-    class="w-full h-fit md:w-fit mx-auto my-auto flex flex-col gap-2 px-6 py-12 rounded-3xl md:drop-shadow-2xl md:bg-neutral-50 md:dark:bg-neutral-800"
-  >
-    <div class="absolute top-0 right-0 p-2">
-      <ark-switch-theme></ark-switch-theme>
-    </div>
+<div class="md:min-w-80">
+  <form [formGroup]="form" (onSubmit)="onLogIn()">
     <ark-text-input
       controlName="email"
       type="email"
