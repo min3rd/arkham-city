@@ -13,6 +13,10 @@ import { provideTransloco } from '@jsverse/transloco';
 import { ConfigService } from '../core/services/config.service';
 import { AuthService } from '../core/auth/auth.service';
 import { provideAuth } from '../core/auth/auth.provider';
+import {
+  provideNgIconsConfig,
+  withContentSecurityPolicy,
+} from '@ng-icons/core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -34,5 +38,6 @@ export const appConfig: ApplicationConfig = {
       },
       loader: TranslocoHttpLoader,
     }),
+    provideNgIconsConfig({}, withContentSecurityPolicy()),
   ],
 };
