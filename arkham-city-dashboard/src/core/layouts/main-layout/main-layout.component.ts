@@ -4,9 +4,9 @@ import { RouterModule } from '@angular/router';
 import { ArkSwitchTheme } from '../../components/buttons/ark-switch-theme/ark-switch-theme.component';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import * as feathers from '@ng-icons/feather-icons';
-import { BasicItem } from '../../components/navigation/basic-item/basic-item.component';
 import { TranslocoModule } from '@jsverse/transloco';
-import { GroupItem } from '../../components/navigation/group-item/group-item.component';
+import { NavigationComponent } from '../../components/navigation/navigation.component';
+import { NavigationItem } from '../../components/navigation/navigation.type';
 
 @Component({
   selector: 'main-layout',
@@ -16,20 +16,58 @@ import { GroupItem } from '../../components/navigation/group-item/group-item.com
     TranslocoModule,
     ArkSwitchTheme,
     NgIcon,
-    BasicItem,
-    GroupItem,
+    NavigationComponent,
   ],
   templateUrl: './main-layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideIcons({ ...feathers })],
 })
 export class MainLayoutComponent implements OnInit {
-  children: any[] = [
+  navigations: NavigationItem[] = [
     {
-      label: 'Sub 1',
+      id: 'dashboard',
+      title: 'dashboard',
+      icon: 'featherHome',
+      type: 'basic',
+      link: '/dashboard',
     },
     {
-      label: 'Sub 2',
+      id: 'firestore',
+      title: 'firestore',
+      icon: 'featherDatabase',
+      type: 'basic',
+      link: '/firestore',
+    },
+    {
+      id: 'storage',
+      title: 'storage',
+      icon: 'featherHardDrive',
+      type: 'basic',
+    },
+    {
+      id: 'realtime',
+      title: 'realtime',
+      icon: 'featherCloud',
+      type: 'basic',
+    },
+    {
+      id: 'tracking',
+      title: 'tracking',
+      icon: 'featherCrosshair',
+      type: 'basic',
+    },
+    {
+      id: 'setting',
+      title: 'setting',
+      icon: 'featherSettings',
+      type: 'group',
+      children: [
+        {
+          id: 'general',
+          title: 'general',
+          type: 'basic',
+        },
+      ],
     },
   ];
   ngOnInit(): void {}

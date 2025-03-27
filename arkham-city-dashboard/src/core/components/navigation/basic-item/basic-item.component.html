@@ -1,22 +1,50 @@
-<li>
+<li id="{{ navigation.id }}">
+  @if (navigation.link) {
   <a
-    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:text-neutral-200"
+    [routerLink]="[navigation.link]"
+    class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg"
     [ngClass]="{
       'text-white bg-teal-500 hover:bg-teal-600 dark:bg-teal-500 dark:hover:bg-teal-600':
-        activated
+        activated,
+      'text-gray-800 hover:bg-gray-100  dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:text-neutral-200':
+        !activated
     }"
   >
-    @if (icon) {
-    <ng-icon name="{{ icon }}"></ng-icon>
+    @if (navigation.icon) {
+    <ng-icon name="{{ navigation.icon }}"></ng-icon>
     }
-    {{ label }}
+    {{ navigation.title | transloco | titlecase }}
 
-    @if (badge) {
+    @if (navigation.badge) {
     <span
       class="ms-auto py-0.5 px-1.5 inline-flex items-center gap-x-1.5 text-xs bg-gray-200 text-gray-800 rounded-full dark:bg-neutral-600 dark:text-neutral-200"
     >
-      {{ badge }}
+      {{ navigation.badge.title }}
     </span>
     }
   </a>
+  } @if (!navigation.link) {
+  <button
+    class="flex w-full items-center gap-x-3.5 py-2 px-2.5 text-sm rounded-lg"
+    [ngClass]="{
+      'text-white bg-teal-500 hover:bg-teal-600 dark:bg-teal-500 dark:hover:bg-teal-600':
+        activated,
+      'text-gray-800 hover:bg-gray-100  dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:text-neutral-200':
+        !activated
+    }"
+  >
+    @if (navigation.icon) {
+    <ng-icon name="{{ navigation.icon }}"></ng-icon>
+    }
+    {{ navigation.title | transloco | titlecase }}
+
+    @if (navigation.badge) {
+    <span
+      class="ms-auto py-0.5 px-1.5 inline-flex items-center gap-x-1.5 text-xs bg-gray-200 text-gray-800 rounded-full dark:bg-neutral-600 dark:text-neutral-200"
+    >
+      {{ navigation.badge.title }}
+    </span>
+    }
+  </button>
+  }
 </li>
