@@ -27,7 +27,7 @@ import {
     },
   ],
 })
-export class TextInputComponent implements AfterViewInit {
+export class TextInput implements AfterViewInit {
   @Input() type!: string;
   @Input() placeholder!: string;
   @Input() value!: string;

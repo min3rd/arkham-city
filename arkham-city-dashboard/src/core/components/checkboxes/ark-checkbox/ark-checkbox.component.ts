@@ -20,7 +20,7 @@ import {
     },
   ],
 })
-export class ArkCheckboxComponent implements OnInit {
+export class ArkCheckbox implements OnInit {
   @Input() label: string = '';
   @Input() checked: boolean | string = false;
   @Input() controlName!: string;

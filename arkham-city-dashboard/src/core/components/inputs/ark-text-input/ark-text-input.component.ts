@@ -27,7 +27,7 @@ import {
     },
   ],
 })
-export class ArkTextInputComponent implements AfterViewInit {
+export class ArkTextInput implements AfterViewInit {
   @Input() type!: string;
   @Input() placeholder!: string;
   @Input() value!: string;

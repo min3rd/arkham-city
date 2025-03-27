@@ -1,11 +1,10 @@
-<div class="md:min-w-80">
+<div class="md:min-w-96">
   <form [formGroup]="form" (onSubmit)="onLogIn()">
     <ark-text-input
       controlName="email"
       type="email"
       label="{{ 'Email' | transloco }}"
       placeholder="email@domain.com"
-      class="md:min-w-96"
       rounded="lg"
     ></ark-text-input>
     <ark-text-input
@@ -13,7 +12,6 @@
       type="password"
       label="{{ 'Password' | transloco }}"
       placeholder="********"
-      class="md:min-w-96"
       rounded="lg"
     ></ark-text-input>
     <div class="flex items-center justify-between pb-3">
