@@ -3,7 +3,6 @@ import { BaseComponent } from '../../../../core/components/base/base.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ArkTextInputComponent } from '../../../../core/components/inputs/ark-text-input/ark-text-input.component';
-import { ArkSwitchThemeComponent } from '../../../../core/components/buttons/ark-switch-theme/ark-switch-theme.component';
 import { ArkButtonComponent } from '../../../../core/components/buttons/ark-button/ark-button.component';
 import { ArkCheckboxComponent } from '../../../../core/components/checkboxes/ark-checkbox/ark-checkbox.component';
 import { ArkDividerComponent } from '../../../../core/components/dividers/ark-divider/ark-divider.component';
@@ -19,7 +18,6 @@ import { Router } from '@angular/router';
     ReactiveFormsModule,
     TranslocoModule,
     ArkTextInputComponent,
-    ArkSwitchThemeComponent,
     ArkButtonComponent,
     ArkCheckboxComponent,
     ArkDividerComponent,
