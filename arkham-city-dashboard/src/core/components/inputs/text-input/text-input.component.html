@@ -6,8 +6,8 @@
     {{ label }}
   </label>
   <div class="relative">
+    @if (!controlName) {
     <input
-      *ngIf="!controlName"
       type="{{ type }}"
       id="text-input-{{ label.toLocaleLowerCase() }}"
       name="text-input-{{ label.toLocaleLowerCase() }}"
@@ -19,8 +19,9 @@
       required=""
       aria-describedby="text-input-helper"
     />
+
+    } @else {
     <input
-      *ngIf="controlName"
       type="{{ type }}"
       [formControlName]="controlName"
       id="text-input-{{ label.toLocaleLowerCase() }}"
@@ -33,10 +34,8 @@
       required=""
       aria-describedby="text-input-helper"
     />
-    <div
-      *ngIf="invalid"
-      class="absolute inset-y-0 end-0 flex items-center pe-3"
-    >
+    } @if (invalid) {
+    <div class="absolute inset-y-0 end-0 flex items-center pe-3">
       <div class="hs-tooltip [--trigger:hover] inline-block">
         <div class="hs-tooltip-toggle">
           <svg
@@ -64,5 +63,6 @@
         </div>
       </div>
     </div>
+    }
   </div>
 </div>
