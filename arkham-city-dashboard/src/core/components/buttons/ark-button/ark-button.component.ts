@@ -1,11 +1,15 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectorRef,
   Component,
   EventEmitter,
+  inject,
   Input,
   Output,
   type OnInit,
 } from '@angular/core';
+import { LoadingService } from '../../../services/loading/loading.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'ark-button',
@@ -23,11 +27,17 @@ export class ArkButton implements OnInit {
   @Input() ghost: boolean | string = false;
   @Input() soft: boolean | string = false;
   @Input() icon!: string;
-  @Input() loading: boolean | string = false;
+  @Input() ignoreLoading: boolean | string = false;
   @Input() disabled: boolean | string = false;
   @Input() link: boolean | string = false;
 
   @Output() onClick: EventEmitter<any> = new EventEmitter();
+
+  onLoading: boolean = false;
+
+  private loadingService: LoadingService = inject(LoadingService);
+  private changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
+  private _unsubsribeAll: Subject<any> = new Subject();
   ngOnInit(): void {
     if (
       !this.isSolid() &&
@@ -38,10 +48,16 @@ export class ArkButton implements OnInit {
     ) {
       this.solid = true;
     }
+    this.loadingService.show$
+      .pipe(takeUntil(this._unsubsribeAll))
+      .subscribe((status) => {
+        this.onLoading = status;
+        this.changeDetectorRef.markForCheck();
+      });
   }
 
   onClickEvent() {
-    if (this.disabled || this.loading) {
+    if (this.disabled || this.onLoading) {
       return;
     }
     this.onClick.emit('click');
@@ -58,8 +74,8 @@ export class ArkButton implements OnInit {
   enableSoft(): boolean {
     return (this.soft || this.soft === '') as boolean;
   }
-  enableLoading(): boolean {
-    return (this.loading || this.loading === '') as boolean;
+  enableIgnoreLoading(): boolean {
+    return (this.ignoreLoading || this.ignoreLoading === 'true') as boolean;
   }
   enableDisabled() {
     return (this.disabled || this.disabled === '') as boolean;

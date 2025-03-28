@@ -5,8 +5,9 @@ import { ArkSwitchTheme } from '../../components/buttons/ark-switch-theme/ark-sw
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import * as feathers from '@ng-icons/feather-icons';
 import { TranslocoModule } from '@jsverse/transloco';
-import { NavigationComponent } from '../../components/navigation/navigation.component';
+import { ArkNavigation } from '../../components/navigation/navigation.component';
 import { NavigationItem } from '../../components/navigation/navigation.type';
+import { ArkLoading } from '../../components/loading/loading.component';
 
 @Component({
   selector: 'main-layout',
@@ -16,7 +17,8 @@ import { NavigationItem } from '../../components/navigation/navigation.type';
     TranslocoModule,
     ArkSwitchTheme,
     NgIcon,
-    NavigationComponent,
+    ArkNavigation,
+    ArkLoading,
   ],
   templateUrl: './main-layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

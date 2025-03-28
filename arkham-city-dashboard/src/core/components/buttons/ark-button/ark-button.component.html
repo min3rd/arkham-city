@@ -46,9 +46,9 @@
     'py-2 px-3': size ==='small',
     'p-4 sm:p-5': size ==='large',
   }"
-  [disabled]="enableDisabled()"
+  [disabled]="!enableIgnoreLoading() && onLoading"
 >
-  @if (enableLoading()) {
+  @if (!enableIgnoreLoading() && onLoading) {
   <span
     class="animate-spin inline-block size-4 border-3 border-current border-t-transparent text-white rounded-full"
     role="status"
