@@ -51,9 +51,13 @@
     >
       @for (child of navigation.children; track $index) { @if (child.type ===
       'basic') {
-      <navigation-basic-item [navigation]="child"></navigation-basic-item>
+      <ark-navigation-basic-item
+        [navigation]="child"
+      ></ark-navigation-basic-item>
       } @if (child.type === 'group') {
-      <navigation-group-item [navigation]="child"></navigation-group-item>
+      <ark-navigation-group-item
+        [navigation]="child"
+      ></ark-navigation-group-item>
       } }
     </ul>
   </div>

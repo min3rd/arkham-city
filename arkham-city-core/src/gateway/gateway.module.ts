@@ -5,6 +5,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { ModulesModule } from 'src/modules/modules.module';
 import { AuthController } from './auth/auth.controller';
 import { FirestoreController } from './firestore/firestore.controller';
+import { TestController } from './test/test.controller';
 
 @Module({
   imports: [ConfigModule.forRoot(), ModulesModule],
@@ -14,6 +15,6 @@ import { FirestoreController } from './firestore/firestore.controller';
       useClass: AuthGuard,
     },
   ],
-  controllers: [AuthController, FirestoreController],
+  controllers: [AuthController, FirestoreController, TestController],
 })
 export class GatewayModule {}

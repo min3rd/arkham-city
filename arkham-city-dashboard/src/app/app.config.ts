@@ -10,24 +10,18 @@ import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
 import { TranslocoHttpLoader } from '../core/transloco/transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
-import { ConfigService } from '../core/services/config.service';
-import { AuthService } from '../core/auth/auth.service';
 import { provideAuth } from '../core/auth/auth.provider';
 import {
   provideNgIconsConfig,
   withContentSecurityPolicy,
 } from '@ng-icons/core';
+import { provideCore } from '../core/providers/core.provider';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(),
-    provideAppInitializer(() => {
-      inject(ConfigService).load().subscribe();
-      inject(AuthService).load();
-    }),
-    provideAuth(),
     provideTransloco({
       config: {
         availableLangs: ['en', 'es'],
@@ -39,5 +33,7 @@ export const appConfig: ApplicationConfig = {
       loader: TranslocoHttpLoader,
     }),
     provideNgIconsConfig({}, withContentSecurityPolicy()),
+    provideAuth(),
+    provideCore(),
   ],
 };

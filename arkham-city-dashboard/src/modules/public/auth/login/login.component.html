@@ -27,13 +27,11 @@
     <ark-button
       (onClick)="onLogIn()"
       label="{{ 'Log In' | transloco }}"
-      [loading]="loading"
     ></ark-button>
     <ark-divider label="{{ 'Or' | transloco }}"></ark-divider>
     <ark-button
-    [routerLink]="['../', 'register']"
+      [routerLink]="['../', 'register']"
       label="{{ 'Create a new account' | transloco }}"
-      [loading]="loading"
       color="teal"
       outline
     ></ark-button>

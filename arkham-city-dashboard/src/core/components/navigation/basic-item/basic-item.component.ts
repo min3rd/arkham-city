@@ -16,13 +16,13 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter, Subject, takeUntil } from 'rxjs';
 
 @Component({
-  selector: 'navigation-basic-item',
+  selector: 'ark-navigation-basic-item',
   imports: [CommonModule, TranslocoModule, RouterModule, NgIcon],
   templateUrl: './basic-item.component.html',
   providers: [provideIcons({ ...featherIcons })],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BasicItem implements OnInit, OnDestroy {
+export class ArkNavigationBasicItem implements OnInit, OnDestroy {
   @Input() navigation!: NavigationItem;
   activated: boolean = false;
   private router: Router = inject(Router);

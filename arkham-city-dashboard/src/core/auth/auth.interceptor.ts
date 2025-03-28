@@ -7,6 +7,8 @@ import { AuthService } from './auth.service';
 import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 import { AuthUtils } from './auth.utils';
+import { Response } from '../type/response.type';
+import { LogInResDto } from './auth.type';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService: AuthService = inject(AuthService);
@@ -28,6 +30,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         err instanceof HttpErrorResponse &&
         err.status === HttpStatusCode.Unauthorized
       ) {
+        authService.logOut();
+        location.reload();
       }
       return throwError(err);
     })
