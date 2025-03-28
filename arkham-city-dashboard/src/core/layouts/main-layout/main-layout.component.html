@@ -1,8 +1,9 @@
 <div class="w-full h-[100vh] dark:bg-neutral-950">
+  <ark-loading class="z-100 absolute top-0 left-0 w-full"></ark-loading>
   <body
     class="absolute w-full h-full hs-overlay-body-open hs-overlay-body-open:overflow-hidden"
   >
-    <navigation-sidebar [items]="navigations"></navigation-sidebar>
+    <ark-navigation-sidebar [items]="navigations"></ark-navigation-sidebar>
     <!-- Content -->
     <div
       class="h-full overflow-hidden sm:hs-overlay-layout-open:ms-64 transition-all duration-300"

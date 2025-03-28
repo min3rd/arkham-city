@@ -42,9 +42,9 @@
       >
         <ul class="flex flex-col gap-1">
           @for (item of items; track $index) { @if (item.type === 'basic') {
-          <navigation-basic-item [navigation]="item"></navigation-basic-item>
+          <ark-navigation-basic-item [navigation]="item"></ark-navigation-basic-item>
           } @else if (item.type ==='group') {
-          <navigation-group-item [navigation]="item"></navigation-group-item>
+          <ark-navigation-group-item [navigation]="item"></ark-navigation-group-item>
           } }
         </ul>
       </div>

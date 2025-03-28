@@ -138,6 +138,9 @@ export class AuthService {
       }
     );
   }
+  logOut(){
+    localStorage.clear();
+  }
 
   check(): Observable<boolean> {
     if (!this.accessToken) {

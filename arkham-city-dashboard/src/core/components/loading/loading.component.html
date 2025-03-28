@@ -1,0 +1,13 @@
+<!-- Progress -->
+<div
+  class="flex w-full h-1.5 bg-gray-200 overflow-hidden dark:bg-neutral-700"
+  role="progressbar"
+  [ngClass]="{
+    hidden: !loading
+  }"
+>
+  <div
+    class="flex flex-col justify-center overflow-hidden w-full animate-pulse bg-teal-600 text-xs text-white text-center whitespace-nowrap transition duration-500 dark:bg-teal-500"
+  ></div>
+</div>
+<!-- End Progress -->
