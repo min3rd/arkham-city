@@ -10,10 +10,11 @@ import {
 } from '@angular/core';
 import { LoadingService } from '../../../services/loading/loading.service';
 import { Subject, takeUntil } from 'rxjs';
+import { ArkIcon } from '../../icons/ark-icon/ark-icon.component';
 
 @Component({
   selector: 'ark-button',
-  imports: [CommonModule],
+  imports: [CommonModule, ArkIcon],
   templateUrl: './ark-button.component.html',
 })
 export class ArkButton implements OnInit {

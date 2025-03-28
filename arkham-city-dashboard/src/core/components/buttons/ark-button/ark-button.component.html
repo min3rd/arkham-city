@@ -59,8 +59,19 @@
     </span>
   </span>
 
-  }
+  @if (label) {
   <span>
     {{ label }}
   </span>
+  } } @if(!onLoading){
+  <div class="flex items-center gap-2">
+    @if (icon) {
+    <ark-icon [name]="icon"></ark-icon>
+    } @if (label) {
+    <span>
+      {{ label }}
+    </span>
+    }
+  </div>
+  }
 </button>
