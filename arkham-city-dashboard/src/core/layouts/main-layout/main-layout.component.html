@@ -1,5 +1,6 @@
 <div class="w-full h-[100vh] dark:bg-neutral-950">
-  <ark-loading class="z-100 absolute top-0 left-0 w-full"></ark-loading>
+  <ark-loading class="z-20 absolute top-0 left-0 w-full"></ark-loading>
+
   <body
     class="absolute w-full h-full hs-overlay-body-open hs-overlay-body-open:overflow-hidden"
   >
@@ -12,24 +13,37 @@
       <div
         class="flex justify-end w-full p-2 border-b border-gray-200 dark:bg-neutral-800 dark:border-neutral-700"
       >
-        <!-- Navigation Toggle -->
-        <div class="md:hidden mr-auto">
-          <button
-            type="button"
-            class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
-            aria-haspopup="dialog"
-            aria-expanded="false"
-            aria-controls="hs-sidebar-content-push"
-            aria-label="Toggle navigation"
-            data-hs-overlay="#hs-sidebar-content-push"
-          >
-            <ng-icon name="featherMenu"></ng-icon>
-            <span class="sr-only">Navigation Toggle</span>
-          </button>
-        </div>
-        <!-- End Navigation Toggle -->
+        <div class="flex items-center gap-2 mr-auto">
+          <!-- Navigation Toggle -->
+          <div class="md:hidden">
+            <button
+              type="button"
+              class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
+              aria-haspopup="dialog"
+              aria-expanded="false"
+              aria-controls="hs-sidebar-content-push"
+              aria-label="Toggle navigation"
+              data-hs-overlay="#hs-sidebar-content-push"
+            >
+              <ng-icon name="featherMenu"></ng-icon>
+              <span class="sr-only">Navigation Toggle</span>
+            </button>
+          </div>
+          <!-- End Navigation Toggle -->
 
-        <ark-switch-theme></ark-switch-theme>
+          <ark-button
+            label="{{ 'new project' | transloco | titlecase }}"
+            size="small"
+            icon="featherPlusCircle"
+          ></ark-button>
+
+          <ark-select [items]="items" size="small"></ark-select>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <ark-switch-theme></ark-switch-theme>
+          <ark-user [user]="user" rounded="full"></ark-user>
+        </div>
       </div>
       <!-- End Navbar -->
       <div

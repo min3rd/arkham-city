@@ -11,6 +11,7 @@ export interface User {
   firstName: string;
   lastName: string;
   __v?: number;
+  avatar?: string;
 }
 
 export interface RegisterDto {
