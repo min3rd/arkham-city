@@ -29,6 +29,10 @@ export class BasicItem implements OnInit, OnDestroy {
   private changeDectectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
   private _unsubscribeAll: Subject<any> = new Subject();
   ngOnInit(): void {
+    if (this.router.url === this.navigation.link) {
+      this.activated = true;
+      this.changeDectectorRef.markForCheck();
+    }
     this.router.events
       .pipe(
         takeUntil(this._unsubscribeAll),
