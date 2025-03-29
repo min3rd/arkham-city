@@ -1,4 +1,4 @@
-import { Component, Input, type OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
   ControlContainer,
   FormGroupDirective,
@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
   selector: 'ark-textarea',
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './ark-textarea.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [
     {
       provide: ControlContainer,
