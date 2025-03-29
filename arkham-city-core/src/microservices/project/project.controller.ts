@@ -25,8 +25,6 @@ export class ProjectController {
 
   @MessagePattern(microserviceConfig.projects.patterns.get)
   get(@Payload() payload: GetProjectByIdReqPayload) {
-    console.log(payload);
-
     return this.projectService.findById(payload.user, payload.projectId);
   }
 }
