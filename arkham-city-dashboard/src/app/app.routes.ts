@@ -3,6 +3,7 @@ import { EmptyLayoutComponent } from '../core/layouts/empty-layout/empty-layout.
 import { authGuard } from '../core/auth/guards/auth.guard';
 import { noAuthGuard } from '../core/auth/guards/no-auth.guard';
 import { MainLayoutComponent } from '../core/layouts/main-layout/main-layout.component';
+import { LogOutComponent } from '../modules/public/auth/log-out/log-out.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -19,5 +20,16 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     loadChildren: () =>
       import('../modules/private/private.routes').then((r) => r.routes),
+  },
+  {
+    path: '',
+    canActivateChild: [authGuard],
+    component: EmptyLayoutComponent,
+    children: [
+      {
+        path: 'log-out',
+        component: LogOutComponent,
+      },
+    ],
   },
 ];

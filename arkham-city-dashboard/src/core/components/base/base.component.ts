@@ -8,6 +8,7 @@ import {
   type OnInit,
 } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -17,10 +18,10 @@ import { Subject } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseComponent implements OnInit, OnDestroy {
-  loading:boolean = false;
   form!: UntypedFormGroup;
   formBuilder: UntypedFormBuilder = inject(UntypedFormBuilder);
-  changeDetectorRef: ChangeDetectorRef =  inject(ChangeDetectorRef);
+  changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
+  router: Router = inject(Router);
   unsubscribeAll: Subject<any> = new Subject();
   ngOnInit(): void {}
   ngOnDestroy(): void {
