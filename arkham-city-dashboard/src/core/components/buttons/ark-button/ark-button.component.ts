@@ -38,7 +38,7 @@ export class ArkButton implements OnInit {
 
   private loadingService: LoadingService = inject(LoadingService);
   private changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
-  private _unsubsribeAll: Subject<any> = new Subject();
+  private _unsubscribeAll: Subject<any> = new Subject();
   ngOnInit(): void {
     if (
       !this.isSolid() &&
@@ -50,7 +50,7 @@ export class ArkButton implements OnInit {
       this.solid = true;
     }
     this.loadingService.show$
-      .pipe(takeUntil(this._unsubsribeAll))
+      .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((status) => {
         this.onLoading = status;
         this.changeDetectorRef.markForCheck();

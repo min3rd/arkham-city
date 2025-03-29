@@ -1,10 +1,13 @@
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ContentChild,
   inject,
   Input,
+  TemplateRef,
   ViewChild,
 } from '@angular/core';
 import {
@@ -15,6 +18,10 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { FormElement } from '../../base/form-element/form-element.component';
+import { LoadingService } from '../../../services/loading/loading.service';
+import { Subject, takeUntil } from 'rxjs';
+import { FormControlElement } from '../../base/form-control-element/form-control-element.component';
 
 @Component({
   selector: 'ark-text-input',
@@ -26,37 +33,8 @@ import {
       useExisting: FormGroupDirective,
     },
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArkTextInput implements AfterViewInit {
+export class ArkTextInput extends FormControlElement {
   @Input() type!: string;
-  @Input() placeholder!: string;
-  @Input() value!: string;
-  @Input() label!: string;
-  @Input() controlName!: string;
-
-  @Input() rounded: 'xs' | 'md' | 'lg' | 'full' = 'lg';
-  @Input() color: 'gray' | 'teal' | 'blue' | 'red' | 'yellow' | 'white' =
-    'teal';
-  @Input() size: 'default' | 'small' | 'large' = 'default';
-
-  @ViewChild(FormControlName)
-  public formControl!: FormControl;
-
-  invalid: boolean = false;
-  required: boolean = false;
-  changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
-  ngAfterViewInit(): void {
-    if (this.formControl) {
-      this.formControl.statusChanges.subscribe(() => {
-        this.invalid = false;
-        if (this.formControl.invalid) {
-          this.invalid = true;
-          for (const error of Object.keys(this.formControl.errors as any)) {
-            console.log(error);
-          }
-        }
-        this.changeDetectorRef.markForCheck();
-      });
-    }
-  }
 }
