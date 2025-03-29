@@ -2,20 +2,31 @@ import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { ProjectService } from 'src/modules/project/project.service';
-import { NewProjectReqPayload } from './project.type';
+import { GetProjectByIdReqPayload, NewProjectReqPayload } from './project.type';
+import { JWTPayload } from 'src/modules/auth/auth.type';
 
 @Controller()
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
-  @MessagePattern(microserviceConfig.project.patterns.create)
+  @MessagePattern(microserviceConfig.projects.patterns.create)
   create(@Payload() payload: NewProjectReqPayload) {
-    console.log(payload);
-
     return this.projectService.create(
       payload.user,
       payload.name,
       payload.description,
     );
+  }
+
+  @MessagePattern(microserviceConfig.projects.patterns.all)
+  all(@Payload() payload: JWTPayload) {
+    return this.projectService.all(payload);
+  }
+
+  @MessagePattern(microserviceConfig.projects.patterns.get)
+  get(@Payload() payload: GetProjectByIdReqPayload) {
+    console.log(payload);
+
+    return this.projectService.findById(payload.user, payload.projectId);
   }
 }

@@ -5,3 +5,8 @@ export interface NewProjectReqPayload {
   name: string;
   description: string;
 }
+
+export interface GetProjectByIdReqPayload {
+  user: JWTPayload;
+  projectId: string;
+}
