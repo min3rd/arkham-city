@@ -1,1 +1,25 @@
-<p>new-project works!</p>,
+<div class="px-4 py-6">
+  <div class="w-full md:max-w-96">
+    <form [formGroup]="form">
+      <ark-text-input
+        controlName="name"
+        label="{{ 'project name' | transloco | capitalize }}"
+      ></ark-text-input>
+      <ark-textarea
+        controlName="description"
+        label="{{ 'project description' | transloco | capitalize }}"
+      >
+      </ark-textarea>
+      <div class="flex items-center gap-2">
+        <ark-button
+          class="ml-auto"
+          label="{{ 'cancel' | transloco | capitalize }}"
+          ghost
+        ></ark-button>
+        <ark-button
+          label="{{ 'Create' | transloco | capitalize }}"
+        ></ark-button>
+      </div>
+    </form>
+  </div>
+</div>
