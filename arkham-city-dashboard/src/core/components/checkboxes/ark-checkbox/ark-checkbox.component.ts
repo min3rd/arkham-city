@@ -20,7 +20,6 @@ import { FormControlElement } from '../../base/form-control-element/form-control
   ],
 })
 export class ArkCheckbox extends FormControlElement {
-  @Input() label: string = '';
   @Input() checked: boolean | string = false;
   enableChecked() {
     return (this.checked || this.checked === '') as boolean;
