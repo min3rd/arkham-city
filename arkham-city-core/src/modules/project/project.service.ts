@@ -52,4 +52,19 @@ export class ProjectService {
     project = await project.save();
     return new SuccessMicroserviceResponse({ ...project, user: undefined });
   }
+
+  async all(user: User) {
+    const all = await this.projectModel.find({ user: user });
+    return new SuccessMicroserviceResponse(
+      all.map((e) => ({ ...e, user: undefined })),
+    );
+  }
+
+  async findById(user: User, projectId: string) {
+    const project = await this.projectModel.findOne({
+      id: projectId,
+      user: user,
+    });
+    return new SuccessMicroserviceResponse({ ...project, user: undefined });
+  }
 }
