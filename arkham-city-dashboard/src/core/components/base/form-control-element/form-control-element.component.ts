@@ -1,25 +1,25 @@
-import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
-  ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
-  inject,
+  ContentChild,
   Input,
+  TemplateRef,
   ViewChild,
 } from '@angular/core';
+import { FormElement } from '../form-element/form-element.component';
 import {
   ControlContainer,
   FormControl,
   FormControlName,
   FormGroupDirective,
-  FormsModule,
-  ReactiveFormsModule,
 } from '@angular/forms';
 
 @Component({
-  selector: 'text-input',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  templateUrl: './text-input.component.html',
+  selector: 'form-control-element',
+  imports: [],
+  template: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [
     {
       provide: ControlContainer,
@@ -27,28 +27,26 @@ import {
     },
   ],
 })
-export class TextInput implements AfterViewInit {
-  @Input() type!: string;
+export class FormControlElement extends FormElement implements AfterViewInit {
+  @Input() controlName!: string;
   @Input() placeholder!: string;
   @Input() value!: string;
   @Input() label!: string;
-  @Input() controlName!: string;
+  @Input() rounded: 'small' | 'medium' | 'large' | 'full' = 'large';
+  @Input() color: 'gray' | 'teal' | 'blue' | 'red' | 'yellow' | 'white' =
+    'teal';
+  @Input() size: 'default' | 'small' | 'large' = 'default';
 
   @ViewChild(FormControlName)
-  public formControl!: FormControl;
-
+  formControl!: FormControl;
+  @ContentChild('errors') errors!: TemplateRef<any>;
   invalid: boolean = false;
-  required: boolean = false;
-  changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
   ngAfterViewInit(): void {
     if (this.formControl) {
       this.formControl.statusChanges.subscribe(() => {
         this.invalid = false;
         if (this.formControl.invalid) {
           this.invalid = true;
-          for (const error of Object.keys(this.formControl.errors as any)) {
-            console.log(error);
-          }
         }
         this.changeDetectorRef.markForCheck();
       });

@@ -9,6 +9,7 @@ import { ArkDivider } from '../../../../core/components/dividers/ark-divider/ark
 import { TranslocoModule } from '@jsverse/transloco';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { Router, RouterModule } from '@angular/router';
+import { CapitalizePipe } from '../../../../core/pipe/capitalize.pipe';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +23,7 @@ import { Router, RouterModule } from '@angular/router';
     ArkButton,
     ArkCheckbox,
     ArkDivider,
+    CapitalizePipe,
   ],
   templateUrl: './login.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,7 +33,7 @@ export class LoginComponent extends BaseComponent {
   router: Router = inject(Router);
   override ngOnInit(): void {
     this.form = this.formBuilder.group({
-      email: ['email@domain.com', [Validators.required]],
+      email: ['email@domain.com', [Validators.required, Validators.email]],
       password: ['ThisIsNewPassword', [Validators.required]],
       rememberMe: [false],
     });
