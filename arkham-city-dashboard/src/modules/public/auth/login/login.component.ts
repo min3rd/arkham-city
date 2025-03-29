@@ -30,7 +30,6 @@ import { CapitalizePipe } from '../../../../core/pipe/capitalize.pipe';
 })
 export class LoginComponent extends BaseComponent {
   authService: AuthService = inject(AuthService);
-  router: Router = inject(Router);
   override ngOnInit(): void {
     this.form = this.formBuilder.group({
       email: ['email@domain.com', [Validators.required, Validators.email]],
