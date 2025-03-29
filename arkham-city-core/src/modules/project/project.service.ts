@@ -8,16 +8,19 @@ import {
   SuccessMicroserviceResponse,
 } from 'src/core/microservice/microservice.type';
 import { User } from '../user/user.type';
+import { JWTPayload } from '../auth/auth.type';
 
 @Injectable()
 export class ProjectService {
   constructor(
     @InjectModel(Project.name, 'metadata') private projectModel: Model<Project>,
   ) {}
-  async create(user: User, name: string, description: string = '') {
+  async create(user: JWTPayload, name: string, description: string = '') {
     const check = await this.projectModel.find({
       name: name,
-      user: user,
+      user: {
+        username: user.username,
+      },
     });
     if (check.length > 0) {
       return new BadMicroserviceResponse(
@@ -27,10 +30,15 @@ export class ProjectService {
     let project = new this.projectModel({
       name: name,
       description: description,
-      user: user,
+      user: {
+        username: user.username,
+      },
     });
     project = await project.save();
-    return new SuccessMicroserviceResponse({ ...project, user: undefined });
+    return new SuccessMicroserviceResponse({
+      ...project.toJSON(),
+      user: undefined,
+    });
   }
 
   async update(projectId: string, name: string, description?: string) {
@@ -50,13 +58,16 @@ export class ProjectService {
     project.name = name;
     project.description = description;
     project = await project.save();
-    return new SuccessMicroserviceResponse({ ...project, user: undefined });
+    return new SuccessMicroserviceResponse({
+      ...project.toJSON(),
+      user: undefined,
+    });
   }
 
   async all(user: User) {
     const all = await this.projectModel.find({ user: user });
     return new SuccessMicroserviceResponse(
-      all.map((e) => ({ ...e, user: undefined })),
+      all.map((e) => ({ ...e.toJSON(), user: undefined })),
     );
   }
 
@@ -65,6 +76,9 @@ export class ProjectService {
       id: projectId,
       user: user,
     });
-    return new SuccessMicroserviceResponse({ ...project, user: undefined });
+    return new SuccessMicroserviceResponse({
+      ...project?.toJSON(),
+      user: undefined,
+    });
   }
 }

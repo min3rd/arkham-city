@@ -20,7 +20,7 @@ export class AuthController extends GatewayController {
       payload.email,
       payload.password,
       payload.firstName,
-      payload.lastName
+      payload.lastName,
     );
   }
 
@@ -35,7 +35,7 @@ export class AuthController extends GatewayController {
 
   @Public()
   @Post('log-in-by-refresh-token')
-  logInByRefreshToken(@Body() payload: LogInByRefreshToken){
+  logInByRefreshToken(@Body() payload: LogInByRefreshToken) {
     return this.authService.logInByRefreshToken(payload.refreshToken);
   }
 }

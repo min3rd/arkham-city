@@ -1,14 +1,14 @@
-import { Controller } from "@nestjs/common";
-import { MessagePattern, Payload } from "@nestjs/microservices";
-import { microserviceConfig } from "src/config/microservice.config";
-import { UserService } from "../../modules/user/user.service";
+import { Controller } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
+import { microserviceConfig } from 'src/config/microservice.config';
+import { UserService } from '../../modules/user/user.service';
 import {
   LogInByEmailAndPassword,
   LogInByRefreshToken,
   RegisterByEmailAndPasswordDto,
-} from "../../modules/auth/auth.type";
+} from '../../modules/auth/auth.type';
 
-@Controller("user")
+@Controller()
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
