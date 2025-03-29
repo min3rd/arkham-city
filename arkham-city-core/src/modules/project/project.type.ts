@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 import { AuditEntity } from '../base/base.type';
+import { User } from '../user/user.type';
 
 @Schema()
 export class Project extends AuditEntity {
@@ -9,8 +10,11 @@ export class Project extends AuditEntity {
 
   @Prop()
   description?: string;
+
+  @Prop({ type: mongoose.Types.ObjectId, ref: User.name })
+  user: User;
 }
 
 export type ProjectDocument = HydratedDocument<Project>;
 
-export const projectSchema = SchemaFactory.createForClass(Project);
+export const ProjectSchema = SchemaFactory.createForClass(Project);

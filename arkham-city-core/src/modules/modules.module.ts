@@ -12,6 +12,7 @@ import { MongooseService } from './mongoose/mongoose.service';
 import { FirestoreService } from './firestore/firestore.service';
 import { DynamicSchema, DynamicSchemaSchema } from './firestore/firestore.type';
 import { ProjectService } from './project/project.service';
+import { Project, ProjectSchema } from './project/project.type';
 
 @Module({
   imports: [
@@ -42,7 +43,10 @@ import { ProjectService } from './project/project.service';
       },
     ]),
     MongooseModule.forFeature(
-      [{ name: User.name, schema: UserSchema }],
+      [
+        { name: User.name, schema: UserSchema },
+        { name: Project.name, schema: ProjectSchema },
+      ],
       'metadata',
     ),
     MongooseModule.forFeature(
