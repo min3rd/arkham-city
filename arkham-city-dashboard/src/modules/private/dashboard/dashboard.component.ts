@@ -8,10 +8,11 @@ import {
 } from '@angular/core';
 import { ArkButton } from '../../../core/components/buttons/ark-button/ark-button.component';
 import { ConfigService } from '../../../core/services/config.service';
+import { ArkTextarea } from '../../../core/components/textareas/ark-textarea/ark-textarea.component';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, ArkButton],
+  imports: [CommonModule, ArkButton, ArkTextarea],
   templateUrl: './dashboard.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

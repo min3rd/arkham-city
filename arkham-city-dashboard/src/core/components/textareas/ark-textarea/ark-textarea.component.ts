@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, type OnInit } from '@angular/core';
 import {
   ControlContainer,
   FormGroupDirective,
@@ -7,11 +6,12 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { FormControlElement } from '../../base/form-control-element/form-control-element.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'ark-checkbox',
+  selector: 'ark-textarea',
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  templateUrl: './ark-checkbox.component.html',
+  templateUrl: './ark-textarea.component.html',
   viewProviders: [
     {
       provide: ControlContainer,
@@ -19,10 +19,6 @@ import { FormControlElement } from '../../base/form-control-element/form-control
     },
   ],
 })
-export class ArkCheckbox extends FormControlElement {
-  @Input() label: string = '';
-  @Input() checked: boolean | string = false;
-  enableChecked() {
-    return (this.checked || this.checked === '') as boolean;
-  }
+export class ArkTextarea extends FormControlElement {
+  @Input() rows: string = '3';
 }
