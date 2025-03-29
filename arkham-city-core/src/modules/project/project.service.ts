@@ -7,7 +7,6 @@ import {
   MicroserviceErrorCode,
   SuccessMicroserviceResponse,
 } from 'src/core/microservice/microservice.type';
-import { User } from '../user/user.type';
 import { JWTPayload } from '../auth/auth.type';
 
 @Injectable()
@@ -64,17 +63,21 @@ export class ProjectService {
     });
   }
 
-  async all(user: User) {
-    const all = await this.projectModel.find({ user: user });
+  async all(user: JWTPayload) {
+    const all = await this.projectModel.find({
+      user: { username: user.username },
+    });
     return new SuccessMicroserviceResponse(
       all.map((e) => ({ ...e.toJSON(), user: undefined })),
     );
   }
 
-  async findById(user: User, projectId: string) {
+  async findById(user: JWTPayload, projectId: string) {
     const project = await this.projectModel.findOne({
-      id: projectId,
-      user: user,
+      _id: projectId,
+      user: {
+        username: user.username,
+      },
     });
     return new SuccessMicroserviceResponse({
       ...project?.toJSON(),

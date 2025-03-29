@@ -1,18 +1,17 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { MicroserviceErrorCode } from '../microservice/microservice.type';
-import ErrorMessage from '../microservice/error.type';
-
+import { IErrorCode } from '../microservice/microservice.type';
 export class BadRequestAlertException extends HttpException {
-  errorCode!: MicroserviceErrorCode;
-  constructor(errorCode: MicroserviceErrorCode) {
-    super(errorCode as string, HttpStatus.BAD_REQUEST);
+  errorCode!: IErrorCode;
+  constructor(errorCode: IErrorCode) {
+    super(errorCode.code, HttpStatus.BAD_REQUEST);
     this.errorCode = errorCode;
   }
   getResponse(): string | object {
     return {
+      timestamp: new Date(),
       statusCode: this.getStatus(),
-      errorCode: this.errorCode,
-      message: (ErrorMessage[this.errorCode] as string) ?? 'undefined message',
+      errorCode: this.errorCode.code,
+      message: this.errorCode.message ?? 'undefined message',
     };
   }
 }

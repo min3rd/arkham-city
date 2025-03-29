@@ -12,7 +12,7 @@ export class ExceptionInterceptor implements NestInterceptor {
     return next.handle().pipe(
       catchError((e) => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        e['time'] = new Date();
+        e['timestamp'] = new Date();
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return e;
       }),

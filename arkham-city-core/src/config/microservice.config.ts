@@ -13,7 +13,7 @@ export const microserviceConfig = {
       createRecord: 'v1.firestore.create-record',
     },
   },
-  project: {
+  projects: {
     name: 'project',
     patterns: {
       create: 'v1.projects.new-project',

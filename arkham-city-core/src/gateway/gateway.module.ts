@@ -16,7 +16,7 @@ import { microserviceConfig } from 'src/config/microservice.config';
     ModulesModule,
     ClientsModule.register([
       {
-        name: microserviceConfig.project.name,
+        name: microserviceConfig.projects.name,
         transport: Transport.REDIS,
         options: {
           host: process.env.REDIS_HOST as string,
