@@ -11,6 +11,7 @@ import { HashService } from 'src/core/hash/hash.service';
 import { MongooseService } from './mongoose/mongoose.service';
 import { FirestoreService } from './firestore/firestore.service';
 import { DynamicSchema, DynamicSchemaSchema } from './firestore/firestore.type';
+import { ProjectService } from './project/project.service';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { DynamicSchema, DynamicSchemaSchema } from './firestore/firestore.type';
     HashService,
     MongooseService,
     FirestoreService,
+    ProjectService,
   ],
   exports: [AuthService, UserService, FirestoreService],
 })
