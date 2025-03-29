@@ -13,7 +13,7 @@
       type="{{ type }}"
       id="text-input-{{ label }}"
       name="text-input-{{ label }}"
-      class="block w-full sm:text-sm"
+      class="block w-full sm:text-sm bg-neutral-200 dark:bg-neutral-700"
       [ngClass]="{
         'rounded-xs': rounded === 'small',
         'rounded-md': rounded === 'medium',
@@ -35,7 +35,7 @@
       name="text-input-{{ label }}"
       class="block w-full sm:text-sm"
       [ngClass]="{
-          'bg-neutral-200': !invalid,
+          'bg-neutral-200 dark:bg-neutral-700': !invalid,
           'bg-red-100 border-red-500 dark:bg-red-100 dark:border-red-500 border':
             invalid,
         'rounded-xs': rounded === 'small',
