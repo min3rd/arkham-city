@@ -6,15 +6,36 @@ import { ModulesModule } from 'src/modules/modules.module';
 import { AuthController } from './auth/auth.controller';
 import { FirestoreController } from './firestore/firestore.controller';
 import { TestController } from './test/test.controller';
+import { ProjectController } from './project/project.controller';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { microserviceConfig } from 'src/config/microservice.config';
 
 @Module({
-  imports: [ConfigModule.forRoot(), ModulesModule],
+  imports: [
+    ConfigModule.forRoot(),
+    ModulesModule,
+    ClientsModule.register([
+      {
+        name: microserviceConfig.project.name,
+        transport: Transport.REDIS,
+        options: {
+          host: process.env.REDIS_HOST as string,
+          port: parseInt(process.env.REDIS_PORT as string),
+        },
+      },
+    ]),
+  ],
   providers: [
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
   ],
-  controllers: [AuthController, FirestoreController, TestController],
+  controllers: [
+    AuthController,
+    FirestoreController,
+    TestController,
+    ProjectController,
+  ],
 })
 export class GatewayModule {}

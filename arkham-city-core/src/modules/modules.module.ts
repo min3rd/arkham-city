@@ -62,6 +62,6 @@ import { Project, ProjectSchema } from './project/project.type';
     FirestoreService,
     ProjectService,
   ],
-  exports: [AuthService, UserService, FirestoreService],
+  exports: [AuthService, UserService, FirestoreService, ProjectService],
 })
 export class ModulesModule {}

@@ -5,6 +5,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { ModulesModule } from 'src/modules/modules.module';
 import { FirestoreController } from './firestore/firestore.controller';
+import { ProjectController } from './project/project.controller';
 
 @Module({
   imports: [
@@ -26,10 +27,18 @@ import { FirestoreController } from './firestore/firestore.controller';
           port: parseInt(process.env.REDIS_PORT as string),
         },
       },
+      {
+        name: microserviceConfig.project.name,
+        transport: Transport.REDIS,
+        options: {
+          host: process.env.REDIS_HOST as string,
+          port: parseInt(process.env.REDIS_PORT as string),
+        },
+      },
     ]),
     ModulesModule,
   ],
-  controllers: [UserController, FirestoreController],
+  controllers: [UserController, FirestoreController, ProjectController],
   providers: [],
 })
 export class MicroservicesModule {}
