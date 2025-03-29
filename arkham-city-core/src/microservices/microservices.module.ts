@@ -28,7 +28,7 @@ import { ProjectController } from './project/project.controller';
         },
       },
       {
-        name: microserviceConfig.project.name,
+        name: microserviceConfig.projects.name,
         transport: Transport.REDIS,
         options: {
           host: process.env.REDIS_HOST as string,
