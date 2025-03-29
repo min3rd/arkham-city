@@ -7,7 +7,5 @@ assignees: ''
 
 ---
 
-**Remember  create sub-issues if have more than 1 todo**
-
 **Todo**
 - [ ] Todo 1
