@@ -138,13 +138,17 @@ export class AuthService {
       }
     );
   }
-  logOut(){
+  logOut() {
     localStorage.clear();
   }
 
   check(): Observable<boolean> {
     if (!this.accessToken) {
       return of(false);
+    }
+
+    if (!AuthUtils.isExpired(this.accessToken)) {
+      return of(true);
     }
 
     if (!this.refreshToken) {
