@@ -61,4 +61,12 @@ export class MicroserviceErrorCode {
     '01x0007',
     'The project id was incorrected',
   );
+  static readonly DULICATE_APP = new IErrorCode(
+    '01x0008',
+    'The app was already exists',
+  );
+  static readonly APP_NOT_FOUND = new IErrorCode(
+    '01x0009',
+    'Could not find the app',
+  );
 }
