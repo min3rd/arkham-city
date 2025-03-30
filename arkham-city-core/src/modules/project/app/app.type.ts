@@ -42,7 +42,7 @@ export class App extends AuditEntity {
 
   @Prop({
     type: mongoose.Types.ObjectId,
-    ref: User,
+    ref: User.name,
   })
   user: User;
 }
