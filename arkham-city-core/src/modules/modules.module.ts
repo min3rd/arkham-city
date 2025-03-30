@@ -13,6 +13,8 @@ import { FirestoreService } from './firestore/firestore.service';
 import { DynamicSchema, DynamicSchemaSchema } from './firestore/firestore.type';
 import { ProjectService } from './project/project.service';
 import { Project, ProjectSchema } from './project/project.type';
+import { AppService } from './project/app/app.service';
+import { App, AppSchema } from './project/app/app.type';
 
 @Module({
   imports: [
@@ -46,6 +48,7 @@ import { Project, ProjectSchema } from './project/project.type';
       [
         { name: User.name, schema: UserSchema },
         { name: Project.name, schema: ProjectSchema },
+        { name: App.name, schema: AppSchema },
       ],
       'metadata',
     ),
@@ -61,6 +64,7 @@ import { Project, ProjectSchema } from './project/project.type';
     MongooseService,
     FirestoreService,
     ProjectService,
+    AppService,
   ],
   exports: [AuthService, UserService, FirestoreService, ProjectService],
 })
