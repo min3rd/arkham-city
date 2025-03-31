@@ -8,77 +8,432 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
-	   <link rel="stylesheet" href="./styles/style.css">
-        <link rel="stylesheet" href="./styles/dark.css">
+	    <link rel="stylesheet" href="./styles/style.css">
     </head>
     <body>
-          <script>
-               // Blocking script to avoid flickering dark mode
-               // Dark mode toggle button
-               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
-               var darkModeState = useDark.matches;
-               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
-               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
-               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-               function checkToggle(check) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].checked = check;
-                    }
-               }
-
-               function toggleDarkMode(state) {
-                    if (window.localStorage) {
-                         localStorage.setItem('compodoc_darkmode-state', state);
-                    }
-
-                    checkToggle(state);
-
-                    const hasClass = document.body.classList.contains('dark');
-
-                    if (state) {
-                         for (var i = 0; i < $darkModeToggles.length; i++) {
-                              $darkModeToggles[i].classList.add('dark');
-                         }
-                         if (!hasClass) {
-                              document.body.classList.add('dark');
-                         }
-                    } else {
-                         for (var i = 0; i < $darkModeToggles.length; i++) {
-                              $darkModeToggles[i].classList.remove('dark');
-                         }
-                         if (hasClass) {
-                              document.body.classList.remove('dark');
-                         }
-                    }
-               }
-
-               useDark.addEventListener('change', function (evt) {
-                    toggleDarkMode(evt.matches);
-               });
-               if (darkModeStateLocal) {
-                    darkModeState = darkModeStateLocal === 'true';
-               }
-               toggleDarkMode(darkModeState);
-          </script>
-
-        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
-               <div class="d-flex">
-                    <a href="./" class="navbar-brand">arkham-city-core documentation</a>
-                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
-               </div>
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="./" class="navbar-brand">arkham-city-core documentation</a>
+            <button type="button" class="btn btn-default btn-menu fa fa-bars" id="btn-menu"></button>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
-                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+            <div id="book-search-input" role="search">
+                <input type="text" placeholder="Type to search">
+            </div>
+            <nav>
+            
+                <ul class="list">
+            
+                    <li class="title">
+                        <a href="./">arkham-city-core documentation</a>
+                    </li>
+            
+                    <li class="divider"></li>
+            
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="./"><span class="fa fa-home"></span>Getting started</a>
+                        <ul class="links">
+                                <li class="link">
+                                    <a href="./" ><span class="fa fa-file-text-o"></span>README</a>
+                                </li>
+                                <li class="link">
+                                    <a 
+                                        
+                                         href="./overview.html" 
+                                         href="./overview.html" 
+                                        >
+                                        <span class="fa fa-th"></span>Overview
+                                    </a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+            
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-file-code-o"></span>
+                            <span>Classes</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-classes-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-classes-links"
+                            >
+                                <li class="link">
+                                    <a href="classes/BadMicroserviceResponse.html" >BadMicroserviceResponse</a>
+                                </li>
+                                <li class="link">
+                                    <a href="classes/BadRequestAlertException.html" >BadRequestAlertException</a>
+                                </li>
+                                <li class="link">
+                                    <a href="classes/BaseService.html" >BaseService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="classes/GatewayController.html" >GatewayController</a>
+                                </li>
+                                <li class="link">
+                                    <a href="classes/IErrorCode.html" >IErrorCode</a>
+                                </li>
+                                <li class="link">
+                                    <a href="classes/MicroserviceErrorCode.html" >MicroserviceErrorCode</a>
+                                </li>
+                                <li class="link">
+                                    <a href="classes/SuccessMicroserviceResponse.html" >SuccessMicroserviceResponse</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-long-arrow-down"></span>
+                            <span>Injectables</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-injectables-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-injectables-links"
+                            >
+                                <li class="link">
+                                    <a href="injectables/AppService.html" >AppService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="injectables/AuthGuard.html" >AuthGuard</a>
+                                </li>
+                                <li class="link">
+                                    <a href="injectables/AuthService.html" >AuthService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="injectables/ExceptionInterceptor.html" >ExceptionInterceptor</a>
+                                </li>
+                                <li class="link">
+                                    <a href="injectables/FirestoreService.html" >FirestoreService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="injectables/HashService.html" >HashService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="injectables/MongooseService.html" >MongooseService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="injectables/ProjectService.html" >ProjectService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="injectables/ResponseInterceptor.html" >ResponseInterceptor</a>
+                                </li>
+                                <li class="link">
+                                    <a href="injectables/UserService.html" >UserService</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-info"></span>
+                            <span>Interfaces</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-interfaces-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-interfaces-links"
+                            >
+                                <li class="link">
+                                    <a href="interfaces/AllProjectAppReqPayload.html" >AllProjectAppReqPayload</a>
+                                </li>
+                                <li class="link">
+                                    <a href="interfaces/CreateFirestoreRecord.html" >CreateFirestoreRecord</a>
+                                </li>
+                                <li class="link">
+                                    <a href="interfaces/CreateProjectAppReqDto.html" >CreateProjectAppReqDto</a>
+                                </li>
+                                <li class="link">
+                                    <a href="interfaces/CreateProjectAppReqPayload.html" >CreateProjectAppReqPayload</a>
+                                </li>
+                                <li class="link">
+                                    <a href="interfaces/DeleteProjectAppReqPayload.html" >DeleteProjectAppReqPayload</a>
+                                </li>
+                                <li class="link">
+                                    <a href="interfaces/GetProjectAppReqPayload.html" >GetProjectAppReqPayload</a>
+                                </li>
+                                <li class="link">
+                                    <a href="interfaces/GetProjectByIdReqPayload.html" >GetProjectByIdReqPayload</a>
+                                </li>
+                                <li class="link">
+                                    <a href="interfaces/JWTPayload.html" >JWTPayload</a>
+                                </li>
+                                <li class="link">
+                                    <a href="interfaces/LogInByEmailAndPassword.html" >LogInByEmailAndPassword</a>
+                                </li>
+                                <li class="link">
+                                    <a href="interfaces/LogInByRefreshToken.html" >LogInByRefreshToken</a>
+                                </li>
+                                <li class="link">
+                                    <a href="interfaces/LogInResponseDto.html" >LogInResponseDto</a>
+                                </li>
+                                <li class="link">
+                                    <a href="interfaces/MicroserviceResponse.html" >MicroserviceResponse</a>
+                                </li>
+                                <li class="link">
+                                    <a href="interfaces/NewProjectDto.html" >NewProjectDto</a>
+                                </li>
+                                <li class="link">
+                                    <a href="interfaces/NewProjectReqPayload.html" >NewProjectReqPayload</a>
+                                </li>
+                                <li class="link">
+                                    <a href="interfaces/RegisterByEmailAndPasswordDto.html" >RegisterByEmailAndPasswordDto</a>
+                                </li>
+                                <li class="link">
+                                    <a href="interfaces/RegisterResponseDto.html" >RegisterResponseDto</a>
+                                </li>
+                                <li class="link">
+                                    <a href="interfaces/ResponseDto.html" >ResponseDto</a>
+                                </li>
+                                <li class="link">
+                                    <a href="interfaces/UpdateProjectAppReqDto.html" >UpdateProjectAppReqDto</a>
+                                </li>
+                                <li class="link">
+                                    <a href="interfaces/UpdateProjectAppReqPayload.html" >UpdateProjectAppReqPayload</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="./miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
+                    </li>
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="./coverage.html"  class="active" ><span class="fa fa-tasks"></span>Documentation coverage</a>
+                    </li>
+            
+                    <li class="divider"></li>
+                    <li class="copyright">
+                            Documentation generated using <a href="https://compodoc.github.io/compodoc/" target="_blank">
+                                        <img src=".//images/compodoc-vectorise.svg" class="img-responsive">
+                            </a>
+                    </li>
+            
+                </ul>
+            
+            </nav>
         </div>
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="d-none d-md-block menu">
-                   <compodoc-menu mode="normal"></compodoc-menu>
+               <div class="hidden-xs menu">
+                   <nav>
+                   
+                       <ul class="list">
+                   
+                           <li class="title">
+                               <a href="./">arkham-city-core documentation</a>
+                           </li>
+                   
+                           <li class="divider"></li>
+                   
+                               <div id="book-search-input" role="search">
+                                   <input type="text" placeholder="Type to search">
+                               </div>
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="./"><span class="fa fa-home"></span>Getting started</a>
+                               <ul class="links">
+                                       <li class="link">
+                                           <a href="./" ><span class="fa fa-file-text-o"></span>README</a>
+                                       </li>
+                                       <li class="link">
+                                           <a 
+                                               
+                                                href="./overview.html" 
+                                                href="./overview.html" 
+                                               >
+                                               <span class="fa fa-th"></span>Overview
+                                           </a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                   
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-file-code-o"></span>
+                                   <span>Classes</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#classes-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="classes-links"
+                   >
+                                       <li class="link">
+                                           <a href="classes/BadMicroserviceResponse.html" >BadMicroserviceResponse</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="classes/BadRequestAlertException.html" >BadRequestAlertException</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="classes/BaseService.html" >BaseService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="classes/GatewayController.html" >GatewayController</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="classes/IErrorCode.html" >IErrorCode</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="classes/MicroserviceErrorCode.html" >MicroserviceErrorCode</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="classes/SuccessMicroserviceResponse.html" >SuccessMicroserviceResponse</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-long-arrow-down"></span>
+                                   <span>Injectables</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#injectables-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="injectables-links"
+                   >
+                                       <li class="link">
+                                           <a href="injectables/AppService.html" >AppService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="injectables/AuthGuard.html" >AuthGuard</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="injectables/AuthService.html" >AuthService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="injectables/ExceptionInterceptor.html" >ExceptionInterceptor</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="injectables/FirestoreService.html" >FirestoreService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="injectables/HashService.html" >HashService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="injectables/MongooseService.html" >MongooseService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="injectables/ProjectService.html" >ProjectService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="injectables/ResponseInterceptor.html" >ResponseInterceptor</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="injectables/UserService.html" >UserService</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-info"></span>
+                                   <span>Interfaces</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#interfaces-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="interfaces-links"
+                   >
+                                       <li class="link">
+                                           <a href="interfaces/AllProjectAppReqPayload.html" >AllProjectAppReqPayload</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="interfaces/CreateFirestoreRecord.html" >CreateFirestoreRecord</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="interfaces/CreateProjectAppReqDto.html" >CreateProjectAppReqDto</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="interfaces/CreateProjectAppReqPayload.html" >CreateProjectAppReqPayload</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="interfaces/DeleteProjectAppReqPayload.html" >DeleteProjectAppReqPayload</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="interfaces/GetProjectAppReqPayload.html" >GetProjectAppReqPayload</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="interfaces/GetProjectByIdReqPayload.html" >GetProjectByIdReqPayload</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="interfaces/JWTPayload.html" >JWTPayload</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="interfaces/LogInByEmailAndPassword.html" >LogInByEmailAndPassword</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="interfaces/LogInByRefreshToken.html" >LogInByRefreshToken</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="interfaces/LogInResponseDto.html" >LogInResponseDto</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="interfaces/MicroserviceResponse.html" >MicroserviceResponse</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="interfaces/NewProjectDto.html" >NewProjectDto</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="interfaces/NewProjectReqPayload.html" >NewProjectReqPayload</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="interfaces/RegisterByEmailAndPasswordDto.html" >RegisterByEmailAndPasswordDto</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="interfaces/RegisterResponseDto.html" >RegisterResponseDto</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="interfaces/ResponseDto.html" >ResponseDto</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="interfaces/UpdateProjectAppReqDto.html" >UpdateProjectAppReqDto</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="interfaces/UpdateProjectAppReqPayload.html" >UpdateProjectAppReqPayload</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="./miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
+                           </li>
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="./coverage.html"  class="active" ><span class="fa fa-tasks"></span>Documentation coverage</a>
+                           </li>
+                   
+                           <li class="divider"></li>
+                           <li class="copyright">
+                                   Documentation generated using <a href="https://compodoc.github.io/compodoc/" target="_blank">
+                                               <img src=".//images/compodoc-vectorise.svg" class="img-responsive">
+                                   </a>
+                           </li>
+                   
+                       </ul>
+                   
+                   </nav>
                </div>
-               <!-- START CONTENT -->
                <div class="content coverage">
                    <div class="content-data">
 
@@ -91,593 +446,567 @@
 
 
 
-
-
-
-
-
-
-
-
-
 <ol class="breadcrumb">
-    <li class="breadcrumb-item">Documentation coverage</li>
+  <li>Documentation coverage</li> 
 </ol>
 
-<div>
-    <img src="./images/coverage-badge-documentation.svg">
+<div class="coverage-badge">
+    <span>Project</span>
+    <span class="count low">0%</span>
 </div>
 
-<table class="table table-bordered coverage" id="coverage-table">
+<table class="table table-bordered coverage">
     <thead class="coverage-header">
         <tr>
             <th>File</th>
             <th>Type</th>
             <th>Identifier</th>
-            <th style="text-align:right" class="statements" data-sort-default>Statements</th>
+            <th style="text-align:right">Statements</th>
         </tr>
     </thead>
     <tbody>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                        <a href="./miscellaneous/variables.html#microserviceConfig">src/config/microservice.config.ts</a>
-            </td>
-            <td>variable</td>
-            <td>microserviceConfig</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/1)</span>
-            </td>
-        </tr>
-        <tr class="low">
-            <td>
-                <!-- miscellaneous -->
-                        <a href="./miscellaneous/variables.html#IS_PUBLIC_KEY">src/core/decorators/public.ts</a>
-            </td>
-            <td>variable</td>
-            <td>IS_PUBLIC_KEY</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/1)</span>
-            </td>
-        </tr>
-        <tr class="low">
-            <td>
-                <!-- miscellaneous -->
-                        <a href="./miscellaneous/variables.html#Public">src/core/decorators/public.ts</a>
-            </td>
-            <td>variable</td>
-            <td>Public</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/1)</span>
-            </td>
-        </tr>
-        <tr class="low">
-            <td>
-                <!-- miscellaneous -->
                 <a href="./classes/BadRequestAlertException.html">src/core/exceptions/BadRequestAlertException.ts</a>
             </td>
-            <td>class</td>
-            <td>BadRequestAlertException</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/4)</span>
-            </td>
-        </tr>
-        <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                <a href="./classes/GlobalFilter.html">src/core/filter/global.filter.ts</a>
+                classe
             </td>
-            <td>class</td>
-            <td>GlobalFilter</td>
-            <td align="right" data-sort="0">
+            <td>
+                BadRequestAlertException
+            </td>
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
                 <span class="coverage-count">(0/3)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
                 <a href="./classes/GatewayController.html">src/core/gateway/gateway.controller.ts</a>
             </td>
-            <td>class</td>
-            <td>GatewayController</td>
-            <td align="right" data-sort="0">
+            <td>
+                classe
+            </td>
+            <td>
+                GatewayController
+            </td>
+            <td align="right">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <a href="./injectables/AuthGuard.html">src/core/guards/auth/auth.guard.ts</a>
+            </td>
+            <td>
+                injectable
+            </td>
+            <td>
+                AuthGuard
+            </td>
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
                 <span class="coverage-count">(0/2)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                <a href="./guards/AuthGuard.html">src/core/guards/auth/auth.guard.ts</a>
-            </td>
-            <td>guard</td>
-            <td>AuthGuard</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/4)</span>
-            </td>
-        </tr>
-        <tr class="low">
-            <td>
-                <!-- miscellaneous -->
                 <a href="./injectables/HashService.html">src/core/hash/hash.service.ts</a>
             </td>
-            <td>injectable</td>
-            <td>HashService</td>
-            <td align="right" data-sort="0">
+            <td>
+                injectable
+            </td>
+            <td>
+                HashService
+            </td>
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/4)</span>
+                <span class="coverage-count">(0/3)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
                 <a href="./injectables/ExceptionInterceptor.html">src/core/interceptors/exception/exception.interceptor.ts</a>
             </td>
-            <td>injectable</td>
-            <td>ExceptionInterceptor</td>
-            <td align="right" data-sort="0">
+            <td>
+                injectable
+            </td>
+            <td>
+                ExceptionInterceptor
+            </td>
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/2)</span>
+                <span class="coverage-count">(0/1)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
                 <a href="./injectables/ResponseInterceptor.html">src/core/interceptors/response/response.interceptor.ts</a>
             </td>
-            <td>injectable</td>
-            <td>ResponseInterceptor</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/2)</span>
-            </td>
-        </tr>
-        <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                        <a href="./miscellaneous/variables.html#ErrorMessage">src/core/microservice/error.type.ts</a>
+                injectable
             </td>
-            <td>variable</td>
-            <td>ErrorMessage</td>
-            <td align="right" data-sort="0">
+            <td>
+                ResponseInterceptor
+            </td>
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
                 <span class="coverage-count">(0/1)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
                 <a href="./classes/BadMicroserviceResponse.html">src/core/microservice/microservice.type.ts</a>
             </td>
-            <td>class</td>
-            <td>BadMicroserviceResponse</td>
-            <td align="right" data-sort="0">
+            <td>
+                classe
+            </td>
+            <td>
+                BadMicroserviceResponse
+            </td>
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/5)</span>
+                <span class="coverage-count">(0/3)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
+                <a href="./classes/IErrorCode.html">src/core/microservice/microservice.type.ts</a>
+            </td>
+            <td>
+                classe
+            </td>
+            <td>
+                IErrorCode
+            </td>
+            <td align="right">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <a href="./classes/MicroserviceErrorCode.html">src/core/microservice/microservice.type.ts</a>
+            </td>
+            <td>
+                classe
+            </td>
+            <td>
+                MicroserviceErrorCode
+            </td>
+            <td align="right">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
                 <a href="./classes/SuccessMicroserviceResponse.html">src/core/microservice/microservice.type.ts</a>
             </td>
-            <td>class</td>
-            <td>SuccessMicroserviceResponse</td>
-            <td align="right" data-sort="0">
+            <td>
+                classe
+            </td>
+            <td>
+                SuccessMicroserviceResponse
+            </td>
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/5)</span>
+                <span class="coverage-count">(0/3)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
                 <a href="./interfaces/MicroserviceResponse.html">src/core/microservice/microservice.type.ts</a>
             </td>
-            <td>interface</td>
-            <td>MicroserviceResponse</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/4)</span>
-            </td>
-        </tr>
-        <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                <a href="./controllers/AuthController.html">src/gateway/auth/auth.controller.ts</a>
+                interface
             </td>
-            <td>controller</td>
-            <td>AuthController</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/5)</span>
-            </td>
-        </tr>
-        <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                <a href="./controllers/FirestoreController.html">src/gateway/firestore/firestore.controller.ts</a>
+                MicroserviceResponse
             </td>
-            <td>controller</td>
-            <td>FirestoreController</td>
-            <td align="right" data-sort="0">
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
                 <span class="coverage-count">(0/3)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                <a href="./controllers/StorageController.html">src/gateway/storage/storage.controller.ts</a>
+                <a href="./interfaces/CreateProjectAppReqDto.html">src/gateway/project/app/app.type.ts</a>
             </td>
-            <td>controller</td>
-            <td>StorageController</td>
-            <td align="right" data-sort="0">
+            <td>
+                interface
+            </td>
+            <td>
+                CreateProjectAppReqDto
+            </td>
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/1)</span>
+                <span class="coverage-count">(0/4)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                <a href="./controllers/TestController.html">src/gateway/test/test.controller.ts</a>
+                <a href="./interfaces/UpdateProjectAppReqDto.html">src/gateway/project/app/app.type.ts</a>
             </td>
-            <td>controller</td>
-            <td>TestController</td>
-            <td align="right" data-sort="0">
+            <td>
+                interface
+            </td>
+            <td>
+                UpdateProjectAppReqDto
+            </td>
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/2)</span>
+                <span class="coverage-count">(0/4)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                        <a href="./miscellaneous/functions.html#bootstrap">src/main.ts</a>
+                <a href="./interfaces/NewProjectDto.html">src/gateway/project/project.type.ts</a>
             </td>
-            <td>function</td>
-            <td>bootstrap</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/1)</span>
-            </td>
-        </tr>
-        <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                <a href="./controllers/FirestoreController.html">src/microservices/firestore/firestore.controller.ts</a>
+                interface
             </td>
-            <td>controller</td>
-            <td>FirestoreController</td>
-            <td align="right" data-sort="0">
+            <td>
+                NewProjectDto
+            </td>
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
                 <span class="coverage-count">(0/2)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
                 <a href="./interfaces/CreateFirestoreRecord.html">src/microservices/firestore/firestore.type.ts</a>
             </td>
-            <td>interface</td>
-            <td>CreateFirestoreRecord</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/3)</span>
-            </td>
-        </tr>
-        <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                <a href="./controllers/UserController.html">src/microservices/user/user.controller.ts</a>
+                interface
             </td>
-            <td>controller</td>
-            <td>UserController</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/4)</span>
-            </td>
-        </tr>
-        <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                <a href="./injectables/AuthService.html">src/modules/auth/auth.service.ts</a>
+                CreateFirestoreRecord
             </td>
-            <td>injectable</td>
-            <td>AuthService</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/7)</span>
-            </td>
-        </tr>
-        <tr class="low">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./interfaces/JWTPayload.html">src/modules/auth/auth.type.ts</a>
-            </td>
-            <td>interface</td>
-            <td>JWTPayload</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/4)</span>
-            </td>
-        </tr>
-        <tr class="low">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./interfaces/LogInByEmailAndPassword.html">src/modules/auth/auth.type.ts</a>
-            </td>
-            <td>interface</td>
-            <td>LogInByEmailAndPassword</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/3)</span>
-            </td>
-        </tr>
-        <tr class="low">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./interfaces/LogInByRefreshToken.html">src/modules/auth/auth.type.ts</a>
-            </td>
-            <td>interface</td>
-            <td>LogInByRefreshToken</td>
-            <td align="right" data-sort="0">
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
                 <span class="coverage-count">(0/2)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                <a href="./interfaces/LogInResponseDto.html">src/modules/auth/auth.type.ts</a>
+                <a href="./interfaces/AllProjectAppReqPayload.html">src/microservices/project/app/app.type.ts</a>
             </td>
-            <td>interface</td>
-            <td>LogInResponseDto</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/4)</span>
-            </td>
-        </tr>
-        <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                <a href="./interfaces/RegisterByEmailAndPasswordDto.html">src/modules/auth/auth.type.ts</a>
+                interface
             </td>
-            <td>interface</td>
-            <td>RegisterByEmailAndPasswordDto</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/5)</span>
-            </td>
-        </tr>
-        <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                <a href="./interfaces/RegisterResponseDto.html">src/modules/auth/auth.type.ts</a>
+                AllProjectAppReqPayload
             </td>
-            <td>interface</td>
-            <td>RegisterResponseDto</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/3)</span>
-            </td>
-        </tr>
-        <tr class="low">
-            <td>
-                <!-- miscellaneous -->
-                <a href="./classes/BaseService.html">src/modules/base/base.service.ts</a>
-            </td>
-            <td>class</td>
-            <td>BaseService</td>
-            <td align="right" data-sort="0">
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
                 <span class="coverage-count">(0/2)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                <a href="./classes/AuditEntity.html">src/modules/base/base.type.ts</a>
+                <a href="./interfaces/CreateProjectAppReqPayload.html">src/microservices/project/app/app.type.ts</a>
             </td>
-            <td>class</td>
-            <td>AuditEntity</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/5)</span>
-            </td>
-        </tr>
-        <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                <a href="./interfaces/ResponseDto.html">src/modules/base/base.type.ts</a>
+                interface
             </td>
-            <td>interface</td>
-            <td>ResponseDto</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/5)</span>
-            </td>
-        </tr>
-        <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                <a href="./injectables/FirestoreService.html">src/modules/firestore/firestore.service.ts</a>
+                CreateProjectAppReqPayload
             </td>
-            <td>injectable</td>
-            <td>FirestoreService</td>
-            <td align="right" data-sort="0">
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
                 <span class="coverage-count">(0/6)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                <a href="./classes/DynamicSchema.html">src/modules/firestore/firestore.type.ts</a>
+                <a href="./interfaces/DeleteProjectAppReqPayload.html">src/microservices/project/app/app.type.ts</a>
             </td>
-            <td>class</td>
-            <td>DynamicSchema</td>
-            <td align="right" data-sort="0">
+            <td>
+                interface
+            </td>
+            <td>
+                DeleteProjectAppReqPayload
+            </td>
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
                 <span class="coverage-count">(0/3)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                <a href="./classes/Field.html">src/modules/firestore/firestore.type.ts</a>
+                <a href="./interfaces/GetProjectAppReqPayload.html">src/microservices/project/app/app.type.ts</a>
             </td>
-            <td>class</td>
-            <td>Field</td>
-            <td align="right" data-sort="0">
+            <td>
+                interface
+            </td>
+            <td>
+                GetProjectAppReqPayload
+            </td>
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/5)</span>
+                <span class="coverage-count">(0/3)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                        <a href="./miscellaneous/variables.html#DynamicSchemaSchema">src/modules/firestore/firestore.type.ts</a>
+                <a href="./interfaces/UpdateProjectAppReqPayload.html">src/microservices/project/app/app.type.ts</a>
             </td>
-            <td>variable</td>
-            <td>DynamicSchemaSchema</td>
-            <td align="right" data-sort="0">
+            <td>
+                interface
+            </td>
+            <td>
+                UpdateProjectAppReqPayload
+            </td>
+            <td align="right">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/7)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <a href="./interfaces/GetProjectByIdReqPayload.html">src/microservices/project/project.type.ts</a>
+            </td>
+            <td>
+                interface
+            </td>
+            <td>
+                GetProjectByIdReqPayload
+            </td>
+            <td align="right">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/2)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <a href="./interfaces/NewProjectReqPayload.html">src/microservices/project/project.type.ts</a>
+            </td>
+            <td>
+                interface
+            </td>
+            <td>
+                NewProjectReqPayload
+            </td>
+            <td align="right">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <a href="./injectables/AuthService.html">src/modules/auth/auth.service.ts</a>
+            </td>
+            <td>
+                injectable
+            </td>
+            <td>
+                AuthService
+            </td>
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
                 <span class="coverage-count">(0/1)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                        <a href="./miscellaneous/typealiases.html#DynamicSchemaDocument">src/modules/firestore/firestore.type.ts</a>
+                <a href="./interfaces/JWTPayload.html">src/modules/auth/auth.type.ts</a>
             </td>
-            <td>type alias</td>
-            <td>DynamicSchemaDocument</td>
-            <td align="right" data-sort="0">
+            <td>
+                interface
+            </td>
+            <td>
+                JWTPayload
+            </td>
+            <td align="right">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <a href="./interfaces/LogInByEmailAndPassword.html">src/modules/auth/auth.type.ts</a>
+            </td>
+            <td>
+                interface
+            </td>
+            <td>
+                LogInByEmailAndPassword
+            </td>
+            <td align="right">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/2)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <a href="./interfaces/LogInByRefreshToken.html">src/modules/auth/auth.type.ts</a>
+            </td>
+            <td>
+                interface
+            </td>
+            <td>
+                LogInByRefreshToken
+            </td>
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
                 <span class="coverage-count">(0/1)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
+                <a href="./interfaces/LogInResponseDto.html">src/modules/auth/auth.type.ts</a>
+            </td>
+            <td>
+                interface
+            </td>
+            <td>
+                LogInResponseDto
+            </td>
+            <td align="right">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/3)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <a href="./interfaces/RegisterByEmailAndPasswordDto.html">src/modules/auth/auth.type.ts</a>
+            </td>
+            <td>
+                interface
+            </td>
+            <td>
+                RegisterByEmailAndPasswordDto
+            </td>
+            <td align="right">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <a href="./interfaces/RegisterResponseDto.html">src/modules/auth/auth.type.ts</a>
+            </td>
+            <td>
+                interface
+            </td>
+            <td>
+                RegisterResponseDto
+            </td>
+            <td align="right">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/2)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <a href="./classes/BaseService.html">src/modules/base/base.service.ts</a>
+            </td>
+            <td>
+                classe
+            </td>
+            <td>
+                BaseService
+            </td>
+            <td align="right">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/1)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <a href="./interfaces/ResponseDto.html">src/modules/base/base.type.ts</a>
+            </td>
+            <td>
+                interface
+            </td>
+            <td>
+                ResponseDto
+            </td>
+            <td align="right">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/4)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
+                <a href="./injectables/FirestoreService.html">src/modules/firestore/firestore.service.ts</a>
+            </td>
+            <td>
+                injectable
+            </td>
+            <td>
+                FirestoreService
+            </td>
+            <td align="right">
+                <span class="coverage-percent">0 %</span>
+                <span class="coverage-count">(0/2)</span>
+            </td>
+        </tr>
+        <tr class="low">
+            <td>
                 <a href="./injectables/MongooseService.html">src/modules/mongoose/mongoose.service.ts</a>
             </td>
-            <td>injectable</td>
-            <td>MongooseService</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/5)</span>
-            </td>
-        </tr>
-        <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                <a href="./injectables/ProjectService.html">src/modules/project/project.service.ts</a>
+                injectable
             </td>
-            <td>injectable</td>
-            <td>ProjectService</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/1)</span>
-            </td>
-        </tr>
-        <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                <a href="./classes/Project.html">src/modules/project/project.type.ts</a>
+                MongooseService
             </td>
-            <td>class</td>
-            <td>Project</td>
-            <td align="right" data-sort="0">
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
                 <span class="coverage-count">(0/3)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                        <a href="./miscellaneous/variables.html#projectSchema">src/modules/project/project.type.ts</a>
+                <a href="./injectables/AppService.html">src/modules/project/app/app.service.ts</a>
             </td>
-            <td>variable</td>
-            <td>projectSchema</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/1)</span>
-            </td>
-        </tr>
-        <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                        <a href="./miscellaneous/typealiases.html#ProjectDocument">src/modules/project/project.type.ts</a>
+                injectable
             </td>
-            <td>type alias</td>
-            <td>ProjectDocument</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/1)</span>
-            </td>
-        </tr>
-        <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                <a href="./injectables/UserService.html">src/modules/user/user.service.ts</a>
+                AppService
             </td>
-            <td>injectable</td>
-            <td>UserService</td>
-            <td align="right" data-sort="0">
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
                 <span class="coverage-count">(0/5)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                <a href="./classes/User.html">src/modules/user/user.type.ts</a>
+                <a href="./injectables/ProjectService.html">src/modules/project/project.service.ts</a>
             </td>
-            <td>class</td>
-            <td>User</td>
-            <td align="right" data-sort="0">
+            <td>
+                injectable
+            </td>
+            <td>
+                ProjectService
+            </td>
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/9)</span>
+                <span class="coverage-count">(0/4)</span>
             </td>
         </tr>
         <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                        <a href="./miscellaneous/variables.html#UserSchema">src/modules/user/user.type.ts</a>
+                <a href="./injectables/UserService.html">src/modules/user/user.service.ts</a>
             </td>
-            <td>variable</td>
-            <td>UserSchema</td>
-            <td align="right" data-sort="0">
-                <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/1)</span>
-            </td>
-        </tr>
-        <tr class="low">
             <td>
-                <!-- miscellaneous -->
-                        <a href="./miscellaneous/typealiases.html#UserDocument">src/modules/user/user.type.ts</a>
+                injectable
             </td>
-            <td>type alias</td>
-            <td>UserDocument</td>
-            <td align="right" data-sort="0">
+            <td>
+                UserService
+            </td>
+            <td align="right">
                 <span class="coverage-percent">0 %</span>
-                <span class="coverage-count">(0/1)</span>
+                <span class="coverage-count">(0/3)</span>
             </td>
         </tr>
     </tbody>
 </table>
-
-<script src="js/libs/tablesort.min.js"></script>
-<script src="js/libs/tablesort.number.min.js"></script>
-<script>
-    new Tablesort(document.getElementById('coverage-table'));
-</script>
 
                    </div><div class="search-results">
     <div class="has-results">
@@ -689,64 +1018,32 @@
     </div>
 </div>
 </div>
-               <!-- END CONTENT -->
            </div>
        </div>
-
-          <label class="dark-mode-switch">
-               <input type="checkbox">
-               <span class="slider">
-                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
-                    </svg>
-               </span>
-          </label>
-
-       <script>
-            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
-            var COMPODOC_CURRENT_PAGE_CONTEXT = 'coverage';
-            var COMPODOC_CURRENT_PAGE_URL = 'coverage.html';
-            var MAX_SEARCH_RESULTS = 15;
-       </script>
-
-       <script>
-               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
-               checkToggle(darkModeState);
-               if ($darkModeToggleSwitchers.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
-          </script>
-
-       <script src="./js/libs/custom-elements.min.js"></script>
-       <script src="./js/libs/lit-html.js"></script>
-
-       <script src="./js/menu-wc.js" defer></script>
-       <script nomodule src="./js/menu-wc_es5.js" defer></script>
 
        <script src="./js/libs/bootstrap-native.js"></script>
 
        <script src="./js/libs/es6-shim.min.js"></script>
        <script src="./js/libs/EventDispatcher.js"></script>
        <script src="./js/libs/promise.min.js"></script>
+       <script src="./js/libs/zepto.min.js"></script>
 
        <script src="./js/compodoc.js"></script>
 
-       <script src="./js/tabs.js"></script>
-       <script src="./js/menu.js"></script>
-       <script src="./js/libs/clipboard.min.js"></script>
-       <script src="./js/libs/prism.js"></script>
-       <script src="./js/sourceCode.js"></script>
-          <script src="./js/search/search.js"></script>
-          <script src="./js/search/lunr.min.js"></script>
-          <script src="./js/search/search-lunr.js"></script>
-          <script src="./js/search/search_index.js"></script>
-       <script src="./js/lazy-load-graphs.js"></script>
+       <script src="./js/search/search.js"></script>
+       <script src="./js/search/lunr.min.js"></script>
+       <script src="./js/search/search-lunr.js"></script>
 
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/highlight.pack.js"></script>
+       <script src="./js/libs/highlightjs-line-numbers.min.js"></script>
+       <script src="./js/search/search_index.js"></script>
+       <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                hljs.initHighlightingOnLoad();
+                hljs.initLineNumbersOnLoad();
+            });
+       </script>
 
     </body>
 </html>
