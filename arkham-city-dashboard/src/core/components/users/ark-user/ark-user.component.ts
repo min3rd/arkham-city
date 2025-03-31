@@ -11,6 +11,6 @@ import { RouterModule } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArkUser {
-  @Input() user!: UserResDto | null;
+  @Input() user!: UserResDto | null | undefined;
   @Input() rounded: 'full' | 'large' | 'medium' | 'small' | 'none' = 'none';
 }
