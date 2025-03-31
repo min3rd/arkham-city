@@ -1,15 +1,28 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import mongoose, { HydratedDocument } from "mongoose";
-import { Project } from "../project.type";
-import { AuditEntity } from "src/modules/base/base.type";
-import { User } from "src/modules/user/user.type";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { Project } from '../project.type';
+import { AuditEntity } from 'src/modules/base/base.type';
+import { User } from 'src/modules/user/user.type';
 
 export enum APP_TYPE {
-  WEB_APP = "WEB_APP",
+  WEB_APP = 'WEB_APP',
 }
 
 @Schema()
 export class App extends AuditEntity {
+  @Prop({
+    type: mongoose.Types.ObjectId,
+    ref: Project.name,
+  })
+  project: Project;
+
+  @Prop({
+    type: mongoose.Types.ObjectId,
+    ref: User.name,
+    select: false,
+  })
+  user: User;
+
   @Prop()
   name: string;
 
@@ -25,28 +38,15 @@ export class App extends AuditEntity {
   callback: string;
 
   @Prop({
-    type: mongoose.Types.ObjectId,
-    ref: Project.name,
-  })
-  project: Project;
-
-  @Prop({
-    unique: true,
-  })
-  clientId: string;
-
-  @Prop({
     unique: true,
     select: false,
   })
   secretKey: string;
 
   @Prop({
-    type: mongoose.Types.ObjectId,
-    ref: User.name,
     select: false,
   })
-  user: User;
+  privateKey: string;
 }
 
 export type AppDocument = HydratedDocument<App>;
