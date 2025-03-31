@@ -22,7 +22,7 @@ export class BaseComponent implements OnInit, OnDestroy {
   formBuilder: UntypedFormBuilder = inject(UntypedFormBuilder);
   changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
   router: Router = inject(Router);
-  unsubscribeAll: Subject<any> = new Subject();
+  unsubscribeAll: Subject<any> = new Subject<any>();
   ngOnInit(): void {}
   ngOnDestroy(): void {
     this.unsubscribeAll.next(null);

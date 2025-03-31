@@ -1,11 +1,10 @@
-import { Component, Input, type OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'ark-divider',
   imports: [],
   templateUrl: './ark-divider.component.html',
 })
-export class ArkDivider implements OnInit {
+export class ArkDivider {
   @Input() label!: string;
-  ngOnInit(): void {}
 }

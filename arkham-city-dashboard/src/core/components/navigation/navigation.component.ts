@@ -1,4 +1,4 @@
-import { Component, Input, type OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NavigationItem } from './navigation.type';
 import { CommonModule } from '@angular/common';
 import { NgIcon } from '@ng-icons/core';
@@ -8,10 +8,15 @@ import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
   selector: 'ark-navigation-sidebar',
-  imports: [CommonModule, TranslocoModule, NgIcon, ArkNavigationBasicItem, ArkNavigationGroupItem],
+  imports: [
+    CommonModule,
+    TranslocoModule,
+    NgIcon,
+    ArkNavigationBasicItem,
+    ArkNavigationGroupItem,
+  ],
   templateUrl: './navigation.component.html',
 })
-export class ArkNavigation implements OnInit {
+export class ArkNavigation {
   @Input() items: NavigationItem[] = [];
-  ngOnInit(): void {}
 }

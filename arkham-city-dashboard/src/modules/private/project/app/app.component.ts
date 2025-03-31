@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-firestore',
+  selector: 'app-app',
   imports: [],
-  templateUrl: './firestore.component.html',
+  templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FirestoreComponent {}
+export class AppComponent { }

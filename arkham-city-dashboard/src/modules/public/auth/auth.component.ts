@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, type OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ArkSwitchTheme } from '../../../core/components/buttons/ark-switch-theme/ark-switch-theme.component';
 
@@ -9,6 +9,4 @@ import { ArkSwitchTheme } from '../../../core/components/buttons/ark-switch-them
   templateUrl: './auth.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AuthComponent implements OnInit {
-  ngOnInit(): void {}
-}
+export class AuthComponent {}

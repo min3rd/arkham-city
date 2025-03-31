@@ -11,7 +11,7 @@ import { LoadingService } from '../services/loading/loading.service';
 import { ConfigService } from '../services/config.service';
 import { AuthService } from '../auth/auth.service';
 
-export const provideCore = (): Array<Provider | EnvironmentProviders> => {
+export const provideCore = (): (Provider | EnvironmentProviders)[] => {
   return [
     provideAppInitializer(() => {
       inject(ConfigService).load().subscribe();

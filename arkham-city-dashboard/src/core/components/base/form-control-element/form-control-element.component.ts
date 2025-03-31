@@ -40,7 +40,7 @@ export class FormControlElement extends FormElement implements AfterViewInit {
   @ViewChild(FormControlName)
   formControl!: FormControl;
   @ContentChild('errors') errors!: TemplateRef<any>;
-  invalid: boolean = false;
+  invalid = false;
   ngAfterViewInit(): void {
     if (this.formControl) {
       this.formControl.statusChanges.subscribe(() => {
