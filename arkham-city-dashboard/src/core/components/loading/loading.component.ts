@@ -17,10 +17,10 @@ import { CommonModule } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArkLoading implements OnInit, OnDestroy {
-  loading: boolean = false;
+  loading = false;
   private loadingService: LoadingService = inject(LoadingService);
   private changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
-  private _unsubscribeAll: Subject<any> = new Subject();
+  private _unsubscribeAll = new Subject<any>();
   ngOnInit(): void {
     this.loadingService.show$
       .pipe(takeUntil(this._unsubscribeAll))

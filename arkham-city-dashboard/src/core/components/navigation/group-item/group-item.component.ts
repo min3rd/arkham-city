@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, Input, type OnInit } from '@angular/core';
+import { Component, forwardRef, Input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import * as featherIcons from '@ng-icons/feather-icons';
 import { ArkNavigationBasicItem } from '../basic-item/basic-item.component';
@@ -18,7 +18,6 @@ import { TranslocoModule } from '@jsverse/transloco';
   templateUrl: './group-item.component.html',
   providers: [provideIcons({ ...featherIcons })],
 })
-export class ArkNavigationGroupItem implements OnInit {
+export class ArkNavigationGroupItem {
   @Input() navigation!: NavigationItem;
-  ngOnInit(): void {}
 }

@@ -24,10 +24,10 @@ import { filter, Subject, takeUntil } from 'rxjs';
 })
 export class ArkNavigationBasicItem implements OnInit, OnDestroy {
   @Input() navigation!: NavigationItem;
-  activated: boolean = false;
+  activated = false;
   private router: Router = inject(Router);
   private changeDectectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
-  private _unsubscribeAll: Subject<any> = new Subject();
+  private _unsubscribeAll = new Subject<any>();
   ngOnInit(): void {
     if (this.router.url === this.navigation.link) {
       this.activated = true;

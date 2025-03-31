@@ -2,8 +2,6 @@ import {
   ApplicationConfig,
   provideZoneChangeDetection,
   isDevMode,
-  provideAppInitializer,
-  inject,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';

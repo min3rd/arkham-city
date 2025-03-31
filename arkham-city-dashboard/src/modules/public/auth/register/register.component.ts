@@ -12,7 +12,7 @@ import { ArkCheckbox } from '../../../../core/components/checkboxes/ark-checkbox
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoModule } from '@jsverse/transloco';
 import { RouterModule } from '@angular/router';
-import { RegisterDto } from '../../../../core/auth/auth.type';
+import { RegisterReqDto } from '../../../../core/auth/auth.type';
 import { AuthService } from '../../../../core/auth/auth.service';
 
 @Component({
@@ -30,7 +30,7 @@ import { AuthService } from '../../../../core/auth/auth.service';
   templateUrl: './register.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegisterComponent extends BaseComponent {
+export class RegisterComponent extends BaseComponent implements OnInit {
   private authService: AuthService = inject(AuthService);
   override ngOnInit(): void {
     super.ngOnInit();
@@ -47,7 +47,7 @@ export class RegisterComponent extends BaseComponent {
     if (this.form.invalid) {
       return;
     }
-    const registerDto: RegisterDto = this.form.getRawValue();
+    const registerDto: RegisterReqDto = this.form.getRawValue();
     if (registerDto.password != registerDto.confirmPassword) {
       return;
     }

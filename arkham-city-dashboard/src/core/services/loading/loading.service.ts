@@ -5,9 +5,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class LoadingService {
-  private _show$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private _show$ = new BehaviorSubject<boolean>(false);
   private _urlMap: Map<string, boolean> = new Map<string, boolean>();
-  constructor() {}
 
   get show$(): Observable<boolean> {
     return this._show$.asObservable();
