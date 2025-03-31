@@ -8,109 +8,454 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	   <link rel="stylesheet" href="../styles/style.css">
-        <link rel="stylesheet" href="../styles/dark.css">
+	    <link rel="stylesheet" href="../styles/style.css">
     </head>
     <body>
-          <script>
-               // Blocking script to avoid flickering dark mode
-               // Dark mode toggle button
-               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
-               var darkModeState = useDark.matches;
-               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
-               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
-               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-               function checkToggle(check) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].checked = check;
-                    }
-               }
-
-               function toggleDarkMode(state) {
-                    if (window.localStorage) {
-                         localStorage.setItem('compodoc_darkmode-state', state);
-                    }
-
-                    checkToggle(state);
-
-                    const hasClass = document.body.classList.contains('dark');
-
-                    if (state) {
-                         for (var i = 0; i < $darkModeToggles.length; i++) {
-                              $darkModeToggles[i].classList.add('dark');
-                         }
-                         if (!hasClass) {
-                              document.body.classList.add('dark');
-                         }
-                    } else {
-                         for (var i = 0; i < $darkModeToggles.length; i++) {
-                              $darkModeToggles[i].classList.remove('dark');
-                         }
-                         if (hasClass) {
-                              document.body.classList.remove('dark');
-                         }
-                    }
-               }
-
-               useDark.addEventListener('change', function (evt) {
-                    toggleDarkMode(evt.matches);
-               });
-               if (darkModeStateLocal) {
-                    darkModeState = darkModeStateLocal === 'true';
-               }
-               toggleDarkMode(darkModeState);
-          </script>
-
-        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
-               <div class="d-flex">
-                    <a href="../" class="navbar-brand">arkham-city-core documentation</a>
-                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
-               </div>
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">arkham-city-core documentation</a>
+            <button type="button" class="btn btn-default btn-menu fa fa-bars" id="btn-menu"></button>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
-                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+            <div id="book-search-input" role="search">
+                <input type="text" placeholder="Type to search">
+            </div>
+            <nav>
+            
+                <ul class="list">
+            
+                    <li class="title">
+                        <a href="../">arkham-city-core documentation</a>
+                    </li>
+            
+                    <li class="divider"></li>
+            
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../"><span class="fa fa-home"></span>Getting started</a>
+                        <ul class="links">
+                                <li class="link">
+                                    <a href="../" ><span class="fa fa-file-text-o"></span>README</a>
+                                </li>
+                                <li class="link">
+                                    <a 
+                                        
+                                         href="../overview.html" 
+                                         href="../overview.html" 
+                                        >
+                                        <span class="fa fa-th"></span>Overview
+                                    </a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+            
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-file-code-o"></span>
+                            <span>Classes</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-classes-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-classes-links"
+                            >
+                                <li class="link">
+                                    <a href="../classes/BadMicroserviceResponse.html" >BadMicroserviceResponse</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/BadRequestAlertException.html" >BadRequestAlertException</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/BaseService.html" >BaseService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/GatewayController.html" >GatewayController</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/IErrorCode.html" >IErrorCode</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/MicroserviceErrorCode.html" >MicroserviceErrorCode</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../classes/SuccessMicroserviceResponse.html" >SuccessMicroserviceResponse</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-long-arrow-down"></span>
+                            <span>Injectables</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-injectables-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-injectables-links"
+                            >
+                                <li class="link">
+                                    <a href="../injectables/AppService.html" >AppService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/AuthGuard.html" >AuthGuard</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/AuthService.html" >AuthService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/ExceptionInterceptor.html" >ExceptionInterceptor</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/FirestoreService.html" >FirestoreService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/HashService.html" >HashService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/MongooseService.html"  class="active" >MongooseService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/ProjectService.html" >ProjectService</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/ResponseInterceptor.html" >ResponseInterceptor</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../injectables/UserService.html" >UserService</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+                    <li class="chapter">
+                        <div class="simple">
+                            <span class="fa fa-info"></span>
+                            <span>Interfaces</span>
+                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                    data-target="#xs-interfaces-links"
+                                ></span>
+                        </div>
+                        <ul class="links collapse in"
+                                id="xs-interfaces-links"
+                            >
+                                <li class="link">
+                                    <a href="../interfaces/AllProjectAppReqPayload.html" >AllProjectAppReqPayload</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/CreateFirestoreRecord.html" >CreateFirestoreRecord</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/CreateProjectAppReqDto.html" >CreateProjectAppReqDto</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/CreateProjectAppReqPayload.html" >CreateProjectAppReqPayload</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/DeleteProjectAppReqPayload.html" >DeleteProjectAppReqPayload</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/GetProjectAppReqPayload.html" >GetProjectAppReqPayload</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/GetProjectByIdReqPayload.html" >GetProjectByIdReqPayload</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/JWTPayload.html" >JWTPayload</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/LogInByEmailAndPassword.html" >LogInByEmailAndPassword</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/LogInByRefreshToken.html" >LogInByRefreshToken</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/LogInResponseDto.html" >LogInResponseDto</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/MicroserviceResponse.html" >MicroserviceResponse</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/NewProjectDto.html" >NewProjectDto</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/NewProjectReqPayload.html" >NewProjectReqPayload</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/RegisterByEmailAndPasswordDto.html" >RegisterByEmailAndPasswordDto</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/RegisterResponseDto.html" >RegisterResponseDto</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/ResponseDto.html" >ResponseDto</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/UpdateProjectAppReqDto.html" >UpdateProjectAppReqDto</a>
+                                </li>
+                                <li class="link">
+                                    <a href="../interfaces/UpdateProjectAppReqPayload.html" >UpdateProjectAppReqPayload</a>
+                                </li>
+                        </ul>
+                    </li>
+            
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
+                    </li>
+            
+                    <li class="chapter">
+                        <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
+                    </li>
+            
+                    <li class="divider"></li>
+                    <li class="copyright">
+                            Documentation generated using <a href="https://compodoc.github.io/compodoc/" target="_blank">
+                                        <img src="..//images/compodoc-vectorise.svg" class="img-responsive">
+                            </a>
+                    </li>
+            
+                </ul>
+            
+            </nav>
         </div>
 
         <div class="container-fluid main">
            <div class="row main">
-               <div class="d-none d-md-block menu">
-                   <compodoc-menu mode="normal"></compodoc-menu>
+               <div class="hidden-xs menu">
+                   <nav>
+                   
+                       <ul class="list">
+                   
+                           <li class="title">
+                               <a href="../">arkham-city-core documentation</a>
+                           </li>
+                   
+                           <li class="divider"></li>
+                   
+                               <div id="book-search-input" role="search">
+                                   <input type="text" placeholder="Type to search">
+                               </div>
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../"><span class="fa fa-home"></span>Getting started</a>
+                               <ul class="links">
+                                       <li class="link">
+                                           <a href="../" ><span class="fa fa-file-text-o"></span>README</a>
+                                       </li>
+                                       <li class="link">
+                                           <a 
+                                               
+                                                href="../overview.html" 
+                                                href="../overview.html" 
+                                               >
+                                               <span class="fa fa-th"></span>Overview
+                                           </a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                   
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-file-code-o"></span>
+                                   <span>Classes</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#classes-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="classes-links"
+                   >
+                                       <li class="link">
+                                           <a href="../classes/BadMicroserviceResponse.html" >BadMicroserviceResponse</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/BadRequestAlertException.html" >BadRequestAlertException</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/BaseService.html" >BaseService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/GatewayController.html" >GatewayController</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/IErrorCode.html" >IErrorCode</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/MicroserviceErrorCode.html" >MicroserviceErrorCode</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../classes/SuccessMicroserviceResponse.html" >SuccessMicroserviceResponse</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-long-arrow-down"></span>
+                                   <span>Injectables</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#injectables-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="injectables-links"
+                   >
+                                       <li class="link">
+                                           <a href="../injectables/AppService.html" >AppService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/AuthGuard.html" >AuthGuard</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/AuthService.html" >AuthService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/ExceptionInterceptor.html" >ExceptionInterceptor</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/FirestoreService.html" >FirestoreService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/HashService.html" >HashService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/MongooseService.html"  class="active" >MongooseService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/ProjectService.html" >ProjectService</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/ResponseInterceptor.html" >ResponseInterceptor</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../injectables/UserService.html" >UserService</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                           <li class="chapter">
+                               <div class="simple">
+                                   <span class="fa fa-info"></span>
+                                   <span>Interfaces</span>
+                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
+                                           data-target="#interfaces-links"
+                   ></span>
+                               </div>
+                               <ul class="links collapse in"
+                                       id="interfaces-links"
+                   >
+                                       <li class="link">
+                                           <a href="../interfaces/AllProjectAppReqPayload.html" >AllProjectAppReqPayload</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/CreateFirestoreRecord.html" >CreateFirestoreRecord</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/CreateProjectAppReqDto.html" >CreateProjectAppReqDto</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/CreateProjectAppReqPayload.html" >CreateProjectAppReqPayload</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/DeleteProjectAppReqPayload.html" >DeleteProjectAppReqPayload</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/GetProjectAppReqPayload.html" >GetProjectAppReqPayload</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/GetProjectByIdReqPayload.html" >GetProjectByIdReqPayload</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/JWTPayload.html" >JWTPayload</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/LogInByEmailAndPassword.html" >LogInByEmailAndPassword</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/LogInByRefreshToken.html" >LogInByRefreshToken</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/LogInResponseDto.html" >LogInResponseDto</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/MicroserviceResponse.html" >MicroserviceResponse</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/NewProjectDto.html" >NewProjectDto</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/NewProjectReqPayload.html" >NewProjectReqPayload</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/RegisterByEmailAndPasswordDto.html" >RegisterByEmailAndPasswordDto</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/RegisterResponseDto.html" >RegisterResponseDto</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/ResponseDto.html" >ResponseDto</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/UpdateProjectAppReqDto.html" >UpdateProjectAppReqDto</a>
+                                       </li>
+                                       <li class="link">
+                                           <a href="../interfaces/UpdateProjectAppReqPayload.html" >UpdateProjectAppReqPayload</a>
+                                       </li>
+                               </ul>
+                           </li>
+                   
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
+                           </li>
+                   
+                           <li class="chapter">
+                               <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
+                           </li>
+                   
+                           <li class="divider"></li>
+                           <li class="copyright">
+                                   Documentation generated using <a href="https://compodoc.github.io/compodoc/" target="_blank">
+                                               <img src="..//images/compodoc-vectorise.svg" class="img-responsive">
+                                   </a>
+                           </li>
+                   
+                       </ul>
+                   
+                   </nav>
                </div>
-               <!-- START CONTENT -->
                <div class="content injectable">
                    <div class="content-data">
 
 
 
 
-
-
-
-
 <ol class="breadcrumb">
-  <li class="breadcrumb-item">Injectables</li>
-  <li class="breadcrumb-item" >MongooseService</li>
+  <li>Injectables</li>
+  <li>MongooseService</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item">
-            <a href="#info" 
-                class="nav-link"
-                class="nav-link active"
-                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
-        </li>
-        <li class="nav-item">
-            <a href="#source" 
-                class="nav-link"
-                
-                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
-        </li>
+    <li class="active">
+        <a href="#infos" id="infos-tab" role="tab" data-toggle="tab">Infos</a>
+    </li>
+    <li>
+        <a href="#source" role="tab" id="source-tab" data-toggle="tab">Source</a>
+    </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="info">
+    <div class="tab-pane fade active in" id="infos">
         <p class="comment">
             <h3>File</h3>
         </p>
@@ -119,302 +464,102 @@
         </p>
 
 
+            <section>
+                <h3 id="constructor">Constructor</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <code>constructor(dynamicSchemaModel: any, configService: any)</code>
+                                </td>
+                            </tr>
+            
+                        </tbody>
+                    </table>
+            </section>
 
-
-
-            <section data-compodoc="block-index">
-    <h3 id="index">Index</h3>
-    <table class="table table-sm table-bordered index-table">
-        <tbody>
-
-                <tr>
-                    <td class="col-md-4">
-                        <h6><b>Methods</b></h6>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <ul class="index-list">
-                            <li>
-                                <a href="#createConnection" >createConnection</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Async</span>
-                                <a href="#createRecord" >createRecord</a>
-                            </li>
-                            <li>
-                                <a href="#fromDataToType" >fromDataToType</a>
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
-
-
-
-
-
-        </tbody>
-    </table>
-</section>
-
-            <section data-compodoc="block-constructor">
-    <h3 id="constructor">Constructor</h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-<code>constructor(dynamicSchemaModel: <a href="../classes/DynamicSchema.html" target="_self">Model&lt;DynamicSchema&gt;</a>, configService: ConfigService)</code>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/modules/mongoose/mongoose.service.ts:8</a></div>
-                            </td>
-                        </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                            <div>
-                                    <b>Parameters :</b>
-                                    <table class="params">
-                                        <thead>
-                                            <tr>
-                                                <td>Name</td>
-                                                    <td>Type</td>
-                                                <td>Optional</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                                <tr>
-                                                        <td>dynamicSchemaModel</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../classes/DynamicSchema.html" target="_self" >Model&lt;DynamicSchema&gt;</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>configService</td>
-                                                  
-                                                        <td>
-                                                                    <code>ConfigService</code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                        </tbody>
-                                    </table>
-                            </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-</section>
-
-            <section data-compodoc="block-methods">
-    
-    <h3 id="methods">
-        Methods
-    </h3>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="createConnection"></a>
-                    <span class="name">
-                        <span ><b>createConnection</b></span>
-                        <a href="#createConnection"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>createConnection()</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="26"
-                                    class="link-to-prism">src/modules/mongoose/mongoose.service.ts:26</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-
-                        </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="createRecord"></a>
-                    <span class="name">
-                            <span class="modifier">Async</span>
-                        <span ><b>createRecord</b></span>
-                        <a href="#createRecord"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createRecord(schemaName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, data: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="14"
-                                    class="link-to-prism">src/modules/mongoose/mongoose.service.ts:14</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>schemaName</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                        </tr>
-                                        <tr>
-                                                <td>data</td>
-                                            <td>
-                                                            <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>unknown</code>
-
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="fromDataToType"></a>
-                    <span class="name">
-                        <span ><b>fromDataToType</b></span>
-                        <a href="#fromDataToType"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>fromDataToType(data: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>)</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="32"
-                                    class="link-to-prism">src/modules/mongoose/mongoose.service.ts:32</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>data</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</section>
+            <section>
+                <h3 id="methods">Methods</h3>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b><span class="modifier"></span> createRecord</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <span class="modifier-icon method fa fa-play ">
+                                            <span class="fa fa-"></span>
+                                        </span>
+                                    <code>createRecord(schemaName: string, data: any)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>void</code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> createConnection</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+            <code>createConnection()</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>void</code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <tr>
+                                <td class="col-md-4">
+                                    <b> fromDataToType</b>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+            <code>fromDataToType(data: object)</code>
+                                </td>
+                            </tr>
+            
+                            <tr>
+                                <td class="col-md-4">
+                                        <div class="io-description">
+                                            <b>Returns: </b>    <code>void</code>
+            
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </section>
 
     </div>
-
-
-    <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;;
+    <div class="tab-pane fade tab-source-code" id="source">
+        <pre><code class="hljs javascript">import { Injectable } from &#x27;@nestjs/common&#x27;;
 import { InjectModel } from &#x27;@nestjs/mongoose&#x27;;
 import { DynamicSchema } from &#x27;../firestore/firestore.type&#x27;;
 import mongoose, { Model } from &#x27;mongoose&#x27;;
@@ -497,14 +642,7 @@ export class MongooseService {
 }
 </code></pre>
     </div>
-
 </div>
-
-
-
-
-
-
 
 
 
@@ -522,64 +660,32 @@ export class MongooseService {
     </div>
 </div>
 </div>
-               <!-- END CONTENT -->
            </div>
        </div>
-
-          <label class="dark-mode-switch">
-               <input type="checkbox">
-               <span class="slider">
-                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
-                    </svg>
-               </span>
-          </label>
-
-       <script>
-            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
-            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
-            var COMPODOC_CURRENT_PAGE_URL = 'MongooseService.html';
-            var MAX_SEARCH_RESULTS = 15;
-       </script>
-
-       <script>
-               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
-               checkToggle(darkModeState);
-               if ($darkModeToggleSwitchers.length > 0) {
-                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
-                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
-                              darkModeState = !darkModeState;
-                              toggleDarkMode(darkModeState);
-                         });
-                    }
-               }
-          </script>
-
-       <script src="../js/libs/custom-elements.min.js"></script>
-       <script src="../js/libs/lit-html.js"></script>
-
-       <script src="../js/menu-wc.js" defer></script>
-       <script nomodule src="../js/menu-wc_es5.js" defer></script>
 
        <script src="../js/libs/bootstrap-native.js"></script>
 
        <script src="../js/libs/es6-shim.min.js"></script>
        <script src="../js/libs/EventDispatcher.js"></script>
        <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
 
        <script src="../js/compodoc.js"></script>
 
-       <script src="../js/tabs.js"></script>
-       <script src="../js/menu.js"></script>
-       <script src="../js/libs/clipboard.min.js"></script>
-       <script src="../js/libs/prism.js"></script>
-       <script src="../js/sourceCode.js"></script>
-          <script src="../js/search/search.js"></script>
-          <script src="../js/search/lunr.min.js"></script>
-          <script src="../js/search/search-lunr.js"></script>
-          <script src="../js/search/search_index.js"></script>
-       <script src="../js/lazy-load-graphs.js"></script>
+       <script src="../js/search/search.js"></script>
+       <script src="../js/search/lunr.min.js"></script>
+       <script src="../js/search/search-lunr.js"></script>
 
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/highlight.pack.js"></script>
+       <script src="../js/libs/highlightjs-line-numbers.min.js"></script>
+       <script src="../js/search/search_index.js"></script>
+       <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                hljs.initHighlightingOnLoad();
+                hljs.initLineNumbersOnLoad();
+            });
+       </script>
 
     </body>
 </html>
