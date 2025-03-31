@@ -6,6 +6,7 @@ import { microserviceConfig } from 'src/config/microservice.config';
 import { ModulesModule } from 'src/modules/modules.module';
 import { FirestoreController } from './firestore/firestore.controller';
 import { ProjectController } from './project/project.controller';
+import { AppModule } from './project/app/app.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { ProjectController } from './project/project.controller';
       },
     ]),
     ModulesModule,
+    AppModule,
   ],
   controllers: [UserController, FirestoreController, ProjectController],
   providers: [],
