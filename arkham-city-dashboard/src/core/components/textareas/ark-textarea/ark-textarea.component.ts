@@ -21,5 +21,5 @@ import { CommonModule } from '@angular/common';
   ],
 })
 export class ArkTextarea extends FormControlElement {
-  @Input() rows: string = '3';
+  @Input() rows = '3';
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, type OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import * as featherIcons from '@ng-icons/feather-icons';
 
@@ -9,7 +9,6 @@ import * as featherIcons from '@ng-icons/feather-icons';
   templateUrl: './ark-icon.component.html',
   providers: [provideIcons({ ...featherIcons })],
 })
-export class ArkIcon implements OnInit {
+export class ArkIcon {
   @Input() name!: string;
-  ngOnInit(): void {}
 }

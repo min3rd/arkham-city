@@ -3,7 +3,7 @@ import { Router, type CanActivateChildFn } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { of, switchMap } from 'rxjs';
 
-export const noAuthGuard: CanActivateChildFn = (childRoute, state) => {
+export const noAuthGuard: CanActivateChildFn = () => {
   const router: Router = inject(Router);
   return inject(AuthService)
     .check()
@@ -13,6 +13,6 @@ export const noAuthGuard: CanActivateChildFn = (childRoute, state) => {
           return of(router.parseUrl(''));
         }
         return of(true);
-      })
+      }),
     );
 };

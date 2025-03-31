@@ -32,13 +32,13 @@ export class ArkButton implements OnInit {
   @Input() disabled: boolean | string = false;
   @Input() link: boolean | string = false;
 
-  @Output() onClick: EventEmitter<any> = new EventEmitter();
+  @Output() onClick = new EventEmitter<any>();
 
-  onLoading: boolean = false;
+  onLoading = false;
 
   private loadingService: LoadingService = inject(LoadingService);
   private changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
-  private _unsubscribeAll: Subject<any> = new Subject();
+  private _unsubscribeAll = new Subject<any>();
   ngOnInit(): void {
     if (
       !this.isSolid() &&

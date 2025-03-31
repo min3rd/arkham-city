@@ -17,7 +17,7 @@ import { ArkLoading } from '../../components/loading/loading.component';
 import { ArkButton } from '../../components/buttons/ark-button/ark-button.component';
 import { ArkSelect } from '../../components/selects/ark-select/ark-select.component';
 import { ArkUser } from '../../components/users/ark-user/ark-user.component';
-import { User } from '../../auth/auth.type';
+import { UserResDto } from '../../auth/auth.type';
 import { AuthService } from '../../auth/auth.service';
 import { Subject } from 'rxjs';
 
@@ -88,9 +88,9 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
     },
   ];
   items: string[] = ['Project 1', 'Project 2'];
-  user!: User | null;
+  user: UserResDto | null | undefined;
   private authService: AuthService = inject(AuthService);
-  private _unsubscribeAll: Subject<any> = new Subject();
+  private _unsubscribeAll = new Subject<any>();
   ngOnInit(): void {
     this.user = this.authService.user;
   }

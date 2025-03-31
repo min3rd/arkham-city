@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { BaseComponent } from '../../../../core/components/base/base.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -8,7 +8,7 @@ import { ArkCheckbox } from '../../../../core/components/checkboxes/ark-checkbox
 import { ArkDivider } from '../../../../core/components/dividers/ark-divider/ark-divider.component';
 import { TranslocoModule } from '@jsverse/transloco';
 import { AuthService } from '../../../../core/auth/auth.service';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CapitalizePipe } from '../../../../core/pipe/capitalize.pipe';
 
 @Component({
@@ -28,7 +28,7 @@ import { CapitalizePipe } from '../../../../core/pipe/capitalize.pipe';
   templateUrl: './login.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent extends BaseComponent {
+export class LoginComponent extends BaseComponent implements OnInit {
   authService: AuthService = inject(AuthService);
   override ngOnInit(): void {
     this.form = this.formBuilder.group({

@@ -1,10 +1,10 @@
 export interface LogInResDto {
   accessToken: string;
   refreshToken: string;
-  metadata: User;
+  metadata: UserResDto;
 }
 
-export interface User {
+export interface UserResDto {
   _id: string;
   username: string;
   email: string;
@@ -14,7 +14,7 @@ export interface User {
   avatar?: string;
 }
 
-export interface RegisterDto {
+export interface RegisterReqDto {
   firstName: string;
   lastName: string;
   email: string;
@@ -23,4 +23,7 @@ export interface RegisterDto {
   agree: boolean;
 }
 
-export interface RegisterResDto {}
+export interface RegisterResDto {
+  username: string;
+  email: string;
+}

@@ -10,7 +10,6 @@ export class ConfigService {
   readonly CONFIG_URL = '/assets/json/config.json';
   httpClient: HttpClient = inject(HttpClient);
   appConfig!: AppConfig;
-  constructor() {}
   load() {
     return this.httpClient.get<AppConfig>(this.CONFIG_URL).pipe(
       tap((config: AppConfig) => {
@@ -18,7 +17,7 @@ export class ConfigService {
       })
     );
   }
-  endpoint(endpoint: string, version: string = 'v1'): string {
+  endpoint(endpoint: string, version = 'v1'): string {
     if (endpoint.startsWith('/')) {
       endpoint = endpoint.substring(1);
     }

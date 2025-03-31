@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, of, switchMap } from 'rxjs';
-import { LogInResDto, User } from './auth.type';
-import { Response } from '../type/response.type';
+import { LogInResDto, UserResDto } from './auth.type';
+import { ApiResponse } from '../type/response.type';
 import { ConfigService } from '../services/config.service';
 import { SecurityService } from '../services/security.service';
 import { AuthUtils } from './auth.utils';
@@ -17,11 +17,10 @@ export class AuthService {
   private httpClient: HttpClient = inject(HttpClient);
   private configService: ConfigService = inject(ConfigService);
   private securityService: SecurityService = inject(SecurityService);
-  constructor() {}
   set accessToken(value: string) {
     localStorage.setItem(
       AuthService.KEY_ACCESS_TOKEN,
-      this.securityService.encrypt(value)
+      this.securityService.encrypt(value),
     );
   }
   get accessToken(): string | null {
@@ -29,13 +28,13 @@ export class AuthService {
       return null;
     }
     return this.securityService.decrypt(
-      localStorage.getItem(AuthService.KEY_ACCESS_TOKEN) as string
+      localStorage.getItem(AuthService.KEY_ACCESS_TOKEN) as string,
     );
   }
   set refreshToken(value: string) {
     localStorage.setItem(
       AuthService.KEY_REFRESH_TOKEN,
-      this.securityService.encrypt(value)
+      this.securityService.encrypt(value),
     );
   }
   get refreshToken(): string | null {
@@ -43,41 +42,41 @@ export class AuthService {
       return null;
     }
     return this.securityService.decrypt(
-      localStorage.getItem(AuthService.KEY_REFRESH_TOKEN) as string
+      localStorage.getItem(AuthService.KEY_REFRESH_TOKEN) as string,
     );
   }
-  set user(value: User) {
+  set user(value: UserResDto | null) {
     localStorage.setItem(
       AuthService.KEY_USER,
-      this.securityService.encrypt(value)
+      this.securityService.encrypt(value),
     );
   }
-  get user(): User | null {
+  get user(): UserResDto | null {
     if (!localStorage.getItem(AuthService.KEY_USER)) {
       return null;
     }
-    return this.securityService.decrypt<User>(
-      localStorage.getItem(AuthService.KEY_USER) as string
+    return this.securityService.decrypt<UserResDto>(
+      localStorage.getItem(AuthService.KEY_USER) as string,
     );
   }
 
   load() {
     if (localStorage.getItem(AuthService.KEY_ACCESS_TOKEN)) {
       this.accessToken = this.securityService.decrypt(
-        localStorage.getItem(AuthService.KEY_ACCESS_TOKEN) as string
+        localStorage.getItem(AuthService.KEY_ACCESS_TOKEN) as string,
       ) as string;
     }
 
     if (localStorage.getItem(AuthService.KEY_REFRESH_TOKEN)) {
       this.refreshToken = this.securityService.decrypt(
-        localStorage.getItem(AuthService.KEY_REFRESH_TOKEN) as string
+        localStorage.getItem(AuthService.KEY_REFRESH_TOKEN) as string,
       ) as string;
     }
 
     if (localStorage.getItem(AuthService.KEY_USER)) {
-      this.user = this.securityService.decrypt<User>(
-        localStorage.getItem(AuthService.KEY_USER) as string
-      ) as any;
+      this.user = this.securityService.decrypt<UserResDto | null>(
+        localStorage.getItem(AuthService.KEY_USER) as string,
+      );
     }
   }
 
@@ -87,22 +86,22 @@ export class AuthService {
     rememberMe: boolean;
   }) {
     return this.httpClient
-      .post<Response<LogInResDto>>(
+      .post<ApiResponse<LogInResDto>>(
         this.configService.endpoint('/auth/log-in-by-email-and-password'),
-        data
+        data,
       )
       .pipe(
-        switchMap((response: Response<LogInResDto>) => {
+        switchMap((response: ApiResponse<LogInResDto>) => {
           if (response.data.accessToken) {
             this.accessToken = response.data.accessToken;
             this.refreshToken = response.data.refreshToken;
             this.user = response.data.metadata;
           }
           return of(response);
-        })
+        }),
       );
   }
-  logInByRefreshToken(): Observable<any> {
+  logInByRefreshToken(): Observable<boolean> {
     return this.httpClient
       .post<any>(this.configService.endpoint('/auth/log-in-by-refresh-token'), {
         refreshToken: this.refreshToken,
@@ -111,7 +110,7 @@ export class AuthService {
         catchError(() => {
           return of(false);
         }),
-        switchMap((response: Response<LogInResDto>) => {
+        switchMap((response: ApiResponse<LogInResDto>) => {
           if (response.data.accessToken) {
             this.accessToken = response.data.accessToken;
             this.refreshToken = response.data.refreshToken;
@@ -119,14 +118,14 @@ export class AuthService {
             return of(true);
           }
           return of(false);
-        })
+        }),
       );
   }
   registerByEmailAndPassword(
     email: string,
     password: string,
     firstName: string,
-    lastName: string
+    lastName: string,
   ) {
     return this.httpClient.post(
       this.configService.endpoint('/auth/register-by-email-and-password'),
@@ -135,7 +134,7 @@ export class AuthService {
         password: password,
         firstName: firstName,
         lastName: lastName,
-      }
+      },
     );
   }
   logOut() {

@@ -1,10 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  type OnInit,
-} from '@angular/core';
-import { User } from '../../../auth/auth.type';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { UserResDto } from '../../../auth/auth.type';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@jsverse/transloco';
 import { RouterModule } from '@angular/router';
@@ -15,8 +10,7 @@ import { RouterModule } from '@angular/router';
   templateUrl: './ark-user.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArkUser implements OnInit {
-  @Input() user!: User | null;
+export class ArkUser {
+  @Input() user!: UserResDto | null;
   @Input() rounded: 'full' | 'large' | 'medium' | 'small' | 'none' = 'none';
-  ngOnInit(): void {}
 }

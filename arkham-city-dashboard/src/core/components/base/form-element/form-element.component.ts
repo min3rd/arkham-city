@@ -25,11 +25,11 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class FormElement implements OnInit, OnDestroy {
   @Input() ignoreLoading: boolean | string = false;
-  onLoading: boolean = false;
+  onLoading = false;
   changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
   loadingService: LoadingService = inject(LoadingService);
 
-  unsubscribeAll: Subject<any> = new Subject();
+  unsubscribeAll = new Subject<any>();
   ngOnInit(): void {
     this.loadingService.show$
       .pipe(takeUntil(this.unsubscribeAll))
