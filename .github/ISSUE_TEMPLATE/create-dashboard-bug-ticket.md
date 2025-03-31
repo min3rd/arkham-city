@@ -3,7 +3,7 @@ name: Create Dashboard Bug Ticket
 about: Create a report to help us improve
 title: bug/dashboard/
 labels: bug, dashboard
-assignees: ''
+assignees: min3rd
 
 ---
 

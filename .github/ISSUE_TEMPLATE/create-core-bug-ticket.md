@@ -3,7 +3,7 @@ name: Create Core Bug Ticket
 about: Create a report to help us improve
 title: bug/core/
 labels: bug, core
-assignees: ''
+assignees: min3rd
 
 ---
 
