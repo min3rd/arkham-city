@@ -9,6 +9,7 @@ import { TestController } from './test/test.controller';
 import { ProjectController } from './project/project.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
+import { AppModule } from './project/app/app.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { microserviceConfig } from 'src/config/microservice.config';
         },
       },
     ]),
+    AppModule,
   ],
   providers: [
     {

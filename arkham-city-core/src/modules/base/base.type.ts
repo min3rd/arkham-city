@@ -1,4 +1,4 @@
-import { Prop, Schema } from '@nestjs/mongoose';
+import { Prop, Schema } from "@nestjs/mongoose";
 
 export interface ResponseDto {
   timestamp?: Date;
@@ -20,4 +20,9 @@ export class AuditEntity {
 
   @Prop()
   lastModifiedAt: Date;
+
+  @Prop({
+    default: true,
+  })
+  activated: boolean = true;
 }
