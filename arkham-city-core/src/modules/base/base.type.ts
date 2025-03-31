@@ -23,6 +23,7 @@ export class AuditEntity {
 
   @Prop({
     default: true,
+    select: false,
   })
   activated: boolean = true;
 }

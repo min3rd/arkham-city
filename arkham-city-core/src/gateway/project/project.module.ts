@@ -1,16 +1,17 @@
 import { Module } from "@nestjs/common";
-import { AppController } from "./app.controller";
 import { ConfigModule } from "@nestjs/config";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { microserviceConfig } from "src/config/microservice.config";
 import { ModulesModule } from "src/modules/modules.module";
+import { ProjectController } from "./project.controller";
+import { AppModule } from "./app/app.module";
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     ClientsModule.register([
       {
-        name: microserviceConfig.projects.apps.name,
+        name: microserviceConfig.projects.name,
         transport: Transport.REDIS,
         options: {
           host: process.env.REDIS_HOST as string,
@@ -19,7 +20,8 @@ import { ModulesModule } from "src/modules/modules.module";
       },
     ]),
     ModulesModule,
+    AppModule,
   ],
-  controllers: [AppController],
+  controllers: [ProjectController],
 })
-export class AppModule {}
+export class ProjectModule {}
