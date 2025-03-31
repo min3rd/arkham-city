@@ -1,20 +1,20 @@
-import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { App, APP_TYPE } from "./app.type";
-import { Model } from "mongoose";
-import { JWTPayload } from "src/modules/auth/auth.type";
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { App, APP_TYPE } from './app.type';
+import { Model } from 'mongoose';
+import { JWTPayload } from 'src/modules/auth/auth.type';
 import {
   BadMicroserviceResponse,
   MicroserviceErrorCode,
   SuccessMicroserviceResponse,
-} from "src/core/microservice/microservice.type";
-import { randomBytes, randomUUID } from "crypto";
-import { HashService } from "src/core/hash/hash.service";
+} from 'src/core/microservice/microservice.type';
+import { randomBytes } from 'crypto';
+import { HashService } from 'src/core/hash/hash.service';
 
 @Injectable()
 export class AppService {
   constructor(
-    @InjectModel(App.name, "metadata") private readonly appModel: Model<App>,
+    @InjectModel(App.name, 'metadata') private readonly appModel: Model<App>,
     private readonly hashService: HashService,
   ) {}
 
@@ -24,7 +24,7 @@ export class AppService {
     name: string,
     type: APP_TYPE,
     callback: string,
-    desctiption: string = "",
+    desctiption: string = '',
   ) {
     if (
       (
@@ -36,6 +36,7 @@ export class AppService {
           user: {
             username: user.username,
           },
+          activated: true,
         })
       ).length > 0
     ) {
@@ -43,7 +44,12 @@ export class AppService {
     }
     const rawSecret = randomBytes(
       parseInt(process.env.PROJECT_APP_SECRET_KEY_LENGTH as string) ?? 48,
-    ).toString("base64");
+    ).toString('base64');
+    const privateKey = randomBytes(32).toString('base64');
+    const encrypted: string = this.hashService.encrypt<string>(
+      rawSecret,
+      privateKey,
+    );
     let app = new this.appModel({
       project: {
         _id: projectId,
@@ -52,8 +58,8 @@ export class AppService {
       type: type,
       callback: callback,
       description: desctiption,
-      clientId: randomUUID(),
-      secretKey: this.hashService.hash(rawSecret),
+      secretKey: encrypted,
+      privateKey: privateKey,
       user: {
         username: user.username,
       },
@@ -62,6 +68,7 @@ export class AppService {
     return new SuccessMicroserviceResponse({
       ...app.toJSON(),
       secretKey: rawSecret,
+      privateKey: undefined,
     });
   }
 
@@ -72,7 +79,7 @@ export class AppService {
     name: string,
     type: APP_TYPE,
     callback: string,
-    desctiption: string = "",
+    desctiption: string = '',
   ) {
     let app = await this.appModel.findOne({
       _id: appId,
@@ -110,13 +117,10 @@ export class AppService {
       return new BadMicroserviceResponse(MicroserviceErrorCode.APP_NOT_FOUND);
     }
     app.activated = false;
-    if (
-      !process.env.CORE_HARD_DELETE ||
-      process.env.CORE_HARD_DELETE === "true"
-    ) {
-      await app.save();
-    } else {
+    if (process.env.CORE_HARD_DELETE === 'true') {
       await app.deleteOne();
+    } else {
+      await app.save();
     }
     return new SuccessMicroserviceResponse(true);
   }
@@ -129,6 +133,7 @@ export class AppService {
       user: {
         username: user.username,
       },
+      activated: true,
     });
     return new SuccessMicroserviceResponse(apps.map((e) => e.toJSON()));
   }
@@ -142,6 +147,7 @@ export class AppService {
         username: user.username,
       },
       _id: appId,
+      activated: true,
     });
     if (!app) {
       return new BadMicroserviceResponse(MicroserviceErrorCode.APP_NOT_FOUND);
