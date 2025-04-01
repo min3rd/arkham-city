@@ -37,10 +37,14 @@
             [routerLink]="['/project', 'new-project']"
             label="{{ 'new project' | transloco | titlecase }}"
             size="small"
-            icon="featherPlusCircle"
+            icon="featherPlus"
           ></ark-button>
 
-          <ark-select (onChange)="onProjectChange($event)" size="small">
+          <ark-select
+            (onChange)="onProjectChange($event)"
+            size="small"
+            noSuffixSpace
+          >
             @if (projects) {
             <ng-template #options>
               @for (project of projects; track $index) {

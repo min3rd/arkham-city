@@ -1,1 +1,15 @@
-<p>app works!</p>,
+<div>
+  <!-- Header -->
+  <div
+    class="flex items-center p-2 border-b border-neutral-200 dark:border-neutral-700"
+  >
+    <ark-button
+      [routerLink]="['new-app']"
+      label="{{ 'create new app' | transloco | capitalize }}"
+      size="small"
+      icon="featherPlus"
+    ></ark-button>
+  </div>
+  <!-- End header -->
+  <router-outlet></router-outlet>
+</div>

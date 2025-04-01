@@ -25,6 +25,7 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class FormElement implements OnInit, OnDestroy {
   @Input() ignoreLoading: boolean | string = false;
+  @Input() noSuffixSpace: boolean | string = false;
   onLoading = false;
   changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
   loadingService: LoadingService = inject(LoadingService);
@@ -44,5 +45,8 @@ export class FormElement implements OnInit, OnDestroy {
   }
   enableIgnoreLoading(): boolean {
     return (this.ignoreLoading || this.ignoreLoading === '') as boolean;
+  }
+  enableNoSuffixSpace(): boolean {
+    return (this.noSuffixSpace || this.noSuffixSpace === '') as boolean;
   }
 }
