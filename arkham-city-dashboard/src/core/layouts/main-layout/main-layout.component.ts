@@ -87,6 +87,12 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
           title: 'general',
           type: 'basic',
         },
+        {
+          id: 'apps',
+          title: 'apps',
+          type: 'basic',
+          link: '/project/apps',
+        },
       ],
     },
   ];
@@ -105,6 +111,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
         this.projects = projects;
         if (!this.project && this.projects && this.projects.length > 0) {
           this.project = this.projects[0];
+          this.projectService.select(this.project);
         }
         this.changeDetectorRef.markForCheck();
       });
@@ -113,8 +120,6 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((project) => {
         this.project = project;
-        console.log(project);
-
         this.changeDetectorRef.markForCheck();
       });
   }
