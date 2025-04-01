@@ -9,16 +9,17 @@
   }
   <div class="relative">
     <select
+      (change)="change($event)"
       id="select-{{ label ? label : '' }}"
       class="block w-full rounded-lg text-sm border border-gray-200 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 hover:cursor-pointer"
       [ngClass]="{
-    'py-3 px-4': size ==='default',
-    'py-2 px-3': size ==='small',
-    'p-4 sm:p-5': size ==='large',
+        'py-3 px-4': size ==='default',
+        'py-2 px-3': size ==='small',
+        'p-4 sm:p-5': size ==='large',
       }"
     >
-      @for (item of items; track $index) {
-      <option value="{{ item }}">{{ item }}</option>
+      @if (options) {
+      <ng-container [ngTemplateOutlet]="options"></ng-container>
       }
     </select>
     @if (invalid) {
@@ -44,4 +45,7 @@
     </div>
     }
   </div>
+  @if (errors) {
+  <ng-container [ngTemplateOutlet]="errors"></ng-container>
+  }
 </div>

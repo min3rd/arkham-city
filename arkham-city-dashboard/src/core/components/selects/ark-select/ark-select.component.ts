@@ -1,11 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { ControlContainer, FormGroupDirective } from '@angular/forms';
+import {
+  Component,
+  ContentChild,
+  EventEmitter,
+  Output,
+  TemplateRef,
+} from '@angular/core';
+import {
+  ControlContainer,
+  FormGroupDirective,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { FormControlElement } from '../../base/form-control-element/form-control-element.component';
 
 @Component({
   selector: 'ark-select',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './ark-select.component.html',
   viewProviders: [
     {
@@ -15,5 +26,9 @@ import { FormControlElement } from '../../base/form-control-element/form-control
   ],
 })
 export class ArkSelect extends FormControlElement {
-  @Input() items!: any[];
+  @ContentChild('options') options!: TemplateRef<any>;
+  @Output() onChange: EventEmitter<any> = new EventEmitter<any>();
+  change(e: Event) {
+    this.onChange.emit((e.target as any).value);
+  }
 }

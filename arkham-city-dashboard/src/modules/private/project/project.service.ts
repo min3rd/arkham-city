@@ -27,7 +27,7 @@ export class ProjectService {
       switchMap((projects) => {
         return this.httpClient
           .post<ApiResponse<ProjectResDto>>(
-            this.configService.endpoint('/projects/new-project'),
+            this.configService.endpoint('/projects'),
             newProject,
           )
           .pipe(
@@ -43,5 +43,20 @@ export class ProjectService {
           );
       }),
     );
+  }
+  all(): Observable<ApiResponse<ProjectResDto[]>> {
+    return this.httpClient
+      .get<ApiResponse<ProjectResDto[]>>(
+        this.configService.endpoint(`/projects`),
+      )
+      .pipe(
+        switchMap((response: ApiResponse<ProjectResDto[]>) => {
+          this._projects.next(response.data);
+          return of(response);
+        }),
+      );
+  }
+  select(project: ProjectResDto) {
+    this._project.next(project);
   }
 }
