@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   inject,
   OnDestroy,
@@ -19,7 +20,9 @@ import { ArkSelect } from '../../components/selects/ark-select/ark-select.compon
 import { ArkUser } from '../../components/users/ark-user/ark-user.component';
 import { UserResDto } from '../../auth/auth.type';
 import { AuthService } from '../../auth/auth.service';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
+import { ProjectResDto } from '../../../modules/private/project/project.type';
+import { ProjectService } from '../../../modules/private/project/project.service';
 
 @Component({
   selector: 'main-layout',
@@ -87,15 +90,43 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
       ],
     },
   ];
-  items: string[] = ['Project 1', 'Project 2'];
   user: UserResDto | null | undefined;
+  projects!: ProjectResDto[] | null;
+  project!: ProjectResDto | null;
   private authService: AuthService = inject(AuthService);
+  private projectService: ProjectService = inject(ProjectService);
+  private changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
   private _unsubscribeAll = new Subject<any>();
   ngOnInit(): void {
     this.user = this.authService.user;
+    this.projectService.projects$
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((projects) => {
+        this.projects = projects;
+        if (!this.project && this.projects && this.projects.length > 0) {
+          this.project = this.projects[0];
+        }
+        this.changeDetectorRef.markForCheck();
+      });
+
+    this.projectService.project$
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((project) => {
+        this.project = project;
+        console.log(project);
+
+        this.changeDetectorRef.markForCheck();
+      });
   }
   ngOnDestroy(): void {
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
+  }
+  onProjectChange(projectId: string) {
+    const project = this.projects?.find((e) => e._id == projectId);
+    if (!project) {
+      return;
+    }
+    this.projectService.select(project);
   }
 }

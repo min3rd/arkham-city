@@ -40,7 +40,17 @@
             icon="featherPlusCircle"
           ></ark-button>
 
-          <ark-select [items]="items" size="small"></ark-select>
+          <ark-select (onChange)="onProjectChange($event)" size="small">
+            @if (projects) {
+            <ng-template #options>
+              @for (project of projects; track $index) {
+              <option [value]="project._id">
+                {{ project.name }}
+              </option>
+              }
+            </ng-template>
+            }
+          </ark-select>
         </div>
 
         <div class="flex items-center gap-2">

@@ -66,6 +66,7 @@ export class ProjectService {
   async all(user: JWTPayload) {
     const all = await this.projectModel.find({
       user: { username: user.username },
+      activated: true,
     });
     return new SuccessMicroserviceResponse(
       all.map((e) => ({ ...e.toJSON(), user: undefined })),
@@ -78,6 +79,7 @@ export class ProjectService {
       user: {
         username: user.username,
       },
+      activated: true,
     });
     return new SuccessMicroserviceResponse({
       ...project?.toJSON(),
