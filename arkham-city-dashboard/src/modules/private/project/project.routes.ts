@@ -11,6 +11,10 @@ export const routes: Routes = [
         path: 'new-project',
         component: NewProjectComponent,
       },
+      {
+        path: 'apps',
+        loadChildren: () => import('./app/app.routes').then((r) => r.routes),
+      },
     ],
   },
 ];

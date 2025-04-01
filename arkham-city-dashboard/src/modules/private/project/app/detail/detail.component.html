@@ -1,0 +1,48 @@
+<div class="w-full md:w-96 p-2">
+  <form [formGroup]="form">
+    <ark-text-input
+      controlName="name"
+      label="{{ 'app name' | transloco | capitalize }}"
+    >
+    </ark-text-input>
+    <ark-select
+      controlName="type"
+      label="{{ 'type' | transloco | capitalize }}"
+    >
+      <ng-template #options>
+        <option value="" disabled selected>
+          {{ 'choose' | transloco | capitalize }}
+        </option>
+        <option value="WEB_APP">
+          {{ 'web app' | transloco | capitalize }}
+        </option>
+      </ng-template>
+    </ark-select>
+    <ark-text-input
+      controlName="callback"
+      label="{{ 'callback url' | transloco | capitalize }}"
+    >
+    </ark-text-input>
+    <ark-textarea
+      controlName="description"
+      label="{{ 'description' | transloco | capitalize }}"
+    ></ark-textarea>
+    <div class="flex items-center justify-end gap-2">
+      <ark-button
+        label="{{ 'cancel' | transloco | capitalize }}"
+        ghost
+      ></ark-button>
+      @if (!this.app) {
+      <ark-button
+        (onClick)="create()"
+        label="{{ 'create' | transloco | capitalize }}"
+      ></ark-button>
+      } @if (app) {
+      <ark-button
+        (onClick)="update()"
+        label="{{ 'update' | transloco | capitalize }}"
+      ></ark-button>
+      }
+    </div>
+  </form>
+</div>
