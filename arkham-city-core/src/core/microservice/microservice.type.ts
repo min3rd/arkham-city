@@ -1,3 +1,5 @@
+import { Logger } from '@nestjs/common';
+
 export interface MicroserviceResponse<T> {
   error: boolean;
   errorCode: IErrorCode;
@@ -5,11 +7,15 @@ export interface MicroserviceResponse<T> {
 }
 
 export class BadMicroserviceResponse<T> implements MicroserviceResponse<T> {
+  private readonly logger = new Logger(BadMicroserviceResponse.name);
   error: boolean = true;
   errorCode: IErrorCode;
   data?: T | undefined;
   constructor(errorCode: IErrorCode = MicroserviceErrorCode.DEFAULT) {
     this.errorCode = errorCode;
+    this.logger.error(
+      `BadMicroserviceResponse:errorCode=${errorCode.code},message=${errorCode.message}`,
+    );
   }
 }
 
