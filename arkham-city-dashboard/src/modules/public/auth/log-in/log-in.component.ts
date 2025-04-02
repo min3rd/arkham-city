@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { BaseComponent } from '../../../../core/components/base/base.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -8,7 +13,7 @@ import { ArkCheckbox } from '../../../../core/components/checkboxes/ark-checkbox
 import { ArkDivider } from '../../../../core/components/dividers/ark-divider/ark-divider.component';
 import { TranslocoModule } from '@jsverse/transloco';
 import { AuthService } from '../../../../core/auth/auth.service';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CapitalizePipe } from '../../../../core/pipe/capitalize.pipe';
 
 @Component({
@@ -25,11 +30,12 @@ import { CapitalizePipe } from '../../../../core/pipe/capitalize.pipe';
     ArkDivider,
     CapitalizePipe,
   ],
-  templateUrl: './login.component.html',
+  templateUrl: './log-in.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent extends BaseComponent implements OnInit {
-  authService: AuthService = inject(AuthService);
+export class LogInComponent extends BaseComponent implements OnInit {
+  private authService: AuthService = inject(AuthService);
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   override ngOnInit(): void {
     this.form = this.formBuilder.group({
       email: ['email@domain.com', [Validators.required, Validators.email]],
@@ -45,6 +51,14 @@ export class LoginComponent extends BaseComponent implements OnInit {
       .logInByEmailAndPassword(this.form.getRawValue())
       .subscribe((response) => {
         if (!response.error) {
+          if (this.activatedRoute.snapshot.paramMap.get('redirectUrl')) {
+            this.router.navigateByUrl(
+              this.activatedRoute.snapshot.paramMap.get(
+                'redirectUrl',
+              ) as string,
+            );
+            return;
+          }
           this.router.navigate(['dashboard']);
         }
       });
