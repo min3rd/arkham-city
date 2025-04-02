@@ -9,6 +9,6 @@ export class RouteUtils {
         break;
       }
     }
-    return tmp.paramMap.get(key);
+    return tmp?.paramMap.get(key) ?? undefined;
   }
 }
