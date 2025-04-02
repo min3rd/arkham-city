@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './user.type';
 import { Model } from 'mongoose';
@@ -13,6 +13,7 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UserService {
+  private readonly logger = new Logger(UserService.name);
   constructor(
     @InjectModel(User.name, 'metadata')
     private readonly userModel: Model<User>,
@@ -27,6 +28,9 @@ export class UserService {
     firstName: string,
     lastName: string,
   ) {
+    this.logger.log(
+      `registerByEmailAndPassword:start:email=${email},password=${password},firstName=${firstName},lastName=${lastName}`,
+    );
     if ((await this.userModel.countDocuments({ email: email }).exec()) > 0) {
       return new BadMicroserviceResponse(MicroserviceErrorCode.DUPLICATE_EMAIL);
     }
@@ -38,10 +42,14 @@ export class UserService {
       password: this.hashService.hash(password),
     });
     user = await user.save();
+    this.logger.log('registerByEmailAndPassword:end');
     return new SuccessMicroserviceResponse<User>(user.toJSON());
   }
 
   async findOneByEmailAndPassword(email: string, password: string) {
+    this.logger.log(
+      `findOneByEmailAndPassword:start:email=${email},password=${password}`,
+    );
     let user = await this.userModel.findOne({
       email: email,
     });
@@ -66,6 +74,7 @@ export class UserService {
     );
     user.refreshToken = refreshToken;
     user = await user.save();
+    this.logger.log(`findOneByEmailAndPassword:end`);
     return new SuccessMicroserviceResponse({
       ...user.toJSON(),
       password: undefined, // ignore password
@@ -73,6 +82,7 @@ export class UserService {
   }
 
   async findOneByRefreshToken(refreshToken: string) {
+    this.logger.log(`findOneByRefreshToken:start:refreshToken=${refreshToken}`);
     const user = await this.userModel.findOne({
       refreshToken: refreshToken,
     });
@@ -86,6 +96,7 @@ export class UserService {
         MicroserviceErrorCode.INCORRECT_REFRESH_TOKEN,
       );
     }
+    this.logger.log(`findOneByRefreshToken:end`);
     return new SuccessMicroserviceResponse({
       ...user.toJSON(),
       password: undefined, // ignore return password
