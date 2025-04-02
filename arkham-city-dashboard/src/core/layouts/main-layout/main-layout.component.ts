@@ -23,6 +23,7 @@ import { AuthService } from '../../auth/auth.service';
 import { Subject, takeUntil } from 'rxjs';
 import { ProjectResDto } from '../../../modules/private/project/project.type';
 import { ProjectService } from '../../../modules/private/project/project.service';
+import { CapitalizePipe } from '../../pipe/capitalize.pipe';
 
 @Component({
   selector: 'main-layout',
@@ -30,8 +31,9 @@ import { ProjectService } from '../../../modules/private/project/project.service
     CommonModule,
     RouterModule,
     TranslocoModule,
-    ArkSwitchTheme,
     NgIcon,
+    CapitalizePipe,
+    ArkSwitchTheme,
     ArkNavigation,
     ArkLoading,
     ArkButton,
