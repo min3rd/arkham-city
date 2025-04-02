@@ -46,7 +46,7 @@ export class AppService {
     );
   }
 
-  all(projectId: string) {
+  all(projectId: string | undefined) {
     return this.httpClient
       .get<ApiResponse<AppResDto[]>>(
         this.configService.endpoint(`/projects/${projectId}/apps`),
@@ -139,5 +139,8 @@ export class AppService {
           ),
       ),
     );
+  }
+  new(){
+    this._app.next(null);
   }
 }

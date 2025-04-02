@@ -1,0 +1,23 @@
+<div class="flex items-start">
+  <div class="flex flex-col w-full">
+    @for (app of apps; track $index) {
+    <a
+      [routerLink]="[app._id]"
+      class="flex px-2 py-4 border-b border-neutral-200 dark:border-b-neutral-700 hover:cursor-pointer"
+      [ngClass]="{
+        'bg-neutral-200 dark:bg-neutral-700':
+          selected && selected._id === app._id
+      }"
+    >
+      <div>
+        {{ app.name }}
+      </div>
+    </a>
+    }
+  </div>
+  <div
+    class="absolute w-full h-full md:relative md:w-fit bg-white dark:bg-neutral-800 border-l border-neutral-200 dark:border-neutral-700"
+  >
+    <router-outlet></router-outlet>
+  </div>
+</div>

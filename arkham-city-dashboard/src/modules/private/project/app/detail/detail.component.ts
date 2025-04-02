@@ -56,6 +56,7 @@ export class DetailComponent extends BaseComponent {
       .pipe(takeUntil(this.unsubscribeAll))
       .subscribe((app) => {
         this.app = app;
+        this.form.reset();
         if (this.app) {
           this.form.patchValue({ ...this.app });
         }
