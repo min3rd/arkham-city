@@ -4,7 +4,7 @@ import { NewProjectComponent } from './new-project/new-project.component';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: ':projectId',
     component: ProjectComponent,
     children: [
       {
@@ -14,6 +14,11 @@ export const routes: Routes = [
       {
         path: 'apps',
         loadChildren: () => import('./app/app.routes').then((r) => r.routes),
+      },
+      {
+        path: 'firestore',
+        loadChildren: () =>
+          import('./firestore/firestore.routes').then((r) => r.routes),
       },
     ],
   },

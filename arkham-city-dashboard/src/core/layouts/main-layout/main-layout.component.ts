@@ -24,6 +24,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { ProjectResDto } from '../../../modules/private/project/project.type';
 import { ProjectService } from '../../../modules/private/project/project.service';
 import { CapitalizePipe } from '../../pipe/capitalize.pipe';
+import { NavigationService } from '../../services/navigation.service';
 
 @Component({
   selector: 'main-layout',
@@ -45,65 +46,14 @@ import { CapitalizePipe } from '../../pipe/capitalize.pipe';
   providers: [provideIcons({ ...feathers })],
 })
 export class MainLayoutComponent implements OnInit, OnDestroy {
-  navigations: NavigationItem[] = [
-    {
-      id: 'dashboard',
-      title: 'dashboard',
-      icon: 'featherHome',
-      type: 'basic',
-      link: '/dashboard',
-    },
-    {
-      id: 'firestore',
-      title: 'firestore',
-      icon: 'featherDatabase',
-      type: 'basic',
-      link: '/firestore',
-    },
-    {
-      id: 'storage',
-      title: 'storage',
-      icon: 'featherHardDrive',
-      type: 'basic',
-    },
-    {
-      id: 'realtime',
-      title: 'realtime',
-      icon: 'featherCloud',
-      type: 'basic',
-    },
-    {
-      id: 'tracking',
-      title: 'tracking',
-      icon: 'featherCrosshair',
-      type: 'basic',
-    },
-    {
-      id: 'setting',
-      title: 'setting',
-      icon: 'featherSettings',
-      type: 'group',
-      children: [
-        {
-          id: 'general',
-          title: 'general',
-          type: 'basic',
-        },
-        {
-          id: 'apps',
-          title: 'apps',
-          type: 'basic',
-          link: '/project/apps',
-        },
-      ],
-    },
-  ];
   user: UserResDto | null | undefined;
   projects!: ProjectResDto[] | null;
   project!: ProjectResDto | null;
+  navigations!: NavigationItem[];
   private authService: AuthService = inject(AuthService);
   private projectService: ProjectService = inject(ProjectService);
   private changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
+  private navigationService: NavigationService = inject(NavigationService);
   private _unsubscribeAll = new Subject<any>();
   ngOnInit(): void {
     this.user = this.authService.user;
@@ -122,6 +72,9 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((project) => {
         this.project = project;
+        this.navigations = this.navigationService.navigations(
+          project?._id ?? 'no-project-id',
+        );
         this.changeDetectorRef.markForCheck();
       });
   }
