@@ -36,10 +36,10 @@ export class ArkNavigationBasicItem implements OnInit, OnDestroy {
     this.router.events
       .pipe(
         takeUntil(this._unsubscribeAll),
-        filter((e) => e instanceof NavigationEnd)
+        filter((e) => e instanceof NavigationEnd),
       )
       .subscribe((e) => {
-        if (e.url === this.navigation.link) {
+        if (e.url.startsWith(this.navigation.link as string)) {
           this.activated = true;
           this.changeDectectorRef.markForCheck();
         } else {

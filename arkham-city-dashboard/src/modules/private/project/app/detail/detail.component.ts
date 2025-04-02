@@ -12,6 +12,7 @@ import { AppResDto, ProjectResDto } from '../app.type';
 import { AppService } from '../app.service';
 import { takeUntil } from 'rxjs';
 import { ProjectService } from '../../project.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-detail',
@@ -20,6 +21,7 @@ import { ProjectService } from '../../project.service';
     FormsModule,
     ReactiveFormsModule,
     TranslocoModule,
+    RouterModule,
     CapitalizePipe,
     ArkTextInput,
     ArkButton,
