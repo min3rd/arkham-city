@@ -46,7 +46,7 @@ export class AppService {
     const rawSecret = randomBytes(
       parseInt(process.env.PROJECT_APP_SECRET_KEY_LENGTH as string) ?? 48,
     ).toString('base64');
-    const privateKey = randomBytes(32).toString('base64');
+    const privateKey = randomBytes(256).toString('base64url');
     const encrypted: string = this.hashService.encrypt<string>(
       rawSecret,
       privateKey,
@@ -101,6 +101,8 @@ export class AppService {
     app = await app.save();
     return new SuccessMicroserviceResponse({
       ...app.toJSON(),
+      secretKey: undefined,
+      privateKey: undefined,
     });
   }
 
@@ -136,7 +138,13 @@ export class AppService {
       },
       activated: true,
     });
-    return new SuccessMicroserviceResponse(apps.map((e) => e.toJSON()));
+    return new SuccessMicroserviceResponse(
+      apps.map((e) => ({
+        ...e.toJSON(),
+        privateKey: undefined,
+        secretKey: undefined,
+      })),
+    );
   }
 
   async get(user: JWTPayload, projectId: string, appId: string) {
@@ -153,7 +161,11 @@ export class AppService {
     if (!app) {
       return new BadMicroserviceResponse(MicroserviceErrorCode.APP_NOT_FOUND);
     }
-    return new SuccessMicroserviceResponse(app.toJSON());
+    return new SuccessMicroserviceResponse({
+      ...app.toJSON(),
+      privateKey: undefined,
+      secretKey: undefined,
+    });
   }
   async getSecret(user: JWTPayload, projectId: string, appId: string) {
     this.logger.log(

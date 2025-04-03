@@ -14,7 +14,6 @@ import { takeUntil } from 'rxjs';
 import { ProjectService } from '../../project.service';
 import { RouterModule } from '@angular/router';
 import { ListComponent } from '../list/list.component';
-import { ArkClipboardDirective } from '../../../../../core/directives/ark-clipboard.directive';
 
 @Component({
   selector: 'app-detail',
@@ -29,7 +28,6 @@ import { ArkClipboardDirective } from '../../../../../core/directives/ark-clipbo
     ArkButton,
     ArkSelect,
     ArkTextarea,
-    ArkClipboardDirective,
   ],
   templateUrl: './detail.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,6 +35,7 @@ import { ArkClipboardDirective } from '../../../../../core/directives/ark-clipbo
 export class DetailComponent extends BaseComponent {
   app!: AppResDto | null;
   project!: ProjectResDto | null;
+  secret!: string | null;
   private appService: AppService = inject(AppService);
   private projectService: ProjectService = inject(ProjectService);
   private listComponent: ListComponent = inject(ListComponent);
@@ -61,10 +60,17 @@ export class DetailComponent extends BaseComponent {
       .pipe(takeUntil(this.unsubscribeAll))
       .subscribe((app) => {
         this.app = app;
+        this.secret = null;
         this.form.reset();
         if (this.app) {
           this.form.patchValue({ ...this.app });
         }
+        this.changeDetectorRef.markForCheck();
+      });
+    this.appService.secret$
+      .pipe(takeUntil(this.unsubscribeAll))
+      .subscribe((secret) => {
+        this.secret = secret;
         this.changeDetectorRef.markForCheck();
       });
   }
@@ -100,5 +106,15 @@ export class DetailComponent extends BaseComponent {
     this.appService
       .update(this.project._id, this.app._id, this.form.getRawValue())
       .subscribe();
+  }
+
+  getSecret() {
+    if (!this.project) {
+      return;
+    }
+    if (!this.app) {
+      return;
+    }
+    this.appService.getSecret(this.project?._id, this.app?._id).subscribe();
   }
 }

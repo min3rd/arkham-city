@@ -29,38 +29,33 @@
     ></ark-textarea>
 
     @if (app) {
+    <ark-text-input
+      [value]="project?._id"
+      label="{{ 'project id' | transloco | capitalize }}"
+      disabled
+      placeholder="{{ '32*' | transloco | capitalize }}"
+      class="w-full"
+    >
+    </ark-text-input>
+
+    <ark-text-input
+      [value]="app._id"
+      label="{{ 'app id' | transloco | capitalize }}"
+      disabled
+      placeholder="{{ '32*' | transloco | capitalize }}"
+      class="w-full"
+    >
+    </ark-text-input>
     <div class="flex items-center gap-2">
       <ark-text-input
-        [value]="project?._id"
-        label="{{ 'project id' | transloco | capitalize }}"
-        disabled
-        placeholder="{{ '32*' | transloco | capitalize }}"
-        class="w-full"
-      >
-      </ark-text-input>
-      <ark-button icon="featherCopy" ghost></ark-button>
-    </div>
-    <div class="flex items-center gap-2">
-      <ark-text-input
-        [value]="app._id"
-        label="{{ 'app id' | transloco | capitalize }}"
-        disabled
-        placeholder="{{ '32*' | transloco | capitalize }}"
-        class="w-full"
-      >
-      </ark-text-input>
-      <ark-button icon="featherCopy" ghost></ark-button>
-    </div>
-    <div class="flex items-center gap-2">
-      <ark-text-input
-        [value]="'32*' | transloco"
+        [value]="secret ?? '32*' | transloco"
         label="{{ 'secret key' | transloco | capitalize }}"
         disabled
         placeholder="{{ '32*' | transloco | capitalize }}"
         class="w-full"
       >
       </ark-text-input>
-      <ark-button icon="featherCopy" ghost></ark-button>
+      <ark-button (onClick)="getSecret()" icon="featherEye" ghost></ark-button>
     </div>
     }
 
