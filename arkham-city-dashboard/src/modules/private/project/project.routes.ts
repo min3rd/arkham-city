@@ -4,13 +4,14 @@ import { NewProjectComponent } from './new-project/new-project.component';
 
 export const routes: Routes = [
   {
+    path: 'new-project',
+    pathMatch: 'full',
+    component: NewProjectComponent,
+  },
+  {
     path: ':projectId',
     component: ProjectComponent,
     children: [
-      {
-        path: 'new-project',
-        component: NewProjectComponent,
-      },
       {
         path: 'apps',
         loadChildren: () => import('./app/app.routes').then((r) => r.routes),

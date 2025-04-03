@@ -27,6 +27,40 @@
       controlName="description"
       label="{{ 'description' | transloco | capitalize }}"
     ></ark-textarea>
+
+    @if (app) {
+    <div class="flex items-center gap-2">
+      <ark-text-input
+        label="{{ 'project id' | transloco | capitalize }}"
+        disabled
+        placeholder="{{ '32*' | transloco | capitalize }}"
+        class="w-full"
+      >
+      </ark-text-input>
+      <ark-button icon="featherCopy" ghost></ark-button>
+    </div>
+    <div class="flex items-center gap-2">
+      <ark-text-input
+        label="{{ 'app id' | transloco | capitalize }}"
+        disabled
+        placeholder="{{ '32*' | transloco | capitalize }}"
+        class="w-full"
+      >
+      </ark-text-input>
+      <ark-button icon="featherCopy" ghost></ark-button>
+    </div>
+    <div class="flex items-center gap-2">
+      <ark-text-input
+        label="{{ 'secret key' | transloco | capitalize }}"
+        disabled
+        placeholder="{{ '32*' | transloco | capitalize }}"
+        class="w-full"
+      >
+      </ark-text-input>
+      <ark-button icon="featherCopy" ghost></ark-button>
+    </div>
+    }
+
     <div class="flex items-center justify-end gap-2">
       <ark-button
         [routerLink]="['../']"

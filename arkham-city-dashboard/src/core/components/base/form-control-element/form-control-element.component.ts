@@ -36,6 +36,7 @@ export class FormControlElement extends FormElement implements AfterViewInit {
   @Input() color: 'gray' | 'teal' | 'blue' | 'red' | 'yellow' | 'white' =
     'teal';
   @Input() size: 'default' | 'small' | 'large' = 'default';
+  @Input() disabled: boolean | string = false;
 
   @ViewChild(FormControlName)
   formControl!: FormControl;
@@ -51,5 +52,8 @@ export class FormControlElement extends FormElement implements AfterViewInit {
         this.changeDetectorRef.markForCheck();
       });
     }
+  }
+  enableDisabled(): boolean {
+    return (this.disabled || this.disabled === '') as boolean;
   }
 }
