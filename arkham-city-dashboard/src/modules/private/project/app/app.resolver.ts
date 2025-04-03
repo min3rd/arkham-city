@@ -8,6 +8,7 @@ import { AppService } from './app.service';
 import { ApiResponse } from '../../../../core/type/response.type';
 import { AppResDto } from './app.type';
 import { RouteUtils } from '../../../../core/utils/route.utils';
+import { DetailComponent } from './detail/detail.component';
 
 export const appListResolver: ResolveFn<ApiResponse<AppResDto[]>> = (
   route: ActivatedRouteSnapshot,
@@ -26,6 +27,16 @@ export const appDetailResolver: ResolveFn<ApiResponse<AppResDto>> = (
     RouteUtils.getParam('projectId', route) as string,
     RouteUtils.getParam('appId', route) as string,
   );
+};
+
+export const canDeactiveDetail = (
+  component: DetailComponent,
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+  next: RouterStateSnapshot,
+) => {
+  component.closeDrawer();
+  return true;
 };
 
 export const newAppResolver: ResolveFn<any> = (

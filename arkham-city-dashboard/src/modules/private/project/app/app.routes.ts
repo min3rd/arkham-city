@@ -4,6 +4,7 @@ import { DetailComponent } from './detail/detail.component';
 import {
   appDetailResolver,
   appListResolver,
+  canDeactiveDetail,
   newAppResolver,
 } from './app.resolver';
 import { ListComponent } from './list/list.component';
@@ -22,11 +23,13 @@ export const routes: Routes = [
             path: 'new-app',
             pathMatch: 'full',
             resolve: [newAppResolver],
+            canDeactivate: [canDeactiveDetail],
             component: DetailComponent,
           },
           {
             path: ':appId',
             resolve: [appDetailResolver],
+            canDeactivate: [canDeactiveDetail],
             component: DetailComponent,
           },
         ],
