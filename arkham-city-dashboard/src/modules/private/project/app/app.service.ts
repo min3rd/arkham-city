@@ -1,6 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, switchMap, take } from 'rxjs';
-import { AppResDto, NewAppReqDto, UpdateAppReqDto } from './app.type';
+import {
+  AppResDto,
+  AppSecretResDto,
+  NewAppReqDto,
+  UpdateAppReqDto,
+} from './app.type';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from '../../../../core/services/config.service';
 import { ApiResponse } from '../../../../core/type/response.type';
@@ -140,7 +145,18 @@ export class AppService {
       ),
     );
   }
-  new(){
+  new() {
     this._app.next(null);
+  }
+
+  getSecret(
+    projectId: string,
+    appId: string,
+  ): Observable<ApiResponse<AppSecretResDto>> {
+    return this.httpClient.get<ApiResponse<AppSecretResDto>>(
+      this.configService.endpoint(
+        `/projects/${projectId}/apps/${appId}/secret`,
+      ),
+    );
   }
 }
