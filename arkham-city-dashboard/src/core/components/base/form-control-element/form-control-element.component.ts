@@ -30,7 +30,7 @@ import {
 export class FormControlElement extends FormElement implements AfterViewInit {
   @Input() controlName!: string;
   @Input() placeholder!: string;
-  @Input() value!: string;
+  @Input() value!: string | any;
   @Input() label!: string;
   @Input() rounded: 'small' | 'medium' | 'large' | 'full' = 'large';
   @Input() color: 'gray' | 'teal' | 'blue' | 'red' | 'yellow' | 'white' =
