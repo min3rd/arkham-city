@@ -1,5 +1,5 @@
-import { JWTPayload } from "src/modules/auth/auth.type";
-import { APP_TYPE } from "src/modules/project/app/app.type";
+import { JWTPayload } from 'src/modules/auth/auth.type';
+import { APP_TYPE } from 'src/modules/project/app/app.type';
 
 export interface CreateProjectAppReqPayload {
   user: JWTPayload;
@@ -32,6 +32,12 @@ export interface DeleteProjectAppReqPayload {
 }
 
 export interface GetProjectAppReqPayload {
+  user: JWTPayload;
+  projectId: string;
+  appId: string;
+}
+
+export interface GetProjectAppSecretReqPayload {
   user: JWTPayload;
   projectId: string;
   appId: string;
