@@ -33,3 +33,7 @@ export interface UpdateAppReqDto {
   callback: string;
   description?: string;
 }
+
+export interface AppSecretResDto {
+  secret: string;
+}
