@@ -175,8 +175,8 @@ export class AppService {
     this.logger.log(
       `getSecret:end:user=${user.username},projectId=${projectId},appId=${appId}`,
     );
-    return new SuccessMicroserviceResponse(
-      this.hashService.decrypt(app.secretKey, app.privateKey),
-    );
+    return new SuccessMicroserviceResponse({
+      secret: this.hashService.decrypt(app.secretKey, app.privateKey),
+    });
   }
 }
