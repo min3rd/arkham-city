@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { App, APP_TYPE } from './app.type';
 import { Model } from 'mongoose';
@@ -13,6 +13,7 @@ import { HashService } from 'src/core/hash/hash.service';
 
 @Injectable()
 export class AppService {
+  private readonly logger = new Logger(AppService.name);
   constructor(
     @InjectModel(App.name, 'metadata') private readonly appModel: Model<App>,
     private readonly hashService: HashService,
@@ -153,5 +154,29 @@ export class AppService {
       return new BadMicroserviceResponse(MicroserviceErrorCode.APP_NOT_FOUND);
     }
     return new SuccessMicroserviceResponse(app.toJSON());
+  }
+  async getSecret(user: JWTPayload, projectId: string, appId: string) {
+    this.logger.log(
+      `getSecret:start:user=${user.username},projectId=${projectId},appId=${appId}`,
+    );
+    const app = await this.appModel.findOne({
+      project: {
+        _id: projectId,
+      },
+      user: {
+        username: user.username,
+      },
+      _id: appId,
+      activated: true,
+    });
+    if (!app) {
+      return new BadMicroserviceResponse(MicroserviceErrorCode.APP_NOT_FOUND);
+    }
+    this.logger.log(
+      `getSecret:end:user=${user.username},projectId=${projectId},appId=${appId}`,
+    );
+    return new SuccessMicroserviceResponse(
+      this.hashService.decrypt(app.secretKey, app.privateKey),
+    );
   }
 }

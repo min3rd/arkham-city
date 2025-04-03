@@ -1,14 +1,15 @@
-import { Controller } from "@nestjs/common";
-import { MessagePattern, Payload } from "@nestjs/microservices";
-import { microserviceConfig } from "src/config/microservice.config";
+import { Controller } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
+import { microserviceConfig } from 'src/config/microservice.config';
 import {
   AllProjectAppReqPayload,
   CreateProjectAppReqPayload,
   DeleteProjectAppReqPayload,
   GetProjectAppReqPayload,
+  GetProjectAppSecretReqPayload,
   UpdateProjectAppReqPayload,
-} from "./app.type";
-import { AppService } from "src/modules/project/app/app.service";
+} from './app.type';
+import { AppService } from 'src/modules/project/app/app.service';
 
 @Controller()
 export class AppController {
@@ -55,5 +56,14 @@ export class AppController {
   @MessagePattern(microserviceConfig.projects.apps.patterns.get)
   get(@Payload() payload: GetProjectAppReqPayload) {
     return this.appService.get(payload.user, payload.projectId, payload.appId);
+  }
+
+  @MessagePattern(microserviceConfig.projects.apps.patterns.getSecret)
+  getSecret(@Payload() payload: GetProjectAppSecretReqPayload) {
+    return this.appService.getSecret(
+      payload.user,
+      payload.projectId,
+      payload.appId,
+    );
   }
 }
