@@ -1,0 +1,30 @@
+{
+  "name": "arkham-city-websdk",
+  "version": "1.0.0",
+  "description": "Connecting to The City",
+  "main": "./dist/index.js",
+  "types": "index.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/min3rd/arkham-city.git"
+  },
+  "keywords": [
+    "arkham-city",
+    "vanminh.vu",
+    "firebase",
+    "firebase",
+    "open-source"
+  ],
+  "author": "https://github.com/min3rd",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/min3rd/arkham-city/issues"
+  },
+  "homepage": "https://github.com/min3rd/arkham-city#readme",
+  "dependencies": {
+    "typescript": "^5.8.2"
+  }
+}
