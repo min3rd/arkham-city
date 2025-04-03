@@ -37,15 +37,10 @@ export class App extends AuditEntity {
   @Prop()
   callback: string;
 
-  @Prop({
-    unique: true,
-    select: false,
-  })
+  @Prop()
   secretKey: string;
 
-  @Prop({
-    select: false,
-  })
+  @Prop()
   privateKey: string;
 }
 
