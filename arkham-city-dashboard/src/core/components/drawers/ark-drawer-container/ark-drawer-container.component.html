@@ -1,1 +1,11 @@
-<p>ark-drawer-container works!</p>,
+<div
+  class="flex items-start"
+>
+  <ng-content select="ark-drawer-content"></ng-content>
+  <ng-content select="ark-drawer"></ng-content>
+  @if (!_content) {
+  <ark-drawer-content>
+    <ng-content></ng-content>
+  </ark-drawer-content>
+  }
+</div>

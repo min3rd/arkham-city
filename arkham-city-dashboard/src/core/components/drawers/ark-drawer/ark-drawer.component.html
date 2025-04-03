@@ -1,1 +1,12 @@
-<p>ark-drawer works!</p>,
+<div
+  #content
+  class="absolute top-0 w-full h-full md:flex md:w-fit border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 overflow-auto"
+  [ngClass]="{
+    'left-0 md:border-r': position === 'start',
+    'right-0 md:border-l': position === 'end',
+    'translate-x-full md:translate-x-0': !opened,
+    'translate-x-0': opened
+  }"
+>
+  <ng-content></ng-content>
+</div>

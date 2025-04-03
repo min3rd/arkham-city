@@ -13,6 +13,7 @@ import { AppService } from '../app.service';
 import { takeUntil } from 'rxjs';
 import { ProjectService } from '../../project.service';
 import { RouterModule } from '@angular/router';
+import { ListComponent } from '../list/list.component';
 
 @Component({
   selector: 'app-detail',
@@ -36,8 +37,10 @@ export class DetailComponent extends BaseComponent {
   project!: ProjectResDto | null;
   private appService: AppService = inject(AppService);
   private projectService: ProjectService = inject(ProjectService);
+  private listComponent: ListComponent = inject(ListComponent);
   override ngOnInit(): void {
     super.ngOnInit();
+    this.listComponent.drawer.open();
     this.form = this.formBuilder.group({
       name: ['', [Validators.required]],
       type: ['', [Validators.required]],
@@ -62,6 +65,9 @@ export class DetailComponent extends BaseComponent {
         }
         this.changeDetectorRef.markForCheck();
       });
+  }
+  closeDrawer() {
+    this.listComponent.drawer.close();
   }
   create() {
     if (this.form.invalid) {
