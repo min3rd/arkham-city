@@ -69,7 +69,10 @@ export class ProjectService {
       activated: true,
     });
     return new SuccessMicroserviceResponse(
-      all.map((e) => ({ ...e.toJSON(), user: undefined })),
+      all.map((e) => ({
+        ...e.toJSON(),
+        user: undefined,
+      })),
     );
   }
 

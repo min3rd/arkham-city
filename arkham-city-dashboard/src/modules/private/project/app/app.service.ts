@@ -17,8 +17,11 @@ export class AppService {
   private _apps: BehaviorSubject<AppResDto[] | null> = new BehaviorSubject<
     AppResDto[] | null
   >(null);
-  protected _app: BehaviorSubject<AppResDto | null> =
+  private _app: BehaviorSubject<AppResDto | null> =
     new BehaviorSubject<AppResDto | null>(null);
+  private _secret: BehaviorSubject<string | null> = new BehaviorSubject<
+    string | null
+  >(null);
   private httpClient: HttpClient = inject(HttpClient);
   private configService: ConfigService = inject(ConfigService);
   get apps$(): Observable<AppResDto[] | null> {
@@ -26,6 +29,9 @@ export class AppService {
   }
   get app$(): Observable<AppResDto | null> {
     return this._app.asObservable();
+  }
+  get secret$(): Observable<string | null> {
+    return this._secret.asObservable();
   }
   create(projectId: string, dto: NewAppReqDto) {
     return this._apps.pipe(
@@ -153,10 +159,17 @@ export class AppService {
     projectId: string,
     appId: string,
   ): Observable<ApiResponse<AppSecretResDto>> {
-    return this.httpClient.get<ApiResponse<AppSecretResDto>>(
-      this.configService.endpoint(
-        `/projects/${projectId}/apps/${appId}/secret`,
-      ),
-    );
+    return this.httpClient
+      .get<ApiResponse<AppSecretResDto>>(
+        this.configService.endpoint(
+          `/projects/${projectId}/apps/${appId}/secret`,
+        ),
+      )
+      .pipe(
+        switchMap((response: ApiResponse<AppSecretResDto>) => {
+          this._secret.next(response.data.secret);
+          return of(response);
+        }),
+      );
   }
 }
