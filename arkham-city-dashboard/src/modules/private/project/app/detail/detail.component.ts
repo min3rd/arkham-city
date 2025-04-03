@@ -14,6 +14,7 @@ import { takeUntil } from 'rxjs';
 import { ProjectService } from '../../project.service';
 import { RouterModule } from '@angular/router';
 import { ListComponent } from '../list/list.component';
+import { ArkClipboardDirective } from '../../../../../core/directives/ark-clipboard.directive';
 
 @Component({
   selector: 'app-detail',
@@ -28,6 +29,7 @@ import { ListComponent } from '../list/list.component';
     ArkButton,
     ArkSelect,
     ArkTextarea,
+    ArkClipboardDirective,
   ],
   templateUrl: './detail.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
