@@ -115,6 +115,21 @@ export class DetailComponent extends BaseComponent {
     if (!this.app) {
       return;
     }
-    this.appService.getSecret(this.project?._id, this.app?._id).subscribe();
+    this.appService.getSecret(this.project._id, this.app._id).subscribe();
+  }
+  delete() {
+    if (!this.project) {
+      return;
+    }
+    if (!this.app) {
+      return;
+    }
+    this.appService
+      .delete(this.project._id, this.app._id)
+      .subscribe((response) => {
+        if (response.data) {
+          this.router.navigate(['../']);
+        }
+      });
   }
 }
