@@ -7,7 +7,7 @@ import {
   OnDestroy,
   type OnInit,
 } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ArkSwitchTheme } from '../../components/buttons/ark-switch-theme/ark-switch-theme.component';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import * as feathers from '@ng-icons/feather-icons';
@@ -54,6 +54,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   private projectService: ProjectService = inject(ProjectService);
   private changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
   private navigationService: NavigationService = inject(NavigationService);
+  private router: Router = inject(Router);
   private _unsubscribeAll = new Subject<any>();
   ngOnInit(): void {
     this.user = this.authService.user;
@@ -75,6 +76,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
         this.navigations = this.navigationService.navigations(
           project?._id ?? 'no-project-id',
         );
+        this.router.navigate(['/dashboard']);
         this.changeDetectorRef.markForCheck();
       });
   }

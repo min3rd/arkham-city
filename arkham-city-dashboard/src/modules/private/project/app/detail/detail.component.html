@@ -60,6 +60,15 @@
     }
 
     <div class="flex items-center justify-end gap-2">
+      @if (app) {
+      <ark-button
+        (onClick)="delete()"
+        class="mr-auto"
+        label="{{ 'delete' | transloco | capitalize }}"
+        ghost
+        color="red"
+      ></ark-button>
+      }
       <ark-button
         [routerLink]="['../']"
         label="{{ 'cancel' | transloco | capitalize }}"
