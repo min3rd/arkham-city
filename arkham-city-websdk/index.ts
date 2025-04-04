@@ -1,3 +1,3 @@
-export const helloCity = () => {
-  console.log("Hello The City");
-};
+import * as firestoreModule from './modules/firestore';
+
+export default firestoreModule;
