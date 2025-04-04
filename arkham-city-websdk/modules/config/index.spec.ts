@@ -12,7 +12,6 @@ describe('Config Module', () => {
     });
     const expected: string = `${arkSDKManager.globalConfig.url}/${arkSDKManager.globalConfig.version}/${arkSDKManager.type}/${uri}`;
     const returned = arkSDKManager.endpoint(uri);
-    console.log(returned);
     expect(returned).toEqual(expected);
   });
 });
