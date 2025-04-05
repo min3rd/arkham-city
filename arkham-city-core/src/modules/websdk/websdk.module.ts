@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from './auth/auth.module';
+import { WebSDKAuthModule } from './websdk-auth/websdk-auth.module';
 
 @Module({
-  imports: [AuthModule],
-  exports: [AuthModule],
+  imports: [WebSDKAuthModule],
+  exports: [WebSDKAuthModule],
 })
 export class WebsdkModule {}
