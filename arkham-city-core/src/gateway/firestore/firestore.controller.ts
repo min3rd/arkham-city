@@ -1,12 +1,12 @@
-import { Body, Controller, Inject, Param, Post } from "@nestjs/common";
-import { ClientRedis } from "@nestjs/microservices";
-import { firstValueFrom } from "rxjs";
-import { microserviceConfig } from "src/config/microservice.config";
-import { GatewayController } from "src/core/gateway/gateway.controller";
-import { MicroserviceResponse } from "src/core/microservice/microservice.type";
-import { CreateFirestoreRecord } from "src/microservices/firestore/firestore.type";
+import { Body, Controller, Inject, Param, Post } from '@nestjs/common';
+import { ClientRedis } from '@nestjs/microservices';
+import { firstValueFrom } from 'rxjs';
+import { microserviceConfig } from 'src/config/microservice.config';
+import { GatewayController } from 'src/core/gateway/gateway.controller';
+import { MicroserviceResponse } from 'src/core/microservice/microservice.type';
+import { CreateFirestoreRecord } from 'src/microservices/firestore/firestore.type';
 
-@Controller("firestore")
+@Controller('firestore')
 export class FirestoreController extends GatewayController {
   constructor(
     @Inject(microserviceConfig.firestore.name)
@@ -14,7 +14,7 @@ export class FirestoreController extends GatewayController {
   ) {
     super();
   }
-  @Post(":schemaName")
+  @Post(':schemaName')
   async create(@Param() params: any, @Body() data: any) {
     const payload: CreateFirestoreRecord = {
       schemaName: params.schemaName,

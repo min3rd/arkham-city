@@ -1,9 +1,9 @@
-import { Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import { ClientsModule, Transport } from "@nestjs/microservices";
-import { microserviceConfig } from "src/config/microservice.config";
-import { ModulesModule } from "src/modules/modules.module";
-import { FirestoreController } from "./firestore.controller";
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { microserviceConfig } from 'src/config/microservice.config';
+import { ModulesModule } from 'src/modules/modules.module';
+import { FirestoreController } from './firestore.controller';
 
 @Module({
   imports: [
