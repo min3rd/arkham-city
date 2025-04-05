@@ -2,6 +2,7 @@ import { Body, Controller, Inject, Param, Post } from '@nestjs/common';
 import { ClientRedis } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { microserviceConfig } from 'src/config/microservice.config';
+import { Public } from 'src/core/decorators/public';
 import { GatewayController } from 'src/core/gateway/gateway.controller';
 import { MicroserviceResponse } from 'src/core/microservice/microservice.type';
 import { CreateFirestoreRecord } from 'src/microservices/firestore/firestore.type';
@@ -14,10 +15,13 @@ export class FirestoreController extends GatewayController {
   ) {
     super();
   }
+  @Public()
   @Post(':schemaName')
   async create(@Param() params: any, @Body() data: any) {
     const payload: CreateFirestoreRecord = {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
       schemaName: params.schemaName,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       data: data,
     };
     const res: MicroserviceResponse<any> = await firstValueFrom(
@@ -27,6 +31,7 @@ export class FirestoreController extends GatewayController {
       ),
     );
     this.afterCallMicroservice(res);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return res.data;
   }
 }

@@ -14,7 +14,7 @@ import { microserviceConfig } from 'src/config/microservice.config';
         transport: Transport.REDIS,
         options: {
           host: process.env.REDIS_HOST as string,
-          port: parseInt(process.env.REDSI_PORT as string),
+          port: parseInt(process.env.REDIS_PORT as string),
         },
       },
     ]),

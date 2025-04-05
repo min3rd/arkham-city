@@ -1,9 +1,7 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { DynamicSchema, Field } from './firestore.type';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { microserviceConfig } from 'src/config/microservice.config';
-import { ClientRedis } from '@nestjs/microservices';
 import {
   BadMicroserviceResponse,
   MicroserviceErrorCode,
@@ -17,8 +15,6 @@ export class FirestoreService {
   constructor(
     @InjectModel(DynamicSchema.name, 'firestore')
     private readonly dynamicModel: Model<DynamicSchema>,
-    @Inject(microserviceConfig.firestore.name)
-    private readonly client: ClientRedis,
     private readonly mongooseService: MongooseService,
   ) {}
 
@@ -27,9 +23,15 @@ export class FirestoreService {
     data: any,
   ): Promise<MicroserviceResponse<any>> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const record = await this.mongooseService.createRecord(schemaName, data);
+    const record = await this.mongooseService.createRecord(
+      this.mongooseService.createProjectConnection('test'),
+      schemaName,
+      data,
+    );
     if (!record) {
-      return new BadMicroserviceResponse(MicroserviceErrorCode.DEFAULT);
+      return new BadMicroserviceResponse(
+        MicroserviceErrorCode.COULD_NOT_SAVE_THE_RECORD,
+      );
     }
     return new SuccessMicroserviceResponse(record);
   }
