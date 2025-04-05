@@ -9,7 +9,7 @@ import {
 } from '../../modules/auth/auth.type';
 
 @Controller()
-export class UserController {
+export class MsUserController {
   constructor(private readonly userService: UserService) {}
 
   @MessagePattern(microserviceConfig.auth.patterns.registerByEmailAndPassword)

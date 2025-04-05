@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import { WebSDKAuthService } from './websdk-auth.service';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseService } from 'src/modules/mongoose/mongoose.service';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -28,7 +28,7 @@ import { JwtModule } from '@nestjs/jwt';
       },
     }),
   ],
-  providers: [AuthService, MongooseService],
-  exports: [AuthService],
+  providers: [WebSDKAuthService, MongooseService],
+  exports: [WebSDKAuthService],
 })
-export class AuthModule {}
+export class WebSDKAuthModule {}

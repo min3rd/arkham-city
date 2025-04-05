@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { UserController } from './user.controller';
+import { MsUserController } from './ms-user.controller';
 import { ModulesModule } from 'src/modules/modules.module';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
@@ -20,6 +20,6 @@ import { microserviceConfig } from 'src/config/microservice.config';
     ]),
     ModulesModule,
   ],
-  controllers: [UserController],
+  controllers: [MsUserController],
 })
-export class UserModule {}
+export class MsUserModule {}

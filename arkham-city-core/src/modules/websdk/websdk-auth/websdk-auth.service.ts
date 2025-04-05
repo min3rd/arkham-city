@@ -10,10 +10,10 @@ import {
 } from 'src/core/microservice/microservice.type';
 import { JWTPayload } from 'src/modules/auth/auth.type';
 import { ProjectApp } from 'src/modules/project/app/project-app.type';
-import { SDKAuthResDto } from './auth.type';
+import { SDKAuthResDto } from './websdl-auth.interface';
 
 @Injectable()
-export class AuthService {
+export class WebSDKAuthService {
   constructor(
     @InjectModel(ProjectApp.name, 'metadata')
     private readonly projectAppMode: Model<ProjectApp>,
