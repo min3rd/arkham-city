@@ -1,5 +1,5 @@
-import { AxiosRequestConfig } from 'axios';
-import HttpClient from '../httpClient';
+import { AxiosRequestConfig } from "axios";
+import HttpClient from "../httpClient";
 
 export default interface ArkSDKConfig {
   url: string;
@@ -11,7 +11,7 @@ export default interface ArkSDKConfig {
 }
 
 export class ArkSDKManager {
-  private _type: 'websdk' = 'websdk';
+  private _type: "websdk" = "websdk";
   private _accessToken!: string;
   private _refreshToken!: string;
   private _globalConfig!: ArkSDKConfig;
@@ -19,7 +19,7 @@ export class ArkSDKManager {
   set globalConfig(config: ArkSDKConfig) {
     const tmp: ArkSDKConfig = {
       ...config,
-      version: config.version ?? 'v1',
+      version: config.version ?? "v1",
     };
     this._globalConfig = config;
   }
@@ -32,7 +32,7 @@ export class ArkSDKManager {
   get globalConfig(): ArkSDKConfig {
     return this._globalConfig;
   }
-  get type(): 'websdk' | string {
+  get type(): "websdk" | string {
     return this._type;
   }
   axiosConfig(): AxiosRequestConfig {
@@ -43,25 +43,10 @@ export class ArkSDKManager {
     };
   }
   endpoint(uri: string): string {
-    while (this._globalConfig.url.endsWith('/')) {
-      this._globalConfig.url = this._globalConfig.url.substring(
-        0,
-        this._globalConfig.url.lastIndexOf('/') - 1,
-      );
-    }
-    while (this._globalConfig.version.startsWith('/')) {
-      this._globalConfig.version = this._globalConfig.version.substring(
-        this._globalConfig.version.indexOf('/'),
-      );
-    }
-    let safeUri = uri;
-    while (safeUri.startsWith('/')) {
-      safeUri = safeUri.substring(safeUri.indexOf('/'));
-    }
-    return `${this._globalConfig.url}/${this._globalConfig.version}/${this._type}/${safeUri}`;
+    return `${this._globalConfig.url}/${this._globalConfig.version}/${this._type}/${uri}`;
   }
   authenticate() {
-    this._httpClient.post(this.endpoint(``), {});
+    this._httpClient.post(this.endpoint(`auth/authenticate`), {});
   }
 }
 
