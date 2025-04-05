@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AppModule } from './app/app.module';
+import { ProjectAppModule } from './app/project-app.module';
 import { ConfigModule } from '@nestjs/config';
 import { ProjectService } from './project.service';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -12,9 +12,9 @@ import { Project, ProjectSchema } from './project.type';
       [{ name: Project.name, schema: ProjectSchema }],
       'metadata',
     ),
-    AppModule,
+    ProjectAppModule,
   ],
   providers: [ProjectService],
-  exports: [ProjectService, AppModule],
+  exports: [ProjectService, ProjectAppModule],
 })
 export class ProjectModule {}

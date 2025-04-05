@@ -1,4 +1,4 @@
-import { APP_TYPE } from 'src/modules/project/app/app.type';
+import { APP_TYPE } from 'src/modules/project/app/project-app.type';
 
 export interface CreateProjectAppReqDto {
   name: string;

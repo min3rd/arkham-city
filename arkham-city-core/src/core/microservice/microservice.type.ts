@@ -75,4 +75,12 @@ export class MicroserviceErrorCode {
     '01x0009',
     'Could not find the app',
   );
+  static readonly COULD_NOT_SAVE_THE_RECORD = new IErrorCode(
+    '01x0010',
+    'Could not save the record',
+  );
+  static readonly WEB_SDK_CAN_NOT_FIND_THE_APP = new IErrorCode(
+    '01x0011',
+    'Could not find the app',
+  );
 }

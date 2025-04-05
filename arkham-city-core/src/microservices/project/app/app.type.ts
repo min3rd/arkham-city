@@ -1,5 +1,5 @@
 import { JWTPayload } from 'src/modules/auth/auth.type';
-import { APP_TYPE } from 'src/modules/project/app/app.type';
+import { APP_TYPE } from 'src/modules/project/app/project-app.type';
 
 export interface CreateProjectAppReqPayload {
   user: JWTPayload;

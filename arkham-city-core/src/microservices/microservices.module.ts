@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common';
-import { UserController } from './user/user.controller';
 import { ConfigModule } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { ModulesModule } from 'src/modules/modules.module';
-import { FirestoreController } from './firestore/firestore.controller';
 import { ProjectModule } from './project/project.module';
 import { UserModule } from './user/user.module';
 import { FirestoreModule } from './firestore/firestore.module';

@@ -9,7 +9,7 @@ export enum APP_TYPE {
 }
 
 @Schema()
-export class App extends AuditEntity {
+export class ProjectApp extends AuditEntity {
   @Prop({
     type: mongoose.Types.ObjectId,
     ref: Project.name,
@@ -44,6 +44,6 @@ export class App extends AuditEntity {
   privateKey: string;
 }
 
-export type AppDocument = HydratedDocument<App>;
+export type AppDocument = HydratedDocument<ProjectApp>;
 
-export const AppSchema = SchemaFactory.createForClass(App);
+export const AppSchema = SchemaFactory.createForClass(ProjectApp);
