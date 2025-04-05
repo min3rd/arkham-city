@@ -28,7 +28,15 @@ export const microserviceConfig = {
         get: 'v1.projects.apps.get',
         update: 'v1.projects.apps.update',
         delete: 'v1.projects.apps.delete',
-        getSecret: 'v1.projects.apps.getSecret',
+        getSecret: 'v1.projects.apps.get-secret',
+      },
+    },
+  },
+  websdk: {
+    auth: {
+      name: 'websdk.auth',
+      patterns: {
+        authenticate: 'v1.websdk.auth.authenticate',
       },
     },
   },

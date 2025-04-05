@@ -6,6 +6,7 @@ import { ModulesModule } from 'src/modules/modules.module';
 import { ProjectModule } from './project/project.module';
 import { UserModule } from './user/user.module';
 import { FirestoreModule } from './firestore/firestore.module';
+import { MicroserviceWebsdkModule } from './microservice-websdk/microservice-websdk.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { FirestoreModule } from './firestore/firestore.module';
     ProjectModule,
     UserModule,
     FirestoreModule,
+    MicroserviceWebsdkModule,
   ],
   controllers: [],
 })
