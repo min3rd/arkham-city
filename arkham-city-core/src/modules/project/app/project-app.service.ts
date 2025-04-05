@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { App, APP_TYPE } from './app.type';
+import { ProjectApp, APP_TYPE } from './project-app.type';
 import { Model } from 'mongoose';
 import { JWTPayload } from 'src/modules/auth/auth.type';
 import {
@@ -12,10 +12,11 @@ import { randomBytes } from 'crypto';
 import { HashService } from 'src/core/hash/hash.service';
 
 @Injectable()
-export class AppService {
-  private readonly logger = new Logger(AppService.name);
+export class ProjectAppService {
+  private readonly logger = new Logger(ProjectAppService.name);
   constructor(
-    @InjectModel(App.name, 'metadata') private readonly appModel: Model<App>,
+    @InjectModel(ProjectApp.name, 'metadata')
+    private readonly appModel: Model<ProjectApp>,
     private readonly hashService: HashService,
   ) {}
 

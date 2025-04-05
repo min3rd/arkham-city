@@ -9,11 +9,11 @@ import {
   GetProjectAppSecretReqPayload,
   UpdateProjectAppReqPayload,
 } from './app.type';
-import { AppService } from 'src/modules/project/app/app.service';
+import { ProjectAppService } from 'src/modules/project/app/project-app.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: ProjectAppService) {}
   @MessagePattern(microserviceConfig.projects.apps.patterns.create)
   create(@Payload() payload: CreateProjectAppReqPayload) {
     return this.appService.create(

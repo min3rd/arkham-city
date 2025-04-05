@@ -15,6 +15,7 @@ export interface LogInByRefreshToken {
 }
 
 export interface JWTPayload {
+  type: 'dashboard' | 'websdk';
   sub?: string;
   username?: string;
   email?: string;
