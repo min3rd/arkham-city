@@ -3,10 +3,10 @@ import { ConfigModule } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { ModulesModule } from 'src/modules/modules.module';
-import { ProjectModule } from './project/project.module';
-import { UserModule } from './user/user.module';
-import { FirestoreModule } from './firestore/firestore.module';
-import { MicroserviceWebsdkModule } from './microservice-websdk/microservice-websdk.module';
+import { MsProjectModule } from './ms-project/ms-project.module';
+import { MsUserModule } from './ms-user/ms-user.module';
+import { MsFirestoreModule } from './ms-firestore/ms-firestore.module';
+import { MsWebsdkModule } from './ms-websdk/ms-websdk.module';
 
 @Module({
   imports: [
@@ -38,10 +38,10 @@ import { MicroserviceWebsdkModule } from './microservice-websdk/microservice-web
       },
     ]),
     ModulesModule,
-    ProjectModule,
-    UserModule,
-    FirestoreModule,
-    MicroserviceWebsdkModule,
+    MsProjectModule,
+    MsUserModule,
+    MsFirestoreModule,
+    MsWebsdkModule,
   ],
   controllers: [],
 })
