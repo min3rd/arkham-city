@@ -1,19 +1,19 @@
-import { Body, Controller, Inject, Post } from "@nestjs/common";
+import { Body, Controller, Inject, Post } from '@nestjs/common';
 import {
   LogInByEmailAndPassword,
   LogInByRefreshToken,
   RegisterByEmailAndPasswordDto,
-} from "../../modules/auth/auth.type";
-import { GatewayController } from "src/core/gateway/gateway.controller";
-import { AuthService } from "../../modules/auth/auth.service";
-import { Public } from "src/core/decorators/public";
-import { microserviceConfig } from "src/config/microservice.config";
-import { ClientRedis } from "@nestjs/microservices";
-import { MicroserviceResponse } from "src/core/microservice/microservice.type";
-import { User } from "src/modules/user/user.type";
-import { firstValueFrom } from "rxjs";
+} from '../../modules/auth/auth.type';
+import { GatewayController } from 'src/core/gateway/gateway.controller';
+import { AuthService } from '../../modules/auth/auth.service';
+import { Public } from 'src/core/decorators/public';
+import { microserviceConfig } from 'src/config/microservice.config';
+import { ClientRedis } from '@nestjs/microservices';
+import { MicroserviceResponse } from 'src/core/microservice/microservice.type';
+import { User } from 'src/modules/user/user.type';
+import { firstValueFrom } from 'rxjs';
 
-@Controller("auth")
+@Controller('auth')
 export class AuthController extends GatewayController {
   constructor(
     @Inject(microserviceConfig.auth.name)
@@ -23,7 +23,7 @@ export class AuthController extends GatewayController {
     super();
   }
   @Public()
-  @Post("register-by-email-and-password")
+  @Post('register-by-email-and-password')
   async registerByEmail(@Body() payload: RegisterByEmailAndPasswordDto) {
     const res: MicroserviceResponse<User> = await firstValueFrom(
       this.clientProxy.send(
@@ -44,7 +44,7 @@ export class AuthController extends GatewayController {
   }
 
   @Public()
-  @Post("log-in-by-email-and-password")
+  @Post('log-in-by-email-and-password')
   async logInByEmailAndPassword(@Body() payload: LogInByEmailAndPassword) {
     const res: MicroserviceResponse<User> = await firstValueFrom(
       this.clientProxy.send(
@@ -57,13 +57,12 @@ export class AuthController extends GatewayController {
   }
 
   @Public()
-  @Post("log-in-by-refresh-token")
+  @Post('log-in-by-refresh-token')
   async logInByRefreshToken(@Body() payload: LogInByRefreshToken) {
     const res: MicroserviceResponse<User> = await firstValueFrom(
       this.clientProxy.send(
         microserviceConfig.auth.patterns.logInByRefreshToken,
         {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           refreshToken: payload.refreshToken,
         },
       ),

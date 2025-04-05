@@ -1,18 +1,18 @@
-import { Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import { MongooseModule } from "@nestjs/mongoose";
-import { DynamicSchema, DynamicSchemaSchema } from "./firestore.type";
-import { FirestoreService } from "./firestore.service";
-import { ClientsModule, Transport } from "@nestjs/microservices";
-import { microserviceConfig } from "src/config/microservice.config";
-import { MongooseService } from "../mongoose/mongoose.service";
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
+import { DynamicSchema, DynamicSchemaSchema } from './firestore.type';
+import { FirestoreService } from './firestore.service';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { microserviceConfig } from 'src/config/microservice.config';
+import { MongooseService } from '../mongoose/mongoose.service';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forFeature(
       [{ name: DynamicSchema.name, schema: DynamicSchemaSchema }],
-      "firestore",
+      'firestore',
     ),
     ClientsModule.register([
       {

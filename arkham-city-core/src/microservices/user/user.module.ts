@@ -1,9 +1,9 @@
-import { Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import { UserController } from "./user.controller";
-import { ModulesModule } from "src/modules/modules.module";
-import { ClientsModule, Transport } from "@nestjs/microservices";
-import { microserviceConfig } from "src/config/microservice.config";
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { UserController } from './user.controller';
+import { ModulesModule } from 'src/modules/modules.module';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { microserviceConfig } from 'src/config/microservice.config';
 
 @Module({
   imports: [

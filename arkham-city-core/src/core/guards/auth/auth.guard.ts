@@ -3,13 +3,13 @@ import {
   ExecutionContext,
   Injectable,
   UnauthorizedException,
-} from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { Reflector } from "@nestjs/core";
-import { JwtService } from "@nestjs/jwt";
-import { Request } from "express";
-import { IS_PUBLIC_KEY } from "src/core/decorators/public";
-import { JWTPayload } from "src/modules/auth/auth.type";
+} from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { Reflector } from '@nestjs/core';
+import { JwtService } from '@nestjs/jwt';
+import { Request } from 'express';
+import { IS_PUBLIC_KEY } from 'src/core/decorators/public';
+import { JWTPayload } from 'src/modules/auth/auth.type';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -37,14 +37,13 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException();
     }
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const payload: JWTPayload = await this.jwtService.verifyAsync(token, {
-        secret: this.configService.get("JWT_SECRET"),
+        secret: this.configService.get('JWT_SECRET'),
       });
       // 💡 We're assigning the payload to the request object here
       // so that we can access it in our route handlers
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      request["user"] = payload;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      request['user'] = payload;
     } catch {
       throw new UnauthorizedException();
     }
@@ -52,7 +51,7 @@ export class AuthGuard implements CanActivate {
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(" ") ?? [];
-    return type === "Bearer" ? token : undefined;
+    const [type, token] = request.headers.authorization?.split(' ') ?? [];
+    return type === 'Bearer' ? token : undefined;
   }
 }
