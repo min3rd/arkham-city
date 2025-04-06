@@ -9,6 +9,7 @@ import {
   AppSchema as ProjectAppSchema,
 } from 'src/modules/project/app/project-app.type';
 import { JwtModule } from '@nestjs/jwt';
+import { HashService } from 'src/core/hash/hash.service';
 
 @Module({
   imports: [
@@ -28,7 +29,7 @@ import { JwtModule } from '@nestjs/jwt';
       },
     }),
   ],
-  providers: [WebSDKAuthService, MongooseService],
+  providers: [WebSDKAuthService, MongooseService, HashService],
   exports: [WebSDKAuthService],
 })
 export class WebSDKAuthModule {}
