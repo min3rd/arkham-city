@@ -83,4 +83,8 @@ export class MicroserviceErrorCode {
     '01x0011',
     'Could not find the app',
   );
+  static readonly WEB_SDK_SECRET_WAS_INCORRECT = new IErrorCode(
+    '01x0012',
+    'The secret key was incorrect',
+  );
 }

@@ -1,12 +1,10 @@
-import { Observable } from 'rxjs';
-import { arkSDKManager, ArkSDKManager } from '../config';
-import HttpClient from '../httpClient';
-import { AxiosResponse } from 'axios';
+import { Observable } from "rxjs";
+import { arkSDKManager, ArkSDKManager } from "../config";
+import { AxiosResponse } from "axios";
 
 export default class FirestoreClient {
   private static _instance: FirestoreClient;
   private _arkSDKManager: ArkSDKManager = arkSDKManager;
-  private _httpClient: HttpClient = new HttpClient();
   private _schemaName!: string;
   static instance(schemaName: string): FirestoreClient {
     if (!this._instance) {
@@ -19,12 +17,9 @@ export default class FirestoreClient {
     return this._schemaName;
   }
   new<T, K>(data: T): Observable<AxiosResponse<K | any>> {
-    if(!this._arkSDKManager.accessToken){
-        
-    }
-    return this._httpClient.post(
+    return this._arkSDKManager.post(
       this._arkSDKManager.endpoint(`/firestore/${this._schemaName}`),
-      data,
+      data
     );
   }
 }
