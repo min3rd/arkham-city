@@ -6,6 +6,7 @@ import { WebSDKAuthReqDto } from './gw-websdk-auth.interface';
 import { MicroserviceResponse } from 'src/core/microservice/microservice.type';
 import { firstValueFrom } from 'rxjs';
 import { GatewayController } from 'src/core/gateway/gateway.controller';
+import { Public } from 'src/core/decorators/public';
 
 @Controller('websdk/auth')
 export class GwWebsdkAuthController extends GatewayController {
@@ -15,7 +16,7 @@ export class GwWebsdkAuthController extends GatewayController {
   ) {
     super();
   }
-
+  @Public()
   @Post('authenticate')
   async authenticate(@Body() dto: WebSDKAuthReqDto) {
     const res: MicroserviceResponse<any> = await firstValueFrom(
