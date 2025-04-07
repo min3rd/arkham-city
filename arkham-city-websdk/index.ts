@@ -1,3 +1,3 @@
-import * as firestoreModule from './modules/firestore';
+import * as firestoreModule from './src/firestore';
 
 export default firestoreModule;

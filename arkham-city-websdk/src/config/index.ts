@@ -1,5 +1,6 @@
-import axios, { AxiosRequestConfig, AxiosResponse, AxiosStatic } from "axios";
-import { from, Observable, of, switchMap } from "rxjs";
+import axios, { AxiosRequestConfig, AxiosStatic } from "axios";
+import { catchError, from, Observable, of, switchMap } from "rxjs";
+import { JwtUtils } from "../utils";
 
 export interface ArkSDKConfig {
   url: string;
@@ -21,10 +22,15 @@ export interface AuthResDto {
   accessToken: string;
 }
 
+export interface ApiResponse<T> {
+  timestamp: Date;
+  error: boolean;
+  data: T;
+}
+
 export class ArkSDKManager {
   private _type: "websdk" = "websdk";
   private _accessToken!: string;
-  private _refreshToken!: string;
   private _globalConfig!: ArkSDKConfig;
   private _axios: AxiosStatic = axios;
   set globalConfig(config: ArkSDKConfig) {
@@ -35,16 +41,16 @@ export class ArkSDKManager {
     this._globalConfig = tmp;
   }
   set accessToken(accessToken: string) {
-    this.accessToken = accessToken;
-  }
-  set refreshToken(refreshToken: string) {
-    this._refreshToken = refreshToken;
+    this._accessToken = accessToken;
   }
   get globalConfig(): ArkSDKConfig {
     return this._globalConfig;
   }
   get type(): "websdk" | string {
     return this._type;
+  }
+  get accessToken(): string {
+    return this._accessToken;
   }
   axiosConfig(): AxiosRequestConfig {
     return {
@@ -56,7 +62,7 @@ export class ArkSDKManager {
   endpoint(uri: string): string {
     return `${this.globalConfig.url}/${this.globalConfig.version}/${this.type}/${uri}`;
   }
-  authenticate(): Observable<AuthResDto> {
+  authenticate(): Observable<boolean> {
     const payload: AuthReqDto = {
       projectId: this.globalConfig.projectId,
       appId: this.globalConfig.appId,
@@ -66,13 +72,37 @@ export class ArkSDKManager {
     return from(
       this._axios.post(this.endpoint(`auth/authenticate`), payload)
     ).pipe(
-      switchMap((response: AxiosResponse<AuthResDto>) => {
-        return of(response.data);
+      catchError(() => {
+        return of(false);
+      }),
+      switchMap((response: any) => {
+        this.accessToken = response.data.data.accessToken;
+        return of(true);
       })
     );
   }
-  post<T, K>(uri: string, data: T): Observable<AxiosResponse<K>> {
-    return from(this._axios.post<K>(this.endpoint(uri), data));
+  check(): Observable<boolean> {
+    if (this.accessToken && !JwtUtils.isExpired(this.accessToken)) {
+      return of(true);
+    }
+    return this.authenticate();
+  }
+  post<T, K>(uri: string, data: T): Observable<ApiResponse<K>> {
+    return this.check().pipe(
+      switchMap((authenticated) => {
+        if (!authenticated) {
+          console.error("Unauthorization");
+          return of(null);
+        }
+        return from(
+          this._axios.post(this.endpoint(uri), data, this.axiosConfig())
+        ).pipe(
+          switchMap((response) => {
+            return of(response.data);
+          })
+        );
+      })
+    );
   }
 }
 
