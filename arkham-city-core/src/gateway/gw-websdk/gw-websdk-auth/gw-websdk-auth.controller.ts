@@ -28,4 +28,9 @@ export class GwWebsdkAuthController extends GatewayController {
     this.afterCallMicroservice(res);
     return res.data;
   }
+
+  @Post('test')
+  test(@Body() data: any) {
+    return data;
+  }
 }

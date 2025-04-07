@@ -20,4 +20,13 @@ describe("Config Module", () => {
     const res = await firstValueFrom(arkSDKManager.authenticate());
     expect(res).toBeDefined();
   });
+  test("Config Module:post check", async () => {
+    const payload = {
+      data: "This is data",
+    };
+    const res = await firstValueFrom(arkSDKManager.post(`auth/test`, payload));
+    expect(res).toBeDefined();
+    const data = res?.data;
+    expect(data).toEqual(payload);
+  });
 });
