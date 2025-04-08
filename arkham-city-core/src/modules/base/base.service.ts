@@ -1,4 +1,4 @@
-import { MicroserviceResponse } from '../../core/microservice/microservice.type';
+import { MicroserviceResponse } from '../../core/microservice/microservice.types';
 import { BadRequestAlertException } from '../../core/exceptions/BadRequestAlertException';
 
 export class BaseService {

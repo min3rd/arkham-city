@@ -2,12 +2,12 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ProjectApp, APP_TYPE } from './project-app.type';
 import { Model } from 'mongoose';
-import { JWTPayload } from 'src/modules/auth/auth.type';
+import { JWTPayload } from 'src/modules/auth/auth.interface';
 import {
   BadMicroserviceResponse,
   MicroserviceErrorCode,
   SuccessMicroserviceResponse,
-} from 'src/core/microservice/microservice.type';
+} from 'src/core/microservice/microservice.types';
 import { randomBytes } from 'crypto';
 import { HashService } from 'src/core/hash/hash.service';
 

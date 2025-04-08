@@ -7,7 +7,7 @@ import {
   BadMicroserviceResponse,
   MicroserviceErrorCode,
   SuccessMicroserviceResponse,
-} from 'src/core/microservice/microservice.type';
+} from 'src/core/microservice/microservice.types';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 

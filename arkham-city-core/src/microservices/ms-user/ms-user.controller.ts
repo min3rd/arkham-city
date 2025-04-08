@@ -6,7 +6,7 @@ import {
   LogInByEmailAndPassword,
   LogInByRefreshToken,
   RegisterByEmailAndPasswordDto,
-} from '../../modules/auth/auth.type';
+} from '../../modules/auth/auth.interface';
 
 @Controller()
 export class MsUserController {

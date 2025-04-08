@@ -6,8 +6,8 @@ import {
   BadMicroserviceResponse,
   MicroserviceErrorCode,
   SuccessMicroserviceResponse,
-} from 'src/core/microservice/microservice.type';
-import { JWTPayload } from '../auth/auth.type';
+} from 'src/core/microservice/microservice.types';
+import { JWTPayload } from '../auth/auth.interface';
 
 @Injectable()
 export class ProjectService {

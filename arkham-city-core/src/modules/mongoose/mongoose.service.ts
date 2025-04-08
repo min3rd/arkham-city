@@ -1,9 +1,11 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
 import mongoose, { Connection } from 'mongoose';
 import { ConfigService } from '@nestjs/config';
+import moment from 'moment';
 
 @Injectable()
 export class MongooseService {
+  private readonly logger = new Logger(MongooseService.name);
   private readonly schemaNameRegex = new RegExp(/[a-z]/);
   constructor(private readonly configService: ConfigService) {}
   async createRecord(connection: Connection, schemaName: string, data: any) {
@@ -51,14 +53,14 @@ export class MongooseService {
           type: String,
         };
         try {
-          const date = Date.parse(`${data[key]}`);
-          if (!isNaN(date)) {
+          if (moment(data[key], moment.ISO_8601, true).isValid()) {
+            this.logger.log(key);
             dataType[key] = {
               type: Date,
             };
           }
-        } catch (error) {
-          console.log(error);
+        } catch (e) {
+          this.logger.error(e);
         }
       } else if (typeof data[key] === 'number') {
         dataType[key] = {
