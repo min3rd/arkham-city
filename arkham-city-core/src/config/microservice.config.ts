@@ -39,5 +39,11 @@ export const microserviceConfig = {
         authenticate: 'v1.websdk.auth.authenticate',
       },
     },
+    firestore: {
+      name: 'websdk.firestore',
+      patterns: {
+        createRecord: 'v1.websdk.firestore.create-record',
+      },
+    },
   },
 };

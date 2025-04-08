@@ -7,10 +7,10 @@ import {
   MicroserviceErrorCode,
   MicroserviceResponse,
   SuccessMicroserviceResponse,
-} from 'src/core/microservice/microservice.type';
-import { JWTPayload } from 'src/modules/auth/auth.type';
+} from 'src/core/microservice/microservice.types';
+import { JWTPayload } from 'src/modules/auth/auth.interface';
 import { ProjectApp } from 'src/modules/project/app/project-app.type';
-import { SDKAuthResDto } from './websdl-auth.interface';
+import { SDKAuthResDto, SDKJwtPayload } from './websdl-auth.interface';
 import { HashService } from 'src/core/hash/hash.service';
 
 @Injectable()
@@ -44,10 +44,10 @@ export class WebSDKAuthService {
         MicroserviceErrorCode.WEB_SDK_SECRET_WAS_INCORRECT,
       );
     }
-    const payload: JWTPayload = {
+    const payload: SDKJwtPayload = {
       type: 'websdk',
-      sub: projectId,
-      username: appId,
+      projectId: projectId,
+      appId: appId,
     };
     this.logger.log(`authenticate:end`);
     return new SuccessMicroserviceResponse<SDKAuthResDto>({

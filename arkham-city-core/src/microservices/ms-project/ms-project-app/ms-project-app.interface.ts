@@ -1,4 +1,4 @@
-import { JWTPayload } from 'src/modules/auth/auth.type';
+import { JWTPayload } from 'src/modules/auth/auth.interface';
 import { APP_TYPE } from 'src/modules/project/app/project-app.type';
 
 export interface CreateProjectAppReqPayload {

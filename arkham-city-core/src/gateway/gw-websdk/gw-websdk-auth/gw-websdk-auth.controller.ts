@@ -3,7 +3,7 @@ import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { ClientRedis } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { WebSDKAuthReqDto } from './gw-websdk-auth.interface';
-import { MicroserviceResponse } from 'src/core/microservice/microservice.type';
+import { MicroserviceResponse } from 'src/core/microservice/microservice.types';
 import { firstValueFrom } from 'rxjs';
 import { GatewayController } from 'src/core/gateway/gateway.controller';
 import { Public } from 'src/core/decorators/public';

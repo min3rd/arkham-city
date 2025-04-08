@@ -1,4 +1,4 @@
-import { JWTPayload } from 'src/modules/auth/auth.type';
+import { JWTPayload } from 'src/modules/auth/auth.interface';
 
 export interface NewProjectReqPayload {
   user: JWTPayload;

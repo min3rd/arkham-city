@@ -1,15 +1,16 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { CreateFirestoreRecordReqPayload } from './ms-firestore.interface';
 import { microserviceConfig } from 'src/config/microservice.config';
+import { CreateFirestoreRecordReqPayload } from 'src/microservices/ms-firestore/ms-firestore.interface';
 import { FirestoreService } from 'src/modules/firestore/firestore.service';
 
-@Controller()
-export class MsFirestoreController {
+@Controller('')
+export class MsWebsdkFirestoreController {
   constructor(private readonly firestoreService: FirestoreService) {}
-  @MessagePattern(microserviceConfig.firestore.patterns.createRecord)
+  @MessagePattern(microserviceConfig.websdk.firestore.patterns.createRecord)
   createRecord(@Payload() payload: CreateFirestoreRecordReqPayload) {
-    return this.firestoreService.createRecord(
+    return this.firestoreService.webSDKCreateFirestoreRecord(
+      payload.auth,
       payload.schemaName as string,
       payload.data,
     );

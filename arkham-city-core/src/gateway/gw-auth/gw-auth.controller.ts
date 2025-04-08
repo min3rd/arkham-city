@@ -3,13 +3,13 @@ import {
   LogInByEmailAndPassword,
   LogInByRefreshToken,
   RegisterByEmailAndPasswordDto,
-} from '../../modules/auth/auth.type';
+} from '../../modules/auth/auth.interface';
 import { GatewayController } from 'src/core/gateway/gateway.controller';
 import { AuthService } from '../../modules/auth/auth.service';
 import { Public } from 'src/core/decorators/public';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { ClientRedis } from '@nestjs/microservices';
-import { MicroserviceResponse } from 'src/core/microservice/microservice.type';
+import { MicroserviceResponse } from 'src/core/microservice/microservice.types';
 import { User } from 'src/modules/user/user.type';
 import { firstValueFrom } from 'rxjs';
 

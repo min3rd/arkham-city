@@ -7,8 +7,9 @@ import {
   MicroserviceErrorCode,
   MicroserviceResponse,
   SuccessMicroserviceResponse,
-} from 'src/core/microservice/microservice.type';
+} from 'src/core/microservice/microservice.types';
 import { MongooseService } from '../mongoose/mongoose.service';
+import { SDKJwtPayload } from '../websdk/websdk-auth/websdl-auth.interface';
 
 @Injectable()
 export class FirestoreService {
@@ -38,6 +39,35 @@ export class FirestoreService {
       );
     }
     this.logger.log(`createRecord:end`);
+    return new SuccessMicroserviceResponse(record.toJSON());
+  }
+  async webSDKCreateFirestoreRecord(
+    auth: SDKJwtPayload,
+    schemaName: string,
+    data: any,
+  ) {
+    this.logger.log(
+      `webSDKCreateFirestoreRecord:start:schemaName=${schemaName},data=${JSON.stringify(data)}`,
+    );
+    const preData = {
+      ...data,
+      project: {
+        _id: auth.projectId,
+      },
+      auth: auth.username,
+    };
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const record = await this.mongooseService.createRecord(
+      this.mongooseService.createProjectConnection(auth.projectId as string),
+      schemaName,
+      preData,
+    );
+    if (!record) {
+      return new BadMicroserviceResponse(
+        MicroserviceErrorCode.COULD_NOT_SAVE_THE_RECORD,
+      );
+    }
+    this.logger.log(`webSDKCreateFirestoreRecord:end`);
     return new SuccessMicroserviceResponse(record.toJSON());
   }
 

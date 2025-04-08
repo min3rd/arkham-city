@@ -6,7 +6,7 @@ import {
   GetProjectByIdReqPayload,
   NewProjectReqPayload,
 } from './ms-project.interface';
-import { JWTPayload } from 'src/modules/auth/auth.type';
+import { JWTPayload } from 'src/modules/auth/auth.interface';
 
 @Controller()
 export class MsProjectController {

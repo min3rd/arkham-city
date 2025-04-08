@@ -8,8 +8,10 @@ import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+import { REQUEST_FIELDS } from 'src/config/request.config';
 import { IS_PUBLIC_KEY } from 'src/core/decorators/public';
-import { JWTPayload } from 'src/modules/auth/auth.type';
+import { JWTPayload } from 'src/modules/auth/auth.interface';
+import { SDKJwtPayload } from 'src/modules/websdk/websdk-auth/websdl-auth.interface';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -43,7 +45,15 @@ export class AuthGuard implements CanActivate {
       // 💡 We're assigning the payload to the request object here
       // so that we can access it in our route handlers
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      request['user'] = payload;
+      if (payload.type === 'dashboard') {
+        request[REQUEST_FIELDS.user] = payload;
+      } else if (payload.type === 'websdk') {
+        const authPayload: SDKJwtPayload = await this.jwtService.verifyAsync(
+          token,
+          { secret: this.configService.get('JWT_SECRET') },
+        );
+        request[REQUEST_FIELDS.auth] = authPayload;
+      }
     } catch {
       throw new UnauthorizedException();
     }

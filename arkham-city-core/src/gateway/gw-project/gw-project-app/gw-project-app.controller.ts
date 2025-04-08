@@ -28,7 +28,8 @@ import {
   UpdateProjectAppReqPayload,
 } from 'src/microservices/ms-project/ms-project-app/ms-project-app.interface';
 import { GatewayController } from 'src/core/gateway/gateway.controller';
-import { MicroserviceResponse } from 'src/core/microservice/microservice.type';
+import { MicroserviceResponse } from 'src/core/microservice/microservice.types';
+import { REQUEST_FIELDS } from 'src/config/request.config';
 
 @Controller('projects')
 export class GwProjectAppController extends GatewayController {
@@ -47,7 +48,7 @@ export class GwProjectAppController extends GatewayController {
   ) {
     const payload: CreateProjectAppReqPayload = {
       ...data,
-      user: request['user'],
+      user: request[REQUEST_FIELDS.user],
       projectId: params.projectId,
     };
     const res: MicroserviceResponse<any> = await firstValueFrom(
@@ -63,7 +64,7 @@ export class GwProjectAppController extends GatewayController {
   @Get(':projectId/apps')
   async all(@Req() request: Request, @Param() params: any) {
     const payload: AllProjectAppReqPayload = {
-      user: request['user'],
+      user: request[REQUEST_FIELDS.user],
       projectId: params.projectId,
     };
     const res: MicroserviceResponse<any> = await firstValueFrom(
@@ -79,7 +80,7 @@ export class GwProjectAppController extends GatewayController {
   @Get(':projectId/apps/:appId')
   async get(@Req() request: Request, @Param() params: any) {
     const payload: GetProjectAppReqPayload = {
-      user: request['user'],
+      user: request[REQUEST_FIELDS.user],
       projectId: params.projectId,
       appId: params.appId,
     };
@@ -101,7 +102,7 @@ export class GwProjectAppController extends GatewayController {
   ) {
     const payload: UpdateProjectAppReqPayload = {
       ...data,
-      user: request['user'],
+      user: request[REQUEST_FIELDS.user],
       projectId: params.projectId,
       appId: params.appId,
     };
@@ -118,7 +119,7 @@ export class GwProjectAppController extends GatewayController {
   @Delete(':projectId/apps/:appId')
   async delete(@Req() request: Request, @Param() params: any) {
     const payload: DeleteProjectAppReqPayload = {
-      user: request['user'],
+      user: request[REQUEST_FIELDS.user],
       projectId: params.projectId,
       appId: params.appId,
     };
@@ -135,7 +136,7 @@ export class GwProjectAppController extends GatewayController {
   @Get(':projectId/apps/:appId/secret')
   async getSecret(@Req() request: Request, @Param() params: any) {
     const payload: GetProjectAppSecretReqPayload = {
-      user: request['user'],
+      user: request[REQUEST_FIELDS.user],
       projectId: params.projectId,
       appId: params.appId,
     };

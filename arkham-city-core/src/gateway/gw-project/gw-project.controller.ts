@@ -12,11 +12,12 @@ import { Request } from 'express';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { NewProjectReqPayload } from 'src/microservices/ms-project/ms-project.interface';
 import { NewProjectDto } from './gw-project.interface';
-import { JWTPayload } from 'src/modules/auth/auth.type';
-import { MicroserviceResponse } from 'src/core/microservice/microservice.type';
+import { JWTPayload } from 'src/modules/auth/auth.interface';
+import { MicroserviceResponse } from 'src/core/microservice/microservice.types';
 import { firstValueFrom } from 'rxjs';
 import { GatewayController } from 'src/core/gateway/gateway.controller';
 import { Project } from 'src/modules/project/project.type';
+import { REQUEST_FIELDS } from 'src/config/request.config';
 
 @Controller('projects')
 export class GwProjectController extends GatewayController {
@@ -33,7 +34,7 @@ export class GwProjectController extends GatewayController {
     @Body() body: NewProjectDto,
   ): Promise<Project | undefined> {
     const data: NewProjectReqPayload = {
-      user: request['user'] as JWTPayload,
+      user: request[REQUEST_FIELDS.user] as JWTPayload,
       name: body.name,
       description: body?.description as string,
     };
@@ -49,7 +50,7 @@ export class GwProjectController extends GatewayController {
     const res: MicroserviceResponse<Project[]> = await firstValueFrom(
       this.clientProxy.send(
         microserviceConfig.projects.patterns.all,
-        request['user'] as JWTPayload,
+        request[REQUEST_FIELDS.user] as JWTPayload,
       ),
     );
     this.afterCallMicroservice(res);
@@ -60,7 +61,7 @@ export class GwProjectController extends GatewayController {
   async get(@Req() request: Request, @Param() params: any) {
     const res: MicroserviceResponse<Project> = await firstValueFrom(
       this.clientProxy.send(microserviceConfig.projects.patterns.get, {
-        user: request['user'] as JWTPayload,
+        user: request[REQUEST_FIELDS.user] as JWTPayload,
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
         projectId: params.id,
       }),

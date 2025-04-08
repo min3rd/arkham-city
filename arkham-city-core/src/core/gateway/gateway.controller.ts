@@ -1,5 +1,5 @@
 import { BadRequestAlertException } from '../exceptions/BadRequestAlertException';
-import { MicroserviceResponse } from '../microservice/microservice.type';
+import { MicroserviceResponse } from '../microservice/microservice.types';
 
 export class GatewayController {
   afterCallMicroservice(res: MicroserviceResponse<any>) {
