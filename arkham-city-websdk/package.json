@@ -6,7 +6,7 @@
   "types": "index.ts",
   "scripts": {
     "build": "rm -rf ./dist && tsc",
-    "test": "jest --detectOpenHandles"
+    "test": "jest"
   },
   "repository": {
     "type": "git",

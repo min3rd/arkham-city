@@ -1,6 +1,6 @@
-import axios, { AxiosRequestConfig, AxiosStatic } from "axios";
-import { catchError, from, Observable, of, switchMap } from "rxjs";
-import { JwtUtils } from "../utils";
+import axios, { AxiosRequestConfig, AxiosStatic } from 'axios';
+import { catchError, from, Observable, of, switchMap } from 'rxjs';
+import { JwtUtils } from '../utils';
 
 export interface ArkSDKConfig {
   url: string;
@@ -29,14 +29,23 @@ export interface ApiResponse<T> {
 }
 
 export class ArkSDKManager {
-  private _type: "websdk" = "websdk";
+  private _type: 'websdk' = 'websdk';
   private _accessToken!: string;
   private _globalConfig!: ArkSDKConfig;
   private _axios: AxiosStatic = axios;
+  private static _instance: ArkSDKManager;
+
+  public static get instance() {
+    if (!this._instance) {
+      this._instance = new ArkSDKManager();
+    }
+    return this._instance;
+  }
+
   set globalConfig(config: ArkSDKConfig) {
     const tmp: ArkSDKConfig = {
       ...config,
-      version: config.version ?? "v1",
+      version: config.version ?? 'v1',
     };
     this._globalConfig = tmp;
   }
@@ -46,7 +55,7 @@ export class ArkSDKManager {
   get globalConfig(): ArkSDKConfig {
     return this._globalConfig;
   }
-  get type(): "websdk" | string {
+  get type(): 'websdk' | string {
     return this._type;
   }
   get accessToken(): string {
@@ -70,15 +79,19 @@ export class ArkSDKManager {
       auth: undefined,
     };
     return from(
-      this._axios.post(this.endpoint(`auth/authenticate`), payload)
+      this._axios.post<any>(this.endpoint(`auth/authenticate`), payload),
     ).pipe(
-      catchError(() => {
+      catchError((e) => {
+        console.error(`Could not authenticate e=${e}`);
         return of(false);
       }),
       switchMap((response: any) => {
-        this.accessToken = response.data.data.accessToken;
-        return of(true);
-      })
+        if (response.data.data.accessToken) {
+          this.accessToken = response.data.data.accessToken;
+          return of(true);
+        }
+        return of(false);
+      }),
     );
   }
   check(): Observable<boolean> {
@@ -91,23 +104,33 @@ export class ArkSDKManager {
     return this.check().pipe(
       switchMap((authenticated) => {
         if (!authenticated) {
-          console.error("Unauthorization");
+          console.error('Unauthorization');
           return of(null);
         }
         return from(
-          this._axios.post(this.endpoint(uri), data, this.axiosConfig())
+          this._axios.post(this.endpoint(uri), data, this.axiosConfig()),
         ).pipe(
+          catchError((e) => {
+            const resDto: ApiResponse<string> = {
+              error: true,
+              timestamp: new Date(),
+              data: e,
+            };
+            return of(resDto);
+          }),
           switchMap((response) => {
             return of(response.data);
-          })
+          }),
         );
-      })
+      }),
     );
   }
 }
 
-export const arkSDKManager = new ArkSDKManager();
+export const arkSDKManager = () => {
+  return ArkSDKManager.instance;
+};
 
 export const globalConfig = (config: ArkSDKConfig) => {
-  arkSDKManager.globalConfig = config;
+  arkSDKManager().globalConfig = config;
 };

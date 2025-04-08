@@ -1,10 +1,8 @@
-import { Observable } from "rxjs";
-import { arkSDKManager, ArkSDKManager } from "../config";
-import { AxiosResponse } from "axios";
+import { Observable } from 'rxjs';
+import { ApiResponse, arkSDKManager } from '../ark-manager';
 
 export default class FirestoreClient {
   private static _instance: FirestoreClient;
-  private _arkSDKManager: ArkSDKManager = arkSDKManager;
   private _schemaName!: string;
   static instance(schemaName: string): FirestoreClient {
     if (!this._instance) {
@@ -16,11 +14,8 @@ export default class FirestoreClient {
   get schemaName(): string {
     return this._schemaName;
   }
-  new<T, K>(data: T): Observable<AxiosResponse<K | any> | any> {
-    return this._arkSDKManager.post(
-      this._arkSDKManager.endpoint(`/firestore/${this._schemaName}`),
-      data
-    );
+  new<T, K>(data: T): Observable<ApiResponse<K>> {
+    return arkSDKManager().post<T, K>(`firestore/${this._schemaName}`, data);
   }
 }
 
