@@ -6,36 +6,33 @@ import moment from 'moment';
 @Injectable()
 export class MongooseService {
   private readonly logger = new Logger(MongooseService.name);
-  private readonly schemaNameRegex = new RegExp(/[a-z]/);
+  private readonly schemaNameRegex = new RegExp(/[a-z]+/);
   constructor(private readonly configService: ConfigService) {}
   async createRecord(connection: Connection, schemaName: string, data: any) {
     if (!this.schemaNameRegex.exec(schemaName)) {
       throw new ForbiddenException();
     }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument
     const dataType = this.fromDataToType(data);
     const _Schema = new mongoose.Schema(dataType);
     const _Model = connection.model(schemaName, _Schema);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const record = new _Model(data);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     return await record.save();
   }
 
-  createFirestoreConnection(): Connection {
-    return mongoose.createConnection(
-      this.configService.get('MONGO_DB_FIRESTORE') as string,
-    );
+  createConnection(mongoUrl: string, poolSize: number = 10): Connection {
+    return mongoose.createConnection(mongoUrl, { maxPoolSize: poolSize });
   }
 
-  createConnection(mongoUrl: string): Connection {
-    return mongoose.createConnection(mongoUrl);
-  }
-
-  createProjectConnection(projectId: string): Connection {
-    const mongoUrl: string = this.configService.get('MONGO_DB_URL') as string;
-    const connectionString = `${mongoUrl}projects_${projectId}`;
-    return this.createConnection(connectionString);
+  createProjectConnection(
+    projectId: string,
+    poolSize: number = 10,
+  ): Connection {
+    let mongoUrl: string = this.configService.get('MONGO_DB_URL') as string;
+    if (mongoUrl.endsWith('/')) {
+      mongoUrl = mongoUrl.substring(0, mongoUrl.length - 1);
+    }
+    const connectionString = `${mongoUrl}/projects_${projectId}`;
+    return this.createConnection(connectionString, poolSize);
   }
 
   fromDataToType(data: object) {
@@ -43,7 +40,6 @@ export class MongooseService {
       return false;
     }
     if (data instanceof Array) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-argument
       return this.fromDataToType(data.pop());
     }
     const dataType = {};
@@ -59,9 +55,7 @@ export class MongooseService {
               type: Date,
             };
           }
-        } catch (e) {
-          this.logger.error(e);
-        }
+        } catch (e) {}
       } else if (typeof data[key] === 'number') {
         dataType[key] = {
           type: Number,
