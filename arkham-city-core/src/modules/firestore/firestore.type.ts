@@ -2,33 +2,34 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 
 @Schema()
-export class Field {
+export class FirestoreSchemaField {
   @Prop()
   name: string;
 
   @Prop()
   type: string;
-
-  @Prop({
-    default: false,
-  })
-  required?: boolean = false;
-
-  @Prop()
-  defaultValue?: string;
 }
 
 @Schema()
-export class DynamicSchema {
+export class FirestoreDynamicSchema {
   @Prop()
   name: string;
 
   @Prop({
     type: [mongoose.Types.ObjectId],
   })
-  fields?: Field[];
+  fields?: FirestoreSchemaField[];
 }
 
-export type DynamicSchemaDocument = HydratedDocument<DynamicSchema>;
+export type FirestoreDynamicSchemaDocument =
+  HydratedDocument<FirestoreDynamicSchema>;
 
-export const DynamicSchemaSchema = SchemaFactory.createForClass(DynamicSchema);
+export const FirestoreDynamicSchemaSchema = SchemaFactory.createForClass(
+  FirestoreDynamicSchema,
+);
+
+export type FirestoreSchemaFieldDocument =
+  HydratedDocument<FirestoreSchemaField>;
+
+export const FirestoreSchemaFieldSchema =
+  SchemaFactory.createForClass(FirestoreSchemaField);

@@ -1,24 +1,24 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { DynamicSchema, Field } from './firestore.type';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import {
+  FirestoreDynamicSchemaSchema,
+  FirestoreDynamicSchema,
+  FirestoreSchemaField,
+  FirestoreSchemaFieldSchema,
+} from './firestore.type';
+import { MongooseService } from '../mongoose/mongoose.service';
+import { SDKJwtPayload } from '../websdk/websdk-auth/websdl-auth.interface';
 import {
   BadMicroserviceResponse,
   MicroserviceErrorCode,
   MicroserviceResponse,
   SuccessMicroserviceResponse,
 } from 'src/core/microservice/microservice.types';
-import { MongooseService } from '../mongoose/mongoose.service';
-import { SDKJwtPayload } from '../websdk/websdk-auth/websdl-auth.interface';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class FirestoreService {
   private readonly logger = new Logger(FirestoreService.name);
-  constructor(
-    @InjectModel(DynamicSchema.name, 'firestore')
-    private readonly dynamicModel: Model<DynamicSchema>,
-    private readonly mongooseService: MongooseService,
-  ) {}
+  constructor(private readonly mongooseService: MongooseService) {}
 
   async createRecord(
     schemaName: string,
@@ -27,7 +27,6 @@ export class FirestoreService {
     this.logger.log(
       `createRecord:start:schemaName=${schemaName},data=${JSON.stringify(data)}`,
     );
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const record = await this.mongooseService.createRecord(
       this.mongooseService.createProjectConnection('test'),
       schemaName,
@@ -71,12 +70,25 @@ export class FirestoreService {
     return new SuccessMicroserviceResponse(record.toJSON());
   }
 
-  async storeSchema(schemaName: string, fields: Field[]) {
-    let dynamicSchema = new this.dynamicModel({
-      name: schemaName,
-      fields: fields,
-    });
-    dynamicSchema = await dynamicSchema.save();
-    return dynamicSchema;
+  async webSDKStoreSchema(auth: SDKJwtPayload, schemaName: string, data: any) {
+    const dataType = this.mongooseService.fromDataToType(data);
+    const connection = this.mongooseService.createProjectConnection(
+      auth.projectId as string,
+    );
+    let schemaModel = connection.model(
+      FirestoreDynamicSchema.name,
+      FirestoreDynamicSchemaSchema,
+    );
+
+    let fieldModel = connection.model(
+      FirestoreSchemaField.name,
+      FirestoreSchemaFieldSchema,
+    );
+    for (const _field of dataType) {
+      const field = new fieldModel({
+        name: _field,
+        type: _field.type,
+      });
+    }
   }
 }
