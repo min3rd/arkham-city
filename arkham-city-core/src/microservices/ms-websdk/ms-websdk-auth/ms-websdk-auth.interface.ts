@@ -1,4 +1,4 @@
-export interface WebSDKAuthReqPayload {
+export interface MsWebSDKAuthReqPayload {
   projectId: string;
   appId: string;
   secretKey: string;
