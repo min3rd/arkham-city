@@ -15,7 +15,7 @@ import {
 import { microserviceConfig } from 'src/config/microservice.config';
 import { ClientRedis } from '@nestjs/microservices';
 import { MsWebSDKFirestoreStoreSchemaReqPayload } from 'src/microservices/ms-websdk/ms-websdk-firestore/ms-websdk-firestore.interface';
-import moment from 'moment';
+import moment, { ISO_8601 } from 'moment';
 import mongoose, { Connection } from 'mongoose';
 
 @Injectable()
@@ -53,7 +53,7 @@ export class FirestoreService {
     data: any,
   ) {
     this.logger.log(
-      `webSDKCreateFirestoreRecord:start:schemaName=${schemaName},data=${JSON.stringify(data)}`,
+      `webSDKCreateFirestoreRecord:start:auth=${JSON.stringify(auth)},schemaName=${schemaName},data=${JSON.stringify(data)}`,
     );
     const preData = {
       ...data,
@@ -87,7 +87,7 @@ export class FirestoreService {
 
   async webSDKStoreSchema(auth: SDKJwtPayload, schemaName: string, data: any) {
     this.logger.log(
-      `webSDKStoreSchema:start:auth=${auth},schemaName=${schemaName},data=${data}`,
+      `webSDKStoreSchema:start:auth=${JSON.stringify(auth)},schemaName=${schemaName},data=${JSON.stringify(data)}`,
     );
     if (!MongooseService.schemaNameRegex.exec(schemaName)) {
       return new BadMicroserviceResponse(MicroserviceErrorCode.DEFAULT);
@@ -113,7 +113,7 @@ export class FirestoreService {
 
   async webSDKQueryRecord(auth: SDKJwtPayload, schemeName: string, query: any) {
     this.logger.log(
-      `webSDKQueryRecord:start:auth=${auth},schemeName=${schemeName},query=${query}`,
+      `webSDKQueryRecord:start:auth=${JSON.stringify(auth)},schemeName=${schemeName},query=${JSON.stringify(query)}`,
     );
     const connection = this.mongooseService.createProjectConnection(
       auth.projectId as string,
@@ -182,12 +182,10 @@ export class FirestoreService {
       if (typeof data[key] === 'string') {
         type = String.name;
         try {
-          if (moment(data[key], moment.ISO_8601, true).isValid()) {
+          if (moment(data[key], ISO_8601, true).isValid()) {
             type = Date.name;
           }
-        } catch (e) {
-          console.error(e);
-        }
+        } catch (e) {}
       } else if (typeof data[key] === 'number') {
         type = Number.name;
       } else if (typeof data[key] === 'bigint') {
