@@ -1,15 +1,15 @@
 {
   "name": "arkham-city-websdk",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Connecting to The City",
   "author": {
     "name": "Vu Van Minh",
     "url": "https://github.com/min3rd",
     "email": "min6th@gmail.com"
   },
-  "license":"GPL-3.0-only",
+  "license": "GPL-3.0-only",
   "main": "./dist/index.js",
-  "types": "index.ts",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "rm -rf ./dist && tsc",
     "test": "jest",

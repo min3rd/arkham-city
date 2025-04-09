@@ -1,24 +1,24 @@
-import { firstValueFrom } from 'rxjs';
-import { manager, globalConfig } from '.';
+import { firstValueFrom } from "rxjs";
+import { manager, globalConfig } from ".";
 
-describe('Ark Manager', () => {
+describe("Ark Manager", () => {
   globalConfig({
-    url: 'http://localhost:3000',
-    version: 'v1',
-    projectId: '67f5c8217c6825c085fbbeef',
-    appId: '67f5c8337c6825c085fbbef3',
+    url: "http://localhost:3000",
+    version: "v1",
+    projectId: "67f27fe312a6cb3e921dbe57",
+    appId: "67f27ff412a6cb3e921dbe5c",
     secretKey:
-      'VpkrHWRgqtwU51W3K2NGa3yKp4kjbpRzcE3hdxIat1YhbzE3eeR4lI71ETDW8Z9L',
+      "vGemdydFtKSa2abATbtXaoMFvmTqd0u5rPv3iFReJQr1VamFTWNgUS+4FaSt+Vtt",
   });
-  test('Ark Manager:endpoint', () => {
-    const uri: string = 'authenticate';
+  test("Ark Manager:endpoint", () => {
+    const uri: string = "authenticate";
     const expected: string = `${manager().globalConfig.url}/${
       manager().globalConfig.version
     }/${manager().type}/${uri}`;
     const returned = manager().endpoint(uri);
     expect(returned).toEqual(expected);
   });
-  test('Ark Manager:authenticate', async () => {
+  test("Ark Manager:authenticate", async () => {
     const res = await firstValueFrom(manager().authenticate());
     expect(res).toBeDefined();
   });

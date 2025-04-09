@@ -33,5 +33,11 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-const firestoreModule = __importStar(require("./src/firestore"));
-exports.default = firestoreModule;
+const utils = __importStar(require("./utils"));
+const manager = __importStar(require("./manager"));
+const firestoreModules = __importStar(require("./firestore"));
+exports.default = {
+    utils: utils,
+    manager: manager,
+    firestoreModule: firestoreModules,
+};

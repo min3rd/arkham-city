@@ -1,6 +1,6 @@
 import { jwtDecode, JwtPayload } from "jwt-decode";
 
-export class JwtUtils {
+export default class JwtUtils {
   static decodeJwt(token: string): JwtPayload {
     return jwtDecode(token);
   }

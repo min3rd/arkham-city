@@ -6,16 +6,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.globalConfig = exports.manager = exports.SDKManager = void 0;
 const axios_1 = __importDefault(require("axios"));
 const rxjs_1 = require("rxjs");
-const utils_1 = require("../utils");
+const utils_1 = __importDefault(require("../utils"));
 class SDKManager {
     constructor() {
-        this._type = 'websdk';
+        this._type = "websdk";
         this._globalConfig = {
-            url: 'http://localhost:3000',
-            version: 'v1',
-            projectId: '',
-            appId: '',
-            secretKey: '',
+            url: "http://localhost:3000",
+            version: "v1",
+            projectId: "",
+            appId: "",
+            secretKey: "",
             isProductionMode: false,
         };
         this._axios = axios_1.default;
@@ -70,7 +70,7 @@ class SDKManager {
         }));
     }
     check() {
-        if (this.accessToken && !utils_1.JwtUtils.isExpired(this.accessToken)) {
+        if (this.accessToken && !utils_1.default.isExpired(this.accessToken)) {
             return (0, rxjs_1.of)(true);
         }
         return this.authenticate();
@@ -78,7 +78,7 @@ class SDKManager {
     post(uri, data) {
         return this.check().pipe((0, rxjs_1.switchMap)((authenticated) => {
             if (!authenticated) {
-                console.error('Unauthorization');
+                console.error("Unauthorization");
                 return (0, rxjs_1.of)(null);
             }
             return (0, rxjs_1.from)(this._axios.post(this.endpoint(uri), data, this.axiosConfig())).pipe((0, rxjs_1.catchError)((e) => {
@@ -96,7 +96,7 @@ class SDKManager {
     get(uri) {
         return this.check().pipe((0, rxjs_1.switchMap)((authenticated) => {
             if (!authenticated) {
-                console.error('Unauthorization');
+                console.error("Unauthorization");
                 return (0, rxjs_1.of)(null);
             }
             return (0, rxjs_1.from)(this._axios.get(this.endpoint(uri), this.axiosConfig())).pipe((0, rxjs_1.catchError)((e) => {

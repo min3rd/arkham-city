@@ -1,6 +1,6 @@
-import axios, { AxiosRequestConfig, AxiosStatic } from 'axios';
-import { catchError, from, Observable, of, switchMap } from 'rxjs';
-import { JwtUtils } from '../utils';
+import axios, { AxiosRequestConfig, AxiosStatic } from "axios";
+import { catchError, from, Observable, of, switchMap } from "rxjs";
+import JwtUtils from "../utils";
 
 export interface SDKConfig {
   url: string;
@@ -29,14 +29,14 @@ export interface ApiResponse<T> {
 }
 
 export class SDKManager {
-  private _type: 'websdk' | 'mobilesdk' = 'websdk';
+  private _type: "websdk" | "mobilesdk" = "websdk";
   private _accessToken!: string;
   private _globalConfig: SDKConfig = {
-    url: 'http://localhost:3000',
-    version: 'v1',
-    projectId: '',
-    appId: '',
-    secretKey: '',
+    url: "http://localhost:3000",
+    version: "v1",
+    projectId: "",
+    appId: "",
+    secretKey: "",
     isProductionMode: false,
   };
   private _axios: AxiosStatic = axios;
@@ -58,7 +58,7 @@ export class SDKManager {
   get globalConfig(): SDKConfig {
     return this._globalConfig;
   }
-  get type(): 'websdk' | 'mobilesdk' {
+  get type(): "websdk" | "mobilesdk" {
     return this._type;
   }
   get accessToken(): string {
@@ -82,7 +82,7 @@ export class SDKManager {
       auth: undefined,
     };
     return from(
-      this._axios.post<any>(this.endpoint(`auth/authenticate`), payload),
+      this._axios.post<any>(this.endpoint(`auth/authenticate`), payload)
     ).pipe(
       catchError((e) => {
         console.error(`Could not authenticate e=${e}`);
@@ -94,7 +94,7 @@ export class SDKManager {
           return of(true);
         }
         return of(false);
-      }),
+      })
     );
   }
   check(): Observable<boolean> {
@@ -107,11 +107,11 @@ export class SDKManager {
     return this.check().pipe(
       switchMap((authenticated) => {
         if (!authenticated) {
-          console.error('Unauthorization');
+          console.error("Unauthorization");
           return of(null);
         }
         return from(
-          this._axios.post(this.endpoint(uri), data, this.axiosConfig()),
+          this._axios.post(this.endpoint(uri), data, this.axiosConfig())
         ).pipe(
           catchError((e) => {
             const resDto: ApiResponse<string> = {
@@ -123,9 +123,9 @@ export class SDKManager {
           }),
           switchMap((response) => {
             return of(response.data);
-          }),
+          })
         );
-      }),
+      })
     );
   }
 
@@ -133,11 +133,11 @@ export class SDKManager {
     return this.check().pipe(
       switchMap((authenticated) => {
         if (!authenticated) {
-          console.error('Unauthorization');
+          console.error("Unauthorization");
           return of(null);
         }
         return from(
-          this._axios.get(this.endpoint(uri), this.axiosConfig()),
+          this._axios.get(this.endpoint(uri), this.axiosConfig())
         ).pipe(
           catchError((e) => {
             const resDto: ApiResponse<string> = {
@@ -149,9 +149,9 @@ export class SDKManager {
           }),
           switchMap((response) => {
             return of(response.data);
-          }),
+          })
         );
-      }),
+      })
     );
   }
 }
