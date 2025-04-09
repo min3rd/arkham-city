@@ -17,6 +17,14 @@ import { MongooseService } from '../mongoose/mongoose.service';
           port: parseInt(process.env.REDIS_PORT as string),
         },
       },
+      {
+        name: microserviceConfig.websdk.firestore.name,
+        transport: Transport.REDIS,
+        options: {
+          host: process.env.REDIS_HOST as string,
+          port: parseInt(process.env.REDIS_PORT as string),
+        },
+      },
     ]),
   ],
   providers: [MongooseService, FirestoreService],

@@ -1,4 +1,4 @@
-import { JWTPayload } from "src/modules/auth/auth.interface";
+import { JWTPayload } from 'src/modules/auth/auth.interface';
 
 export interface SDKAuthResDto {
   accessToken: string;

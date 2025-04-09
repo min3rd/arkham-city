@@ -6,10 +6,10 @@ describe('Firestore Client', () => {
   globalConfig({
     url: 'http://localhost:3000',
     version: 'v1',
-    projectId: '67ec8b64c5c7b957e287bb15',
-    appId: '67f4780637d10200db809dae',
+    projectId: '67f5c8217c6825c085fbbeef',
+    appId: '67f5c8337c6825c085fbbef3',
     secretKey:
-      'Ar+aCLoWscDcq4NcIZFnpgSbSacgOT5slL9Kp8M8t9i5qrBQhB87BPjLkx+DHah6',
+      'VpkrHWRgqtwU51W3K2NGa3yKp4kjbpRzcE3hdxIat1YhbzE3eeR4lI71ETDW8Z9L',
   });
   test('Firestore Client: firestore(schema)', () => {
     const testSchemaName = 'conversions';
@@ -20,6 +20,41 @@ describe('Firestore Client', () => {
   test('Firestore Client: new', async () => {
     const payload = {
       filed1: 'This is field 1',
+      children: [
+        {
+          name: 'Daughter',
+        },
+        {
+          name: 'Son',
+        },
+      ],
+      account: {
+        name: 'Account name',
+        email: 'email@email.com',
+        balances: {
+          real: 50000,
+          demo: 10000000,
+        },
+      },
+    };
+    const response = await firstValueFrom(firestore('test').new(payload));
+    expect(response).toBeDefined();
+  });
+
+  test('Firestore Client: update dynamic schema', async () => {
+    const payload = {
+      field2: 'This is field2',
+      emails: ['email0@email.com', 'email1@email.com'],
+      data: {
+        accounts: [
+          {
+            username: 'account1',
+          },
+          {
+            username: 'account2',
+          },
+        ],
+      },
     };
     const response = await firstValueFrom(firestore('test').new(payload));
     expect(response).toBeDefined();

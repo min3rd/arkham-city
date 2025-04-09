@@ -5,10 +5,10 @@ describe('Ark Manager', () => {
   globalConfig({
     url: 'http://localhost:3000',
     version: 'v1',
-    projectId: '67ec8b64c5c7b957e287bb15',
-    appId: '67f4780637d10200db809dae',
+    projectId: '67f5c8217c6825c085fbbeef',
+    appId: '67f5c8337c6825c085fbbef3',
     secretKey:
-      'Ar+aCLoWscDcq4NcIZFnpgSbSacgOT5slL9Kp8M8t9i5qrBQhB87BPjLkx+DHah6',
+      'VpkrHWRgqtwU51W3K2NGa3yKp4kjbpRzcE3hdxIat1YhbzE3eeR4lI71ETDW8Z9L',
   });
   test('Ark Manager:endpoint', () => {
     const uri: string = 'authenticate';

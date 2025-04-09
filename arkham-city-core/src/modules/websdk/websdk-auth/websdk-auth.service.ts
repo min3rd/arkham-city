@@ -8,7 +8,6 @@ import {
   MicroserviceResponse,
   SuccessMicroserviceResponse,
 } from 'src/core/microservice/microservice.types';
-import { JWTPayload } from 'src/modules/auth/auth.interface';
 import { ProjectApp } from 'src/modules/project/app/project-app.type';
 import { SDKAuthResDto, SDKJwtPayload } from './websdl-auth.interface';
 import { HashService } from 'src/core/hash/hash.service';

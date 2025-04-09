@@ -6,15 +6,16 @@ import moment from 'moment';
 @Injectable()
 export class MongooseService {
   private readonly logger = new Logger(MongooseService.name);
-  private readonly schemaNameRegex = new RegExp(/[a-z]+/);
+  public static readonly schemaNameRegex = new RegExp(/[a-zA-Z]+/);
   constructor(private readonly configService: ConfigService) {}
   async createRecord(connection: Connection, schemaName: string, data: any) {
-    if (!this.schemaNameRegex.exec(schemaName)) {
+    if (!MongooseService.schemaNameRegex.exec(schemaName)) {
       throw new ForbiddenException();
     }
     const dataType = this.fromDataToType(data);
+    this.logger.debug(`createRecord:dataType=${JSON.stringify(dataType)}`);
     const _Schema = new mongoose.Schema(dataType);
-    const _Model = connection.model(schemaName, _Schema);
+    const _Model = connection.model(schemaName.toLowerCase(), _Schema);
     const record = new _Model(data);
     return await record.save();
   }
@@ -55,7 +56,9 @@ export class MongooseService {
               type: Date,
             };
           }
-        } catch (e) {}
+        } catch (e) {
+          console.error(e);
+        }
       } else if (typeof data[key] === 'number') {
         dataType[key] = {
           type: Number,
@@ -74,7 +77,6 @@ export class MongooseService {
             type: Array,
           };
         } else {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           dataType[key] = this.fromDataToType(data[key] as object);
         }
       }

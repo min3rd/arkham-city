@@ -43,6 +43,7 @@ export const microserviceConfig = {
       name: 'websdk.firestore',
       patterns: {
         createRecord: 'v1.websdk.firestore.create-record',
+        storeSchema: 'v1.websdk.firestore.store-schema',
       },
     },
   },

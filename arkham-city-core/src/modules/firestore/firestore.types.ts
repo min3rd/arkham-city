@@ -16,9 +16,9 @@ export class FirestoreDynamicSchema {
   name: string;
 
   @Prop({
-    type: [mongoose.Types.ObjectId],
+    type: mongoose.Types.ArraySubdocument,
   })
-  fields?: FirestoreSchemaField[];
+  fields: FirestoreSchemaField[];
 }
 
 export type FirestoreDynamicSchemaDocument =
@@ -27,9 +27,3 @@ export type FirestoreDynamicSchemaDocument =
 export const FirestoreDynamicSchemaSchema = SchemaFactory.createForClass(
   FirestoreDynamicSchema,
 );
-
-export type FirestoreSchemaFieldDocument =
-  HydratedDocument<FirestoreSchemaField>;
-
-export const FirestoreSchemaFieldSchema =
-  SchemaFactory.createForClass(FirestoreSchemaField);
