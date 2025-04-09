@@ -1,10 +1,13 @@
 {
   "name": "arkham-city-core",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "",
-  "author": "vanminh.vu",
-  "private": false,
-  "license": "UNLICENSED",
+  "author": {
+    "name": "Vu Van Minh",
+    "url": "https://github.com/min3rd",
+    "email": "min6th@gmail.com"
+  },
+  "license":"GPL-3.0-only",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

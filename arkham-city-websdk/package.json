@@ -2,6 +2,12 @@
   "name": "arkham-city-websdk",
   "version": "1.0.0",
   "description": "Connecting to The City",
+  "author": {
+    "name": "Vu Van Minh",
+    "url": "https://github.com/min3rd",
+    "email": "min6th@gmail.com"
+  },
+  "license":"GPL-3.0-only",
   "main": "./dist/index.js",
   "types": "index.ts",
   "scripts": {
@@ -19,8 +25,6 @@
     "firebase",
     "open-source"
   ],
-  "author": "https://github.com/min3rd",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/min3rd/arkham-city/issues"
   },
