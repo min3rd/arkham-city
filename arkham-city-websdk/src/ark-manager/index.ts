@@ -29,9 +29,16 @@ export interface ApiResponse<T> {
 }
 
 export class ArkSDKManager {
-  private _type: 'websdk' = 'websdk';
+  private _type: 'websdk' | 'mobilesdk' = 'websdk';
   private _accessToken!: string;
-  private _globalConfig!: ArkSDKConfig;
+  private _globalConfig: ArkSDKConfig = {
+    url: 'http://localhost:3000',
+    version: 'v1',
+    projectId: '',
+    appId: '',
+    secretKey: '',
+    isProductionMode: false,
+  };
   private _axios: AxiosStatic = axios;
   private static _instance: ArkSDKManager;
 
@@ -43,11 +50,7 @@ export class ArkSDKManager {
   }
 
   set globalConfig(config: ArkSDKConfig) {
-    const tmp: ArkSDKConfig = {
-      ...config,
-      version: config.version ?? 'v1',
-    };
-    this._globalConfig = tmp;
+    this._globalConfig = config;
   }
   set accessToken(accessToken: string) {
     this._accessToken = accessToken;
@@ -55,7 +58,7 @@ export class ArkSDKManager {
   get globalConfig(): ArkSDKConfig {
     return this._globalConfig;
   }
-  get type(): 'websdk' | string {
+  get type(): 'websdk' | 'mobilesdk' {
     return this._type;
   }
   get accessToken(): string {
@@ -153,10 +156,10 @@ export class ArkSDKManager {
   }
 }
 
-export const arkSDKManager = () => {
+export const manager = () => {
   return ArkSDKManager.instance;
 };
 
 export const globalConfig = (config: ArkSDKConfig) => {
-  arkSDKManager().globalConfig = config;
+  manager().globalConfig = config;
 };

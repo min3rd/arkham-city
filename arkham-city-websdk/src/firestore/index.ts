@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { ApiResponse, arkSDKManager } from '../ark-manager';
+import { ApiResponse, manager } from '../ark-manager';
 
 export default class FirestoreClient {
   private static _instance: FirestoreClient;
@@ -15,10 +15,10 @@ export default class FirestoreClient {
     return this._schemaName;
   }
   new<T, K>(data: T): Observable<ApiResponse<K>> {
-    return arkSDKManager().post<T, K>(`firestore/${this._schemaName}`, data);
+    return manager().post<T, K>(`firestore/${this._schemaName}`, data);
   }
-  select<T>(): Observable<ApiResponse<T>> {
-    return arkSDKManager().get<T>(`firestore/${this._schemaName}`);
+  select<T, K>(query: T): Observable<ApiResponse<K>> {
+    return manager().post<T, K>(`firestore/${this._schemaName}/query`, query);
   }
 }
 

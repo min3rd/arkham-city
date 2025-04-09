@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
 import mongoose, { Connection } from 'mongoose';
 import { ConfigService } from '@nestjs/config';
-import moment from 'moment';
+import moment, { ISO_8601 } from 'moment';
 
 @Injectable()
 export class MongooseService {
@@ -50,15 +50,13 @@ export class MongooseService {
           type: String,
         };
         try {
-          if (moment(data[key], moment.ISO_8601, true).isValid()) {
+          if (moment(data[key], ISO_8601, true).isValid()) {
             this.logger.log(key);
             dataType[key] = {
               type: Date,
             };
           }
-        } catch (e) {
-          console.error(e);
-        }
+        } catch (e) {}
       } else if (typeof data[key] === 'number') {
         dataType[key] = {
           type: Number,

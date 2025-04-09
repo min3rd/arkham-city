@@ -1,5 +1,5 @@
 import { firstValueFrom } from 'rxjs';
-import { arkSDKManager, globalConfig } from '.';
+import { manager, globalConfig } from '.';
 
 describe('Ark Manager', () => {
   globalConfig({
@@ -12,14 +12,14 @@ describe('Ark Manager', () => {
   });
   test('Ark Manager:endpoint', () => {
     const uri: string = 'authenticate';
-    const expected: string = `${arkSDKManager().globalConfig.url}/${
-      arkSDKManager().globalConfig.version
-    }/${arkSDKManager().type}/${uri}`;
-    const returned = arkSDKManager().endpoint(uri);
+    const expected: string = `${manager().globalConfig.url}/${
+      manager().globalConfig.version
+    }/${manager().type}/${uri}`;
+    const returned = manager().endpoint(uri);
     expect(returned).toEqual(expected);
   });
   test('Ark Manager:authenticate', async () => {
-    const res = await firstValueFrom(arkSDKManager().authenticate());
+    const res = await firstValueFrom(manager().authenticate());
     expect(res).toBeDefined();
   });
   test('Ark Manager:post check', async () => {
@@ -27,7 +27,7 @@ describe('Ark Manager', () => {
       data: 'This is data',
     };
     const res = await firstValueFrom(
-      arkSDKManager().post(`auth/test`, payload),
+      manager().post(`auth/test`, payload),
     );
     expect(res).toBeDefined();
     const data = res?.data;

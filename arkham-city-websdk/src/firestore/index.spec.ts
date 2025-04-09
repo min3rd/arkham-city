@@ -60,8 +60,27 @@ describe('Firestore Client', () => {
     expect(response).toBeDefined();
   });
 
-  test('Firestore Client: query schema', async () => {
-    const response = await firstValueFrom(firestore('test').select());
+  test('Firestore Client: query all schema', async () => {
+    const response = await firstValueFrom(firestore('test').select({}));
     expect(response).toBeDefined();
+  });
+
+  test('Firestore Client: query schema', async () => {
+    const random = Math.random();
+    const payload = {
+      key: `This is the key ${random}`,
+    };
+    const newResponse = await firstValueFrom(
+      firestore('test').new<any, any>(payload),
+    );
+    expect(newResponse.data).toBeDefined();
+    const response = await firstValueFrom(
+      firestore('test').select<any, any>({
+        _id: newResponse?.data?._id,
+      }),
+    );
+    console.log(response.data);
+    expect(response.data).toBeDefined();
+    expect(response.data.length).toBeGreaterThan(0);
   });
 });

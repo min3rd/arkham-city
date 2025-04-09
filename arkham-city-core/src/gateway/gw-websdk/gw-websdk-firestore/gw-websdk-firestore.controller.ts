@@ -46,11 +46,16 @@ export class GwWebSDKFirestoreController extends GatewayController {
     return res.data;
   }
 
-  @Get(':schemaName')
-  async querySchema(@Req() request: Request, @Param() params: any) {
+  @Post(':schemaName/query')
+  async querySchema(
+    @Req() request: Request,
+    @Param() params: any,
+    @Body() query: any,
+  ) {
     const payload: MsWebSDKFirestoreQuerySchemaReqPayload = {
       auth: request[REQUEST_FIELDS.auth],
       schemaName: params.schemaName,
+      query: query,
     };
     const res: MicroserviceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
