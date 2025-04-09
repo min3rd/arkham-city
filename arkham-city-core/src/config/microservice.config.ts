@@ -44,6 +44,7 @@ export const microserviceConfig = {
       patterns: {
         createRecord: 'v1.websdk.firestore.create-record',
         storeSchema: 'v1.websdk.firestore.store-schema',
+        querySchema: 'v1.websdk.firestore.query',
       },
     },
   },

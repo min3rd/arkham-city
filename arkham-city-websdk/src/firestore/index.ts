@@ -17,6 +17,9 @@ export default class FirestoreClient {
   new<T, K>(data: T): Observable<ApiResponse<K>> {
     return arkSDKManager().post<T, K>(`firestore/${this._schemaName}`, data);
   }
+  select<T>(): Observable<ApiResponse<T>> {
+    return arkSDKManager().get<T>(`firestore/${this._schemaName}`);
+  }
 }
 
 export const firestore = (schemaName: string) => {

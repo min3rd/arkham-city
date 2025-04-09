@@ -87,4 +87,9 @@ export class MicroserviceErrorCode {
     '01x0012',
     'The secret key was incorrect',
   );
+
+  static readonly WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA = new IErrorCode(
+    '01x0013',
+    'Could not found the schema',
+  );
 }
