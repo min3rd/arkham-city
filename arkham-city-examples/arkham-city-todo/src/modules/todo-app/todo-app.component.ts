@@ -16,7 +16,13 @@ import { Subject } from 'rxjs';
 })
 export class TodoAppComponent implements OnInit, OnDestroy {
   private _unsubscribeAll: Subject<any> = new Subject();
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    firestore('task')
+      .select({})
+      .subscribe((res) => {
+        console.log(res);
+      });
+  }
   ngOnDestroy(): void {
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
