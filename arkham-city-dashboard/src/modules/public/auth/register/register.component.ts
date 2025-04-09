@@ -59,7 +59,7 @@ export class RegisterComponent extends BaseComponent implements OnInit {
         registerDto.lastName
       )
       .subscribe((res) => {
-        console.log(res);
+        this.router.navigate(['/log-in'])
       });
   }
 }

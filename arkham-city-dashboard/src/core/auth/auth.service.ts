@@ -111,7 +111,7 @@ export class AuthService {
           return of(false);
         }),
         switchMap((response: ApiResponse<LogInResDto>) => {
-          if (response.data.accessToken) {
+          if (response?.data?.accessToken) {
             this.accessToken = response.data.accessToken;
             this.refreshToken = response.data.refreshToken;
             this.user = response.data.metadata;

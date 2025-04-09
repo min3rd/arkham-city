@@ -1,10 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import {
   FirestoreDynamicSchemaSchema,
   FirestoreDynamicSchema,
   FirestoreSchemaField,
-  FirestoreSchemaFieldSchema,
-} from './firestore.type';
+} from './firestore.types';
 import { MongooseService } from '../mongoose/mongoose.service';
 import { SDKJwtPayload } from '../websdk/websdk-auth/websdl-auth.interface';
 import {
@@ -13,12 +12,19 @@ import {
   MicroserviceResponse,
   SuccessMicroserviceResponse,
 } from 'src/core/microservice/microservice.types';
-import mongoose from 'mongoose';
+import { microserviceConfig } from 'src/config/microservice.config';
+import { ClientRedis } from '@nestjs/microservices';
+import { MsWebsdkFirestoreStoreSchemaReqPayload } from 'src/microservices/ms-websdk/ms-websdk-firestore/ms-websdk-firestore.interface';
+import moment from 'moment';
 
 @Injectable()
 export class FirestoreService {
   private readonly logger = new Logger(FirestoreService.name);
-  constructor(private readonly mongooseService: MongooseService) {}
+  constructor(
+    private readonly mongooseService: MongooseService,
+    @Inject(microserviceConfig.websdk.firestore.name)
+    private readonly clientProxy: ClientRedis,
+  ) {}
 
   async createRecord(
     schemaName: string,
@@ -55,7 +61,6 @@ export class FirestoreService {
       },
       auth: auth.username,
     };
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const record = await this.mongooseService.createRecord(
       this.mongooseService.createProjectConnection(auth.projectId as string),
       schemaName,
@@ -67,28 +72,78 @@ export class FirestoreService {
       );
     }
     this.logger.log(`webSDKCreateFirestoreRecord:end`);
+    const payload: MsWebsdkFirestoreStoreSchemaReqPayload = {
+      auth: auth,
+      schemaName: schemaName,
+      data: data,
+    };
+    this.clientProxy.emit(
+      microserviceConfig.websdk.firestore.patterns.storeSchema,
+      payload,
+    );
     return new SuccessMicroserviceResponse(record.toJSON());
   }
 
   async webSDKStoreSchema(auth: SDKJwtPayload, schemaName: string, data: any) {
-    const dataType = this.mongooseService.fromDataToType(data);
+    this.logger.log(
+      `webSDKStoreSchema:start:auth=${auth},schemaName=${schemaName},data=${data}`,
+    );
+    if (!MongooseService.schemaNameRegex.exec(schemaName)) {
+      return new BadMicroserviceResponse(MicroserviceErrorCode.DEFAULT);
+    }
     const connection = this.mongooseService.createProjectConnection(
       auth.projectId as string,
     );
-    let schemaModel = connection.model(
+    const schemaModel = connection.model(
       FirestoreDynamicSchema.name,
       FirestoreDynamicSchemaSchema,
     );
 
-    let fieldModel = connection.model(
-      FirestoreSchemaField.name,
-      FirestoreSchemaFieldSchema,
-    );
-    for (const _field of dataType) {
-      const field = new fieldModel({
-        name: _field,
-        type: _field.type,
+    let dynamicSchema = await schemaModel.findOne({
+      name: schemaName.toLowerCase(),
+    });
+    if (!dynamicSchema) {
+      dynamicSchema = new schemaModel({
+        name: schemaName.toLowerCase(),
       });
     }
+    dynamicSchema.fields = this.formData(data);
+    dynamicSchema = await dynamicSchema.save();
+    this.logger.log(`webSDKStoreSchema:end`);
+    return new SuccessMicroserviceResponse(dynamicSchema.toJSON());
+  }
+
+  formData(data: object) {
+    const fields: FirestoreSchemaField[] = [];
+    for (const key of Object.keys(data)) {
+      let type;
+      if (typeof data[key] === 'string') {
+        type = String.name;
+        try {
+          if (moment(data[key], moment.ISO_8601, true).isValid()) {
+            type = Date.name;
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      } else if (typeof data[key] === 'number') {
+        type = Number.name;
+      } else if (typeof data[key] === 'bigint') {
+        type = BigInt.name;
+      } else if (typeof data[key] === 'boolean') {
+        type = Boolean.name;
+      } else if (typeof data[key] === 'object') {
+        type = Object.name;
+        if (data[key] instanceof Array) {
+          type = Array.name;
+        }
+      }
+      const field: FirestoreSchemaField = {
+        name: key,
+        type: type,
+      };
+      fields.push(field);
+    }
+    return fields;
   }
 }

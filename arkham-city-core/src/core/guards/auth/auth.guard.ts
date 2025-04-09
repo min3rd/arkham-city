@@ -44,7 +44,7 @@ export class AuthGuard implements CanActivate {
       });
       // 💡 We're assigning the payload to the request object here
       // so that we can access it in our route handlers
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+
       if (payload.type === 'dashboard') {
         request[REQUEST_FIELDS.user] = payload;
       } else if (payload.type === 'websdk') {
