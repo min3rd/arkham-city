@@ -1,6 +1,12 @@
 {
   "name": "arkham-city-dashboard",
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "author": {
+    "name": "Vu Van Minh",
+    "url": "https://github.com/min3rd",
+    "email": "min6th@gmail.com"
+  },
+  "license":"GPL-3.0-only",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
