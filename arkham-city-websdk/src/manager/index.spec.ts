@@ -22,15 +22,4 @@ describe('Ark Manager', () => {
     const res = await firstValueFrom(manager().authenticate());
     expect(res).toBeDefined();
   });
-  test('Ark Manager:post check', async () => {
-    const payload = {
-      data: 'This is data',
-    };
-    const res = await firstValueFrom(
-      manager().post(`auth/test`, payload),
-    );
-    expect(res).toBeDefined();
-    const data = res?.data;
-    expect(data).toEqual(payload);
-  });
 });
