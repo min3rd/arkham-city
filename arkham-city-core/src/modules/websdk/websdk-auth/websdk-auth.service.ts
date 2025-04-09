@@ -11,6 +11,7 @@ import {
 import { ProjectApp } from 'src/modules/project/app/project-app.type';
 import { SDKAuthResDto, SDKJwtPayload } from './websdl-auth.interface';
 import { HashService } from 'src/core/hash/hash.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class WebSDKAuthService {
@@ -20,11 +21,13 @@ export class WebSDKAuthService {
     private readonly projectAppMode: Model<ProjectApp>,
     private readonly jwtService: JwtService,
     private readonly hashService: HashService,
+    private readonly configService: ConfigService,
   ) {}
   async authenticate(
     projectId: string,
     appId: string,
     secretKey: string,
+    userToken?: string,
   ): Promise<MicroserviceResponse<any>> {
     this.logger.log(
       `authenticate:start:projectId=${projectId},appId=${appId},secretKey=${secretKey}`,
@@ -43,14 +46,26 @@ export class WebSDKAuthService {
         MicroserviceErrorCode.WEB_SDK_SECRET_WAS_INCORRECT,
       );
     }
-    const payload: SDKJwtPayload = {
+    let payload: any = undefined;
+    if (userToken) {
+      // log-in with user information
+      payload = await this.jwtService.verifyAsync(userToken, {
+        secret: this.configService.get('JWT_SECRET'),
+      });
+      if (payload) {
+      }
+    }
+    const returnedPayload: SDKJwtPayload = {
       type: 'websdk',
       projectId: projectId,
       appId: appId,
+      username: payload?.username,
+      sub: payload?.sub,
+      email: payload?.email,
     };
     this.logger.log(`authenticate:end`);
     return new SuccessMicroserviceResponse<SDKAuthResDto>({
-      accessToken: await this.jwtService.signAsync(payload),
+      accessToken: await this.jwtService.signAsync(returnedPayload),
     });
   }
   async find(projectId: string, appId: string) {

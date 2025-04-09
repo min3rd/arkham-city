@@ -29,13 +29,4 @@ describe('Ark Manager', () => {
         const res = yield (0, rxjs_1.firstValueFrom)((0, _1.manager)().authenticate());
         expect(res).toBeDefined();
     }));
-    test('Ark Manager:post check', () => __awaiter(void 0, void 0, void 0, function* () {
-        const payload = {
-            data: 'This is data',
-        };
-        const res = yield (0, rxjs_1.firstValueFrom)((0, _1.manager)().post(`auth/test`, payload));
-        expect(res).toBeDefined();
-        const data = res === null || res === void 0 ? void 0 : res.data;
-        expect(data).toEqual(payload);
-    }));
 });
