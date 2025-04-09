@@ -125,6 +125,32 @@ export class ArkSDKManager {
       }),
     );
   }
+
+  get<T>(uri: string): Observable<ApiResponse<T>> {
+    return this.check().pipe(
+      switchMap((authenticated) => {
+        if (!authenticated) {
+          console.error('Unauthorization');
+          return of(null);
+        }
+        return from(
+          this._axios.get(this.endpoint(uri), this.axiosConfig()),
+        ).pipe(
+          catchError((e) => {
+            const resDto: ApiResponse<string> = {
+              error: true,
+              timestamp: new Date(),
+              data: e,
+            };
+            return of(resDto);
+          }),
+          switchMap((response) => {
+            return of(response.data);
+          }),
+        );
+      }),
+    );
+  }
 }
 
 export const arkSDKManager = () => {

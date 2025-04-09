@@ -3,7 +3,10 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { CreateFirestoreRecordReqPayload } from 'src/microservices/ms-firestore/ms-firestore.interface';
 import { FirestoreService } from 'src/modules/firestore/firestore.service';
-import { MsWebsdkFirestoreStoreSchemaReqPayload } from './ms-websdk-firestore.interface';
+import {
+  MsWebSDKFirestoreQuerySchemaReqPayload,
+  MsWebSDKFirestoreStoreSchemaReqPayload,
+} from './ms-websdk-firestore.interface';
 
 @Controller('')
 export class MsWebsdkFirestoreController {
@@ -18,11 +21,20 @@ export class MsWebsdkFirestoreController {
   }
 
   @MessagePattern(microserviceConfig.websdk.firestore.patterns.storeSchema)
-  storeSchema(@Payload() payload: MsWebsdkFirestoreStoreSchemaReqPayload) {
+  storeSchema(@Payload() payload: MsWebSDKFirestoreStoreSchemaReqPayload) {
     return this.firestoreService.webSDKStoreSchema(
       payload.auth,
       payload.schemaName,
       payload.data,
+    );
+  }
+
+  @MessagePattern(microserviceConfig.websdk.firestore.patterns.querySchema)
+  querySchema(@Payload() payload: MsWebSDKFirestoreQuerySchemaReqPayload) {
+    return this.firestoreService.webSDKQueryRecord(
+      payload.auth,
+      payload.schemaName,
+      payload.query,
     );
   }
 }
