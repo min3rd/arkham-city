@@ -7,6 +7,7 @@ import {
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { globalConfig } from 'arkham-city-websdk/dist/manager';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,6 +23,6 @@ export const appConfig: ApplicationConfig = {
           'vGemdydFtKSa2abATbtXaoMFvmTqd0u5rPv3iFReJQr1VamFTWNgUS+4FaSt+Vtt',
         isProductionMode: !isDevMode(),
       });
-    }),
+    }), provideAnimationsAsync(),
   ],
 };

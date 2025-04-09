@@ -5,7 +5,7 @@ export default class FirestoreClient {
     private _schemaName;
     static instance(schemaName: string): FirestoreClient;
     get schemaName(): string;
-    new<T, K>(data: T): Observable<ApiResponse<K>>;
+    create<T, K>(data: T): Observable<ApiResponse<K>>;
     select<T, K>(query: T): Observable<ApiResponse<K>>;
 }
 export declare const firestore: (schemaName: string) => FirestoreClient;

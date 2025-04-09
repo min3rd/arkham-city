@@ -14,7 +14,7 @@ export default class FirestoreClient {
   get schemaName(): string {
     return this._schemaName;
   }
-  new<T, K>(data: T): Observable<ApiResponse<K>> {
+  create<T, K>(data: T): Observable<ApiResponse<K>> {
     return manager().post<T, K>(`firestore/${this._schemaName}`, data);
   }
   select<T, K>(query: T): Observable<ApiResponse<K>> {

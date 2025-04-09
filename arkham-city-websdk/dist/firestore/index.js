@@ -13,7 +13,7 @@ class FirestoreClient {
     get schemaName() {
         return this._schemaName;
     }
-    new(data) {
+    create(data) {
         return (0, manager_1.manager)().post(`firestore/${this._schemaName}`, data);
     }
     select(query) {
