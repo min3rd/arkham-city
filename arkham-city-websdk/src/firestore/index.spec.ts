@@ -1,6 +1,6 @@
 import { firstValueFrom } from 'rxjs';
 import { firestore } from '.';
-import { globalConfig } from '../ark-manager';
+import { globalConfig } from '../manager';
 
 describe('Firestore Client', () => {
   globalConfig({

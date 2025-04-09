@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { ApiResponse, manager } from '../ark-manager';
+import { ApiResponse, manager } from '../manager';
 
 export default class FirestoreClient {
   private static _instance: FirestoreClient;

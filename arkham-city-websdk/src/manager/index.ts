@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, AxiosStatic } from 'axios';
 import { catchError, from, Observable, of, switchMap } from 'rxjs';
 import { JwtUtils } from '../utils';
 
-export interface ArkSDKConfig {
+export interface SDKConfig {
   url: string;
   version: string;
   projectId: string;
@@ -28,10 +28,10 @@ export interface ApiResponse<T> {
   data: T;
 }
 
-export class ArkSDKManager {
+export class SDKManager {
   private _type: 'websdk' | 'mobilesdk' = 'websdk';
   private _accessToken!: string;
-  private _globalConfig: ArkSDKConfig = {
+  private _globalConfig: SDKConfig = {
     url: 'http://localhost:3000',
     version: 'v1',
     projectId: '',
@@ -40,22 +40,22 @@ export class ArkSDKManager {
     isProductionMode: false,
   };
   private _axios: AxiosStatic = axios;
-  private static _instance: ArkSDKManager;
+  private static _instance: SDKManager;
 
   public static get instance() {
     if (!this._instance) {
-      this._instance = new ArkSDKManager();
+      this._instance = new SDKManager();
     }
     return this._instance;
   }
 
-  set globalConfig(config: ArkSDKConfig) {
+  set globalConfig(config: SDKConfig) {
     this._globalConfig = config;
   }
   set accessToken(accessToken: string) {
     this._accessToken = accessToken;
   }
-  get globalConfig(): ArkSDKConfig {
+  get globalConfig(): SDKConfig {
     return this._globalConfig;
   }
   get type(): 'websdk' | 'mobilesdk' {
@@ -157,9 +157,9 @@ export class ArkSDKManager {
 }
 
 export const manager = () => {
-  return ArkSDKManager.instance;
+  return SDKManager.instance;
 };
 
-export const globalConfig = (config: ArkSDKConfig) => {
+export const globalConfig = (config: SDKConfig) => {
   manager().globalConfig = config;
 };
