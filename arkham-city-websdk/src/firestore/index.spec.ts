@@ -62,7 +62,6 @@ describe('Firestore Client', () => {
 
   test('Firestore Client: query schema', async () => {
     const response = await firstValueFrom(firestore('test').select());
-    console.log(response.data);
     expect(response).toBeDefined();
   });
 });
