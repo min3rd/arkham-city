@@ -130,6 +130,66 @@ class SDKManager {
             }));
         }));
     }
+    put(uri, data) {
+        return this.check().pipe((0, rxjs_1.switchMap)((autthenticated) => {
+            if (!autthenticated) {
+                console.error('Unauthorization');
+                return (0, rxjs_1.of)(null);
+            }
+            let encrypted;
+            if (this.globalConfig.isProductionMode) {
+                encrypted = {
+                    data: (0, crypto_1.crypto)().encrypt(data, this.globalConfig.projectId),
+                };
+            }
+            return (0, rxjs_1.from)(this._axios.put(this.endpoint(uri), this.globalConfig.isProductionMode ? encrypted : data)).pipe((0, rxjs_1.catchError)(() => {
+                return (0, rxjs_1.of)(null);
+            }), (0, rxjs_1.switchMap)((response) => {
+                if (!response) {
+                    return (0, rxjs_1.of)(null);
+                }
+                return (0, rxjs_1.of)(response.data.data);
+            }));
+        }));
+    }
+    patch(uri, data) {
+        return this.check().pipe((0, rxjs_1.switchMap)((autthenticated) => {
+            if (!autthenticated) {
+                console.error('Unauthorization');
+                return (0, rxjs_1.of)(null);
+            }
+            let encrypted;
+            if (this.globalConfig.isProductionMode) {
+                encrypted = {
+                    data: (0, crypto_1.crypto)().encrypt(data, this.globalConfig.projectId),
+                };
+            }
+            return (0, rxjs_1.from)(this._axios.patch(this.endpoint(uri), this.globalConfig.isProductionMode ? encrypted : data)).pipe((0, rxjs_1.catchError)(() => {
+                return (0, rxjs_1.of)(null);
+            }), (0, rxjs_1.switchMap)((response) => {
+                if (!response) {
+                    return (0, rxjs_1.of)(null);
+                }
+                return (0, rxjs_1.of)(response.data.data);
+            }));
+        }));
+    }
+    delete(uri) {
+        return this.check().pipe((0, rxjs_1.switchMap)((authenticated) => {
+            if (!authenticated) {
+                console.error('Unauthorization');
+                return (0, rxjs_1.of)(null);
+            }
+            return (0, rxjs_1.from)(this._axios.delete(this.endpoint(uri))).pipe((0, rxjs_1.catchError)(() => {
+                return (0, rxjs_1.of)(null);
+            }), (0, rxjs_1.switchMap)((response) => {
+                if (!response) {
+                    return (0, rxjs_1.of)(null);
+                }
+                return (0, rxjs_1.of)(response.data.data);
+            }));
+        }));
+    }
 }
 exports.SDKManager = SDKManager;
 const manager = () => {
