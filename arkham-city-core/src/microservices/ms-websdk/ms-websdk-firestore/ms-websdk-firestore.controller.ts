@@ -7,6 +7,7 @@ import {
   MsWebSDKFirestoreFindByIdReqPayload,
   MsWebSDKFirestoreQuerySchemaReqPayload,
   MsWebSDKFirestoreStoreSchemaReqPayload,
+  MsWebSDKFirestoreUpdateReqPayload,
 } from './ms-websdk-firestore.interface';
 
 @Controller('')
@@ -45,6 +46,26 @@ export class MsWebsdkFirestoreController {
       payload.auth,
       payload.schemaName,
       payload.id,
+    );
+  }
+
+  @MessagePattern(microserviceConfig.websdk.firestore.patterns.partialUpdate)
+  partialUpdate(@Payload() payload: MsWebSDKFirestoreUpdateReqPayload) {
+    return this.firestoreService.webSDKPartialUpdate(
+      payload.auth,
+      payload.schemaName,
+      payload.id,
+      payload.data,
+    );
+  }
+
+  @MessagePattern(microserviceConfig.websdk.firestore.patterns.update)
+  update(@Payload() payload: MsWebSDKFirestoreUpdateReqPayload) {
+    return this.firestoreService.webSDKUpdate(
+      payload.auth,
+      payload.schemaName,
+      payload.id,
+      payload.data,
     );
   }
 }

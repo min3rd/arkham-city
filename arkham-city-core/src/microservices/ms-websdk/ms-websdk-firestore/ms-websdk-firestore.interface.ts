@@ -17,3 +17,10 @@ export interface MsWebSDKFirestoreFindByIdReqPayload {
   schemaName: string;
   id: string;
 }
+
+export interface MsWebSDKFirestoreUpdateReqPayload {
+  auth: SDKJwtPayload;
+  schemaName: string;
+  id: string;
+  data: any;
+}

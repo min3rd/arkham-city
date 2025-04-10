@@ -46,6 +46,8 @@ export const microserviceConfig = {
         storeSchema: 'v1.websdk.firestore.store-schema',
         querySchema: 'v1.websdk.firestore.query',
         findById: 'v1.websdk.firestore.find-by-id',
+        partialUpdate: 'v1.websdk.firestore.partial-update',
+        update: 'v1.websdk.firestore.update',
       },
     },
   },

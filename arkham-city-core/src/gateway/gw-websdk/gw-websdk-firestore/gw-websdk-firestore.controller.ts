@@ -4,7 +4,9 @@ import {
   Get,
   Inject,
   Param,
+  Patch,
   Post,
+  Put,
   Req,
 } from '@nestjs/common';
 import { ClientRedis } from '@nestjs/microservices';
@@ -17,6 +19,7 @@ import { CreateFirestoreRecordReqPayload } from 'src/microservices/ms-firestore/
 import {
   MsWebSDKFirestoreFindByIdReqPayload,
   MsWebSDKFirestoreQuerySchemaReqPayload,
+  MsWebSDKFirestoreUpdateReqPayload,
 } from 'src/microservices/ms-websdk/ms-websdk-firestore/ms-websdk-firestore.interface';
 
 @Controller('websdk/firestore')
@@ -80,6 +83,50 @@ export class GwWebSDKFirestoreController extends GatewayController {
     const res: MicroserviceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
         microserviceConfig.websdk.firestore.patterns.findById,
+        payload,
+      ),
+    );
+    this.afterCallMicroservice(res);
+    return res.data;
+  }
+
+  @Put(':schemaName/:id')
+  async update(
+    @Req() request: Request,
+    @Param() params: any,
+    @Body() data: any,
+  ) {
+    const payload: MsWebSDKFirestoreUpdateReqPayload = {
+      auth: request[REQUEST_FIELDS.auth],
+      schemaName: params.schemaName,
+      id: params.id,
+      data: data,
+    };
+    const res: MicroserviceResponse<any> = await firstValueFrom(
+      this.clientProxy.send(
+        microserviceConfig.websdk.firestore.patterns.update,
+        payload,
+      ),
+    );
+    this.afterCallMicroservice(res);
+    return res.data;
+  }
+
+  @Patch(':schemaName/:id')
+  async partialUpdate(
+    @Req() request: Request,
+    @Param() params: any,
+    @Body() data: any,
+  ) {
+    const payload: MsWebSDKFirestoreUpdateReqPayload = {
+      auth: request[REQUEST_FIELDS.auth],
+      schemaName: params.schemaName,
+      id: params.id,
+      data: data,
+    };
+    const res: MicroserviceResponse<any> = await firstValueFrom(
+      this.clientProxy.send(
+        microserviceConfig.websdk.firestore.patterns.partialUpdate,
         payload,
       ),
     );

@@ -92,4 +92,14 @@ export class MicroserviceErrorCode {
     '01x0013',
     'Could not found the schema',
   );
+
+  static readonly WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD = new IErrorCode(
+    '01x0014',
+    'Could not found the record',
+  );
+
+  static readonly WEB_SDK_FIRESTORE_COULD_NOT_PARTIAL_UPDATE = new IErrorCode(
+    '01x0015',
+    'Could not partial update the record',
+  );
 }
