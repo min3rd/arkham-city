@@ -1,5 +1,4 @@
-import { AxiosRequestConfig } from "axios";
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 export interface SDKConfig {
     url: string;
     version: string;
@@ -28,13 +27,13 @@ export declare class SDKManager {
     private _globalConfig;
     private _axios;
     private static _instance;
+    constructor();
     static get instance(): SDKManager;
     set globalConfig(config: SDKConfig);
     set accessToken(accessToken: string);
     get globalConfig(): SDKConfig;
-    get type(): "websdk" | "mobilesdk";
+    get type(): 'websdk' | 'mobilesdk';
     get accessToken(): string;
-    axiosConfig(): AxiosRequestConfig;
     endpoint(uri: string): string;
     authenticate(): Observable<boolean>;
     check(): Observable<boolean>;

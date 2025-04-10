@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Project } from './project.type';
+import { Project } from './project.types';
 import { Model } from 'mongoose';
 import {
   BadMicroserviceResponse,
@@ -8,6 +8,7 @@ import {
   SuccessMicroserviceResponse,
 } from 'src/core/microservice/microservice.types';
 import { JWTPayload } from '../auth/auth.interface';
+import { randomBytes } from 'crypto';
 
 @Injectable()
 export class ProjectService {
@@ -29,6 +30,7 @@ export class ProjectService {
     let project = new this.projectModel({
       name: name,
       description: description,
+      privateKey: randomBytes(48).toString('base64url'),
       user: {
         username: user.username,
       },

@@ -3,7 +3,7 @@ import { WebSDKAuthService } from './websdk-auth.service';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseService } from 'src/modules/mongoose/mongoose.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Project, ProjectSchema } from 'src/modules/project/project.type';
+import { Project, ProjectSchema } from 'src/modules/project/project.types';
 import {
   ProjectApp,
   AppSchema as ProjectAppSchema,

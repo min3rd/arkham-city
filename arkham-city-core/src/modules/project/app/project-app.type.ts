@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import { Project } from '../project.type';
+import { Project } from '../project.types';
 import { AuditEntity } from 'src/modules/base/base.type';
 import { User } from 'src/modules/user/user.type';
 

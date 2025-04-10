@@ -6,7 +6,7 @@ import type {
 } from '@angular/router';
 import { AppService } from './app.service';
 import { ApiResponse } from '../../../../core/type/response.type';
-import { AppResDto } from './app.type';
+import { AppResDto } from './app.types';
 import { RouteUtils } from '../../../../core/utils/route.utils';
 import { DetailComponent } from './detail/detail.component';
 

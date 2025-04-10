@@ -17,7 +17,6 @@ export class UserService {
   constructor(
     @InjectModel(User.name, 'metadata')
     private readonly userModel: Model<User>,
-    private readonly hashService: HashService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}
@@ -39,7 +38,7 @@ export class UserService {
       username: email,
       firstName: firstName,
       lastName: lastName,
-      password: this.hashService.hash(password),
+      password: HashService.hash(password),
     });
     user = await user.save();
     this.logger.log('registerByEmailAndPassword:end');
@@ -56,7 +55,7 @@ export class UserService {
     if (!user) {
       return new BadMicroserviceResponse(MicroserviceErrorCode.EMAIL_NOT_FOUND);
     }
-    if (!this.hashService.compare(password, user.password)) {
+    if (!HashService.compare(password, user.password)) {
       return new BadMicroserviceResponse(
         MicroserviceErrorCode.PASSWORD_IS_INCORRECT,
       );

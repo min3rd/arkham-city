@@ -5,7 +5,7 @@ import {
   AppSecretResDto,
   NewAppReqDto,
   UpdateAppReqDto,
-} from './app.type';
+} from './app.types';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from '../../../../core/services/config.service';
 import { ApiResponse } from '../../../../core/type/response.type';

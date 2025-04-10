@@ -4,7 +4,7 @@ import {
   inject,
   ViewChild,
 } from '@angular/core';
-import { AppResDto } from '../app.type';
+import { AppResDto } from '../app.types';
 import { BaseComponent } from '../../../../../core/components/base/base.component';
 import { AppService } from '../app.service';
 import { takeUntil } from 'rxjs';

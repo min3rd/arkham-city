@@ -21,7 +21,7 @@ import { ArkUser } from '../../components/users/ark-user/ark-user.component';
 import { UserResDto } from '../../auth/auth.type';
 import { AuthService } from '../../auth/auth.service';
 import { Subject, takeUntil } from 'rxjs';
-import { ProjectResDto } from '../../../modules/private/project/project.type';
+import { ProjectResDto } from '../../../modules/private/project/project.types';
 import { ProjectService } from '../../../modules/private/project/project.service';
 import { CapitalizePipe } from '../../pipe/capitalize.pipe';
 import { NavigationService } from '../../services/navigation.service';

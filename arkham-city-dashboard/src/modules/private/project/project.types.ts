@@ -1,6 +1,6 @@
 export interface ProjectResDto {
   _id: string;
-  name: string;
+  name?: string;
   description?: string;
 }
 

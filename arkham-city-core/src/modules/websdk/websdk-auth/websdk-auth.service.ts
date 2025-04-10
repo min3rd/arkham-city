@@ -20,7 +20,6 @@ export class WebSDKAuthService {
     @InjectModel(ProjectApp.name, 'metadata')
     private readonly projectAppMode: Model<ProjectApp>,
     private readonly jwtService: JwtService,
-    private readonly hashService: HashService,
     private readonly configService: ConfigService,
   ) {}
   async authenticate(
@@ -40,7 +39,7 @@ export class WebSDKAuthService {
     }
     if (
       secretKey !=
-      this.hashService.decrypt(projectApp.secretKey, projectApp.privateKey)
+      HashService.decrypt(projectApp.secretKey, projectApp.privateKey)
     ) {
       return new BadMicroserviceResponse(
         MicroserviceErrorCode.WEB_SDK_SECRET_WAS_INCORRECT,

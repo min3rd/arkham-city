@@ -3,7 +3,7 @@ import { ProjectAppModule } from './app/project-app.module';
 import { ConfigModule } from '@nestjs/config';
 import { ProjectService } from './project.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Project, ProjectSchema } from './project.type';
+import { Project, ProjectSchema } from './project.types';
 
 @Module({
   imports: [

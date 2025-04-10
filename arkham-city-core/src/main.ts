@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { ConsoleLogger, VersioningType } from '@nestjs/common';
-import { ResponseInterceptor } from './core/interceptors/response/response.interceptor';
+import { HttpInterceptor } from './core/interceptors/http/http.interceptor';
 
 async function bootstrap() {
   if (process.env.MICROSERVICE_ONLY === 'true') {
@@ -48,7 +48,7 @@ async function bootstrap() {
       origin: '*',
     });
 
-    app.useGlobalInterceptors(new ResponseInterceptor());
+    app.useGlobalInterceptors(new HttpInterceptor());
 
     await app.listen(process.env.PORT || 3000);
   }
