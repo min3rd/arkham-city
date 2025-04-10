@@ -13,6 +13,9 @@ export class Project extends AuditEntity {
 
   @Prop({ type: mongoose.Types.ObjectId, ref: User.name })
   user: User;
+
+  @Prop()
+  privateKey: string;
 }
 
 export type ProjectDocument = HydratedDocument<Project>;

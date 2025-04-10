@@ -1,6 +1,6 @@
 {
   "name": "arkham-city-websdk",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Connecting to The City",
   "author": {
     "name": "Vu Van Minh",
@@ -31,6 +31,7 @@
   "homepage": "https://github.com/min3rd/arkham-city#readme",
   "dependencies": {
     "axios": "1.8.4",
+    "crypto-js": "4.2.0",
     "eslint": "9.24.0",
     "jwt-decode": "4.0.0",
     "rxjs": "7.8.2",
@@ -38,6 +39,7 @@
     "typescript-eslint": "8.29.1"
   },
   "devDependencies": {
+    "@types/crypto-js": "4.2.2",
     "@types/eslint": "9.6.1",
     "@types/jest": "29.5.14",
     "jest": "29.7.0",

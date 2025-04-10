@@ -1,6 +1,7 @@
-import axios, { AxiosRequestConfig, AxiosStatic } from "axios";
-import { catchError, from, Observable, of, switchMap } from "rxjs";
-import JwtUtils from "../utils";
+import axios, { AxiosRequestConfig, AxiosStatic } from 'axios';
+import { catchError, from, Observable, of, switchMap } from 'rxjs';
+import JwtUtils from '../utils';
+import { crypto } from '../crypto';
 
 export interface SDKConfig {
   url: string;
@@ -29,19 +30,39 @@ export interface ApiResponse<T> {
 }
 
 export class SDKManager {
-  private _type: "websdk" | "mobilesdk" = "websdk";
+  private _type: 'websdk' | 'mobilesdk' = 'websdk';
   private _accessToken!: string;
   private _globalConfig: SDKConfig = {
-    url: "http://localhost:3000",
-    version: "v1",
-    projectId: "",
-    appId: "",
-    secretKey: "",
-    isProductionMode: false,
+    url: 'http://localhost:3000',
+    version: 'v1',
+    projectId: '',
+    appId: '',
+    secretKey: '',
+    isProductionMode: true,
   };
   private _axios: AxiosStatic = axios;
   private static _instance: SDKManager;
-
+  constructor() {
+    axios.interceptors.request.use(
+      (config) => {
+        if (this.globalConfig.isProductionMode) {
+          config.headers.set('x-type', this.type);
+          config.headers.set('x-mode', 'production');
+          config.headers.set('x-project', this.globalConfig.projectId);
+          config.headers.set('x-app', this.globalConfig.appId);
+        } else {
+          config.headers.set('x-mode', 'development');
+        }
+        if (this.accessToken) {
+          config.headers.setAuthorization(`Bearer ${this.accessToken}`);
+        }
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      },
+    );
+  }
   public static get instance() {
     if (!this._instance) {
       this._instance = new SDKManager();
@@ -58,18 +79,11 @@ export class SDKManager {
   get globalConfig(): SDKConfig {
     return this._globalConfig;
   }
-  get type(): "websdk" | "mobilesdk" {
+  get type(): 'websdk' | 'mobilesdk' {
     return this._type;
   }
   get accessToken(): string {
     return this._accessToken;
-  }
-  axiosConfig(): AxiosRequestConfig {
-    return {
-      headers: {
-        Authorization: `Bearer ${this._accessToken}`,
-      },
-    };
   }
   endpoint(uri: string): string {
     return `${this.globalConfig.url}/${this.globalConfig.version}/${this.type}/${uri}`;
@@ -81,8 +95,17 @@ export class SDKManager {
       secretKey: this.globalConfig.secretKey,
       auth: undefined,
     };
+    let encrypted!: any;
+    if (this.globalConfig.isProductionMode) {
+      encrypted = {
+        data: crypto().encrypt(payload, this.globalConfig.projectId),
+      };
+    }
     return from(
-      this._axios.post<any>(this.endpoint(`auth/authenticate`), payload)
+      this._axios.post<any>(
+        this.endpoint(`auth/authenticate`),
+        this.globalConfig.isProductionMode ? encrypted : payload,
+      ),
     ).pipe(
       catchError((e) => {
         console.error(`Could not authenticate e=${e}`);
@@ -94,7 +117,7 @@ export class SDKManager {
           return of(true);
         }
         return of(false);
-      })
+      }),
     );
   }
   check(): Observable<boolean> {
@@ -107,11 +130,20 @@ export class SDKManager {
     return this.check().pipe(
       switchMap((authenticated) => {
         if (!authenticated) {
-          console.error("Unauthorization");
+          console.error('Unauthorization');
           return of(null);
         }
+        let encrypted!: any;
+        if (this.globalConfig.isProductionMode) {
+          encrypted = {
+            data: crypto().encrypt(data, this.globalConfig.projectId),
+          };
+        }
         return from(
-          this._axios.post(this.endpoint(uri), data, this.axiosConfig())
+          this._axios.post(
+            this.endpoint(uri),
+            this.globalConfig.isProductionMode ? encrypted : data,
+          ),
         ).pipe(
           catchError((e) => {
             const resDto: ApiResponse<string> = {
@@ -123,9 +155,9 @@ export class SDKManager {
           }),
           switchMap((response) => {
             return of(response.data);
-          })
+          }),
         );
-      })
+      }),
     );
   }
 
@@ -133,12 +165,10 @@ export class SDKManager {
     return this.check().pipe(
       switchMap((authenticated) => {
         if (!authenticated) {
-          console.error("Unauthorization");
+          console.error('Unauthorization');
           return of(null);
         }
-        return from(
-          this._axios.get(this.endpoint(uri), this.axiosConfig())
-        ).pipe(
+        return from(this._axios.get(this.endpoint(uri))).pipe(
           catchError((e) => {
             const resDto: ApiResponse<string> = {
               error: true,
@@ -149,9 +179,9 @@ export class SDKManager {
           }),
           switchMap((response) => {
             return of(response.data);
-          })
+          }),
         );
-      })
+      }),
     );
   }
 }
@@ -161,5 +191,8 @@ export const manager = () => {
 };
 
 export const globalConfig = (config: SDKConfig) => {
-  manager().globalConfig = config;
+  manager().globalConfig = {
+    ...manager().globalConfig,
+    ...config,
+  };
 };

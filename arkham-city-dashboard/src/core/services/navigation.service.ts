@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NavigationItem } from '../components/navigation/navigation.type';
-import { ProjectResDto } from '../../modules/private/project/project.type';
+import { ProjectResDto } from '../../modules/private/project/project.types';
 
 @Injectable({
   providedIn: 'root',

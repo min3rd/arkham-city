@@ -8,12 +8,13 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { CapitalizePipe } from '../../../../../core/pipe/capitalize.pipe';
 import { ArkSelect } from '../../../../../core/components/selects/ark-select/ark-select.component';
 import { ArkTextarea } from '../../../../../core/components/textareas/ark-textarea/ark-textarea.component';
-import { AppResDto, ProjectResDto } from '../app.type';
+import { AppResDto } from '../app.types';
 import { AppService } from '../app.service';
 import { takeUntil } from 'rxjs';
 import { ProjectService } from '../../project.service';
 import { RouterModule } from '@angular/router';
 import { ListComponent } from '../list/list.component';
+import { ProjectResDto } from '../../project.types';
 
 @Component({
   selector: 'app-detail',

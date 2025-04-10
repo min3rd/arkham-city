@@ -16,7 +16,7 @@ import { JWTPayload } from 'src/modules/auth/auth.interface';
 import { MicroserviceResponse } from 'src/core/microservice/microservice.types';
 import { firstValueFrom } from 'rxjs';
 import { GatewayController } from 'src/core/gateway/gateway.controller';
-import { Project } from 'src/modules/project/project.type';
+import { Project } from 'src/modules/project/project.types';
 import { REQUEST_FIELDS } from 'src/config/request.config';
 
 @Controller('projects')

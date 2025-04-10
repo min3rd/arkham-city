@@ -17,7 +17,6 @@ export class ProjectAppService {
   constructor(
     @InjectModel(ProjectApp.name, 'metadata')
     private readonly appModel: Model<ProjectApp>,
-    private readonly hashService: HashService,
   ) {}
 
   async create(
@@ -48,7 +47,7 @@ export class ProjectAppService {
       parseInt(process.env.PROJECT_APP_SECRET_KEY_LENGTH as string) ?? 48,
     ).toString('base64');
     const privateKey = randomBytes(256).toString('base64url');
-    const encrypted: string = this.hashService.encrypt<string>(
+    const encrypted: string = HashService.encrypt<string>(
       rawSecret,
       privateKey,
     );
@@ -189,7 +188,7 @@ export class ProjectAppService {
       `getSecret:end:user=${user.username},projectId=${projectId},appId=${appId}`,
     );
     return new SuccessMicroserviceResponse({
-      secret: this.hashService.decrypt(app.secretKey, app.privateKey),
+      secret: HashService.decrypt(app.secretKey, app.privateKey),
     });
   }
 }

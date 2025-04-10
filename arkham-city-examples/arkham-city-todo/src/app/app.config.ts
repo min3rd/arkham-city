@@ -17,12 +17,13 @@ export const appConfig: ApplicationConfig = {
       globalConfig({
         url: 'http://localhost:3000',
         version: 'v1',
-        projectId: '67f27fe312a6cb3e921dbe57',
-        appId: '67f27ff412a6cb3e921dbe5c',
+        projectId: '67f71b0ba9ae99e7aaf82e71',
+        appId: '67f71b1fa9ae99e7aaf82e75',
         secretKey:
-          'vGemdydFtKSa2abATbtXaoMFvmTqd0u5rPv3iFReJQr1VamFTWNgUS+4FaSt+Vtt',
-        isProductionMode: !isDevMode(),
+          'Z315Nvw0CrpQoDpyQvvRvhTQSuo460SfzXU8wmP7LDWitXYEiTZjT4LDH4Wkz8Va',
+        isProductionMode: true,
       });
-    }), provideAnimationsAsync(),
+    }),
+    provideAnimationsAsync(),
   ],
 };

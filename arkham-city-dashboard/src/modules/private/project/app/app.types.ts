@@ -1,3 +1,5 @@
+import { ProjectResDto } from "../project.types";
+
 export interface AppResDto {
   activated: boolean;
   name: string;
@@ -10,10 +12,6 @@ export interface AppResDto {
   user: UserResDto;
   _id: string;
   __v: number;
-}
-
-export interface ProjectResDto {
-  _id: string;
 }
 
 export interface UserResDto {
