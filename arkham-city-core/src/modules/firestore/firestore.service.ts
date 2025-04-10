@@ -32,9 +32,7 @@ export class FirestoreService {
     schemaName: string,
     data: any,
   ): Promise<MicroserviceResponse<any>> {
-    this.logger.log(
-      `createRecord:start:schemaName=${schemaName},data=${JSON.stringify(data)}`,
-    );
+    this.logger.log(`createRecord:start:`, schemaName, data);
     const record = await this._createRecord(
       this.createProjectConnection('test'),
       schemaName,
@@ -53,9 +51,7 @@ export class FirestoreService {
     schemaName: string,
     data: any,
   ) {
-    this.logger.log(
-      `webSDKCreateFirestoreRecord:start:auth=${JSON.stringify(auth)},schemaName=${schemaName},data=${JSON.stringify(data)}`,
-    );
+    this.logger.log(`webSDKCreateFirestoreRecord`, auth, schemaName, data);
     const preData = {
       ...data,
       project: {
@@ -87,9 +83,7 @@ export class FirestoreService {
   }
 
   async webSDKStoreSchema(auth: SDKJwtPayload, schemaName: string, data: any) {
-    this.logger.log(
-      `webSDKStoreSchema:start:auth=${JSON.stringify(auth)},schemaName=${schemaName},data=${JSON.stringify(data)}`,
-    );
+    this.logger.log(`webSDKStoreSchema:start:`, auth, schemaName, data);
     if (!this.schemaNameRegex.exec(schemaName)) {
       return new BadMicroserviceResponse(MicroserviceErrorCode.DEFAULT);
     }
@@ -111,9 +105,7 @@ export class FirestoreService {
   }
 
   async webSDKQueryRecord(auth: SDKJwtPayload, schemeName: string, query: any) {
-    this.logger.log(
-      `webSDKQueryRecord:start:auth=${JSON.stringify(auth)},schemeName=${schemeName},query=${JSON.stringify(query)}`,
-    );
+    this.logger.log(`webSDKQueryRecord:start`, auth, schemeName, query);
     const connection = this.createProjectConnection(auth.projectId as string);
     const recordModel = await this.getRecordModel(connection, schemeName);
     if (!recordModel) {
@@ -137,6 +129,74 @@ export class FirestoreService {
     }
     const record = await recordModel.findById(id);
     this.logger.log(`webSDKGetRecord:end`);
+    return new SuccessMicroserviceResponse(record?.toJSON());
+  }
+
+  async webSDKPartialUpdate(
+    auth: SDKJwtPayload,
+    schemaName: string,
+    id: string,
+    data: any,
+  ) {
+    this.logger.log('webSDKPartialUpdate:start', auth, schemaName, id, data);
+    const connection = this.createProjectConnection(auth.projectId as string);
+    const recordModel = await this.getRecordModel(connection, schemaName);
+    if (!recordModel) {
+      return new BadMicroserviceResponse(
+        MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA,
+      );
+    }
+    let record = await recordModel.findById(id);
+    if (!record) {
+      return new BadMicroserviceResponse(
+        MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
+      );
+    }
+    record = {
+      ...record,
+      ...data,
+    };
+    if (!record) {
+      return new BadMicroserviceResponse(
+        MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
+      );
+    }
+    record = await record?.save();
+    this.logger.log('webSDKPartialUpdate:end');
+    return new SuccessMicroserviceResponse(record?.toJSON());
+  }
+
+  async webSDKUpdate(
+    auth: SDKJwtPayload,
+    schemaName: string,
+    id: string,
+    data: any,
+  ) {
+    this.logger.log('webSDKUpdate:start', auth, schemaName, id, data);
+    const connection = this.createProjectConnection(auth.projectId as string);
+    const recordModel = await this.getRecordModel(connection, schemaName);
+    if (!recordModel) {
+      return new BadMicroserviceResponse(
+        MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA,
+      );
+    }
+    let record = await recordModel.findById(id);
+    if (!record) {
+      return new BadMicroserviceResponse(
+        MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
+      );
+    }
+    record = {
+      ...data,
+      _id: record._id,
+    };
+    if (!record) {
+      return new BadMicroserviceResponse(
+        MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
+      );
+    }
+    record = await record?.save();
+    this.logger.log('webSDKUpdate:end');
     return new SuccessMicroserviceResponse(record?.toJSON());
   }
 
