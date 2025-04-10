@@ -1,11 +1,10 @@
 import { Observable } from 'rxjs';
-import { ApiResponse } from '../manager';
 export default class FirestoreClient {
     private static _instance;
     private _schemaName;
     static instance(schemaName: string): FirestoreClient;
     get schemaName(): string;
-    create<T, K>(data: T): Observable<ApiResponse<K>>;
-    select<T, K>(query: T): Observable<ApiResponse<K>>;
+    create<T, K>(data: T): Observable<K | null>;
+    select<T, K>(query: T): Observable<K | null>;
 }
 export declare const firestore: (schemaName: string) => FirestoreClient;

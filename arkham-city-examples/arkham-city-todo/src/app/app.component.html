@@ -1,1 +1,73 @@
-<router-outlet></router-outlet>
+<div
+  class="absolute flex w-full h-full overflow-auto bg-white dark:bg-neutral-900"
+>
+  <div
+    class="z-10 fixed left-0 bottom-0 flex items-center justify-between w-full md:relative md:flex-col md:max-w-72 md:h-full md:justify-start border-t md:border-r md:border-t-0 bg-white border-neutral-200 dark:bg-neutral-800 dark:border-neutral-700"
+  >
+    <a
+      [routerLink]="['/todo']"
+      class="flex items-center justify-center px-4 py-2 gap-2 w-full border-r md:justify-start md:border-r-0 md:border-b border-neutral-200 dark:border-neutral-700"
+    >
+      <button mat-icon-button matTooltip="Dashboard">
+        <mat-icon fontIcon="home"></mat-icon>
+      </button>
+      <span
+        class="hidden md:inline mt-2 text-black dark:text-neutral-500 font-semibold"
+      >
+        Dashboard
+      </span>
+    </a>
+    <a
+      [routerLink]="['/users']"
+      class="flex items-center justify-center px-4 py-2 gap-2 w-full border-r md:justify-start md:border-r-0 md:border-b border-neutral-200 dark:border-neutral-700"
+    >
+      <button mat-icon-button matTooltip="Users">
+        <mat-icon fontIcon="people"></mat-icon>
+      </button>
+      <span
+        class="hidden md:inline mt-2 text-black dark:text-neutral-500 font-semibold"
+      >
+        Users
+      </span>
+    </a>
+    <a
+      class="flex items-center justify-center px-4 py-2 gap-2 w-full border-r md:justify-start md:border-r-0 md:border-b border-neutral-200 dark:border-neutral-700"
+    >
+      <button mat-icon-button matTooltip="Camera">
+        <mat-icon fontIcon="camera"></mat-icon>
+      </button>
+      <span
+        class="hidden md:inline mt-2 text-black dark:text-neutral-500 font-semibold"
+      >
+        Camera
+      </span>
+    </a>
+    <a
+      class="flex items-center justify-center px-4 py-2 gap-2 w-full border-r md:justify-start md:border-r-0 md:border-b border-neutral-200 dark:border-neutral-700"
+    >
+      <button mat-icon-button matTooltip="Email">
+        <mat-icon fontIcon="mail"></mat-icon>
+      </button>
+      <span
+        class="hidden md:inline mt-2 text-black dark:text-neutral-500 font-semibold"
+      >
+        Mail
+      </span>
+    </a>
+    <a
+      class="flex items-center justify-center px-4 py-2 gap-2 w-full border-r md:justify-start md:border-r-0 md:border-b border-neutral-200 dark:border-neutral-700"
+    >
+      <button mat-icon-button matTooltip="Settings">
+        <mat-icon fontIcon="settings"></mat-icon>
+      </button>
+      <span
+        class="hidden md:inline mt-2 text-black dark:text-neutral-500 font-semibold"
+      >
+        Settings
+      </span>
+    </a>
+  </div>
+  <div class="w-full">
+    <router-outlet></router-outlet>
+  </div>
+</div>

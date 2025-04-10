@@ -104,15 +104,13 @@ class SDKManager {
                     data: (0, crypto_1.crypto)().encrypt(data, this.globalConfig.projectId),
                 };
             }
-            return (0, rxjs_1.from)(this._axios.post(this.endpoint(uri), this.globalConfig.isProductionMode ? encrypted : data)).pipe((0, rxjs_1.catchError)((e) => {
-                const resDto = {
-                    error: true,
-                    timestamp: new Date(),
-                    data: e,
-                };
-                return (0, rxjs_1.of)(resDto);
+            return (0, rxjs_1.from)(this._axios.post(this.endpoint(uri), this.globalConfig.isProductionMode ? encrypted : data)).pipe((0, rxjs_1.catchError)(() => {
+                return (0, rxjs_1.of)(null);
             }), (0, rxjs_1.switchMap)((response) => {
-                return (0, rxjs_1.of)(response.data);
+                if (!response) {
+                    return (0, rxjs_1.of)(null);
+                }
+                return (0, rxjs_1.of)(response.data.data);
             }));
         }));
     }
@@ -122,15 +120,13 @@ class SDKManager {
                 console.error('Unauthorization');
                 return (0, rxjs_1.of)(null);
             }
-            return (0, rxjs_1.from)(this._axios.get(this.endpoint(uri))).pipe((0, rxjs_1.catchError)((e) => {
-                const resDto = {
-                    error: true,
-                    timestamp: new Date(),
-                    data: e,
-                };
-                return (0, rxjs_1.of)(resDto);
+            return (0, rxjs_1.from)(this._axios.get(this.endpoint(uri))).pipe((0, rxjs_1.catchError)(() => {
+                return (0, rxjs_1.of)(null);
             }), (0, rxjs_1.switchMap)((response) => {
-                return (0, rxjs_1.of)(response.data);
+                if (!response) {
+                    return (0, rxjs_1.of)(null);
+                }
+                return (0, rxjs_1.of)(response.data.data);
             }));
         }));
     }

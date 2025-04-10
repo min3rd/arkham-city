@@ -1,0 +1,46 @@
+<div class="flex flex-col w-full">
+  <form [formGroup]="form">
+    <div class="px-4 py-2">
+      <mat-form-field class="w-full">
+        <mat-label>First name</mat-label>
+        <input matInput formControlName="firstName" placeholder="Please enter first name" title="First Name" />
+      </mat-form-field>
+    </div>
+    <div class="px-4 py-2">
+      <mat-form-field class="w-full">
+        <mat-label>Last name</mat-label>
+        <input matInput formControlName="lastName" placeholder="Please enter last name" title="First Name" />
+      </mat-form-field>
+    </div>
+    <div class="px-4 py-2">
+      <mat-form-field class="w-full">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username" placeholder="Please enter username" title="Userame" />
+      </mat-form-field>
+    </div>
+    <div class="px-4 py-2">
+      <mat-form-field class="w-full">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" placeholder="Please enter email" title="Email"/>
+      </mat-form-field>
+    </div>
+    <div class="flex items-center w-full px-4 py-2">
+        <button mat-raised-button [routerLink]="['../']">
+            Cancel
+        </button>
+        @if (!user) {
+            <button mat-flat-button (click)="create()" type="submit" class="ml-auto">
+                Create
+            </button>
+        }
+        @if (user) {
+            <button mat-stroked-button (click)="delete()" type="submit" class="ml-auto">
+                Delete
+            </button>
+            <button mat-flat-button (click)="save()" type="submit" class="ml-2">
+                Save
+            </button>
+        }
+    </div>
+  </form>
+</div>

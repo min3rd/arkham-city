@@ -37,8 +37,8 @@ export declare class SDKManager {
     endpoint(uri: string): string;
     authenticate(): Observable<boolean>;
     check(): Observable<boolean>;
-    post<T, K>(uri: string, data: T): Observable<ApiResponse<K>>;
-    get<T>(uri: string): Observable<ApiResponse<T>>;
+    post<T, K>(uri: string, data: T): Observable<K | null>;
+    get<T>(uri: string): Observable<T | null>;
 }
 export declare const manager: () => SDKManager;
 export declare const globalConfig: (config: SDKConfig) => void;
