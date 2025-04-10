@@ -152,16 +152,16 @@ export class FirestoreService {
         MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
       );
     }
-    record = {
+    record = new recordModel({
       ...record,
       ...data,
-    };
+    });
     if (!record) {
       return new BadMicroserviceResponse(
         MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
       );
     }
-    record = await record?.save();
+    await record.updateOne();
     this.logger.log('webSDKPartialUpdate:end');
     return new SuccessMicroserviceResponse(record?.toJSON());
   }
@@ -186,16 +186,16 @@ export class FirestoreService {
         MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
       );
     }
-    record = {
+    record = new recordModel({
       ...data,
       _id: record._id,
-    };
+    });
     if (!record) {
       return new BadMicroserviceResponse(
         MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
       );
     }
-    record = await record?.save();
+    await record.updateOne();
     this.logger.log('webSDKUpdate:end');
     return new SuccessMicroserviceResponse(record?.toJSON());
   }

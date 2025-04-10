@@ -14,7 +14,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { UserService } from '../user.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -41,6 +41,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   private formBuilder = inject(UntypedFormBuilder);
   private userService = inject(UserService);
   private changeDetectorRef = inject(ChangeDetectorRef);
+  private router = inject(Router);
   private _unsubscribeAll = new Subject<any>();
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -52,7 +53,7 @@ export class DetailComponent implements OnInit, OnDestroy {
 
     this.userService.user$
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((user) => {
+      .subscribe((user: User | null) => {
         this.form.reset();
         if (user) {
           this.user = user;
@@ -69,8 +70,25 @@ export class DetailComponent implements OnInit, OnDestroy {
     if (this.form.invalid) {
       return;
     }
-    this.userService.create(this.form.getRawValue()).subscribe();
+    this.userService
+      .create(this.form.getRawValue())
+      .subscribe((user: User | null) => {
+        if (user) {
+          this.router.navigate(['/users', user._id]);
+        }
+      });
   }
-  save() {}
-  delete() {}
+  update() {
+    if (this.form.invalid) {
+      return;
+    }
+    this.userService.update(this.user._id, this.form.getRawValue()).subscribe();
+  }
+  delete() {
+    this.userService.delete(this.user._id).subscribe((done: boolean | null) => {
+      if (done) {
+        this.router.navigate(['/users']);
+      }
+    });
+  }
 }

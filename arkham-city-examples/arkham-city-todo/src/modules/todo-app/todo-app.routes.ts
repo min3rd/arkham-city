@@ -3,34 +3,41 @@ import {
   RouterStateSnapshot,
   Routes,
 } from '@angular/router';
-import { UserComponent } from './user.component';
-import { DetailComponent } from './detail/detail.component';
+import { TodoAppComponent } from './todo-app.component';
 import { ListComponent } from './list/list.component';
 import { inject } from '@angular/core';
-import { UserService } from './user.service';
+import { TaskService } from './task.service';
+import { DetailComponent } from './detail/detail.component';
+import { UserService } from '../user/user.service';
+import { forkJoin } from 'rxjs';
 
 export const listResolve = () => {
-  const userService = inject(UserService);
-  return userService.all();
+  const taskService = inject(TaskService);
+  return taskService.all();
 };
 
 export const detailResolve = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
+  const taskService = inject(TaskService);
   const userService = inject(UserService);
-  return userService.get(route.paramMap.get('id') as string);
+  return forkJoin([
+    taskService.get(route.paramMap.get('id') as string),
+    userService.all(),
+  ]);
 };
 
 export const newResolve = () => {
+  const taskService = inject(TaskService);
   const userService = inject(UserService);
-  return userService.reset();
+  return forkJoin([taskService.reset(), userService.all()]);
 };
 
 export const routes: Routes = [
   {
     path: '',
-    component: UserComponent,
+    component: TodoAppComponent,
     children: [
       {
         path: '',

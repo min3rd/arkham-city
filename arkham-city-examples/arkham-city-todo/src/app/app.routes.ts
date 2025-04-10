@@ -1,12 +1,11 @@
 import { Routes } from '@angular/router';
-import { TodoAppComponent } from '../modules/todo-app/todo-app.component';
-import { UserComponent } from '../modules/user/user.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'todo' },
   {
     path: 'todo',
-    component: TodoAppComponent,
+    loadChildren: () =>
+      import('../modules/todo-app/todo-app.routes').then((r) => r.routes),
   },
   {
     path: 'users',

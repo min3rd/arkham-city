@@ -1,0 +1,24 @@
+<div class="w-full">
+  @if (tasks && tasks.length > 0) { @for (task of tasks; track $index) {
+  <a
+    [routerLink]="[task._id]"
+    class="flex w-full px-6 py-2 border-b border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800"
+  >
+    <button mat-icon-button>
+      <mat-icon fontIcon="people"></mat-icon>
+    </button>
+    <div class="dark:text-neutral-200">
+      <div>
+        @if (task.title) {
+        {{ task.title }}
+        }
+      </div>
+      <div>
+        @if (task.description) {
+        {{ task.description }}
+        }
+      </div>
+    </div>
+  </a>
+  } }
+</div>

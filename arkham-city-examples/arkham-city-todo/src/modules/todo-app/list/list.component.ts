@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -7,26 +6,21 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { Task } from '../task.types';
+import { TaskService } from '../task.service';
+import { Subject, takeUntil } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { Subject, takeUntil } from 'rxjs';
-import { RouterModule } from '@angular/router';
-import { Task } from './task.types';
-import { TaskService } from './task.service';
+
 @Component({
-  selector: 'app-todo-app',
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatIconModule,
-  ],
-  templateUrl: './todo-app.component.html',
+  selector: 'app-list',
+  imports: [CommonModule, RouterModule, MatIconModule, MatButtonModule],
+  templateUrl: './list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TodoAppComponent implements OnInit, OnDestroy {
+export class ListComponent implements OnInit, OnDestroy {
   tasks!: Task[];
   private taskService = inject(TaskService);
   private changeDetectorRef = inject(ChangeDetectorRef);

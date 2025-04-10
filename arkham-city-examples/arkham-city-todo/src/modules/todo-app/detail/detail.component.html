@@ -1,0 +1,69 @@
+<div class="w-full flex flex-col">
+  <form [formGroup]="form">
+    <div class="px-4 py-2">
+      <mat-form-field class="w-full">
+        <mat-label>Title</mat-label>
+        <input
+          matInput
+          formControlName="title"
+          type="text"
+          placeholder="Please enter the title"
+        />
+      </mat-form-field>
+    </div>
+    <div class="px-4 py-2">
+      <mat-form-field class="w-full">
+        <mat-label>Description</mat-label>
+        <input
+          matInput
+          formControlName="description"
+          type="text"
+          placeholder="Please enter the description"
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="px-4 py-2">
+      <mat-form-field class="w-full">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          @for (status of statuses; track status) {
+          <mat-option [value]="status.value">{{ status.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="px-4 py-2">
+      <mat-form-field class="w-full">
+        <mat-label>Assignee</mat-label>
+        <mat-select formControlName="assignee">
+          @for (user of users; track user) {
+          <mat-option [value]="user">{{ user.username }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="flex items-center w-full px-4 py-2">
+      <button mat-raised-button [routerLink]="['../']">Cancel</button>
+      @if (!task) {
+      <button mat-flat-button (click)="create()" type="submit" class="ml-auto">
+        Create
+      </button>
+      } @if (task) {
+      <button
+        mat-stroked-button
+        (click)="delete()"
+        type="submit"
+        class="ml-auto"
+      >
+        Delete
+      </button>
+      <button mat-flat-button (click)="update()" type="submit" class="ml-2">
+        Save
+      </button>
+      }
+    </div>
+  </form>
+</div>

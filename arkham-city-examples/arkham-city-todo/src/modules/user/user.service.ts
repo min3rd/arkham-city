@@ -15,6 +15,9 @@ export class UserService {
   get user$(): Observable<User> {
     return this._user.asObservable();
   }
+  reset() {
+    this._user.next(null as any);
+  }
   all() {
     return firestore('user')
       .select<any, User[]>({})
@@ -27,21 +30,29 @@ export class UserService {
         }),
       );
   }
-  create(user: User) {
-    return firestore('user').create(user);
+  create(user: User): Observable<User | null> {
+    return firestore('user').create<User, User>(user);
   }
-  get(id: string) {
+  get(id: string): Observable<User | null> {
     return firestore('user')
-      .select<any, User[]>({
-        _id: id,
-      })
+      .get<User>(id)
       .pipe(
-        tap((users) => {
-          if (!users || !users.length) {
-            return;
-          }
-          this._user.next(users[0]);
+        tap((user: User | null) => {
+          this._user.next(user as any);
         }),
       );
+  }
+  update(id: string, user: User) {
+    return firestore('user')
+      .update<User, User>(id, user)
+      .pipe(
+        tap((user) => {
+          this._user.next(user as any);
+        }),
+      );
+  }
+
+  delete(id: string): Observable<boolean | null> {
+    return firestore('user').delete<boolean>(id);
   }
 }
