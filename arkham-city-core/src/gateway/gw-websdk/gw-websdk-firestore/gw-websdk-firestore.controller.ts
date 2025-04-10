@@ -14,7 +14,10 @@ import { REQUEST_FIELDS } from 'src/config/request.config';
 import { GatewayController } from 'src/core/gateway/gateway.controller';
 import { MicroserviceResponse } from 'src/core/microservice/microservice.types';
 import { CreateFirestoreRecordReqPayload } from 'src/microservices/ms-firestore/ms-firestore.interface';
-import { MsWebSDKFirestoreQuerySchemaReqPayload } from 'src/microservices/ms-websdk/ms-websdk-firestore/ms-websdk-firestore.interface';
+import {
+  MsWebSDKFirestoreFindByIdReqPayload,
+  MsWebSDKFirestoreQuerySchemaReqPayload,
+} from 'src/microservices/ms-websdk/ms-websdk-firestore/ms-websdk-firestore.interface';
 
 @Controller('websdk/firestore')
 export class GwWebSDKFirestoreController extends GatewayController {
@@ -60,6 +63,23 @@ export class GwWebSDKFirestoreController extends GatewayController {
     const res: MicroserviceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
         microserviceConfig.websdk.firestore.patterns.querySchema,
+        payload,
+      ),
+    );
+    this.afterCallMicroservice(res);
+    return res.data;
+  }
+
+  @Get(':schemaName/:id')
+  async findById(@Req() request: Request, @Param() params: any) {
+    const payload: MsWebSDKFirestoreFindByIdReqPayload = {
+      auth: request[REQUEST_FIELDS.auth],
+      schemaName: params.schemaName,
+      id: params.id,
+    };
+    const res: MicroserviceResponse<any> = await firstValueFrom(
+      this.clientProxy.send(
+        microserviceConfig.websdk.firestore.patterns.findById,
         payload,
       ),
     );

@@ -4,6 +4,7 @@ import { microserviceConfig } from 'src/config/microservice.config';
 import { CreateFirestoreRecordReqPayload } from 'src/microservices/ms-firestore/ms-firestore.interface';
 import { FirestoreService } from 'src/modules/firestore/firestore.service';
 import {
+  MsWebSDKFirestoreFindByIdReqPayload,
   MsWebSDKFirestoreQuerySchemaReqPayload,
   MsWebSDKFirestoreStoreSchemaReqPayload,
 } from './ms-websdk-firestore.interface';
@@ -35,6 +36,15 @@ export class MsWebsdkFirestoreController {
       payload.auth,
       payload.schemaName,
       payload.query,
+    );
+  }
+
+  @MessagePattern(microserviceConfig.websdk.firestore.patterns.findById)
+  findById(@Payload() payload: MsWebSDKFirestoreFindByIdReqPayload) {
+    return this.firestoreService.webSDKFindById(
+      payload.auth,
+      payload.schemaName,
+      payload.id,
     );
   }
 }
