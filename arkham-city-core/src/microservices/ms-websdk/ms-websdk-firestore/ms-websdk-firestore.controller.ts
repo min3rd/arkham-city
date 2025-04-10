@@ -4,6 +4,7 @@ import { microserviceConfig } from 'src/config/microservice.config';
 import { CreateFirestoreRecordReqPayload } from 'src/microservices/ms-firestore/ms-firestore.interface';
 import { FirestoreService } from 'src/modules/firestore/firestore.service';
 import {
+  MsWebSDKFirestoreDeleteByIdReqPayload,
   MsWebSDKFirestoreFindByIdReqPayload,
   MsWebSDKFirestoreQuerySchemaReqPayload,
   MsWebSDKFirestoreStoreSchemaReqPayload,
@@ -66,6 +67,15 @@ export class MsWebsdkFirestoreController {
       payload.schemaName,
       payload.id,
       payload.data,
+    );
+  }
+
+  @MessagePattern(microserviceConfig.websdk.firestore.patterns.deleteById)
+  deleteById(@Payload() payload: MsWebSDKFirestoreDeleteByIdReqPayload) {
+    return this.firestoreService.webSDKDeleteById(
+      payload.auth,
+      payload.schemaName,
+      payload.id,
     );
   }
 }

@@ -48,6 +48,7 @@ export const microserviceConfig = {
         findById: 'v1.websdk.firestore.find-by-id',
         partialUpdate: 'v1.websdk.firestore.partial-update',
         update: 'v1.websdk.firestore.update',
+        deleteById: 'v1.websdk.firestore.delete-by-id',
       },
     },
   },

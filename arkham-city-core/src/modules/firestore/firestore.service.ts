@@ -200,6 +200,26 @@ export class FirestoreService {
     return new SuccessMicroserviceResponse(record?.toJSON());
   }
 
+  async webSDKDeleteById(auth: SDKJwtPayload, schemaName: string, id: string) {
+    this.logger.log('webSDKDelete:start', auth, schemaName, id);
+    const connection = this.createProjectConnection(auth.projectId as string);
+    const recordModel = await this.getRecordModel(connection, schemaName);
+    if (!recordModel) {
+      return new BadMicroserviceResponse(
+        MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA,
+      );
+    }
+    let record = await recordModel.findById(id);
+    if (!record) {
+      return new BadMicroserviceResponse(
+        MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
+      );
+    }
+    await record.deleteOne();
+    this.logger.log('webSDKDelete:end');
+    return new SuccessMicroserviceResponse(true);
+  }
+
   async _createRecord(connection: Connection, schemaName: string, data: any) {
     if (!this.schemaNameRegex.exec(schemaName)) {
       return null;

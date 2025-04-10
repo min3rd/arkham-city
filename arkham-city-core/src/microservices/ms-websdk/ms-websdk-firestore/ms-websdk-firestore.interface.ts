@@ -24,3 +24,9 @@ export interface MsWebSDKFirestoreUpdateReqPayload {
   id: string;
   data: any;
 }
+
+export interface MsWebSDKFirestoreDeleteByIdReqPayload {
+  auth: SDKJwtPayload;
+  schemaName: string;
+  id: string;
+}

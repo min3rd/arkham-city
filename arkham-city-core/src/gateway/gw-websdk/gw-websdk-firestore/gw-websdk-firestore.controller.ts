@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Inject,
   Param,
@@ -17,6 +18,7 @@ import { GatewayController } from 'src/core/gateway/gateway.controller';
 import { MicroserviceResponse } from 'src/core/microservice/microservice.types';
 import { CreateFirestoreRecordReqPayload } from 'src/microservices/ms-firestore/ms-firestore.interface';
 import {
+  MsWebSDKFirestoreDeleteByIdReqPayload,
   MsWebSDKFirestoreFindByIdReqPayload,
   MsWebSDKFirestoreQuerySchemaReqPayload,
   MsWebSDKFirestoreUpdateReqPayload,
@@ -127,6 +129,23 @@ export class GwWebSDKFirestoreController extends GatewayController {
     const res: MicroserviceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
         microserviceConfig.websdk.firestore.patterns.partialUpdate,
+        payload,
+      ),
+    );
+    this.afterCallMicroservice(res);
+    return res.data;
+  }
+
+  @Delete(':schemaName/:id')
+  async deleteById(@Req() request: Request, @Param() params: any) {
+    const payload: MsWebSDKFirestoreDeleteByIdReqPayload = {
+      auth: request[REQUEST_FIELDS.auth],
+      schemaName: params.schemaName,
+      id: params.id,
+    };
+    const res: MicroserviceResponse<any> = await firstValueFrom(
+      this.clientProxy.send(
+        microserviceConfig.websdk.firestore.patterns.deleteById,
         payload,
       ),
     );
