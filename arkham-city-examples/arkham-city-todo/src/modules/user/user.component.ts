@@ -1,22 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-user',
   imports: [
     CommonModule,
     RouterModule,
-    MatIconModule,
     MatButtonModule,
+    MatIconModule,
     MatTooltipModule,
   ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  templateUrl: './user.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
-  title = 'arkham-city-todo';
-}
+export class UserComponent {}

@@ -21,7 +21,7 @@ export const appConfig: ApplicationConfig = {
         appId: '67f71b1fa9ae99e7aaf82e75',
         secretKey:
           'Z315Nvw0CrpQoDpyQvvRvhTQSuo460SfzXU8wmP7LDWitXYEiTZjT4LDH4Wkz8Va',
-        isProductionMode: true,
+        isProductionMode: !isDevMode(),
       });
     }),
     provideAnimationsAsync(),

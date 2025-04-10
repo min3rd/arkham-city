@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosStatic } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosStatic } from 'axios';
 import { catchError, from, Observable, of, switchMap } from 'rxjs';
 import JwtUtils from '../utils';
 import { crypto } from '../crypto';
@@ -126,7 +126,7 @@ export class SDKManager {
     }
     return this.authenticate();
   }
-  post<T, K>(uri: string, data: T): Observable<ApiResponse<K>> {
+  post<T, K>(uri: string, data: T): Observable<K | null> {
     return this.check().pipe(
       switchMap((authenticated) => {
         if (!authenticated) {
@@ -145,23 +145,21 @@ export class SDKManager {
             this.globalConfig.isProductionMode ? encrypted : data,
           ),
         ).pipe(
-          catchError((e) => {
-            const resDto: ApiResponse<string> = {
-              error: true,
-              timestamp: new Date(),
-              data: e,
-            };
-            return of(resDto);
+          catchError(() => {
+            return of(null);
           }),
-          switchMap((response) => {
-            return of(response.data);
+          switchMap((response: AxiosResponse<ApiResponse<K>> | null) => {
+            if (!response) {
+              return of(null);
+            }
+            return of(response.data.data);
           }),
         );
       }),
     );
   }
 
-  get<T>(uri: string): Observable<ApiResponse<T>> {
+  get<T>(uri: string): Observable<T | null> {
     return this.check().pipe(
       switchMap((authenticated) => {
         if (!authenticated) {
@@ -169,16 +167,14 @@ export class SDKManager {
           return of(null);
         }
         return from(this._axios.get(this.endpoint(uri))).pipe(
-          catchError((e) => {
-            const resDto: ApiResponse<string> = {
-              error: true,
-              timestamp: new Date(),
-              data: e,
-            };
-            return of(resDto);
+          catchError(() => {
+            return of(null);
           }),
-          switchMap((response) => {
-            return of(response.data);
+          switchMap((response: AxiosResponse<ApiResponse<T>> | null) => {
+            if (!response) {
+              return of(null);
+            }
+            return of(response.data.data);
           }),
         );
       }),

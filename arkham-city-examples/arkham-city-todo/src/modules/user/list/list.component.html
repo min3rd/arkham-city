@@ -1,0 +1,26 @@
+<div class="w-full">
+  @if (users && users.length > 0) { @for (user of users; track $index) {
+  <a
+  [routerLink]="[user._id]"
+    class="flex w-full px-6 py-2 border-b border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800"
+  >
+    <button mat-icon-button>
+      <mat-icon fontIcon="people"></mat-icon>
+    </button>
+    <div class="dark:text-neutral-200">
+      <div>
+        @if (user.firstName) {
+        {{ user.firstName }}
+        } @if (user.lastName) {
+        {{ user.lastName }}
+        }
+      </div>
+      <div>
+        @if (user.email) {
+        {{ user.email }}
+        }
+      </div>
+    </div>
+  </a>
+  } }
+</div>
