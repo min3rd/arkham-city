@@ -19,6 +19,18 @@ class FirestoreClient {
     select(query) {
         return (0, manager_1.manager)().post(`firestore/${this._schemaName}/query`, query);
     }
+    get(id) {
+        return (0, manager_1.manager)().get(`firestore/${this._schemaName}/${id}`);
+    }
+    partialUpdate(id, data) {
+        return (0, manager_1.manager)().patch(`firestore/${this._schemaName}/${id}`, data);
+    }
+    update(id, data) {
+        return (0, manager_1.manager)().put(`firestore/${this._schemaName}/${id}`, data);
+    }
+    delete(id) {
+        return (0, manager_1.manager)().delete(`firestore/${this._schemaName}/${id}`);
+    }
 }
 exports.default = FirestoreClient;
 const firestore = (schemaName) => {

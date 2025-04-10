@@ -39,6 +39,9 @@ export declare class SDKManager {
     check(): Observable<boolean>;
     post<T, K>(uri: string, data: T): Observable<K | null>;
     get<T>(uri: string): Observable<T | null>;
+    put<T, K>(uri: string, data: T): Observable<K | null>;
+    patch<T, K>(uri: string, data: T): Observable<K | null>;
+    delete<T>(uri: string): Observable<T | null>;
 }
 export declare const manager: () => SDKManager;
 export declare const globalConfig: (config: SDKConfig) => void;

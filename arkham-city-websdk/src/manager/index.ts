@@ -180,6 +180,94 @@ export class SDKManager {
       }),
     );
   }
+
+  put<T, K>(uri: string, data: T): Observable<K | null> {
+    return this.check().pipe(
+      switchMap((autthenticated) => {
+        if (!autthenticated) {
+          console.error('Unauthorization');
+          return of(null);
+        }
+        let encrypted!: any;
+        if (this.globalConfig.isProductionMode) {
+          encrypted = {
+            data: crypto().encrypt(data, this.globalConfig.projectId),
+          };
+        }
+        return from(
+          this._axios.put(
+            this.endpoint(uri),
+            this.globalConfig.isProductionMode ? encrypted : data,
+          ),
+        ).pipe(
+          catchError(() => {
+            return of(null);
+          }),
+          switchMap((response: AxiosResponse<ApiResponse<K>> | null) => {
+            if (!response) {
+              return of(null);
+            }
+            return of(response.data.data);
+          }),
+        );
+      }),
+    );
+  }
+
+  patch<T, K>(uri: string, data: T): Observable<K | null> {
+    return this.check().pipe(
+      switchMap((autthenticated) => {
+        if (!autthenticated) {
+          console.error('Unauthorization');
+          return of(null);
+        }
+        let encrypted!: any;
+        if (this.globalConfig.isProductionMode) {
+          encrypted = {
+            data: crypto().encrypt(data, this.globalConfig.projectId),
+          };
+        }
+        return from(
+          this._axios.patch(
+            this.endpoint(uri),
+            this.globalConfig.isProductionMode ? encrypted : data,
+          ),
+        ).pipe(
+          catchError(() => {
+            return of(null);
+          }),
+          switchMap((response: AxiosResponse<ApiResponse<K>> | null) => {
+            if (!response) {
+              return of(null);
+            }
+            return of(response.data.data);
+          }),
+        );
+      }),
+    );
+  }
+
+  delete<T>(uri: string): Observable<T | null> {
+    return this.check().pipe(
+      switchMap((authenticated) => {
+        if (!authenticated) {
+          console.error('Unauthorization');
+          return of(null);
+        }
+        return from(this._axios.delete(this.endpoint(uri))).pipe(
+          catchError(() => {
+            return of(null);
+          }),
+          switchMap((response: AxiosResponse<ApiResponse<T>> | null) => {
+            if (!response) {
+              return of(null);
+            }
+            return of(response.data.data);
+          }),
+        );
+      }),
+    );
+  }
 }
 
 export const manager = () => {
