@@ -45,6 +45,7 @@ export const microserviceConfig = {
         createRecord: 'v1.websdk.firestore.create-record',
         storeSchema: 'v1.websdk.firestore.store-schema',
         querySchema: 'v1.websdk.firestore.query',
+        findById: 'v1.websdk.firestore.find-by-id',
       },
     },
   },

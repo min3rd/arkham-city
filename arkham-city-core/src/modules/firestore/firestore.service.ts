@@ -1,10 +1,9 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable, Logger } from '@nestjs/common';
 import {
   FirestoreDynamicSchemaSchema,
   FirestoreDynamicSchema,
   FirestoreSchemaField,
 } from './firestore.types';
-import { MongooseService } from '../mongoose/mongoose.service';
 import { SDKJwtPayload } from '../websdk/websdk-auth/websdl-auth.interface';
 import {
   BadMicroserviceResponse,
@@ -17,14 +16,16 @@ import { ClientRedis } from '@nestjs/microservices';
 import { MsWebSDKFirestoreStoreSchemaReqPayload } from 'src/microservices/ms-websdk/ms-websdk-firestore/ms-websdk-firestore.interface';
 import moment, { ISO_8601 } from 'moment';
 import mongoose, { Connection } from 'mongoose';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class FirestoreService {
+  private readonly schemaNameRegex = new RegExp(/[a-zA-Z]+/);
   private readonly logger = new Logger(FirestoreService.name);
   constructor(
-    private readonly mongooseService: MongooseService,
     @Inject(microserviceConfig.websdk.firestore.name)
     private readonly clientProxy: ClientRedis,
+    private readonly configService: ConfigService,
   ) {}
 
   async createRecord(
@@ -34,8 +35,8 @@ export class FirestoreService {
     this.logger.log(
       `createRecord:start:schemaName=${schemaName},data=${JSON.stringify(data)}`,
     );
-    const record = await this.mongooseService.createRecord(
-      this.mongooseService.createProjectConnection('test'),
+    const record = await this._createRecord(
+      this.createProjectConnection('test'),
       schemaName,
       data,
     );
@@ -62,8 +63,8 @@ export class FirestoreService {
       },
       auth: auth.username,
     };
-    const record = await this.mongooseService.createRecord(
-      this.mongooseService.createProjectConnection(auth.projectId as string),
+    const record = await this._createRecord(
+      this.createProjectConnection(auth.projectId as string),
       schemaName,
       preData,
     );
@@ -89,12 +90,10 @@ export class FirestoreService {
     this.logger.log(
       `webSDKStoreSchema:start:auth=${JSON.stringify(auth)},schemaName=${schemaName},data=${JSON.stringify(data)}`,
     );
-    if (!MongooseService.schemaNameRegex.exec(schemaName)) {
+    if (!this.schemaNameRegex.exec(schemaName)) {
       return new BadMicroserviceResponse(MicroserviceErrorCode.DEFAULT);
     }
-    const connection = this.mongooseService.createProjectConnection(
-      auth.projectId as string,
-    );
+    const connection = this.createProjectConnection(auth.projectId as string);
     const schemaModel = this.getFirestoreDynamicSchemaModel(connection);
 
     let dynamicSchema = await schemaModel.findOne({
@@ -115,17 +114,51 @@ export class FirestoreService {
     this.logger.log(
       `webSDKQueryRecord:start:auth=${JSON.stringify(auth)},schemeName=${schemeName},query=${JSON.stringify(query)}`,
     );
-    const connection = this.mongooseService.createProjectConnection(
-      auth.projectId as string,
-    );
+    const connection = this.createProjectConnection(auth.projectId as string);
+    const recordModel = await this.getRecordModel(connection, schemeName);
+    if (!recordModel) {
+      return new BadMicroserviceResponse(
+        MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA,
+      );
+    }
+    const records = await recordModel.find(query);
+    this.logger.log(`webSDKQueryRecord:end`);
+    return new SuccessMicroserviceResponse(records.map((e) => e.toJSON()));
+  }
+
+  async webSDKFindById(auth: SDKJwtPayload, schemaName: string, id: string) {
+    this.logger.log(`webSDKGetRecord:start`, auth, schemaName, id);
+    const connection = this.createProjectConnection(auth.projectId as string);
+    const recordModel = await this.getRecordModel(connection, schemaName);
+    if (!recordModel) {
+      return new BadMicroserviceResponse(
+        MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA,
+      );
+    }
+    const record = await recordModel.findById(id);
+    this.logger.log(`webSDKGetRecord:end`);
+    return new SuccessMicroserviceResponse(record?.toJSON());
+  }
+
+  async _createRecord(connection: Connection, schemaName: string, data: any) {
+    if (!this.schemaNameRegex.exec(schemaName)) {
+      return null;
+    }
+    const dataType = this.fromDataToType(data);
+    this.logger.debug(`createRecord:dataType=${JSON.stringify(dataType)}`);
+    const _Schema = new mongoose.Schema(dataType);
+    const _Model = connection.model(schemaName.toLowerCase(), _Schema);
+    const record = new _Model(data);
+    return await record.save();
+  }
+
+  async getRecordModel(connection: Connection, schemeName: string) {
     const dynamicSchemaModel = this.getFirestoreDynamicSchemaModel(connection);
     const dynamicSchema = await dynamicSchemaModel.findOne({
       name: schemeName.toLowerCase(),
     });
     if (!dynamicSchema) {
-      return new BadMicroserviceResponse(
-        MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA,
-      );
+      return null;
     }
     const schema = {};
     for (const field of dynamicSchema.fields) {
@@ -159,13 +192,10 @@ export class FirestoreService {
         };
       }
     }
-    const recordModel = connection.model(
+    return connection.model(
       schemeName.toLowerCase(),
       new mongoose.Schema(schema),
     );
-    const records = await recordModel.find(query);
-    this.logger.log(`webSDKQueryRecord:end`);
-    return new SuccessMicroserviceResponse(records.map((e) => e.toJSON()));
   }
 
   getFirestoreDynamicSchemaModel(connection: Connection) {
@@ -205,5 +235,67 @@ export class FirestoreService {
       fields.push(field);
     }
     return fields;
+  }
+
+  createConnection(mongoUrl: string, poolSize: number = 10): Connection {
+    return mongoose.createConnection(mongoUrl, { maxPoolSize: poolSize });
+  }
+
+  createProjectConnection(
+    projectId: string,
+    poolSize: number = 10,
+  ): Connection {
+    let mongoUrl: string = this.configService.get('MONGO_DB_URL') as string;
+    if (mongoUrl.endsWith('/')) {
+      mongoUrl = mongoUrl.substring(0, mongoUrl.length - 1);
+    }
+    const connectionString = `${mongoUrl}/projects_${projectId}`;
+    return this.createConnection(connectionString, poolSize);
+  }
+
+  fromDataToType(data: object) {
+    if (typeof data !== 'object') {
+      return false;
+    }
+    if (data instanceof Array) {
+      return this.fromDataToType(data.pop());
+    }
+    const dataType = {};
+    for (const key of Object.keys(data)) {
+      if (typeof data[key] === 'string') {
+        dataType[key] = {
+          type: String,
+        };
+        try {
+          if (moment(data[key], ISO_8601, true).isValid()) {
+            this.logger.log(key);
+            dataType[key] = {
+              type: Date,
+            };
+          }
+        } catch (e) {}
+      } else if (typeof data[key] === 'number') {
+        dataType[key] = {
+          type: Number,
+        };
+      } else if (typeof data[key] === 'bigint') {
+        dataType[key] = {
+          type: BigInt,
+        };
+      } else if (typeof data[key] === 'boolean') {
+        dataType[key] = {
+          type: Boolean,
+        };
+      } else if (typeof data[key] === 'object') {
+        if (data[key] instanceof Array) {
+          dataType[key] = {
+            type: Array,
+          };
+        } else {
+          dataType[key] = this.fromDataToType(data[key] as object);
+        }
+      }
+    }
+    return dataType;
   }
 }

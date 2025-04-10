@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { WebSDKAuthService } from './websdk-auth.service';
 import { ConfigModule } from '@nestjs/config';
-import { MongooseService } from 'src/modules/mongoose/mongoose.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Project, ProjectSchema } from 'src/modules/project/project.types';
 import {
@@ -9,8 +8,6 @@ import {
   AppSchema as ProjectAppSchema,
 } from 'src/modules/project/app/project-app.type';
 import { JwtModule } from '@nestjs/jwt';
-import { HashService } from 'src/core/hash/hash.service';
-
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -29,7 +26,7 @@ import { HashService } from 'src/core/hash/hash.service';
       },
     }),
   ],
-  providers: [WebSDKAuthService, MongooseService, HashService],
+  providers: [WebSDKAuthService],
   exports: [WebSDKAuthService],
 })
 export class WebSDKAuthModule {}

@@ -16,12 +16,10 @@ export class HttpInterceptor implements NestInterceptor {
       const { params, body } = request;
       request.body = HashService.decrypt(body.data, this.getProjectId(request));
     }
-
     return next.handle().pipe(
       map((data) => {
         const response: ResponseDto = {
           timestamp: new Date(),
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           data: data,
           error: false,
           errorCode: undefined,
