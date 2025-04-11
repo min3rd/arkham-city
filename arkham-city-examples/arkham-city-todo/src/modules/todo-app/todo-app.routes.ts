@@ -9,7 +9,7 @@ import { inject } from '@angular/core';
 import { TaskService } from './task.service';
 import { DetailComponent } from './detail/detail.component';
 import { UserService } from '../user/user.service';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 
 export const listResolve = () => {
   const taskService = inject(TaskService);
@@ -28,7 +28,10 @@ export const detailResolve = (
   ]);
 };
 
-export const newResolve = () => {
+export const newResolve = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+): Observable<any> => {
   const taskService = inject(TaskService);
   const userService = inject(UserService);
   return forkJoin([taskService.reset(), userService.all()]);

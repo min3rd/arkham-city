@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, of, tap } from 'rxjs';
 import { Task } from './task.types';
 import { firestore } from 'arkham-city-websdk/dist/firestore';
 
@@ -16,8 +16,9 @@ export class TaskService {
     return this._task.asObservable();
   }
 
-  reset() {
+  reset(): Observable<boolean> {
     this._task.next(null as any);
+    return of(true);
   }
   all() {
     return firestore('task')

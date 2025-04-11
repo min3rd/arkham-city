@@ -84,9 +84,48 @@ export class DetailComponent implements OnInit, OnDestroy {
         this.users = users;
         this.changeDetectorRef.markForCheck();
       });
+
+    this.taskService.task$
+      .pipe(takeUntil(this._unsubscribeAll))
+      .subscribe((task) => {
+        this.form.reset();
+        if (task) {
+          this.form.patchValue(task);
+        }
+        this.task = task;
+        this.changeDetectorRef.markForCheck();
+      });
   }
   ngOnDestroy(): void {}
-  create() {}
-  update() {}
-  delete() {}
+  create() {
+    if (this.form.invalid) {
+      return;
+    }
+    this.taskService.create(this.form.getRawValue()).subscribe((task) => {
+      if (!task) {
+        return;
+      }
+      this.router.navigate(['/todo', task?._id]);
+    });
+  }
+  update() {
+    if (this.form.invalid) {
+      return;
+    }
+    this.taskService
+      .update(this.task._id, { ...this.task, ...this.form.getRawValue() })
+      .subscribe((task) => {
+        if (!task) {
+          return;
+        }
+        this.router.navigate(['/todo', task?._id]);
+      });
+  }
+  delete() {
+    this.taskService.delete(this.task._id).subscribe((result) => {
+      if (result) {
+        this.router.navigate(['/todo']);
+      }
+    });
+  }
 }

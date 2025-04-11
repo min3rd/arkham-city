@@ -102,4 +102,9 @@ export class MicroserviceErrorCode {
     '01x0015',
     'Could not partial update the record',
   );
+
+  static readonly WEB_SDK_FIRESTORE_ID_WAS_NOT_MATCHED = new IErrorCode(
+    '01x0016',
+    "The record's id was not matched",
+  );
 }

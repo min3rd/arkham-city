@@ -38,15 +38,18 @@
       <mat-form-field class="w-full">
         <mat-label>Assignee</mat-label>
         <mat-select formControlName="assignee">
+          <mat-option>None</mat-option>
           @for (user of users; track user) {
-          <mat-option [value]="user">{{ user.username }}</mat-option>
+          <mat-option [value]="user">
+            {{ user.username }}
+          </mat-option>
           }
         </mat-select>
       </mat-form-field>
     </div>
 
     <div class="flex items-center w-full px-4 py-2">
-      <button mat-raised-button [routerLink]="['../']">Cancel</button>
+      <button mat-raised-button [routerLink]="['../']" type="submit">Cancel</button>
       @if (!task) {
       <button mat-flat-button (click)="create()" type="submit" class="ml-auto">
         Create

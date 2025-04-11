@@ -1,7 +1,6 @@
-import { ForbiddenException, Inject, Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import {
   FirestoreDynamicSchemaSchema,
-  FirestoreDynamicSchema,
   FirestoreSchemaField,
 } from './firestore.types';
 import { SDKJwtPayload } from '../websdk/websdk-auth/websdl-auth.interface';
@@ -15,8 +14,9 @@ import { microserviceConfig } from 'src/config/microservice.config';
 import { ClientRedis } from '@nestjs/microservices';
 import { MsWebSDKFirestoreStoreSchemaReqPayload } from 'src/microservices/ms-websdk/ms-websdk-firestore/ms-websdk-firestore.interface';
 import moment, { ISO_8601 } from 'moment';
-import mongoose, { Connection } from 'mongoose';
+import mongoose, { Connection, Document } from 'mongoose';
 import { ConfigService } from '@nestjs/config';
+import { SchemaTypes } from 'mongoose';
 
 @Injectable()
 export class FirestoreService {
@@ -98,7 +98,7 @@ export class FirestoreService {
         name: schemaName.toLowerCase(),
       });
     }
-    dynamicSchema.fields = this.formData(data);
+    dynamicSchema.fields = this.fromDataToField(data);
     dynamicSchema = await dynamicSchema.save();
     this.logger.log(`webSDKStoreSchema:end`);
     return new SuccessMicroserviceResponse(dynamicSchema.toJSON());
@@ -152,8 +152,15 @@ export class FirestoreService {
         MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
       );
     }
+
+    if (record._id != data._id) {
+      return new BadMicroserviceResponse(
+        MicroserviceErrorCode.WEB_SDK_FIRESTORE_ID_WAS_NOT_MATCHED,
+      );
+    }
+
     record = new recordModel({
-      ...record,
+      ...record.toJSON(),
       ...data,
     });
     if (!record) {
@@ -161,7 +168,9 @@ export class FirestoreService {
         MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
       );
     }
-    await record.updateOne();
+    await record.updateOne({
+      _id: record._id,
+    });
     this.logger.log('webSDKPartialUpdate:end');
     return new SuccessMicroserviceResponse(record?.toJSON());
   }
@@ -186,16 +195,24 @@ export class FirestoreService {
         MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
       );
     }
+    if (record._id != data._id) {
+      return new BadMicroserviceResponse(
+        MicroserviceErrorCode.WEB_SDK_FIRESTORE_ID_WAS_NOT_MATCHED,
+      );
+    }
+
     record = new recordModel({
       ...data,
-      _id: record._id,
     });
+
     if (!record) {
       return new BadMicroserviceResponse(
         MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
       );
     }
-    await record.updateOne();
+    await record.updateOne({
+      _id: record._id,
+    });
     this.logger.log('webSDKUpdate:end');
     return new SuccessMicroserviceResponse(record?.toJSON());
   }
@@ -270,6 +287,10 @@ export class FirestoreService {
         schema[field.name] = {
           type: Array,
         };
+      } else if (field.type === SchemaTypes.Mixed.name) {
+        schema[field.name] = {
+          type: SchemaTypes.Mixed,
+        };
       }
     }
     return connection.model(
@@ -279,17 +300,16 @@ export class FirestoreService {
   }
 
   getFirestoreDynamicSchemaModel(connection: Connection) {
-    return connection.model(
-      FirestoreDynamicSchema.name,
-      FirestoreDynamicSchemaSchema,
-    );
+    return connection.model('dynamic-schemas', FirestoreDynamicSchemaSchema);
   }
 
-  formData(data: object) {
+  fromDataToField(data: object) {
     const fields: FirestoreSchemaField[] = [];
     for (const key of Object.keys(data)) {
       let type;
-      if (typeof data[key] === 'string') {
+      if (data[key] == null || data[key] == undefined) {
+        type = SchemaTypes.Mixed.name;
+      } else if (typeof data[key] === 'string') {
         type = String.name;
         try {
           if (moment(data[key], ISO_8601, true).isValid()) {
@@ -342,7 +362,11 @@ export class FirestoreService {
     }
     const dataType = {};
     for (const key of Object.keys(data)) {
-      if (typeof data[key] === 'string') {
+      if (data[key] == null || data[key] === undefined) {
+        dataType[key] = {
+          type: SchemaTypes.Mixed,
+        };
+      } else if (typeof data[key] === 'string') {
         dataType[key] = {
           type: String,
         };
@@ -377,5 +401,15 @@ export class FirestoreService {
       }
     }
     return dataType;
+  }
+
+  update(record: Document<any>, data: any): Document<any> {
+    for (const key in data) {
+      if (key == '_id' || key == '__v') {
+        continue;
+      }
+      record[key] = data[key];
+    }
+    return record;
   }
 }

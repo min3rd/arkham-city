@@ -53,10 +53,10 @@ export class DetailComponent implements OnInit, OnDestroy {
 
     this.userService.user$
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((user: User | null) => {
+      .subscribe((user) => {
         this.form.reset();
+        this.user = user;
         if (user) {
-          this.user = user;
           this.form.patchValue(user);
           this.changeDetectorRef.markForCheck();
         }
