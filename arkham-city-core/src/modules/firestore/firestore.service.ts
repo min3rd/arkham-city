@@ -158,19 +158,18 @@ export class FirestoreService {
         MicroserviceErrorCode.WEB_SDK_FIRESTORE_ID_WAS_NOT_MATCHED,
       );
     }
-
-    record = new recordModel({
-      ...record.toJSON(),
-      ...data,
-    });
-    if (!record) {
-      return new BadMicroserviceResponse(
-        MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
-      );
-    }
-    await record.updateOne({
-      _id: record._id,
-    });
+    record = await recordModel.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        ...record.toJSON(),
+        ...data,
+      },
+      {
+        new: true,
+      },
+    );
     this.logger.log('webSDKPartialUpdate:end');
     return new SuccessMicroserviceResponse(record?.toJSON());
   }
@@ -200,19 +199,17 @@ export class FirestoreService {
         MicroserviceErrorCode.WEB_SDK_FIRESTORE_ID_WAS_NOT_MATCHED,
       );
     }
-
-    record = new recordModel({
-      ...data,
-    });
-
-    if (!record) {
-      return new BadMicroserviceResponse(
-        MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
-      );
-    }
-    await record.updateOne({
-      _id: record._id,
-    });
+    record = await recordModel.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        ...data,
+      },
+      {
+        new: true,
+      },
+    );
     this.logger.log('webSDKUpdate:end');
     return new SuccessMicroserviceResponse(record?.toJSON());
   }
