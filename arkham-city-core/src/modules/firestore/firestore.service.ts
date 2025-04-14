@@ -21,6 +21,7 @@ import { SchemaTypes } from 'mongoose';
 @Injectable()
 export class FirestoreService {
   private readonly schemaNameRegex = new RegExp(/[a-zA-Z]+/);
+  private readonly unsafeRegex = new RegExp(/[^a-zA-Z]+/g);
   private readonly logger = new Logger(FirestoreService.name);
   constructor(
     @Inject(microserviceConfig.websdk.firestore.name)
@@ -91,11 +92,11 @@ export class FirestoreService {
     const schemaModel = this.getFirestoreDynamicSchemaModel(connection);
 
     let dynamicSchema = await schemaModel.findOne({
-      name: schemaName.toLowerCase(),
+      name: this.getSafeSchemaName(schemaName),
     });
     if (!dynamicSchema) {
       dynamicSchema = new schemaModel({
-        name: schemaName.toLowerCase(),
+        name: this.getSafeSchemaName(schemaName),
       });
     }
     dynamicSchema.fields = this.fromDataToField(data);
@@ -241,7 +242,10 @@ export class FirestoreService {
     const dataType = this.fromDataToType(data);
     this.logger.debug(`createRecord:dataType=${JSON.stringify(dataType)}`);
     const _Schema = new mongoose.Schema(dataType);
-    const _Model = connection.model(schemaName.toLowerCase(), _Schema);
+    const _Model = connection.model(
+      this.getSafeSchemaName(schemaName),
+      _Schema,
+    );
     const record = new _Model(data);
     return await record.save();
   }
@@ -249,7 +253,7 @@ export class FirestoreService {
   async getRecordModel(connection: Connection, schemeName: string) {
     const dynamicSchemaModel = this.getFirestoreDynamicSchemaModel(connection);
     const dynamicSchema = await dynamicSchemaModel.findOne({
-      name: schemeName.toLowerCase(),
+      name: this.getSafeSchemaName(schemeName),
     });
     if (!dynamicSchema) {
       return null;
@@ -291,7 +295,7 @@ export class FirestoreService {
       }
     }
     return connection.model(
-      schemeName.toLowerCase(),
+      this.getSafeSchemaName(schemeName),
       new mongoose.Schema(schema),
     );
   }
@@ -408,5 +412,9 @@ export class FirestoreService {
       record[key] = data[key];
     }
     return record;
+  }
+
+  getSafeSchemaName(schemaName: string) {
+    return `firestore-${schemaName.toLowerCase().replaceAll(this.unsafeRegex, '-')}`;
   }
 }
