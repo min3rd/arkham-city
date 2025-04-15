@@ -18,7 +18,7 @@ export class WebSDKAuthService {
   private readonly logger = new Logger(WebSDKAuthService.name);
   constructor(
     @InjectModel(ProjectApp.name, 'metadata')
-    private readonly projectAppMode: Model<ProjectApp>,
+    private readonly projectAppModel: Model<ProjectApp>,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}
@@ -31,7 +31,7 @@ export class WebSDKAuthService {
     this.logger.log(
       `authenticate:start:projectId=${projectId},appId=${appId},secretKey=${secretKey}`,
     );
-    const projectApp = await this.find(projectId, appId);
+    const projectApp = await this.findProjectApp(projectId, appId);
     if (!projectApp) {
       return new BadMicroserviceResponse(
         MicroserviceErrorCode.WEB_SDK_CAN_NOT_FIND_THE_APP,
@@ -67,8 +67,8 @@ export class WebSDKAuthService {
       accessToken: await this.jwtService.signAsync(returnedPayload),
     });
   }
-  async find(projectId: string, appId: string) {
-    return await this.projectAppMode.findOne({
+  async findProjectApp(projectId: string, appId: string) {
+    return await this.projectAppModel.findOne({
       _id: appId,
       project: {
         _id: projectId,
