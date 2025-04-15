@@ -2,7 +2,9 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { AuditEntity } from '../base/base.type';
 
-@Schema()
+@Schema({
+  timestamps: true,
+})
 export class User extends AuditEntity {
   @Prop()
   username: string;
