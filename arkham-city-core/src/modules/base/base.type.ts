@@ -7,23 +7,29 @@ export interface ResponseDto {
   data?: any;
 }
 
-@Schema()
+@Schema({
+  timestamps: true,
+})
 export class AuditEntity {
   @Prop()
-  createdBy: string;
+  createdBy?: string;
+
+  @Prop({
+    default: new Date(),
+  })
+  createdAt?: Date;
 
   @Prop()
-  createdAt: Date;
+  updatedBy?: string;
 
-  @Prop()
-  lastModifiedBy: string;
-
-  @Prop()
-  lastModifiedAt: Date;
+  @Prop({
+    default: new Date(),
+  })
+  updatedAt?: Date;
 
   @Prop({
     default: true,
     select: false,
   })
-  activated: boolean = true;
+  activated?: boolean = true;
 }

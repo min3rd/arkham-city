@@ -8,7 +8,9 @@ export enum APP_TYPE {
   WEB_APP = 'WEB_APP',
 }
 
-@Schema()
+@Schema({
+  timestamps: true,
+})
 export class ProjectApp extends AuditEntity {
   @Prop({
     type: mongoose.Types.ObjectId,

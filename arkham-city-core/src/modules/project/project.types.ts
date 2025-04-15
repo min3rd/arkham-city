@@ -3,7 +3,9 @@ import mongoose, { HydratedDocument } from 'mongoose';
 import { AuditEntity } from '../base/base.type';
 import { User } from '../user/user.type';
 
-@Schema()
+@Schema({
+  timestamps: true,
+})
 export class Project extends AuditEntity {
   @Prop()
   name: string;

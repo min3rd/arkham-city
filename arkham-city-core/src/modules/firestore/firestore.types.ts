@@ -1,8 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
+import { AuditEntity } from '../base/base.type';
 
 @Schema()
-export class FirestoreSchemaField {
+export class FirestoreSchemaField extends AuditEntity {
   @Prop()
   name: string;
 
@@ -10,8 +11,8 @@ export class FirestoreSchemaField {
   type: string;
 }
 
-@Schema()
-export class FirestoreDynamicSchema {
+@Schema({})
+export class FirestoreDynamicSchema extends AuditEntity {
   @Prop()
   name: string;
 
