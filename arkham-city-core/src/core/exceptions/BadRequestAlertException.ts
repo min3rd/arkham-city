@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { IErrorCode } from '../microservice/microservice.types';
+import { Error } from '../microservice/microservice.types';
 export class BadRequestAlertException extends HttpException {
-  errorCode!: IErrorCode;
-  constructor(errorCode: IErrorCode) {
+  errorCode!: Error;
+  constructor(errorCode: Error) {
     super(errorCode.code, HttpStatus.BAD_REQUEST);
     this.errorCode = errorCode;
   }

@@ -13,7 +13,7 @@ import { microserviceConfig } from 'src/config/microservice.config';
 import { NewProjectReqPayload } from 'src/microservices/ms-project/ms-project.interface';
 import { NewProjectDto } from './gw-project.interface';
 import { JWTPayload } from 'src/modules/auth/auth.interface';
-import { MicroserviceResponse } from 'src/core/microservice/microservice.types';
+import { ServiceResponse } from 'src/core/microservice/microservice.types';
 import { firstValueFrom } from 'rxjs';
 import { GatewayController } from 'src/core/gateway/gateway.controller';
 import { Project } from 'src/modules/project/project.types';
@@ -38,7 +38,7 @@ export class GwProjectController extends GatewayController {
       name: body.name,
       description: body?.description as string,
     };
-    const res: MicroserviceResponse<Project> = await firstValueFrom(
+    const res: ServiceResponse<Project> = await firstValueFrom(
       this.clientProxy.send(microserviceConfig.projects.patterns.create, data),
     );
     this.afterCallMicroservice(res);
@@ -47,7 +47,7 @@ export class GwProjectController extends GatewayController {
 
   @Get()
   async all(@Req() request: Request) {
-    const res: MicroserviceResponse<Project[]> = await firstValueFrom(
+    const res: ServiceResponse<Project[]> = await firstValueFrom(
       this.clientProxy.send(
         microserviceConfig.projects.patterns.all,
         request[REQUEST_FIELDS.user] as JWTPayload,
@@ -59,7 +59,7 @@ export class GwProjectController extends GatewayController {
 
   @Get(':id')
   async get(@Req() request: Request, @Param() params: any) {
-    const res: MicroserviceResponse<Project> = await firstValueFrom(
+    const res: ServiceResponse<Project> = await firstValueFrom(
       this.clientProxy.send(microserviceConfig.projects.patterns.get, {
         user: request[REQUEST_FIELDS.user] as JWTPayload,
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access

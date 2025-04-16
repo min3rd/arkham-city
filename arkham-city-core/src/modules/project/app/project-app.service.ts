@@ -4,9 +4,9 @@ import { ProjectApp, APP_TYPE } from './project-app.type';
 import { Model } from 'mongoose';
 import { JWTPayload } from 'src/modules/auth/auth.interface';
 import {
-  BadMicroserviceResponse,
-  MicroserviceErrorCode,
-  SuccessMicroserviceResponse,
+  BadResponse,
+  Errors,
+  GoodResponse,
 } from 'src/core/microservice/microservice.types';
 import { randomBytes } from 'crypto';
 import { HashService } from 'src/core/hash/hash.service';
@@ -41,7 +41,7 @@ export class ProjectAppService {
         })
       ).length > 0
     ) {
-      return new BadMicroserviceResponse(MicroserviceErrorCode.DULICATE_APP);
+      return new BadResponse(Errors.DULICATE_APP);
     }
     const rawSecret = randomBytes(
       parseInt(process.env.PROJECT_APP_SECRET_KEY_LENGTH as string) ?? 48,
@@ -66,7 +66,7 @@ export class ProjectAppService {
       },
     });
     app = await app.save();
-    return new SuccessMicroserviceResponse({
+    return new GoodResponse({
       ...app.toJSON(),
       secretKey: rawSecret,
       privateKey: undefined,
@@ -92,14 +92,14 @@ export class ProjectAppService {
       },
     });
     if (!app) {
-      return new BadMicroserviceResponse(MicroserviceErrorCode.APP_NOT_FOUND);
+      return new BadResponse(Errors.APP_NOT_FOUND);
     }
     app.name = name;
     app.type = type;
     app.callback = callback;
     app.description = desctiption;
     app = await app.save();
-    return new SuccessMicroserviceResponse({
+    return new GoodResponse({
       ...app.toJSON(),
       secretKey: undefined,
       privateKey: undefined,
@@ -117,7 +117,7 @@ export class ProjectAppService {
       },
     });
     if (!app) {
-      return new BadMicroserviceResponse(MicroserviceErrorCode.APP_NOT_FOUND);
+      return new BadResponse(Errors.APP_NOT_FOUND);
     }
     app.activated = false;
     if (process.env.CORE_HARD_DELETE === 'true') {
@@ -125,7 +125,7 @@ export class ProjectAppService {
     } else {
       await app.save();
     }
-    return new SuccessMicroserviceResponse(true);
+    return new GoodResponse(true);
   }
 
   async all(user: JWTPayload, projectId: string) {
@@ -138,7 +138,7 @@ export class ProjectAppService {
       },
       activated: true,
     });
-    return new SuccessMicroserviceResponse(
+    return new GoodResponse(
       apps.map((e) => ({
         ...e.toJSON(),
         privateKey: undefined,
@@ -159,9 +159,9 @@ export class ProjectAppService {
       activated: true,
     });
     if (!app) {
-      return new BadMicroserviceResponse(MicroserviceErrorCode.APP_NOT_FOUND);
+      return new BadResponse(Errors.APP_NOT_FOUND);
     }
-    return new SuccessMicroserviceResponse({
+    return new GoodResponse({
       ...app.toJSON(),
       privateKey: undefined,
       secretKey: undefined,
@@ -182,12 +182,12 @@ export class ProjectAppService {
       activated: true,
     });
     if (!app) {
-      return new BadMicroserviceResponse(MicroserviceErrorCode.APP_NOT_FOUND);
+      return new BadResponse(Errors.APP_NOT_FOUND);
     }
     this.logger.log(
       `getSecret:end:user=${user.username},projectId=${projectId},appId=${appId}`,
     );
-    return new SuccessMicroserviceResponse({
+    return new GoodResponse({
       secret: HashService.decrypt(app.secretKey, app.privateKey),
     });
   }

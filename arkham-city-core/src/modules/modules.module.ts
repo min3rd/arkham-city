@@ -4,6 +4,7 @@ import { ProjectModule } from './project/project.module';
 import { FirestoreModule } from './firestore/firestore.module';
 import { UserModule } from './user/user.module';
 import { WebsdkModule } from './websdk/websdk.module';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { WebsdkModule } from './websdk/websdk.module';
     ProjectModule,
     FirestoreModule,
     WebsdkModule,
+    DatabaseModule,
   ],
   exports: [AuthModule, UserModule, ProjectModule, FirestoreModule],
 })

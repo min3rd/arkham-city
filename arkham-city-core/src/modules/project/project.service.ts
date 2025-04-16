@@ -3,9 +3,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Project } from './project.types';
 import { Model } from 'mongoose';
 import {
-  BadMicroserviceResponse,
-  MicroserviceErrorCode,
-  SuccessMicroserviceResponse,
+  BadResponse,
+  Errors,
+  GoodResponse,
 } from 'src/core/microservice/microservice.types';
 import { JWTPayload } from '../auth/auth.interface';
 import { randomBytes } from 'crypto';
@@ -23,8 +23,8 @@ export class ProjectService {
       },
     });
     if (check.length > 0) {
-      return new BadMicroserviceResponse(
-        MicroserviceErrorCode.PROJECT_ALREADY_EXIST,
+      return new BadResponse(
+        Errors.PROJECT_ALREADY_EXIST,
       );
     }
     let project = new this.projectModel({
@@ -36,7 +36,7 @@ export class ProjectService {
       },
     });
     project = await project.save();
-    return new SuccessMicroserviceResponse({
+    return new GoodResponse({
       ...project.toJSON(),
       user: undefined,
     });
@@ -45,21 +45,21 @@ export class ProjectService {
   async update(projectId: string, name: string, description?: string) {
     let project = await this.projectModel.findById(projectId);
     if (!project) {
-      return new BadMicroserviceResponse(
-        MicroserviceErrorCode.INCORRECT_PROJECT_ID,
+      return new BadResponse(
+        Errors.INCORRECT_PROJECT_ID,
       );
     }
     if (
       (await this.projectModel.find({ id: projectId, name: name })).length > 0
     ) {
-      return new BadMicroserviceResponse(
-        MicroserviceErrorCode.PROJECT_ALREADY_EXIST,
+      return new BadResponse(
+        Errors.PROJECT_ALREADY_EXIST,
       );
     }
     project.name = name;
     project.description = description;
     project = await project.save();
-    return new SuccessMicroserviceResponse({
+    return new GoodResponse({
       ...project.toJSON(),
       user: undefined,
     });
@@ -70,7 +70,7 @@ export class ProjectService {
       user: { username: user.username },
       activated: true,
     });
-    return new SuccessMicroserviceResponse(
+    return new GoodResponse(
       all.map((e) => ({
         ...e.toJSON(),
         user: undefined,
@@ -86,7 +86,7 @@ export class ProjectService {
       },
       activated: true,
     });
-    return new SuccessMicroserviceResponse({
+    return new GoodResponse({
       ...project?.toJSON(),
       user: undefined,
     });

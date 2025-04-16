@@ -4,9 +4,9 @@ import { User } from './user.type';
 import { Model } from 'mongoose';
 import { HashService } from 'src/core/hash/hash.service';
 import {
-  BadMicroserviceResponse,
-  MicroserviceErrorCode,
-  SuccessMicroserviceResponse,
+  BadResponse,
+  Errors,
+  GoodResponse,
 } from 'src/core/microservice/microservice.types';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -31,7 +31,7 @@ export class UserService {
       `registerByEmailAndPassword:start:email=${email},password=${password},firstName=${firstName},lastName=${lastName}`,
     );
     if ((await this.userModel.countDocuments({ email: email }).exec()) > 0) {
-      return new BadMicroserviceResponse(MicroserviceErrorCode.DUPLICATE_EMAIL);
+      return new BadResponse(Errors.DUPLICATE_EMAIL);
     }
     let user = new this.userModel({
       email: email,
@@ -42,7 +42,7 @@ export class UserService {
     });
     user = await user.save();
     this.logger.log('registerByEmailAndPassword:end');
-    return new SuccessMicroserviceResponse<User>(user.toJSON());
+    return new GoodResponse<User>(user.toJSON());
   }
 
   async findOneByEmailAndPassword(email: string, password: string) {
@@ -53,11 +53,11 @@ export class UserService {
       email: email,
     });
     if (!user) {
-      return new BadMicroserviceResponse(MicroserviceErrorCode.EMAIL_NOT_FOUND);
+      return new BadResponse(Errors.EMAIL_NOT_FOUND);
     }
     if (!HashService.compare(password, user.password)) {
-      return new BadMicroserviceResponse(
-        MicroserviceErrorCode.PASSWORD_IS_INCORRECT,
+      return new BadResponse(
+        Errors.PASSWORD_IS_INCORRECT,
       );
     }
     const refreshToken = await this.jwtService.signAsync(
@@ -74,7 +74,7 @@ export class UserService {
     user.refreshToken = refreshToken;
     user = await user.save();
     this.logger.log(`findOneByEmailAndPassword:end`);
-    return new SuccessMicroserviceResponse({
+    return new GoodResponse({
       ...user.toJSON(),
       password: undefined, // ignore password
     });
@@ -86,17 +86,17 @@ export class UserService {
       refreshToken: refreshToken,
     });
     if (!user) {
-      return new BadMicroserviceResponse(MicroserviceErrorCode.USER_NOT_FOUND);
+      return new BadResponse(Errors.USER_NOT_FOUND);
     }
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const payload = await this.jwtService.verifyAsync(refreshToken);
     if (!payload) {
-      return new BadMicroserviceResponse(
-        MicroserviceErrorCode.INCORRECT_REFRESH_TOKEN,
+      return new BadResponse(
+        Errors.INCORRECT_REFRESH_TOKEN,
       );
     }
     this.logger.log(`findOneByRefreshToken:end`);
-    return new SuccessMicroserviceResponse({
+    return new GoodResponse({
       ...user.toJSON(),
       password: undefined, // ignore return password
     });

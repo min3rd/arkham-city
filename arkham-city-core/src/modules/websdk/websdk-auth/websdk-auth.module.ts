@@ -8,6 +8,7 @@ import {
   AppSchema as ProjectAppSchema,
 } from 'src/modules/project/app/project-app.type';
 import { JwtModule } from '@nestjs/jwt';
+import { DatabaseModule } from 'src/modules/database/database.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -25,6 +26,7 @@ import { JwtModule } from '@nestjs/jwt';
         expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN,
       },
     }),
+    DatabaseModule,
   ],
   providers: [WebSDKAuthService],
   exports: [WebSDKAuthService],
