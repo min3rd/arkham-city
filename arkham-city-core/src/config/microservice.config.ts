@@ -37,6 +37,9 @@ export const microserviceConfig = {
       name: 'websdk.auth',
       patterns: {
         authenticate: 'v1.websdk.auth.authenticate',
+        logInByEmailAndPassword: 'v1.websdk.auth.log-in-by-email-and-password',
+        registerByEmailAndPassword:
+          'v1.websdk.auth.register-by-email-and-password',
       },
     },
     firestore: {
