@@ -5,10 +5,10 @@ import {
 } from './firestore.types';
 import { SDKJwtPayload } from '../websdk/websdk-auth/websdl-auth.interface';
 import {
-  BadMicroserviceResponse,
-  MicroserviceErrorCode,
-  MicroserviceResponse,
-  SuccessMicroserviceResponse,
+  BadResponse,
+  Errors,
+  ServiceResponse,
+  GoodResponse,
 } from 'src/core/microservice/microservice.types';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { ClientRedis } from '@nestjs/microservices';
@@ -32,7 +32,7 @@ export class FirestoreService {
   async createRecord(
     schemaName: string,
     data: any,
-  ): Promise<MicroserviceResponse<any>> {
+  ): Promise<ServiceResponse<any>> {
     this.logger.log(`createRecord:start:`, schemaName, data);
     const record = await this._createRecord(
       this.createProjectConnection('test'),
@@ -40,12 +40,12 @@ export class FirestoreService {
       data,
     );
     if (!record) {
-      return new BadMicroserviceResponse(
-        MicroserviceErrorCode.COULD_NOT_SAVE_THE_RECORD,
+      return new BadResponse(
+        Errors.COULD_NOT_SAVE_THE_RECORD,
       );
     }
     this.logger.log(`createRecord:end`);
-    return new SuccessMicroserviceResponse(record.toJSON());
+    return new GoodResponse(record.toJSON());
   }
   async webSDKCreateFirestoreRecord(
     auth: SDKJwtPayload,
@@ -66,8 +66,8 @@ export class FirestoreService {
       preData,
     );
     if (!record) {
-      return new BadMicroserviceResponse(
-        MicroserviceErrorCode.COULD_NOT_SAVE_THE_RECORD,
+      return new BadResponse(
+        Errors.COULD_NOT_SAVE_THE_RECORD,
       );
     }
     this.logger.log(`webSDKCreateFirestoreRecord:end`);
@@ -80,13 +80,13 @@ export class FirestoreService {
       microserviceConfig.websdk.firestore.patterns.storeSchema,
       payload,
     );
-    return new SuccessMicroserviceResponse(record.toJSON());
+    return new GoodResponse(record.toJSON());
   }
 
   async webSDKStoreSchema(auth: SDKJwtPayload, schemaName: string, data: any) {
     this.logger.log(`webSDKStoreSchema:start:`, auth, schemaName, data);
     if (!this.schemaNameRegex.exec(schemaName)) {
-      return new BadMicroserviceResponse(MicroserviceErrorCode.DEFAULT);
+      return new BadResponse(Errors.DEFAULT);
     }
     const connection = this.createProjectConnection(auth.projectId as string);
     const schemaModel = this.getFirestoreDynamicSchemaModel(connection);
@@ -102,7 +102,7 @@ export class FirestoreService {
     dynamicSchema.fields = this.fromDataToField(data);
     dynamicSchema = await dynamicSchema.save();
     this.logger.log(`webSDKStoreSchema:end`);
-    return new SuccessMicroserviceResponse(dynamicSchema.toJSON());
+    return new GoodResponse(dynamicSchema.toJSON());
   }
 
   async webSDKQueryRecord(auth: SDKJwtPayload, schemeName: string, query: any) {
@@ -110,13 +110,13 @@ export class FirestoreService {
     const connection = this.createProjectConnection(auth.projectId as string);
     const recordModel = await this.getRecordModel(connection, schemeName);
     if (!recordModel) {
-      return new BadMicroserviceResponse(
-        MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA,
+      return new BadResponse(
+        Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA,
       );
     }
     const records = await recordModel.find(query);
     this.logger.log(`webSDKQueryRecord:end`);
-    return new SuccessMicroserviceResponse(records.map((e) => e.toJSON()));
+    return new GoodResponse(records.map((e) => e.toJSON()));
   }
 
   async webSDKFindById(auth: SDKJwtPayload, schemaName: string, id: string) {
@@ -124,13 +124,13 @@ export class FirestoreService {
     const connection = this.createProjectConnection(auth.projectId as string);
     const recordModel = await this.getRecordModel(connection, schemaName);
     if (!recordModel) {
-      return new BadMicroserviceResponse(
-        MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA,
+      return new BadResponse(
+        Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA,
       );
     }
     const record = await recordModel.findById(id);
     this.logger.log(`webSDKGetRecord:end`);
-    return new SuccessMicroserviceResponse(record?.toJSON());
+    return new GoodResponse(record?.toJSON());
   }
 
   async webSDKPartialUpdate(
@@ -143,20 +143,20 @@ export class FirestoreService {
     const connection = this.createProjectConnection(auth.projectId as string);
     const recordModel = await this.getRecordModel(connection, schemaName);
     if (!recordModel) {
-      return new BadMicroserviceResponse(
-        MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA,
+      return new BadResponse(
+        Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA,
       );
     }
     let record = await recordModel.findById(id);
     if (!record) {
-      return new BadMicroserviceResponse(
-        MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
+      return new BadResponse(
+        Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
       );
     }
 
     if (record._id != data._id) {
-      return new BadMicroserviceResponse(
-        MicroserviceErrorCode.WEB_SDK_FIRESTORE_ID_WAS_NOT_MATCHED,
+      return new BadResponse(
+        Errors.WEB_SDK_FIRESTORE_ID_WAS_NOT_MATCHED,
       );
     }
     record = await recordModel.findOneAndUpdate(
@@ -172,7 +172,7 @@ export class FirestoreService {
       },
     );
     this.logger.log('webSDKPartialUpdate:end');
-    return new SuccessMicroserviceResponse(record?.toJSON());
+    return new GoodResponse(record?.toJSON());
   }
 
   async webSDKUpdate(
@@ -185,19 +185,19 @@ export class FirestoreService {
     const connection = this.createProjectConnection(auth.projectId as string);
     const recordModel = await this.getRecordModel(connection, schemaName);
     if (!recordModel) {
-      return new BadMicroserviceResponse(
-        MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA,
+      return new BadResponse(
+        Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA,
       );
     }
     let record = await recordModel.findById(id);
     if (!record) {
-      return new BadMicroserviceResponse(
-        MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
+      return new BadResponse(
+        Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
       );
     }
     if (record._id != data._id) {
-      return new BadMicroserviceResponse(
-        MicroserviceErrorCode.WEB_SDK_FIRESTORE_ID_WAS_NOT_MATCHED,
+      return new BadResponse(
+        Errors.WEB_SDK_FIRESTORE_ID_WAS_NOT_MATCHED,
       );
     }
     record = await recordModel.findOneAndUpdate(
@@ -212,7 +212,7 @@ export class FirestoreService {
       },
     );
     this.logger.log('webSDKUpdate:end');
-    return new SuccessMicroserviceResponse(record?.toJSON());
+    return new GoodResponse(record?.toJSON());
   }
 
   async webSDKDeleteById(auth: SDKJwtPayload, schemaName: string, id: string) {
@@ -220,19 +220,19 @@ export class FirestoreService {
     const connection = this.createProjectConnection(auth.projectId as string);
     const recordModel = await this.getRecordModel(connection, schemaName);
     if (!recordModel) {
-      return new BadMicroserviceResponse(
-        MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA,
+      return new BadResponse(
+        Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA,
       );
     }
     let record = await recordModel.findById(id);
     if (!record) {
-      return new BadMicroserviceResponse(
-        MicroserviceErrorCode.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
+      return new BadResponse(
+        Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
       );
     }
     await record.deleteOne();
     this.logger.log('webSDKDelete:end');
-    return new SuccessMicroserviceResponse(true);
+    return new GoodResponse(true);
   }
 
   async _createRecord(connection: Connection, schemaName: string, data: any) {

@@ -28,7 +28,7 @@ import {
   UpdateProjectAppReqPayload,
 } from 'src/microservices/ms-project/ms-project-app/ms-project-app.interface';
 import { GatewayController } from 'src/core/gateway/gateway.controller';
-import { MicroserviceResponse } from 'src/core/microservice/microservice.types';
+import { ServiceResponse } from 'src/core/microservice/microservice.types';
 import { REQUEST_FIELDS } from 'src/config/request.config';
 
 @Controller('projects')
@@ -51,7 +51,7 @@ export class GwProjectAppController extends GatewayController {
       user: request[REQUEST_FIELDS.user],
       projectId: params.projectId,
     };
-    const res: MicroserviceResponse<any> = await firstValueFrom(
+    const res: ServiceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
         microserviceConfig.projects.apps.patterns.create,
         payload,
@@ -67,7 +67,7 @@ export class GwProjectAppController extends GatewayController {
       user: request[REQUEST_FIELDS.user],
       projectId: params.projectId,
     };
-    const res: MicroserviceResponse<any> = await firstValueFrom(
+    const res: ServiceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
         microserviceConfig.projects.apps.patterns.all,
         payload,
@@ -84,7 +84,7 @@ export class GwProjectAppController extends GatewayController {
       projectId: params.projectId,
       appId: params.appId,
     };
-    const res: MicroserviceResponse<any> = await firstValueFrom(
+    const res: ServiceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
         microserviceConfig.projects.apps.patterns.get,
         payload,
@@ -106,7 +106,7 @@ export class GwProjectAppController extends GatewayController {
       projectId: params.projectId,
       appId: params.appId,
     };
-    const res: MicroserviceResponse<any> = await firstValueFrom(
+    const res: ServiceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
         microserviceConfig.projects.apps.patterns.update,
         payload,
@@ -123,7 +123,7 @@ export class GwProjectAppController extends GatewayController {
       projectId: params.projectId,
       appId: params.appId,
     };
-    const res: MicroserviceResponse<any> = await firstValueFrom(
+    const res: ServiceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
         microserviceConfig.projects.apps.patterns.delete,
         payload,
@@ -140,7 +140,7 @@ export class GwProjectAppController extends GatewayController {
       projectId: params.projectId,
       appId: params.appId,
     };
-    const res: MicroserviceResponse<any> = await firstValueFrom(
+    const res: ServiceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
         microserviceConfig.projects.apps.patterns.getSecret,
         payload,

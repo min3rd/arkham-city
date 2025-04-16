@@ -4,7 +4,7 @@ import { firstValueFrom } from 'rxjs';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { REQUEST_FIELDS } from 'src/config/request.config';
 import { GatewayController } from 'src/core/gateway/gateway.controller';
-import { MicroserviceResponse } from 'src/core/microservice/microservice.types';
+import { ServiceResponse } from 'src/core/microservice/microservice.types';
 import { CreateFirestoreRecordReqPayload } from 'src/microservices/ms-firestore/ms-firestore.interface';
 
 @Controller('firestore')
@@ -27,7 +27,7 @@ export class GwFirestoreController extends GatewayController {
       schemaName: params.schemaName,
       data: data,
     };
-    const res: MicroserviceResponse<any> = await firstValueFrom(
+    const res: ServiceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
         microserviceConfig.firestore.patterns.createRecord,
         payload,

@@ -9,7 +9,7 @@ import { AuthService } from '../../modules/auth/auth.service';
 import { Public } from 'src/core/decorators/public';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { ClientRedis } from '@nestjs/microservices';
-import { MicroserviceResponse } from 'src/core/microservice/microservice.types';
+import { ServiceResponse } from 'src/core/microservice/microservice.types';
 import { User } from 'src/modules/user/user.type';
 import { firstValueFrom } from 'rxjs';
 
@@ -25,7 +25,7 @@ export class GwAuthController extends GatewayController {
   @Public()
   @Post('register-by-email-and-password')
   async registerByEmail(@Body() payload: RegisterByEmailAndPasswordDto) {
-    const res: MicroserviceResponse<User> = await firstValueFrom(
+    const res: ServiceResponse<User> = await firstValueFrom(
       this.clientProxy.send(
         microserviceConfig.auth.patterns.registerByEmailAndPassword,
         {
@@ -46,7 +46,7 @@ export class GwAuthController extends GatewayController {
   @Public()
   @Post('log-in-by-email-and-password')
   async logInByEmailAndPassword(@Body() payload: LogInByEmailAndPassword) {
-    const res: MicroserviceResponse<User> = await firstValueFrom(
+    const res: ServiceResponse<User> = await firstValueFrom(
       this.clientProxy.send(
         microserviceConfig.auth.patterns.logInByEmailAndPassword,
         { email: payload.email, password: payload.password },
@@ -59,7 +59,7 @@ export class GwAuthController extends GatewayController {
   @Public()
   @Post('log-in-by-refresh-token')
   async logInByRefreshToken(@Body() payload: LogInByRefreshToken) {
-    const res: MicroserviceResponse<User> = await firstValueFrom(
+    const res: ServiceResponse<User> = await firstValueFrom(
       this.clientProxy.send(
         microserviceConfig.auth.patterns.logInByRefreshToken,
         {
