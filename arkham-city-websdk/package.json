@@ -1,6 +1,6 @@
 {
   "name": "arkham-city-websdk",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Connecting to The City",
   "author": {
     "name": "Vu Van Minh",
@@ -13,7 +13,8 @@
   "scripts": {
     "build": "rm -rf ./dist && tsc",
     "test": "jest",
-    "lint": "eslint --fix"
+    "lint": "eslint --fix",
+    "publish": "npm version patch && build && publish --access public"
   },
   "repository": {
     "type": "git",
