@@ -49,17 +49,13 @@ export class WebSDKAuthService {
     );
     const projectApp = await this.findProjectApp(projectId, appId);
     if (!projectApp) {
-      return new BadResponse(
-        Errors.WEB_SDK_CAN_NOT_FIND_THE_APP,
-      );
+      return new BadResponse(Errors.WEB_SDK_CAN_NOT_FIND_THE_APP);
     }
     if (
       secretKey !=
       HashService.decrypt(projectApp.secretKey, projectApp.privateKey)
     ) {
-      return new BadResponse(
-        Errors.WEB_SDK_SECRET_WAS_INCORRECT,
-      );
+      return new BadResponse(Errors.WEB_SDK_SECRET_WAS_INCORRECT);
     }
     let payload: any = undefined;
     if (userToken) {
@@ -108,14 +104,18 @@ export class WebSDKAuthService {
       return new BadResponse(Errors.WEB_SDK_AUTH_USER_NOT_FOUND);
     }
     if (!HashService.compare(password, user.password)) {
-      return new BadResponse(
-        Errors.WEB_SDK_AUTH_PASSWORD_WAS_INCORRECTED,
-      );
+      return new BadResponse(Errors.WEB_SDK_AUTH_PASSWORD_WAS_INCORRECTED);
     }
+    const payload: SDKJwtPayload = {
+      ...auth,
+      type: 'websdk',
+      sub: user.email,
+      username: user.email,
+    };
+    const accessToken = await this.jwtService.signAsync(payload);
     this.logger.log('logInByEmailAndPassword:end');
     return new GoodResponse({
-      ...user.toJSON(),
-      password: undefined,
+      accessToken: accessToken,
     });
   }
 
@@ -143,9 +143,7 @@ export class WebSDKAuthService {
     });
     user = await user.save();
     if (!user) {
-      return new BadResponse(
-        Errors.WEB_SDK_AUTH_COULD_NOT_CREATE_NEW_USER,
-      );
+      return new BadResponse(Errors.WEB_SDK_AUTH_COULD_NOT_CREATE_NEW_USER);
     }
     this.logger.log('registerByEmailAndPassword:end');
     return new GoodResponse({
