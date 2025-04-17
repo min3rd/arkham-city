@@ -41,6 +41,7 @@ export class SDKManager {
   };
   private _axios: AxiosStatic = axios;
   private static _instance: SDKManager;
+
   constructor() {
     axios.interceptors.request.use(
       (config) => {
@@ -62,6 +63,7 @@ export class SDKManager {
       },
     );
   }
+
   public static get instance() {
     if (!this._instance) {
       this._instance = new SDKManager();
@@ -72,21 +74,27 @@ export class SDKManager {
   set globalConfig(config: SDKConfig) {
     this._globalConfig = config;
   }
+
   set accessToken(accessToken: string) {
     this._accessToken = accessToken;
   }
+
   get globalConfig(): SDKConfig {
     return this._globalConfig;
   }
+
   get type(): 'websdk' | 'mobilesdk' {
     return this._type;
   }
+
   get accessToken(): string {
     return this._accessToken;
   }
+
   endpoint(uri: string): string {
     return `${this.globalConfig.url}/${this.globalConfig.version}/${this.type}/${uri}`;
   }
+
   authenticate(): Observable<boolean> {
     const payload: AuthReqDto = {
       projectId: this.globalConfig.projectId,
@@ -118,12 +126,14 @@ export class SDKManager {
       }),
     );
   }
+
   check(): Observable<boolean> {
     if (this.accessToken && !JwtUtils.isExpired(this.accessToken)) {
       return of(true);
     }
     return this.authenticate();
   }
+
   post<T, K>(uri: string, data: T): Observable<K | null> {
     return this.check().pipe(
       switchMap((authenticated) => {
@@ -143,7 +153,8 @@ export class SDKManager {
             this.globalConfig.isProductionMode ? encrypted : data,
           ),
         ).pipe(
-          catchError(() => {
+          catchError((e) => {
+            console.error(`post: ${e}`);
             return of(null);
           }),
           switchMap((response: AxiosResponse<ApiResponse<K>> | null) => {
