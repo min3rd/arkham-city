@@ -22,6 +22,7 @@ import { WebSDKUserSchema } from './websdk-auth.types';
 export class WebSDKAuthService {
   private readonly logger = new Logger(WebSDKAuthService.name);
   public static readonly userSchemaName: string = 'user';
+
   constructor(
     @InjectModel(ProjectApp.name, 'metadata')
     private readonly projectAppModel: Model<ProjectApp>,
@@ -97,7 +98,7 @@ export class WebSDKAuthService {
       auth.projectId as string,
     );
     const _UserModel = this.userModel(connection);
-    let user = await _UserModel.findOne({
+    const user = await _UserModel.findOne({
       email: email,
     });
     if (!user) {
@@ -107,10 +108,12 @@ export class WebSDKAuthService {
       return new BadResponse(Errors.WEB_SDK_AUTH_PASSWORD_WAS_INCORRECTED);
     }
     const payload: SDKJwtPayload = {
-      ...auth,
       type: 'websdk',
+      projectId: auth.projectId,
+      appId: auth.appId,
       sub: user.email,
       username: user.email,
+      email: user.email,
     };
     const accessToken = await this.jwtService.signAsync(payload);
     this.logger.log('logInByEmailAndPassword:end');
@@ -136,6 +139,15 @@ export class WebSDKAuthService {
       auth.projectId as string,
     );
     const _UserModel = this.userModel(connection);
+
+    const exist = await _UserModel.exists({
+      email: email,
+    });
+
+    if (exist) {
+      return new BadResponse(Errors.WEB_SDK_AUTH_EMAIL_ALREADY_REGISTERED);
+    }
+
     let user = new _UserModel({
       email: email,
       password: HashService.hash(password),

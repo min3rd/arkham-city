@@ -11,6 +11,7 @@ export class BadResponse<T> implements ServiceResponse<T> {
   error: boolean = true;
   errorCode: Error;
   data?: T | undefined;
+
   constructor(errorCode: Error = Errors.DEFAULT) {
     this.errorCode = errorCode;
     this.logger.error(
@@ -23,6 +24,7 @@ export class GoodResponse<T> implements ServiceResponse<T> {
   error: boolean = false;
   errorCode: Error = Errors.DEFAULT;
   data: T;
+
   constructor(data: T) {
     this.data = data;
   }
@@ -31,6 +33,7 @@ export class GoodResponse<T> implements ServiceResponse<T> {
 export class Error {
   code: string;
   message: string;
+
   constructor(code: string, message: string) {
     this.code = code;
     this.message = message;
@@ -121,5 +124,10 @@ export class Errors {
   static readonly WEB_SDK_AUTH_COULD_NOT_CREATE_NEW_USER = new Error(
     '01x0019',
     'Could not create new user',
+  );
+
+  static readonly WEB_SDK_AUTH_EMAIL_ALREADY_REGISTERED = new Error(
+    '01x0020',
+    'The email was already registered',
   );
 }

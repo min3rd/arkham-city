@@ -10,10 +10,17 @@ describe('Auth', () => {
     secretKey:
       'Z315Nvw0CrpQoDpyQvvRvhTQSuo460SfzXU8wmP7LDWitXYEiTZjT4LDH4Wkz8Va',
   });
+  const email:string= 'test@test.com';
+  const password:string= 'PasswordIsSecure';
   test('Auth: test register', async () => {
     const user = await firstValueFrom(
-      auth().registerByEmailAndPassword('test@test.com', 'PasswordIsSecure'),
+      auth().registerByEmailAndPassword(email, password),
     );
     expect(user).toBeDefined();
+  });
+
+  test('Auth: test login', async () => {
+    const res = await firstValueFrom(auth().logInByEmailAndPassword(email, password));
+    expect(res?.accessToken).toBeDefined()
   });
 });
