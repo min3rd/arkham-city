@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse, AxiosStatic } from 'axios';
+import axios, { AxiosResponse, AxiosStatic } from 'axios';
 import { catchError, from, Observable, of, switchMap } from 'rxjs';
 import JwtUtils from '../utils';
 import { crypto } from '../crypto';
@@ -16,11 +16,10 @@ export interface AuthReqDto {
   projectId: string;
   appId: string;
   secretKey: string;
-  auth?: string;
 }
 
 export interface AuthResDto {
-  accessToken: string;
+  accessToken?: string;
 }
 
 export interface ApiResponse<T> {
@@ -93,7 +92,6 @@ export class SDKManager {
       projectId: this.globalConfig.projectId,
       appId: this.globalConfig.appId,
       secretKey: this.globalConfig.secretKey,
-      auth: undefined,
     };
     let encrypted!: any;
     if (this.globalConfig.isProductionMode) {
@@ -102,18 +100,18 @@ export class SDKManager {
       };
     }
     return from(
-      this._axios.post<any>(
+      this._axios.post(
         this.endpoint(`auth/authenticate`),
         this.globalConfig.isProductionMode ? encrypted : payload,
       ),
     ).pipe(
       catchError((e) => {
-        console.error(`Could not authenticate e=${e}`);
+        console.error(`authenticate: ${e}`);
         return of(false);
       }),
-      switchMap((response: any) => {
-        if (response.data.data.accessToken) {
-          this.accessToken = response.data.data.accessToken;
+      switchMap((response: AxiosResponse<ApiResponse<AuthResDto>> | any) => {
+        if (response?.data.data?.accessToken) {
+          this.accessToken = response?.data.data?.accessToken;
           return of(true);
         }
         return of(false);
@@ -149,7 +147,7 @@ export class SDKManager {
             return of(null);
           }),
           switchMap((response: AxiosResponse<ApiResponse<K>> | null) => {
-            if (!response) {
+            if (!response || !response.data || response.data.error) {
               return of(null);
             }
             return of(response.data.data);
@@ -171,9 +169,10 @@ export class SDKManager {
             return of(null);
           }),
           switchMap((response: AxiosResponse<ApiResponse<T>> | null) => {
-            if (!response) {
+            if (!response || !response.data || response.data.error) {
               return of(null);
             }
+
             return of(response.data.data);
           }),
         );
@@ -183,8 +182,8 @@ export class SDKManager {
 
   put<T, K>(uri: string, data: T): Observable<K | null> {
     return this.check().pipe(
-      switchMap((autthenticated) => {
-        if (!autthenticated) {
+      switchMap((authenticated) => {
+        if (!authenticated) {
           console.error('Unauthorization');
           return of(null);
         }
@@ -204,7 +203,7 @@ export class SDKManager {
             return of(null);
           }),
           switchMap((response: AxiosResponse<ApiResponse<K>> | null) => {
-            if (!response) {
+            if (!response || !response.data || response.data.error) {
               return of(null);
             }
             return of(response.data.data);
@@ -237,7 +236,7 @@ export class SDKManager {
             return of(null);
           }),
           switchMap((response: AxiosResponse<ApiResponse<K>> | null) => {
-            if (!response) {
+            if (!response || !response.data || response.data.error) {
               return of(null);
             }
             return of(response.data.data);
@@ -259,7 +258,7 @@ export class SDKManager {
             return of(null);
           }),
           switchMap((response: AxiosResponse<ApiResponse<T>> | null) => {
-            if (!response) {
+            if (!response || !response.data || response.data.error) {
               return of(null);
             }
             return of(response.data.data);

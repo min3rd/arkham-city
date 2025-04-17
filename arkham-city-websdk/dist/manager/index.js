@@ -67,7 +67,6 @@ class SDKManager {
             projectId: this.globalConfig.projectId,
             appId: this.globalConfig.appId,
             secretKey: this.globalConfig.secretKey,
-            auth: undefined,
         };
         let encrypted;
         if (this.globalConfig.isProductionMode) {
@@ -76,11 +75,12 @@ class SDKManager {
             };
         }
         return (0, rxjs_1.from)(this._axios.post(this.endpoint(`auth/authenticate`), this.globalConfig.isProductionMode ? encrypted : payload)).pipe((0, rxjs_1.catchError)((e) => {
-            console.error(`Could not authenticate e=${e}`);
+            console.error(`authenticate: ${e}`);
             return (0, rxjs_1.of)(false);
         }), (0, rxjs_1.switchMap)((response) => {
-            if (response.data.data.accessToken) {
-                this.accessToken = response.data.data.accessToken;
+            var _a, _b;
+            if ((_a = response === null || response === void 0 ? void 0 : response.data.data) === null || _a === void 0 ? void 0 : _a.accessToken) {
+                this.accessToken = (_b = response === null || response === void 0 ? void 0 : response.data.data) === null || _b === void 0 ? void 0 : _b.accessToken;
                 return (0, rxjs_1.of)(true);
             }
             return (0, rxjs_1.of)(false);
@@ -107,7 +107,7 @@ class SDKManager {
             return (0, rxjs_1.from)(this._axios.post(this.endpoint(uri), this.globalConfig.isProductionMode ? encrypted : data)).pipe((0, rxjs_1.catchError)(() => {
                 return (0, rxjs_1.of)(null);
             }), (0, rxjs_1.switchMap)((response) => {
-                if (!response) {
+                if (!response || !response.data || response.data.error) {
                     return (0, rxjs_1.of)(null);
                 }
                 return (0, rxjs_1.of)(response.data.data);
@@ -123,7 +123,7 @@ class SDKManager {
             return (0, rxjs_1.from)(this._axios.get(this.endpoint(uri))).pipe((0, rxjs_1.catchError)(() => {
                 return (0, rxjs_1.of)(null);
             }), (0, rxjs_1.switchMap)((response) => {
-                if (!response) {
+                if (!response || !response.data || response.data.error) {
                     return (0, rxjs_1.of)(null);
                 }
                 return (0, rxjs_1.of)(response.data.data);
@@ -131,8 +131,8 @@ class SDKManager {
         }));
     }
     put(uri, data) {
-        return this.check().pipe((0, rxjs_1.switchMap)((autthenticated) => {
-            if (!autthenticated) {
+        return this.check().pipe((0, rxjs_1.switchMap)((authenticated) => {
+            if (!authenticated) {
                 console.error('Unauthorization');
                 return (0, rxjs_1.of)(null);
             }
@@ -145,7 +145,7 @@ class SDKManager {
             return (0, rxjs_1.from)(this._axios.put(this.endpoint(uri), this.globalConfig.isProductionMode ? encrypted : data)).pipe((0, rxjs_1.catchError)(() => {
                 return (0, rxjs_1.of)(null);
             }), (0, rxjs_1.switchMap)((response) => {
-                if (!response) {
+                if (!response || !response.data || response.data.error) {
                     return (0, rxjs_1.of)(null);
                 }
                 return (0, rxjs_1.of)(response.data.data);
@@ -167,7 +167,7 @@ class SDKManager {
             return (0, rxjs_1.from)(this._axios.patch(this.endpoint(uri), this.globalConfig.isProductionMode ? encrypted : data)).pipe((0, rxjs_1.catchError)(() => {
                 return (0, rxjs_1.of)(null);
             }), (0, rxjs_1.switchMap)((response) => {
-                if (!response) {
+                if (!response || !response.data || response.data.error) {
                     return (0, rxjs_1.of)(null);
                 }
                 return (0, rxjs_1.of)(response.data.data);
@@ -183,7 +183,7 @@ class SDKManager {
             return (0, rxjs_1.from)(this._axios.delete(this.endpoint(uri))).pipe((0, rxjs_1.catchError)(() => {
                 return (0, rxjs_1.of)(null);
             }), (0, rxjs_1.switchMap)((response) => {
-                if (!response) {
+                if (!response || !response.data || response.data.error) {
                     return (0, rxjs_1.of)(null);
                 }
                 return (0, rxjs_1.of)(response.data.data);

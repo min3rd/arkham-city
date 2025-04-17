@@ -16,7 +16,7 @@ class FirestoreClient {
     create(data) {
         return (0, manager_1.manager)().post(`firestore/${this._schemaName}`, data);
     }
-    select(query) {
+    select(query = {}) {
         return (0, manager_1.manager)().post(`firestore/${this._schemaName}/query`, query);
     }
     get(id) {

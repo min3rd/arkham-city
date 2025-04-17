@@ -11,10 +11,9 @@ export interface AuthReqDto {
     projectId: string;
     appId: string;
     secretKey: string;
-    auth?: string;
 }
 export interface AuthResDto {
-    accessToken: string;
+    accessToken?: string;
 }
 export interface ApiResponse<T> {
     timestamp: Date;
