@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { manager } from '../manager';
+import { ApiResponse, manager } from '../manager';
 
 export default class FirestoreClient {
   private static _instance: FirestoreClient;
@@ -17,7 +17,7 @@ export default class FirestoreClient {
   create<T, K>(data: T): Observable<K | null> {
     return manager().post<T, K>(`firestore/${this._schemaName}`, data);
   }
-  select<T, K>(query: T): Observable<K | null> {
+  select<T, K>(query: T | any = {}): Observable<K | null> {
     return manager().post<T, K>(`firestore/${this._schemaName}/query`, query);
   }
   get<K>(id: string): Observable<K | null> {
