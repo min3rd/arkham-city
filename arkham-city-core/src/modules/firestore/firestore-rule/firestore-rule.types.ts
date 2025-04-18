@@ -49,8 +49,13 @@ export class RawRule extends AuditEntity {
   })
   type: RuleType;
 
+  @Prop({
+    enum: RuleCondition,
+  })
+  condition: RuleCondition = RuleCondition.deny;
+
   @Prop()
-  condition: string;
+  customCondition: string;
 }
 
 export const RawRuleSchema = SchemaFactory.createForClass(RawRule);
