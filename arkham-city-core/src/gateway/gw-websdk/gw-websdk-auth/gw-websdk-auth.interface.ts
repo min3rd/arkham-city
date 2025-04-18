@@ -1,5 +1,3 @@
-import { SDKJwtPayload } from 'src/modules/websdk/websdk-auth/websdl-auth.interface';
-
 export interface GwWebSDKAuthReqDto {
   projectId: string;
   appId: string;

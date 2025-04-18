@@ -14,6 +14,7 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class UserService {
   private readonly logger = new Logger(UserService.name);
+
   constructor(
     @InjectModel(User.name, 'metadata')
     private readonly userModel: Model<User>,
@@ -56,11 +57,9 @@ export class UserService {
       return new BadResponse(Errors.EMAIL_NOT_FOUND);
     }
     if (!HashService.compare(password, user.password)) {
-      return new BadResponse(
-        Errors.PASSWORD_IS_INCORRECT,
-      );
+      return new BadResponse(Errors.PASSWORD_IS_INCORRECT);
     }
-    const refreshToken = await this.jwtService.signAsync(
+    user.refreshToken = await this.jwtService.signAsync(
       {
         sub: user.email,
       },
@@ -71,7 +70,6 @@ export class UserService {
         ) as string,
       },
     );
-    user.refreshToken = refreshToken;
     user = await user.save();
     this.logger.log(`findOneByEmailAndPassword:end`);
     return new GoodResponse({
@@ -91,9 +89,7 @@ export class UserService {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const payload = await this.jwtService.verifyAsync(refreshToken);
     if (!payload) {
-      return new BadResponse(
-        Errors.INCORRECT_REFRESH_TOKEN,
-      );
+      return new BadResponse(Errors.INCORRECT_REFRESH_TOKEN);
     }
     this.logger.log(`findOneByRefreshToken:end`);
     return new GoodResponse({

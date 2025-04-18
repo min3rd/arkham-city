@@ -13,7 +13,7 @@ export class AuthService {
   ): Promise<LogInResponseDto> {
     const payload: JWTPayload = {
       type: 'dashboard',
-      sub: user?.username,
+      sub: user?._id,
       username: user?.username,
       email: user?.email,
     };

@@ -3,30 +3,32 @@ import {
   FirestoreDynamicSchemaSchema,
   FirestoreSchemaField,
 } from './firestore.types';
-import { SDKJwtPayload } from '../websdk/websdk-auth/websdl-auth.interface';
+import { SDKJwtPayload } from '../websdk/websdk-auth/websdk-auth.interface';
 import {
   BadResponse,
   Errors,
-  ServiceResponse,
   GoodResponse,
+  ServiceResponse,
 } from 'src/core/microservice/microservice.types';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { ClientRedis } from '@nestjs/microservices';
 import { MsWebSDKFirestoreStoreSchemaReqPayload } from 'src/microservices/ms-websdk/ms-websdk-firestore/ms-websdk-firestore.interface';
 import moment, { ISO_8601 } from 'moment';
-import mongoose, { Connection, Document } from 'mongoose';
+import mongoose, { Connection, SchemaTypes } from 'mongoose';
 import { ConfigService } from '@nestjs/config';
-import { SchemaTypes } from 'mongoose';
+import { DatabaseService } from '../database/database.service';
 
 @Injectable()
 export class FirestoreService {
   private readonly schemaNameRegex = new RegExp(/[a-zA-Z]+/);
   private readonly unsafeRegex = new RegExp(/[^a-zA-Z]+/g);
   private readonly logger = new Logger(FirestoreService.name);
+
   constructor(
     @Inject(microserviceConfig.websdk.firestore.name)
     private readonly clientProxy: ClientRedis,
     private readonly configService: ConfigService,
+    private readonly databaseService: DatabaseService,
   ) {}
 
   async createRecord(
@@ -35,18 +37,17 @@ export class FirestoreService {
   ): Promise<ServiceResponse<any>> {
     this.logger.log(`createRecord:start:`, schemaName, data);
     const record = await this._createRecord(
-      this.createProjectConnection('test'),
+      this.databaseService.createProjectConnection('test'),
       schemaName,
       data,
     );
     if (!record) {
-      return new BadResponse(
-        Errors.COULD_NOT_SAVE_THE_RECORD,
-      );
+      return new BadResponse(Errors.COULD_NOT_SAVE_THE_RECORD);
     }
     this.logger.log(`createRecord:end`);
     return new GoodResponse(record.toJSON());
   }
+
   async webSDKCreateFirestoreRecord(
     auth: SDKJwtPayload,
     schemaName: string,
@@ -58,17 +59,15 @@ export class FirestoreService {
       project: {
         _id: auth.projectId,
       },
-      auth: auth.username,
+      auth: auth.sub,
     };
     const record = await this._createRecord(
-      this.createProjectConnection(auth.projectId as string),
+      this.databaseService.createProjectConnection(auth.projectId as string),
       schemaName,
       preData,
     );
     if (!record) {
-      return new BadResponse(
-        Errors.COULD_NOT_SAVE_THE_RECORD,
-      );
+      return new BadResponse(Errors.COULD_NOT_SAVE_THE_RECORD);
     }
     this.logger.log(`webSDKCreateFirestoreRecord:end`);
     const payload: MsWebSDKFirestoreStoreSchemaReqPayload = {
@@ -88,7 +87,9 @@ export class FirestoreService {
     if (!this.schemaNameRegex.exec(schemaName)) {
       return new BadResponse(Errors.DEFAULT);
     }
-    const connection = this.createProjectConnection(auth.projectId as string);
+    const connection = this.databaseService.createProjectConnection(
+      auth.projectId as string,
+    );
     const schemaModel = this.getFirestoreDynamicSchemaModel(connection);
 
     let dynamicSchema = await schemaModel.findOne({
@@ -107,12 +108,12 @@ export class FirestoreService {
 
   async webSDKQueryRecord(auth: SDKJwtPayload, schemeName: string, query: any) {
     this.logger.log(`webSDKQueryRecord:start`, auth, schemeName, query);
-    const connection = this.createProjectConnection(auth.projectId as string);
+    const connection = this.databaseService.createProjectConnection(
+      auth.projectId as string,
+    );
     const recordModel = await this.getRecordModel(connection, schemeName);
     if (!recordModel) {
-      return new BadResponse(
-        Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA,
-      );
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA);
     }
     const records = await recordModel.find(query);
     this.logger.log(`webSDKQueryRecord:end`);
@@ -121,12 +122,12 @@ export class FirestoreService {
 
   async webSDKFindById(auth: SDKJwtPayload, schemaName: string, id: string) {
     this.logger.log(`webSDKGetRecord:start`, auth, schemaName, id);
-    const connection = this.createProjectConnection(auth.projectId as string);
+    const connection = this.databaseService.createProjectConnection(
+      auth.projectId as string,
+    );
     const recordModel = await this.getRecordModel(connection, schemaName);
     if (!recordModel) {
-      return new BadResponse(
-        Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA,
-      );
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA);
     }
     const record = await recordModel.findById(id);
     this.logger.log(`webSDKGetRecord:end`);
@@ -140,24 +141,20 @@ export class FirestoreService {
     data: any,
   ) {
     this.logger.log('webSDKPartialUpdate:start', auth, schemaName, id, data);
-    const connection = this.createProjectConnection(auth.projectId as string);
+    const connection = this.databaseService.createProjectConnection(
+      auth.projectId as string,
+    );
     const recordModel = await this.getRecordModel(connection, schemaName);
     if (!recordModel) {
-      return new BadResponse(
-        Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA,
-      );
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA);
     }
     let record = await recordModel.findById(id);
     if (!record) {
-      return new BadResponse(
-        Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
-      );
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD);
     }
 
     if (record._id != data._id) {
-      return new BadResponse(
-        Errors.WEB_SDK_FIRESTORE_ID_WAS_NOT_MATCHED,
-      );
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_ID_WAS_NOT_MATCHED);
     }
     record = await recordModel.findOneAndUpdate(
       {
@@ -182,23 +179,19 @@ export class FirestoreService {
     data: any,
   ) {
     this.logger.log('webSDKUpdate:start', auth, schemaName, id, data);
-    const connection = this.createProjectConnection(auth.projectId as string);
+    const connection = this.databaseService.createProjectConnection(
+      auth.projectId as string,
+    );
     const recordModel = await this.getRecordModel(connection, schemaName);
     if (!recordModel) {
-      return new BadResponse(
-        Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA,
-      );
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA);
     }
     let record = await recordModel.findById(id);
     if (!record) {
-      return new BadResponse(
-        Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
-      );
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD);
     }
     if (record._id != data._id) {
-      return new BadResponse(
-        Errors.WEB_SDK_FIRESTORE_ID_WAS_NOT_MATCHED,
-      );
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_ID_WAS_NOT_MATCHED);
     }
     record = await recordModel.findOneAndUpdate(
       {
@@ -217,18 +210,16 @@ export class FirestoreService {
 
   async webSDKDeleteById(auth: SDKJwtPayload, schemaName: string, id: string) {
     this.logger.log('webSDKDelete:start', auth, schemaName, id);
-    const connection = this.createProjectConnection(auth.projectId as string);
+    const connection = this.databaseService.createProjectConnection(
+      auth.projectId as string,
+    );
     const recordModel = await this.getRecordModel(connection, schemaName);
     if (!recordModel) {
-      return new BadResponse(
-        Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA,
-      );
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA);
     }
-    let record = await recordModel.findById(id);
+    const record = await recordModel.findById(id);
     if (!record) {
-      return new BadResponse(
-        Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD,
-      );
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD);
     }
     await record.deleteOne();
     this.logger.log('webSDKDelete:end');
@@ -246,7 +237,9 @@ export class FirestoreService {
       this.getSafeSchemaName(schemaName),
       _Schema,
     );
-    const record = new _Model(data);
+    const record = new _Model({
+      ...data,
+    });
     return await record.save();
   }
 
@@ -307,7 +300,7 @@ export class FirestoreService {
   fromDataToField(data: object) {
     const fields: FirestoreSchemaField[] = [];
     for (const key of Object.keys(data)) {
-      let type;
+      let type: string = String.name;
       if (data[key] == null || data[key] == undefined) {
         type = SchemaTypes.Mixed.name;
       } else if (typeof data[key] === 'string') {
@@ -316,7 +309,9 @@ export class FirestoreService {
           if (moment(data[key], ISO_8601, true).isValid()) {
             type = Date.name;
           }
-        } catch (e) {}
+        } catch (e) {
+          this.logger.debug(e);
+        }
       } else if (typeof data[key] === 'number') {
         type = Number.name;
       } else if (typeof data[key] === 'bigint') {
@@ -338,22 +333,6 @@ export class FirestoreService {
     return fields;
   }
 
-  createConnection(mongoUrl: string, poolSize: number = 10): Connection {
-    return mongoose.createConnection(mongoUrl, { maxPoolSize: poolSize });
-  }
-
-  createProjectConnection(
-    projectId: string,
-    poolSize: number = 10,
-  ): Connection {
-    let mongoUrl: string = this.configService.get('MONGO_DB_URL') as string;
-    if (mongoUrl.endsWith('/')) {
-      mongoUrl = mongoUrl.substring(0, mongoUrl.length - 1);
-    }
-    const connectionString = `${mongoUrl}/projects_${projectId}`;
-    return this.createConnection(connectionString, poolSize);
-  }
-
   fromDataToType(data: object) {
     if (typeof data !== 'object') {
       return false;
@@ -361,7 +340,11 @@ export class FirestoreService {
     if (data instanceof Array) {
       return this.fromDataToType(data.pop());
     }
-    const dataType = {};
+    const dataType = {
+      user: {
+        type: String,
+      },
+    };
     for (const key of Object.keys(data)) {
       if (data[key] == null || data[key] === undefined) {
         dataType[key] = {
@@ -378,7 +361,9 @@ export class FirestoreService {
               type: Date,
             };
           }
-        } catch (e) {}
+        } catch (e) {
+          this.logger.debug(e);
+        }
       } else if (typeof data[key] === 'number') {
         dataType[key] = {
           type: Number,
@@ -402,16 +387,6 @@ export class FirestoreService {
       }
     }
     return dataType;
-  }
-
-  update(record: Document<any>, data: any): Document<any> {
-    for (const key in data) {
-      if (key == '_id' || key == '__v') {
-        continue;
-      }
-      record[key] = data[key];
-    }
-    return record;
   }
 
   getSafeSchemaName(schemaName: string) {

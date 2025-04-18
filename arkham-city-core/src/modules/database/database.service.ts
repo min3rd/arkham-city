@@ -5,6 +5,7 @@ import mongoose, { Connection } from 'mongoose';
 @Injectable()
 export class DatabaseService {
   constructor(private readonly configService: ConfigService) {}
+
   createConnection(mongoUrl: string, poolSize: number = 10): Connection {
     return mongoose.createConnection(mongoUrl, { maxPoolSize: poolSize });
   }

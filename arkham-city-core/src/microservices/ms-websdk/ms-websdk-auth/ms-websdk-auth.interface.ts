@@ -1,10 +1,9 @@
-import { SDKJwtPayload } from 'src/modules/websdk/websdk-auth/websdl-auth.interface';
+import { SDKJwtPayload } from 'src/modules/websdk/websdk-auth/websdk-auth.interface';
 
 export interface MsWebSDKAuthReqPayload {
   projectId: string;
   appId: string;
   secretKey: string;
-  userToken?: string;
 }
 
 export interface MsWebSDKAuthLogInReqPayload {

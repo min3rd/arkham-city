@@ -12,7 +12,7 @@ export class User extends AuditEntity {
   @Prop()
   email: string;
 
-  @Prop({})
+  @Prop()
   password: string;
 
   @Prop()
