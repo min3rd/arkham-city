@@ -5,5 +5,11 @@ export const routes: Routes = [
   {
     path: '',
     component: FirestoreComponent,
+    children: [
+      {
+        path: 'rule',
+        loadChildren: () => import('./rule/rule.routes').then(r => r.routes),
+      },
+    ],
   },
 ];
