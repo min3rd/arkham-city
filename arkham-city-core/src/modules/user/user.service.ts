@@ -86,7 +86,7 @@ export class UserService {
     if (!user) {
       return new BadResponse(Errors.USER_NOT_FOUND);
     }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
     const payload = await this.jwtService.verifyAsync(refreshToken);
     if (!payload) {
       return new BadResponse(Errors.INCORRECT_REFRESH_TOKEN);

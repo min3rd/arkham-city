@@ -23,9 +23,7 @@ export class ProjectService {
       },
     });
     if (check.length > 0) {
-      return new BadResponse(
-        Errors.PROJECT_ALREADY_EXIST,
-      );
+      return new BadResponse(Errors.PROJECT_ALREADY_EXIST);
     }
     let project = new this.projectModel({
       name: name,
@@ -45,16 +43,12 @@ export class ProjectService {
   async update(projectId: string, name: string, description?: string) {
     let project = await this.projectModel.findById(projectId);
     if (!project) {
-      return new BadResponse(
-        Errors.INCORRECT_PROJECT_ID,
-      );
+      return new BadResponse(Errors.INCORRECT_PROJECT_ID);
     }
     if (
       (await this.projectModel.find({ id: projectId, name: name })).length > 0
     ) {
-      return new BadResponse(
-        Errors.PROJECT_ALREADY_EXIST,
-      );
+      return new BadResponse(Errors.PROJECT_ALREADY_EXIST);
     }
     project.name = name;
     project.description = description;

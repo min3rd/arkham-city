@@ -30,26 +30,3 @@ export type FirestoreDynamicSchemaDocument =
 export const FirestoreDynamicSchemaSchema = SchemaFactory.createForClass(
   FirestoreDynamicSchema,
 );
-
-export enum RuleType {
-  read = 'read',
-  create = 'create',
-  update = 'update',
-  delete = 'delete',
-}
-
-@Schema({
-  timestamps: true,
-})
-export class Rule extends AuditEntity {
-  @Prop()
-  pattern: string;
-
-  @Prop({
-    enum: RuleType,
-  })
-  type: RuleType;
-
-  @Prop()
-  condition: string;
-}
