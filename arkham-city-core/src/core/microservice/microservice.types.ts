@@ -23,10 +23,10 @@ export class BadResponse<T> implements ServiceResponse<T> {
 export class GoodResponse<T> implements ServiceResponse<T> {
   error: boolean = false;
   errorCode: Error = Errors.DEFAULT;
-  data: T;
+  data: T | undefined;
 
-  constructor(data: T) {
-    this.data = data;
+  constructor(data?: T) {
+    this.data = data ?? undefined;
   }
 }
 

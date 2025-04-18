@@ -11,6 +11,7 @@ export const microserviceConfig = {
     name: 'firestore',
     patterns: {
       createRecord: 'v1.firestore.create-record',
+      createRule: 'v1.firestore.create-rule',
     },
   },
   projects: {
