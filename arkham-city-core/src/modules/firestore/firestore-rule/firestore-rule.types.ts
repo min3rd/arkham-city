@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { AuditEntity } from '../../base/base.type';
+import { SchemaTypes } from 'mongoose';
 
 export enum RuleType {
   read = 'read',
@@ -19,7 +20,7 @@ export enum RuleCondition {
 @Schema({
   timestamps: true,
 })
-export class Rule extends AuditEntity {
+export class RawRule extends AuditEntity {
   @Prop()
   schema: string;
 
@@ -30,33 +31,12 @@ export class Rule extends AuditEntity {
 
   @Prop({
     enum: RuleCondition,
+    type: SchemaTypes.Array,
   })
-  condition: RuleCondition = RuleCondition.deny;
-
-  @Prop()
-  customCondition: string;
-}
-
-@Schema({
-  timestamps: true,
-})
-export class RawRule extends AuditEntity {
-  @Prop()
-  pattern: string;
-
-  @Prop({
-    enum: RuleType,
-  })
-  type: RuleType;
-
-  @Prop({
-    enum: RuleCondition,
-  })
-  condition: RuleCondition = RuleCondition.deny;
+  condition: RuleCondition[] = [RuleCondition.deny];
 
   @Prop()
   customCondition: string;
 }
 
 export const RawRuleSchema = SchemaFactory.createForClass(RawRule);
-export const RuleSchema = SchemaFactory.createForClass(Rule);
