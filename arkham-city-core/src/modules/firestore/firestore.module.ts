@@ -31,6 +31,6 @@ import { FirestoreRuleModule } from './firestore-rule/firestore-rule.module';
     FirestoreRuleModule,
   ],
   providers: [FirestoreService],
-  exports: [FirestoreService],
+  exports: [FirestoreService, FirestoreRuleModule],
 })
 export class FirestoreModule {}

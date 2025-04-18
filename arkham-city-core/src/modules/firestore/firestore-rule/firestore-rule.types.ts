@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { AuditEntity } from '../../base/base.type';
 import { SchemaTypes } from 'mongoose';
+import { User } from '../../user/user.type';
 
 export enum RuleType {
   read = 'read',
@@ -9,12 +10,23 @@ export enum RuleType {
   delete = 'delete',
 }
 
-export enum RuleCondition {
+export enum RuleConditionType {
   require_auth = 'require_auth',
   owner = 'owner',
   allow = 'allow',
   deny = 'deny',
   custom = 'custom',
+}
+
+@Schema()
+export class RuleCondition extends AuditEntity {
+  @Prop({
+    enum: RuleConditionType,
+  })
+  condition: RuleConditionType;
+
+  @Prop()
+  customCondition?: string;
 }
 
 @Schema({
@@ -30,13 +42,15 @@ export class RawRule extends AuditEntity {
   type: RuleType;
 
   @Prop({
-    enum: RuleCondition,
     type: SchemaTypes.Array,
   })
-  condition: RuleCondition[] = [RuleCondition.deny];
+  conditions: RuleCondition[];
 
-  @Prop()
-  customCondition: string;
+  @Prop({
+    type: SchemaTypes.ObjectId,
+    ref: User.name,
+  })
+  user: User;
 }
 
 export const RawRuleSchema = SchemaFactory.createForClass(RawRule);

@@ -12,7 +12,7 @@ import { JWTPayload } from 'src/modules/auth/auth.interface';
 export class MsProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
-  @MessagePattern(microserviceConfig.projects.patterns.create)
+  @MessagePattern(microserviceConfig.project.patterns.create)
   create(@Payload() payload: NewProjectReqPayload) {
     return this.projectService.create(
       payload.user,
@@ -21,12 +21,12 @@ export class MsProjectController {
     );
   }
 
-  @MessagePattern(microserviceConfig.projects.patterns.all)
+  @MessagePattern(microserviceConfig.project.patterns.all)
   all(@Payload() payload: JWTPayload) {
     return this.projectService.all(payload);
   }
 
-  @MessagePattern(microserviceConfig.projects.patterns.get)
+  @MessagePattern(microserviceConfig.project.patterns.get)
   get(@Payload() payload: GetProjectByIdReqPayload) {
     return this.projectService.findById(payload.user, payload.projectId);
   }

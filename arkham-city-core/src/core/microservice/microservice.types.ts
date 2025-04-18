@@ -44,7 +44,7 @@ export class Errors {
   static readonly DEFAULT = new Error('00x0000', 'Unknow error');
   static readonly DUPLICATE_EMAIL = new Error(
     '01x0001',
-    'The email already registerd',
+    'The email already registered',
   );
   static readonly EMAIL_NOT_FOUND = new Error(
     '01x0002',
@@ -70,7 +70,7 @@ export class Errors {
     '01x0007',
     'The project id was incorrected',
   );
-  static readonly DULICATE_APP = new Error(
+  static readonly DUPLICATE_APP = new Error(
     '01x0008',
     'The app was already exists',
   );
@@ -129,5 +129,20 @@ export class Errors {
   static readonly WEB_SDK_AUTH_EMAIL_ALREADY_REGISTERED = new Error(
     '01x0020',
     'The email was already registered',
+  );
+
+  static readonly PROJECT_FIRESTORE_RULE_COULD_NOT_FOUND = new Error(
+    '01x0021',
+    'Could not found the rule',
+  );
+
+  static readonly PROJECT_FIRESTORE_RULE_ALREADY_EXISTS = new Error(
+    '01x0022',
+    'The rule already exists',
+  );
+
+  static readonly PROJECT_FIRESTORE_RULE_COULD_NOT_CREATE_NEW_RULE = new Error(
+    '01x0023',
+    'Could not create new rule',
   );
 }

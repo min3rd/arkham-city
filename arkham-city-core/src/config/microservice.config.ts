@@ -11,25 +11,42 @@ export const microserviceConfig = {
     name: 'firestore',
     patterns: {
       createRecord: 'v1.firestore.create-record',
-      createRule: 'v1.firestore.create-rule',
     },
   },
-  projects: {
+  project: {
     name: 'project',
     patterns: {
-      create: 'v1.projects.new-project',
-      all: 'v1.projects.all',
-      get: 'v1.projects.get',
+      create: 'v1.project.new-project',
+      all: 'v1.project.all',
+      get: 'v1.project.get',
     },
-    apps: {
-      name: 'projects.apps',
+    app: {
+      name: 'project.app',
       patterns: {
-        create: 'v1.projects.apps.create',
-        all: 'v1.projects.apps.all',
-        get: 'v1.projects.apps.get',
-        update: 'v1.projects.apps.update',
-        delete: 'v1.projects.apps.delete',
-        getSecret: 'v1.projects.apps.get-secret',
+        create: 'v1.project.app.create',
+        all: 'v1.project.app.all',
+        get: 'v1.project.app.get',
+        update: 'v1.project.app.update',
+        delete: 'v1.project.app.delete',
+        getSecret: 'v1.project.app.get-secret',
+      },
+    },
+    firestore: {
+      name: 'projects.firestore',
+      patterns: {
+        querySchema: 'v1.project.firestore.query',
+        findById: 'v1.project.firestore.find-by-id',
+        deleteById: 'v1.project.firestore.delete-by-id',
+      },
+      rule: {
+        name: 'projects.firestore.rule',
+        patterns: {
+          createRule: 'v1.project.firestore.rule.create',
+          updateRule: 'v1.project.firestore.rule.update',
+          deleteRule: 'v1.project.firestore.rule.delete',
+          getRule: 'v1.project.firestore.rule.get',
+          getAllRules: 'v1.project.firestore.rule.all',
+        },
       },
     },
   },

@@ -5,13 +5,14 @@ import { microserviceConfig } from 'src/config/microservice.config';
 import { ModulesModule } from 'src/modules/modules.module';
 import { GwProjectController } from './gw-project.controller';
 import { GwProjectAppModule } from './gw-project-app/gw-project-app.module';
+import { GwProjectFirestoreModule } from './gw-project-firestore/gw-project-firestore.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     ClientsModule.register([
       {
-        name: microserviceConfig.projects.name,
+        name: microserviceConfig.project.name,
         transport: Transport.REDIS,
         options: {
           host: process.env.REDIS_HOST as string,
@@ -21,6 +22,7 @@ import { GwProjectAppModule } from './gw-project-app/gw-project-app.module';
     ]),
     ModulesModule,
     GwProjectAppModule,
+    GwProjectFirestoreModule,
   ],
   controllers: [GwProjectController],
 })

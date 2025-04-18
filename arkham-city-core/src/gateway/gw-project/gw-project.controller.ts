@@ -22,7 +22,7 @@ import { REQUEST_FIELDS } from 'src/config/request.config';
 @Controller('projects')
 export class GwProjectController extends GatewayController {
   constructor(
-    @Inject(microserviceConfig.projects.name)
+    @Inject(microserviceConfig.project.name)
     private readonly clientProxy: ClientRedis,
   ) {
     super();
@@ -39,7 +39,7 @@ export class GwProjectController extends GatewayController {
       description: body?.description as string,
     };
     const res: ServiceResponse<Project> = await firstValueFrom(
-      this.clientProxy.send(microserviceConfig.projects.patterns.create, data),
+      this.clientProxy.send(microserviceConfig.project.patterns.create, data),
     );
     this.afterCallMicroservice(res);
     return res.data;
@@ -49,7 +49,7 @@ export class GwProjectController extends GatewayController {
   async all(@Req() request: Request) {
     const res: ServiceResponse<Project[]> = await firstValueFrom(
       this.clientProxy.send(
-        microserviceConfig.projects.patterns.all,
+        microserviceConfig.project.patterns.all,
         request[REQUEST_FIELDS.user] as JWTPayload,
       ),
     );
@@ -60,7 +60,7 @@ export class GwProjectController extends GatewayController {
   @Get(':id')
   async get(@Req() request: Request, @Param() params: any) {
     const res: ServiceResponse<Project> = await firstValueFrom(
-      this.clientProxy.send(microserviceConfig.projects.patterns.get, {
+      this.clientProxy.send(microserviceConfig.project.patterns.get, {
         user: request[REQUEST_FIELDS.user] as JWTPayload,
 
         projectId: params.id,
