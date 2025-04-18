@@ -136,7 +136,7 @@ export class WebSDKAuthService {
     let user = new _UserModel({
       email: email,
       password: HashService.hash(password),
-      verified: !this.configService.get('AUTH_AUTO_VERIFY') ? false : true,
+      verified: this.configService.get('AUTH_AUTO_REGISTER_VERIFY'),
     });
     user = await user.save();
     if (!user) {

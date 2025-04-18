@@ -1,7 +1,7 @@
 import {
-  ExceptionFilter,
-  Catch,
   ArgumentsHost,
+  Catch,
+  ExceptionFilter,
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
@@ -26,7 +26,7 @@ export class GlobalFilter implements ExceptionFilter {
     const responseBody = {
       statusCode: httpStatus,
       timestamp: new Date().toISOString(),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       path: httpAdapter.getRequestUrl(ctx.getRequest()),
     };
 

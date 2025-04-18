@@ -4,6 +4,7 @@ import { FirestoreService } from './firestore.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { DatabaseModule } from '../database/database.module';
+import { FirestoreRuleModule } from './firestore-rule/firestore-rule.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { DatabaseModule } from '../database/database.module';
       },
     ]),
     DatabaseModule,
+    FirestoreRuleModule,
   ],
   providers: [FirestoreService],
   exports: [FirestoreService],

@@ -62,7 +62,7 @@ export class GwProjectController extends GatewayController {
     const res: ServiceResponse<Project> = await firstValueFrom(
       this.clientProxy.send(microserviceConfig.projects.patterns.get, {
         user: request[REQUEST_FIELDS.user] as JWTPayload,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+
         projectId: params.id,
       }),
     );

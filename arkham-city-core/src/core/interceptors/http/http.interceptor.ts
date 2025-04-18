@@ -28,18 +28,13 @@ export class HttpInterceptor implements NestInterceptor {
       }),
     );
   }
+
   private isFromSDK(request: Request): boolean {
-    if (request.headers['x-type'] === 'websdk') {
-      return true;
-    }
-    return false;
+    return request.headers['x-type'] === 'websdk';
   }
 
   private isProductionMode(request: Request): boolean {
-    if (request.headers['x-mode'] === 'production') {
-      return true;
-    }
-    return false;
+    return request.headers['x-mode'] === 'production';
   }
 
   private getProjectId(request: Request) {
