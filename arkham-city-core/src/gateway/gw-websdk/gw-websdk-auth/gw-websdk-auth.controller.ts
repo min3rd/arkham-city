@@ -26,6 +26,7 @@ export class GwWebsdkAuthController extends GatewayController {
   ) {
     super();
   }
+
   @Public()
   @Post('authenticate')
   async authenticate(@Body() dto: GwWebSDKAuthReqDto) {
@@ -33,7 +34,6 @@ export class GwWebsdkAuthController extends GatewayController {
       projectId: dto.projectId,
       appId: dto.appId,
       secretKey: dto.secretKey,
-      userToken: dto.userToken,
     };
     const res: ServiceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
