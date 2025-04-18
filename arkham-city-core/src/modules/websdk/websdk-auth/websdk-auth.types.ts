@@ -6,7 +6,14 @@ import { AuditEntity } from 'src/modules/base/base.type';
   timestamps: true,
 })
 export class WebSDKUser extends AuditEntity {
-  @Prop()
+  @Prop({
+    unique: true,
+  })
+  username: string;
+
+  @Prop({
+    unique: true,
+  })
   email: string;
 
   @Prop()

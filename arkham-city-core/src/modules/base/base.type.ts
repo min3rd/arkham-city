@@ -11,6 +11,8 @@ export interface ResponseDto {
   timestamps: true,
 })
 export class AuditEntity {
+  _id?: string;
+
   @Prop()
   createdBy?: string;
 

@@ -16,7 +16,7 @@ import {
   MsWebSDKAuthReqPayload,
 } from 'src/microservices/ms-websdk/ms-websdk-auth/ms-websdk-auth.interface';
 import { REQUEST_FIELDS } from 'src/config/request.config';
-import { SDKJwtPayload } from 'src/modules/websdk/websdk-auth/websdl-auth.interface';
+import { SDKJwtPayload } from 'src/modules/websdk/websdk-auth/websdk-auth.interface';
 
 @Controller('websdk/auth')
 export class GwWebsdkAuthController extends GatewayController {

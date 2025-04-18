@@ -2,14 +2,9 @@ import { Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
-import {
-  BadResponse,
-  Errors,
-  ServiceResponse,
-  GoodResponse,
-} from 'src/core/microservice/microservice.types';
+import { BadResponse, Errors, GoodResponse, ServiceResponse } from 'src/core/microservice/microservice.types';
 import { ProjectApp } from 'src/modules/project/app/project-app.type';
-import { SDKAuthResDto, SDKJwtPayload } from './websdl-auth.interface';
+import { SDKAuthResDto, SDKJwtPayload } from './websdk-auth.interface';
 import { HashService } from 'src/core/hash/hash.service';
 import { ConfigService } from '@nestjs/config';
 import { DatabaseService } from 'src/modules/database/database.service';
@@ -36,14 +31,12 @@ export class WebSDKAuthService {
    * @param projectId string
    * @param appId string
    * @param secretKey string
-   * @param userToken string
    * @returns ServiceResponse
    */
   async authenticate(
     projectId: string,
     appId: string,
     secretKey: string,
-    userToken?: string,
   ): Promise<ServiceResponse<any>> {
     this.logger.log(
       `authenticate:start:projectId=${projectId},appId=${appId},secretKey=${secretKey}`,
@@ -58,22 +51,10 @@ export class WebSDKAuthService {
     ) {
       return new BadResponse(Errors.WEB_SDK_SECRET_WAS_INCORRECT);
     }
-    let payload: any = undefined;
-    if (userToken) {
-      // log-in with user information
-      payload = await this.jwtService.verifyAsync(userToken, {
-        secret: this.configService.get('JWT_SECRET'),
-      });
-      if (payload) {
-      }
-    }
     const returnedPayload: SDKJwtPayload = {
       type: 'websdk',
       projectId: projectId,
       appId: appId,
-      username: payload?.username,
-      sub: payload?.sub,
-      email: payload?.email,
     };
     this.logger.log(`authenticate:end`);
     return new GoodResponse<SDKAuthResDto>({
@@ -111,14 +92,18 @@ export class WebSDKAuthService {
       type: 'websdk',
       projectId: auth.projectId,
       appId: auth.appId,
-      sub: user.email,
-      username: user.email,
+      sub: user._id,
+      username: user.username,
       email: user.email,
     };
     const accessToken = await this.jwtService.signAsync(payload);
     this.logger.log('logInByEmailAndPassword:end');
     return new GoodResponse({
       accessToken: accessToken,
+      user: {
+        ...user.toJSON(),
+        password: undefined,
+      },
     });
   }
 
@@ -183,8 +168,8 @@ export class WebSDKAuthService {
    * @param appId
    * @returns
    */
-  private async findProjectApp(projectId: string, appId: string) {
-    return await this.projectAppModel.findOne({
+  private findProjectApp(projectId: string, appId: string) {
+    return this.projectAppModel.findOne({
       _id: appId,
       project: {
         _id: projectId,

@@ -17,7 +17,6 @@ export class MsWebsdkAuthController {
       payload.projectId,
       payload.appId,
       payload.secretKey,
-      payload.userToken,
     );
   }
 

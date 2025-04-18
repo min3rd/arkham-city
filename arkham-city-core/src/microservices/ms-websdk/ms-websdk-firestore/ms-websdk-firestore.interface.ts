@@ -1,4 +1,4 @@
-import { SDKJwtPayload } from 'src/modules/websdk/websdk-auth/websdl-auth.interface';
+import { SDKJwtPayload } from 'src/modules/websdk/websdk-auth/websdk-auth.interface';
 
 export interface MsWebSDKFirestoreStoreSchemaReqPayload {
   auth: SDKJwtPayload;

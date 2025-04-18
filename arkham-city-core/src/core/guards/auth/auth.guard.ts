@@ -11,7 +11,7 @@ import { Request } from 'express';
 import { REQUEST_FIELDS } from 'src/config/request.config';
 import { IS_PUBLIC_KEY } from 'src/core/decorators/public';
 import { JWTPayload } from 'src/modules/auth/auth.interface';
-import { SDKJwtPayload } from 'src/modules/websdk/websdk-auth/websdl-auth.interface';
+import { SDKJwtPayload } from 'src/modules/websdk/websdk-auth/websdk-auth.interface';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
