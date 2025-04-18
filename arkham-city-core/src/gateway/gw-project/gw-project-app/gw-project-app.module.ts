@@ -9,7 +9,7 @@ import { microserviceConfig } from 'src/config/microservice.config';
     ConfigModule.forRoot(),
     ClientsModule.register([
       {
-        name: microserviceConfig.projects.apps.name,
+        name: microserviceConfig.project.app.name,
         transport: Transport.REDIS,
         options: {
           host: process.env.REDIS_HOST as string,

@@ -29,7 +29,7 @@ import { MsWebsdkModule } from './ms-websdk/ms-websdk.module';
         },
       },
       {
-        name: microserviceConfig.projects.name,
+        name: microserviceConfig.project.name,
         transport: Transport.REDIS,
         options: {
           host: process.env.REDIS_HOST as string,

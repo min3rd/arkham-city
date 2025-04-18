@@ -14,7 +14,8 @@ import { ProjectAppService } from 'src/modules/project/app/project-app.service';
 @Controller()
 export class MsProjectAppController {
   constructor(private readonly appService: ProjectAppService) {}
-  @MessagePattern(microserviceConfig.projects.apps.patterns.create)
+
+  @MessagePattern(microserviceConfig.project.app.patterns.create)
   create(@Payload() payload: CreateProjectAppReqPayload) {
     return this.appService.create(
       payload.user,
@@ -26,12 +27,12 @@ export class MsProjectAppController {
     );
   }
 
-  @MessagePattern(microserviceConfig.projects.apps.patterns.all)
+  @MessagePattern(microserviceConfig.project.app.patterns.all)
   all(@Payload() payload: AllProjectAppReqPayload) {
     return this.appService.all(payload.user, payload.projectId);
   }
 
-  @MessagePattern(microserviceConfig.projects.apps.patterns.update)
+  @MessagePattern(microserviceConfig.project.app.patterns.update)
   update(@Payload() payload: UpdateProjectAppReqPayload) {
     return this.appService.update(
       payload.user,
@@ -44,7 +45,7 @@ export class MsProjectAppController {
     );
   }
 
-  @MessagePattern(microserviceConfig.projects.apps.patterns.delete)
+  @MessagePattern(microserviceConfig.project.app.patterns.delete)
   delete(@Payload() payload: DeleteProjectAppReqPayload) {
     return this.appService.delete(
       payload.user,
@@ -53,12 +54,12 @@ export class MsProjectAppController {
     );
   }
 
-  @MessagePattern(microserviceConfig.projects.apps.patterns.get)
+  @MessagePattern(microserviceConfig.project.app.patterns.get)
   get(@Payload() payload: GetProjectAppReqPayload) {
     return this.appService.get(payload.user, payload.projectId, payload.appId);
   }
 
-  @MessagePattern(microserviceConfig.projects.apps.patterns.getSecret)
+  @MessagePattern(microserviceConfig.project.app.patterns.getSecret)
   getSecret(@Payload() payload: GetProjectAppSecretReqPayload) {
     return this.appService.getSecret(
       payload.user,

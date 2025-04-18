@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { ProjectApp, APP_TYPE } from './project-app.type';
+import { APP_TYPE, ProjectApp } from './project-app.type';
 import { Model } from 'mongoose';
 import { JWTPayload } from 'src/modules/auth/auth.interface';
 import {
@@ -41,7 +41,7 @@ export class ProjectAppService {
         })
       ).length > 0
     ) {
-      return new BadResponse(Errors.DULICATE_APP);
+      return new BadResponse(Errors.DUPLICATE_APP);
     }
     const rawSecret = randomBytes(
       parseInt(process.env.PROJECT_APP_SECRET_KEY_LENGTH as string) ?? 48,

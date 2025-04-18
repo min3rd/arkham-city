@@ -31,7 +31,7 @@ import { REQUEST_FIELDS } from 'src/config/request.config';
 @Controller('projects')
 export class GwProjectAppController extends GatewayController {
   constructor(
-    @Inject(microserviceConfig.projects.apps.name)
+    @Inject(microserviceConfig.project.app.name)
     private readonly clientProxy: ClientRedis,
   ) {
     super();
@@ -50,7 +50,7 @@ export class GwProjectAppController extends GatewayController {
     };
     const res: ServiceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
-        microserviceConfig.projects.apps.patterns.create,
+        microserviceConfig.project.app.patterns.create,
         payload,
       ),
     );
@@ -66,7 +66,7 @@ export class GwProjectAppController extends GatewayController {
     };
     const res: ServiceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
-        microserviceConfig.projects.apps.patterns.all,
+        microserviceConfig.project.app.patterns.all,
         payload,
       ),
     );
@@ -83,7 +83,7 @@ export class GwProjectAppController extends GatewayController {
     };
     const res: ServiceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
-        microserviceConfig.projects.apps.patterns.get,
+        microserviceConfig.project.app.patterns.get,
         payload,
       ),
     );
@@ -105,7 +105,7 @@ export class GwProjectAppController extends GatewayController {
     };
     const res: ServiceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
-        microserviceConfig.projects.apps.patterns.update,
+        microserviceConfig.project.app.patterns.update,
         payload,
       ),
     );
@@ -122,7 +122,7 @@ export class GwProjectAppController extends GatewayController {
     };
     const res: ServiceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
-        microserviceConfig.projects.apps.patterns.delete,
+        microserviceConfig.project.app.patterns.delete,
         payload,
       ),
     );
@@ -139,7 +139,7 @@ export class GwProjectAppController extends GatewayController {
     };
     const res: ServiceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
-        microserviceConfig.projects.apps.patterns.getSecret,
+        microserviceConfig.project.app.patterns.getSecret,
         payload,
       ),
     );
