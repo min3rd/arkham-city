@@ -4,10 +4,27 @@
       <ark-text-input controlName="schema" label="{{'schema' | transloco | capitalize}}" noSuffixSpace></ark-text-input>
     </div>
     <div class="p-2">
-      <ark-tab-group [titles]="tabs"></ark-tab-group>
+      <ark-tab-group [titles]="tabs">
+        <ark-tab-content>
+          <div>
+            tab rules
+          </div>
+        </ark-tab-content>
+        <ark-tab-content>
+          <div>
+            tab schema
+          </div>
+        </ark-tab-content>
+        <ark-tab-content>
+          <div>
+            tab settings
+          </div>
+        </ark-tab-content>
+      </ark-tab-group>
     </div>
     <div class="flex items-center p-2">
-      <ark-button label="{{'create' | transloco | capitalize}}" size="small"></ark-button>
+      <ark-button label="{{'create' | transloco | capitalize}}" size="small">
+      </ark-button>
     </div>
   </form>
 </div>
