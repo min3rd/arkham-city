@@ -8,10 +8,11 @@ import { ArkButton } from '../../../../../../core/components/buttons/ark-button/
 import { TranslocoModule } from '@jsverse/transloco';
 import { CapitalizePipe } from '../../../../../../core/pipe/capitalize.pipe';
 import { ArkTabGroup, ArkTabTitle } from '../../../../../../core/components/tabs/ark-tab-group/ark-tab-group.component';
+import { ArkTabContent } from '../../../../../../core/components/tabs/ark-tab-content/ark-tab-content.component';
 
 @Component({
   selector: 'project-firestore-rule-detail',
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, ArkTextInput, ArkButton, TranslocoModule, CapitalizePipe, ArkTabGroup],
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, ArkTextInput, ArkButton, TranslocoModule, CapitalizePipe, ArkTabGroup, ArkTabContent],
   templateUrl: './detail.component.html',
 })
 export class DetailComponent extends BaseComponent {

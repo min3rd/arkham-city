@@ -1,7 +1,15 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ContentChildren,
+  Input,
+  QueryList,
+  ViewEncapsulation,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Subject } from 'rxjs';
 import { ArkIcon } from '../../icons/ark-icon/ark-icon.component';
+import { FormControlElement } from '../../base/form-control-element/form-control-element.component';
+import { ArkTabContent } from '../ark-tab-content/ark-tab-content.component';
 
 export interface ArkTabTitle {
   id: string;
@@ -15,19 +23,21 @@ export interface ArkTabTitle {
   imports: [CommonModule, ArkIcon],
   templateUrl: './ark-tab-group.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
-export class ArkTabGroup implements OnInit, OnDestroy {
+export class ArkTabGroup extends FormControlElement {
   @Input() titles!: ArkTabTitle[];
-  @Input() color: 'gray' | 'teal' | 'blue' | 'red' | 'yellow' | 'white' = 'teal';
+  @ContentChildren(ArkTabContent) tabs!: QueryList<ArkTabContent>;
   selectedIndex = 0;
-  private _unsubscribeAll = new Subject<any>();
 
-  ngOnInit() {
-
+  override ngAfterViewInit() {
+    super.ngAfterViewInit();
+    this.change(this.selectedIndex);
   }
 
-  ngOnDestroy() {
-    this._unsubscribeAll.next(null);
-    this._unsubscribeAll.complete();
+  change(index: number) {
+    this.selectedIndex = index;
+    this.tabs.forEach(e => e.setShow(false));
+    this.tabs.get(index)?.setShow(true);
   }
 }

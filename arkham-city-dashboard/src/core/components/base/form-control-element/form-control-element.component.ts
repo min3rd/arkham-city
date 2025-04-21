@@ -42,10 +42,7 @@ export class FormControlElement extends FormElement implements AfterViewInit {
   ngAfterViewInit(): void {
     if (this.formControl) {
       this.formControl.statusChanges.subscribe(() => {
-        this.invalid = false;
-        if (this.formControl.invalid) {
-          this.invalid = true;
-        }
+        this.invalid = this.formControl.invalid;
         this.changeDetectorRef.markForCheck();
       });
     }
