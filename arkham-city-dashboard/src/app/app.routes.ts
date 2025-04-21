@@ -10,13 +10,6 @@ export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
   {
     path: '',
-    canActivateChild: [noAuthGuard],
-    component: EmptyLayoutComponent,
-    loadChildren: () =>
-      import('../modules/public/public.routes').then((r) => r.routes),
-  },
-  {
-    path: '',
     canActivateChild: [authGuard],
     component: MainLayoutComponent,
     resolve: [privateResolver],
@@ -30,8 +23,16 @@ export const routes: Routes = [
     children: [
       {
         path: 'log-out',
+        pathMatch: 'full',
         component: LogOutComponent,
       },
     ],
+  },
+  {
+    path: '',
+    canActivateChild: [noAuthGuard],
+    component: EmptyLayoutComponent,
+    loadChildren: () =>
+      import('../modules/public/public.routes').then((r) => r.routes),
   },
 ];

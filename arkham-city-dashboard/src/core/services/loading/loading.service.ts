@@ -17,10 +17,10 @@ export class LoadingService {
       return;
     }
 
-    if (status === true) {
+    if (status) {
       this._urlMap.set(url, status);
       this._show$.next(true);
-    } else if (status === false && this._urlMap.has(url)) {
+    } else if (!status && this._urlMap.has(url)) {
       this._urlMap.delete(url);
     }
 

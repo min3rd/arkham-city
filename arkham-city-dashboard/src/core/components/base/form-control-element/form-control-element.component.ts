@@ -8,16 +8,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormElement } from '../form-element/form-element.component';
-import {
-  ControlContainer,
-  FormControl,
-  FormControlName,
-  FormGroupDirective,
-} from '@angular/forms';
+import { ControlContainer, FormControl, FormControlName, FormGroupDirective } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'form-control-element',
-  imports: [],
+  imports: [CommonModule],
   template: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [
@@ -42,6 +38,7 @@ export class FormControlElement extends FormElement implements AfterViewInit {
   formControl!: FormControl;
   @ContentChild('errors') errors!: TemplateRef<any>;
   invalid = false;
+
   ngAfterViewInit(): void {
     if (this.formControl) {
       this.formControl.statusChanges.subscribe(() => {
@@ -53,6 +50,7 @@ export class FormControlElement extends FormElement implements AfterViewInit {
       });
     }
   }
+
   enableDisabled(): boolean {
     return (this.disabled || this.disabled === '') as boolean;
   }

@@ -19,20 +19,14 @@ export const routes: Routes = [
     children: [
       {
         path: '',
+        pathMatch: 'full',
         resolve: [listResolve],
         component: ListComponent,
-        children: [
-          {
-            path: 'new-rule',
-            pathMatch: 'full',
-            component: DetailComponent,
-          },
-          {
-            path: ':ruleId',
-            resolve: [listResolve],
-            component: DetailComponent,
-          },
-        ],
+      },
+      {
+        path: 'new-rule',
+        pathMatch: 'full',
+        component: DetailComponent,
       },
     ],
   },

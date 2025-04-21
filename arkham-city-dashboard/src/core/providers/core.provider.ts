@@ -10,14 +10,20 @@ import { loadingInterceptor } from '../services/loading/loading.interceptor';
 import { LoadingService } from '../services/loading/loading.service';
 import { ConfigService } from '../services/config.service';
 import { AuthService } from '../auth/auth.service';
+import { forkJoin } from 'rxjs';
 
 export const provideCore = (): (Provider | EnvironmentProviders)[] => {
   return [
     provideAppInitializer(() => {
-      inject(ConfigService).load().subscribe();
-      inject(AuthService).load();
+      const configService = inject(ConfigService);
+      return forkJoin([
+        configService.load(),
+      ]);
     }),
     provideHttpClient(withInterceptors([loadingInterceptor])),
-    provideEnvironmentInitializer(() => inject(LoadingService)),
+    provideEnvironmentInitializer(() => {
+      inject(AuthService).load();
+      inject(LoadingService);
+    }),
   ];
 };
