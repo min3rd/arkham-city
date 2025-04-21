@@ -1,21 +1,21 @@
 <div>
   @if (label) {
-  <label
-    for="text-input-{{ label }}"
-    class="block text-sm font-medium mb-2 dark:text-white"
-  >
-    {{ label }}
-  </label>
+    <label
+      for="text-input-{{ label }}"
+      class="block text-sm font-medium mb-2 dark:text-white"
+    >
+      {{ label }}
+    </label>
   }
   <div class="relative">
     @if (!controlName) {
-    <input
-      [value]="value"
-      type="{{ type }}"
-      id="text-input-{{ label }}"
-      name="text-input-{{ label }}"
-      class="block w-full sm:text-sm bg-neutral-200 dark:bg-neutral-700"
-      [ngClass]="{
+      <input
+        [value]="value"
+        type="{{ type }}"
+        id="text-input-{{ label }}"
+        name="text-input-{{ label }}"
+        class="block w-full sm:text-sm bg-neutral-200 dark:bg-neutral-700"
+        [ngClass]="{
         'rounded-xs': rounded === 'small',
         'rounded-md': rounded === 'medium',
         'rounded-lg': rounded === 'large',
@@ -24,20 +24,20 @@
         'py-2 px-3': size ==='small',
         'p-4 sm:p-5': size ==='large',
         }"
-      placeholder="{{ placeholder }}"
-      [disabled]="onLoading || enableDisabled()"
-    />
+        placeholder="{{ placeholder }}"
+        [disabled]="onLoading || enableDisabled()"
+      />
 
     } @else {
-    <input
-      type="{{ type }}"
-      [formControlName]="controlName"
-      id="text-input-{{ label }}"
-      name="text-input-{{ label }}"
-      class="block w-full sm:text-sm"
-      [ngClass]="{
-          'bg-neutral-200 dark:bg-neutral-700': !invalid,
-          'bg-red-100 border-red-500 dark:bg-red-100 dark:border-red-500 border':
+      <input
+        type="{{ type }}"
+        [formControlName]="controlName"
+        id="text-input-{{ label }}"
+        name="text-input-{{ label }}"
+        class="block w-full sm:text-sm border"
+        [ngClass]="{
+          'bg-neutral-200 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-600': !invalid,
+          'bg-red-100 dark:bg-red-100 border-red-500':
             invalid,
         'rounded-xs': rounded === 'small',
         'rounded-md': rounded === 'medium',
@@ -47,33 +47,38 @@
         'py-2 px-3': size ==='small',
         'p-4 sm:p-5': size ==='large',
         }"
-      placeholder="{{ placeholder }}"
-      [disabled]="onLoading || enableDisabled()"
-    />
-    } @if (invalid) {
-    <div class="absolute inset-y-0 end-0 flex items-center pe-3">
-      <svg
-        class="shrink-0 size-4 text-red-500"
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <circle cx="12" cy="12" r="10"></circle>
-        <line x1="12" x2="12" y1="8" y2="12"></line>
-        <line x1="12" x2="12.01" y1="16" y2="16"></line>
-      </svg>
-    </div>
+        placeholder="{{ placeholder }}"
+        [disabled]="onLoading || enableDisabled()"
+      />
+    }
+    @if (invalid) {
+      <div class="absolute inset-y-0 end-0 flex items-center pe-3">
+        <svg
+          class="shrink-0 size-4 text-red-500"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" x2="12" y1="8" y2="12"></line>
+          <line x1="12" x2="12.01" y1="16" y2="16"></line>
+        </svg>
+      </div>
     }
   </div>
-  <div class="h-6 truncate">
+  <div [ngClass]="{
+     'h-6': !enableNoSuffixSpace()
+     }"
+       class="truncate"
+  >
     @if (errors) {
-    <ng-container [ngTemplateOutlet]="errors"></ng-container>
+      <ng-container [ngTemplateOutlet]="errors"></ng-container>
     }
   </div>
 </div>

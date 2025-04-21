@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { Router, type CanActivateChildFn } from '@angular/router';
+import { type CanActivateChildFn, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { of, switchMap } from 'rxjs';
 
@@ -9,12 +9,12 @@ export const authGuard: CanActivateChildFn = (childRoute, state) => {
     .check()
     .pipe(
       switchMap((authenticated) => {
-        if (!authenticated) {          
+        if (!authenticated) {
           const redirectURL = `redirectURL=${state.url}`;
           const urlTree = router.parseUrl(`log-in?${redirectURL}`);
           return of(urlTree);
         }
         return of(true);
-      })
+      }),
     );
 };

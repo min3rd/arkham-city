@@ -8,8 +8,8 @@ export interface UserResDto {
   _id: string;
   username: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  firstName?: string;
+  lastName?: string;
   __v?: number;
   avatar?: string;
 }

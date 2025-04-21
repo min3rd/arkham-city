@@ -1,0 +1,42 @@
+<div class="bg-transparent dark:bg-neutral-700 rounded-md dark:border border-neutral-300 dark:border-neutral-600">
+  <div class="border-b border-neutral-300 dark:border-neutral-600">
+    <nav aria-label="Tabs" aria-orientation="horizontal" class="flex gap-x-1 overflow-auto" role="tablist">
+      @if (titles && titles.length) {
+        @for (title of titles; track $index) {
+          <button
+            (click)="selectedIndex = $index"
+            class="py-2 px-1 inline-flex items-center gap-x-2"
+            [ngClass]="{
+                  'text-gray-700 dark:text-white': !title.disabled && selectedIndex !== $index,
+                  'text-gray-500 dark:text-gray-700': title.disabled && selectedIndex !== $index,
+                  'font-semibold': selectedIndex === $index,
+                  'text-sm dark:text-neutral-400': selectedIndex !== $index,
+                  'hover:text-gray-600 dark:hover:text-gray-500': color === 'gray' && !title.disabled && selectedIndex !== $index,
+                  'border-gray-600 text-gray-600 border-b-2 border-gray-600': color === 'gray' && selectedIndex === $index,
+                  'hover:text-teal-600 dark:hover:text-teal-500': color === 'teal' && !title.disabled && selectedIndex !== $index,
+                  'border-teal-600 text-teal-600 border-b-2 border-teal-600': color === 'teal' && selectedIndex === $index,
+                  'hover:text-blue-600 dark:hover:text-blue-500': color === 'blue' && !title.disabled && selectedIndex !== $index,
+                  'border-blue-600 text-blue-600 border-b-2 border-blue-600': color === 'blue' && selectedIndex === $index,
+                  'hover:text-red-600 dark:hover:text-red-500': color === 'red' && !title.disabled && selectedIndex !== $index,
+                  'border-red-600 text-red-600 border-b-2 border-red-600': color === 'red' && selectedIndex === $index,
+                  'hover:text-yellow-600 dark:hover:text-yellow-500': color === 'yellow' && !title.disabled && selectedIndex !== $index,
+                  'border-yellow-600 text-yellow-600 border-b-2 border-yellow-600': color === 'yellow' && selectedIndex === $index,
+          }"
+            type="button"
+            [disabled]="title.disabled"
+          >
+            @if (title.icon) {
+              <ark-icon [name]="title.icon"></ark-icon>
+            }
+            {{ title.title }}
+          </button>
+        }
+      }
+    </nav>
+  </div>
+  <div class="p-2">
+    <p>
+      Test content for the selected tab.
+    </p>
+  </div>
+</div>
