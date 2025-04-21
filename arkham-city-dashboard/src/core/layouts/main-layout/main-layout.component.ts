@@ -1,12 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
-  OnDestroy,
-  type OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, type OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ArkSwitchTheme } from '../../components/buttons/ark-switch-theme/ark-switch-theme.component';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -56,6 +49,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   private navigationService: NavigationService = inject(NavigationService);
   private router: Router = inject(Router);
   private _unsubscribeAll = new Subject<any>();
+
   ngOnInit(): void {
     this.user = this.authService.user;
     this.projectService.projects$
@@ -76,19 +70,21 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
         this.navigations = this.navigationService.navigations(
           project?._id ?? 'no-project-id',
         );
-        this.router.navigate(['/dashboard']);
         this.changeDetectorRef.markForCheck();
       });
   }
+
   ngOnDestroy(): void {
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
   }
+
   onProjectChange(projectId: string) {
     const project = this.projects?.find((e) => e._id == projectId);
     if (!project) {
       return;
     }
+    this.router.navigate([`/dashboard`]);
     this.projectService.select(project);
   }
 }
