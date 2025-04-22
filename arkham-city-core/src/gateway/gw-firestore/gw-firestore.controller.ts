@@ -1,4 +1,12 @@
-import { Body, Controller, Inject, Param, Post, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Post,
+  Req,
+} from '@nestjs/common';
 import { ClientRedis } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { microserviceConfig } from 'src/config/microservice.config';
@@ -30,6 +38,36 @@ export class GwFirestoreController extends GatewayController {
     const res: ServiceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
         microserviceConfig.firestore.patterns.createRecord,
+        payload,
+      ),
+    );
+    this.afterCallMicroservice(res);
+    return res.data;
+  }
+
+  @Get('rules')
+  async getRules(@Req() request: Request) {
+    const payload = {
+      auth: request[REQUEST_FIELDS.user],
+    };
+    const res: ServiceResponse<any> = await firstValueFrom(
+      this.clientProxy.send(
+        microserviceConfig.firestore.patterns.getAllRuleTypes,
+        payload,
+      ),
+    );
+    this.afterCallMicroservice(res);
+    return res.data;
+  }
+
+  @Get('conditions')
+  async getConditions(@Req() request: Request) {
+    const payload = {
+      auth: request[REQUEST_FIELDS.user],
+    };
+    const res: ServiceResponse<any> = await firstValueFrom(
+      this.clientProxy.send(
+        microserviceConfig.firestore.patterns.getAllRuleConditionTypes,
         payload,
       ),
     );

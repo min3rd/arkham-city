@@ -11,6 +11,8 @@ export const microserviceConfig = {
     name: 'firestore',
     patterns: {
       createRecord: 'v1.firestore.create-record',
+      getAllRuleTypes: 'v1.firestore.get-all-rule-types',
+      getAllRuleConditionTypes: 'v1.firestore.get-all-rule-condition-types',
     },
   },
   project: {
