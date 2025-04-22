@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BaseComponent } from '../../../core/components/base/base.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -9,4 +8,5 @@ import { RouterModule } from '@angular/router';
   templateUrl: './project.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectComponent extends BaseComponent {}
+export class ProjectComponent {
+}

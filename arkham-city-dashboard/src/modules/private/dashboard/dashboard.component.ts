@@ -1,9 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-} from '@angular/core';
-import { BaseComponent } from '../../../core/components/base/base.component';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,6 +7,6 @@ import { BaseComponent } from '../../../core/components/base/base.component';
   templateUrl: './dashboard.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardComponent extends BaseComponent {
+export class DashboardComponent {
 
 }

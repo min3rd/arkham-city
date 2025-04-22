@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { UserService } from '../user.service';
 import { User } from '../user.types';
@@ -25,6 +18,7 @@ export class ListComponent implements OnInit, OnDestroy {
   private userService = inject(UserService);
   private changeDetectorRef = inject(ChangeDetectorRef);
   private _ubsubscribeAll = new Subject<any>();
+
   ngOnInit(): void {
     this.userService.users$
       .pipe(takeUntil(this._ubsubscribeAll))
@@ -33,6 +27,7 @@ export class ListComponent implements OnInit, OnDestroy {
         this.changeDetectorRef.markForCheck();
       });
   }
+
   ngOnDestroy(): void {
     this._ubsubscribeAll.next(null);
     this._ubsubscribeAll.complete();
