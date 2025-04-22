@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormElement } from '../form-element/form-element.component';
-import { ControlContainer, FormControl, FormControlName, FormGroupDirective } from '@angular/forms';
+import { AbstractControl, ControlContainer, FormControl, FormControlName, FormGroupDirective } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -24,7 +24,8 @@ import { CommonModule } from '@angular/common';
   ],
 })
 export class FormControlElement extends FormElement implements AfterViewInit {
-  @Input() controlName!: string;
+  @Input() formControlName!: string;
+  @Input() formControl!: AbstractControl | null;
   @Input() placeholder!: string;
   @Input() value!: string | any;
   @Input() label!: string;
@@ -35,14 +36,14 @@ export class FormControlElement extends FormElement implements AfterViewInit {
   @Input() disabled: boolean | string = false;
 
   @ViewChild(FormControlName)
-  formControl!: FormControl;
+  _formControl!: FormControl;
   @ContentChild('errors') errors!: TemplateRef<any>;
   invalid = false;
 
   ngAfterViewInit(): void {
-    if (this.formControl) {
-      this.formControl.statusChanges.subscribe(() => {
-        this.invalid = this.formControl.invalid;
+    if (this._formControl) {
+      this._formControl.statusChanges.subscribe(() => {
+        this.invalid = this._formControl.invalid;
         this.changeDetectorRef.markForCheck();
       });
     }
@@ -50,5 +51,9 @@ export class FormControlElement extends FormElement implements AfterViewInit {
 
   enableDisabled(): boolean {
     return (this.disabled || this.disabled === '') as boolean;
+  }
+
+  getFormControl(): FormControl {
+    return this.formControl as FormControl;
   }
 }

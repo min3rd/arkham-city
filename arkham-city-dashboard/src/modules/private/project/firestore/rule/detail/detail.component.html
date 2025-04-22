@@ -1,26 +1,30 @@
 <div>
   <form [formGroup]="form">
     <div class="p-2">
-      <ark-text-input controlName="schema" label="{{'schema' | transloco | capitalize}}" noSuffixSpace></ark-text-input>
+      <ark-text-input formControlName="schema" label="{{'schema' | transloco | capitalize}}"
+                      noSuffixSpace></ark-text-input>
     </div>
     <div class="p-2">
-      <ark-tab-group [titles]="tabs">
-        <ark-tab-content>
-          <div>
-            tab rules
-          </div>
-        </ark-tab-content>
-        <ark-tab-content>
-          <div>
-            tab schema
-          </div>
-        </ark-tab-content>
-        <ark-tab-content>
-          <div>
-            tab settings
-          </div>
-        </ark-tab-content>
-      </ark-tab-group>
+      @if (tabs) {
+        <ark-tab-group [titles]="tabs">
+          @for (tab of tabs; track $index; ) {
+            <ark-tab-content [title]="tab.title">
+              <div class="flex py-2 w-full border-b border-neutral-200 dark:border-neutral-700">
+                <ark-button (onClick)="newCondition($index)" label="{{'new condition' | transloco | capitalize}}"
+                            size="small" icon="featherPlus"></ark-button>
+              </div>
+              <div class="max-h-96 mt-2 py-2 px-2 overflow-auto">
+                @for (condition of getConditionControls($index); track condition) {
+                  <ark-text-input [formControl]="getChildFormControl(condition, 'type')"
+                                  label="{{'type' | transloco | capitalize}}"></ark-text-input>
+                  <ark-text-input [formControl]="getChildFormControl(condition, 'customCondition')"
+                                  label="{{'custom' | transloco | capitalize}}"></ark-text-input>
+                }
+              </div>
+            </ark-tab-content>
+          }
+        </ark-tab-group>
+      }
     </div>
     <div class="flex items-center p-2">
       <ark-button label="{{'create' | transloco | capitalize}}" size="small">

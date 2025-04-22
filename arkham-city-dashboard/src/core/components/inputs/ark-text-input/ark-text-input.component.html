@@ -8,14 +8,17 @@
     </label>
   }
   <div class="relative">
-    @if (!controlName) {
+    @if (formControl) {
       <input
-        [value]="value"
         type="{{ type }}"
+        [formControl]="getFormControl()"
         id="text-input-{{ label }}"
         name="text-input-{{ label }}"
-        class="block w-full sm:text-sm bg-neutral-200 dark:bg-neutral-700"
+        class="block w-full sm:text-sm border"
         [ngClass]="{
+          'bg-neutral-200 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-600': !invalid,
+          'bg-red-100 dark:bg-red-100 border-red-500':
+            invalid,
         'rounded-xs': rounded === 'small',
         'rounded-md': rounded === 'medium',
         'rounded-lg': rounded === 'large',
@@ -27,11 +30,10 @@
         placeholder="{{ placeholder }}"
         [disabled]="onLoading || enableDisabled()"
       />
-
-    } @else {
+    } @else if (formControlName) {
       <input
         type="{{ type }}"
-        [formControlName]="controlName"
+        [formControlName]="formControlName"
         id="text-input-{{ label }}"
         name="text-input-{{ label }}"
         class="block w-full sm:text-sm border"
@@ -39,6 +41,25 @@
           'bg-neutral-200 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-600': !invalid,
           'bg-red-100 dark:bg-red-100 border-red-500':
             invalid,
+        'rounded-xs': rounded === 'small',
+        'rounded-md': rounded === 'medium',
+        'rounded-lg': rounded === 'large',
+        'rounded-full': rounded === 'full',
+        'py-3 px-4': size ==='default',
+        'py-2 px-3': size ==='small',
+        'p-4 sm:p-5': size ==='large',
+        }"
+        placeholder="{{ placeholder }}"
+        [disabled]="onLoading || enableDisabled()"
+      />
+    } @else {
+      <input
+        [value]="value"
+        type="{{ type }}"
+        id="text-input-{{ label }}"
+        name="text-input-{{ label }}"
+        class="block w-full sm:text-sm bg-neutral-200 dark:bg-neutral-700"
+        [ngClass]="{
         'rounded-xs': rounded === 'small',
         'rounded-md': rounded === 'medium',
         'rounded-lg': rounded === 'large',

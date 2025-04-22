@@ -31,6 +31,7 @@ export class FormElement implements OnInit, OnDestroy {
   loadingService: LoadingService = inject(LoadingService);
 
   unsubscribeAll = new Subject<any>();
+
   ngOnInit(): void {
     this.loadingService.show$
       .pipe(takeUntil(this.unsubscribeAll))
@@ -39,13 +40,16 @@ export class FormElement implements OnInit, OnDestroy {
         this.changeDetectorRef.markForCheck();
       });
   }
+
   ngOnDestroy(): void {
     this.unsubscribeAll.next(null);
     this.unsubscribeAll.complete();
   }
+
   enableIgnoreLoading(): boolean {
     return (this.ignoreLoading || this.ignoreLoading === '') as boolean;
   }
+
   enableNoSuffixSpace(): boolean {
     return (this.noSuffixSpace || this.noSuffixSpace === '') as boolean;
   }

@@ -2,11 +2,11 @@
   <div class="w-full md:max-w-96">
     <form [formGroup]="form">
       <ark-text-input
-        controlName="name"
+        formControlName="name"
         label="{{ 'project name' | transloco | capitalize }}"
       ></ark-text-input>
       <ark-textarea
-        controlName="description"
+        formControlName="description"
         label="{{ 'project description' | transloco | capitalize }}"
       >
       </ark-textarea>

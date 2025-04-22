@@ -1,10 +1,13 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ContentChildren,
   Input,
+  OnChanges,
+  OnInit,
   QueryList,
-  ViewEncapsulation,
+  SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ArkIcon } from '../../icons/ark-icon/ark-icon.component';
@@ -23,16 +26,27 @@ export interface ArkTabTitle {
   imports: [CommonModule, ArkIcon],
   templateUrl: './ark-tab-group.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
 })
-export class ArkTabGroup extends FormControlElement {
+export class ArkTabGroup extends FormControlElement implements OnInit, AfterViewInit, OnChanges {
   @Input() titles!: ArkTabTitle[];
   @ContentChildren(ArkTabContent) tabs!: QueryList<ArkTabContent>;
   selectedIndex = 0;
 
+  override ngOnInit() {
+    super.ngOnInit();
+  }
+
   override ngAfterViewInit() {
     super.ngAfterViewInit();
     this.change(this.selectedIndex);
+    this.changeDetectorRef.markForCheck();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['titles'] && changes['titles'].currentValue && changes['tabs'] && changes['tabs'].currentValue) {
+      this.change(this.selectedIndex);
+      this.changeDetectorRef.markForCheck();
+    }
   }
 
   change(index: number) {
