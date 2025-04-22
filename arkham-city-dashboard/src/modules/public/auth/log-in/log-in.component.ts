@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ArkTextInput } from '../../../../core/components/inputs/ark-text-input/ark-text-input.component';
@@ -28,7 +28,7 @@ import { BaseFormComponent } from '../../../../core/components/base/base-form.co
   templateUrl: './log-in.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LogInComponent extends BaseFormComponent implements OnInit {
+export class LogInComponent extends BaseFormComponent {
   private authService: AuthService = inject(AuthService);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
