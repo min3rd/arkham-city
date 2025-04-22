@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-project',
+  selector: 'projects',
   imports: [CommonModule, RouterModule],
   templateUrl: './project.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

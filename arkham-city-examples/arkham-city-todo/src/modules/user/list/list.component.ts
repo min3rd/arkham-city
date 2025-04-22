@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-list',
+  selector: 'app-user-list',
   imports: [CommonModule, RouterModule, MatIconModule, MatButtonModule],
   templateUrl: './list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

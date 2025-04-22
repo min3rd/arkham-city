@@ -20,7 +20,7 @@ import { takeUntil } from 'rxjs';
 import { BaseFormComponent } from '../../../../../../core/components/base/base-form.component';
 
 @Component({
-  selector: 'project-firestore-rule-detail',
+  selector: 'projects-firestore-rules-detail',
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, ArkTextInput, ArkButton, TranslocoModule, CapitalizePipe, ArkTabGroup, ArkTabContent],
   templateUrl: './detail.component.html',
 })

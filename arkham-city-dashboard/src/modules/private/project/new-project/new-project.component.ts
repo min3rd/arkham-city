@@ -10,7 +10,7 @@ import { ProjectService } from '../project.service';
 import { BaseFormComponent } from '../../../../core/components/base/base-form.component';
 
 @Component({
-  selector: 'app-new-project',
+  selector: 'projects-new-project',
   imports: [
     CommonModule,
     FormsModule,

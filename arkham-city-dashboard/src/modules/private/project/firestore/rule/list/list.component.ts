@@ -11,7 +11,7 @@ import {
 import { ArkDrawer } from '../../../../../../core/components/drawers/ark-drawer/ark-drawer.component';
 
 @Component({
-  selector: 'project-firestore-rule-list',
+  selector: 'projects-firestore-rules-list',
   imports: [CommonModule, RouterModule, TranslocoModule, ArkDrawerContainer, ArkDrawerContent, ArkDrawer],
   templateUrl: './list.component.html',
 })
