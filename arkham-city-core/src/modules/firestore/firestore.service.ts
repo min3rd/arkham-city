@@ -17,6 +17,10 @@ import moment, { ISO_8601 } from 'moment';
 import mongoose, { Connection, SchemaTypes } from 'mongoose';
 import { ConfigService } from '@nestjs/config';
 import { DatabaseService } from '../database/database.service';
+import {
+  RuleConditionType,
+  RuleType,
+} from './firestore-rule/firestore-rule.types';
 
 @Injectable()
 export class FirestoreService {
@@ -391,5 +395,19 @@ export class FirestoreService {
 
   getSafeSchemaName(schemaName: string) {
     return `firestore-${schemaName.toLowerCase().replaceAll(this.unsafeRegex, '-')}`;
+  }
+
+  getAllRuleTypes() {
+    this.logger.log(`getAllRuleTypes:start`);
+    const keys = Object.keys(RuleType);
+    this.logger.log(`getAllRuleTypes:end`);
+    return new GoodResponse(keys);
+  }
+
+  getAllRuleConditionTypes() {
+    this.logger.log(`getAllRuleConditionTypes:start`);
+    const keys = Object.keys(RuleConditionType);
+    this.logger.log(`getAllRuleConditionTypes:end`);
+    return new GoodResponse(keys);
   }
 }

@@ -16,20 +16,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         function linkToPrism(event) {
-            var targetLine = event.target.getAttribute('data-line');
-            event.preventDefault();
+          var targetLine = event.target.getAttribute('data-line');
+          event.preventDefault();
 
-            $prismPre.setAttribute('data-line', targetLine);
-            Prism.highlightElement($prismCode, function() {});
+          $prismPre.setAttribute('data-line', targetLine);
+          Prism.highlightElement($prismCode, function () {});
 
-            $tabSource.click();
+          $tabSource.click();
 
-            setTimeout(function() {
-                var $prismHighlightLine = document.querySelector('.line-highlight'),
-                    top = parseInt(getComputedStyle($prismHighlightLine)['top']);
-                $content.scrollTop = top;
-            }, 500);
-        };
+          setTimeout(function () {
+            var $prismHighlightLine = document.querySelector('.line-highlight'),
+              top = parseInt(getComputedStyle($prismHighlightLine)['top']);
+            $content.scrollTop = top;
+          }, 500);
+        }
 
         window.onhashchange = function(event) {
             switch (window.location.hash) {
