@@ -1,7 +1,7 @@
 <div class="md:min-w-96">
   <form [formGroup]="form" (onSubmit)="onLogIn()">
     <ark-text-input
-      controlName="email"
+      formControlName="email"
       type="email"
       label="{{ 'Email' | transloco }}"
       placeholder="email@domain.com"
@@ -18,7 +18,7 @@
       </ng-template>
     </ark-text-input>
     <ark-text-input
-      controlName="password"
+      formControlName="password"
       type="password"
       label="{{ 'Password' | transloco }}"
       placeholder="********"
@@ -26,7 +26,7 @@
     ></ark-text-input>
     <div class="flex items-center justify-between pb-3">
       <ark-checkbox
-        controlName="rememberMe"
+        formControlName="rememberMe"
         label="{{ 'Remember me' | transloco }}"
       ></ark-checkbox>
       <ark-button

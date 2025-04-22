@@ -8,9 +8,9 @@
   </label>
   }
   <div class="relative">
-    @if (controlName) {
+    @if (formControlName) {
     <select
-      [formControlName]="controlName"
+      [formControlName]="formControlName"
       (change)="change($event)"
       id="select-{{ label ? label : '' }}"
       class="block w-full rounded-lg text-sm bg-neutral-200 border border-neutral-200 dark:text-white dark:bg-neutral-700 dark:border-neutral-700 hover:cursor-pointer"

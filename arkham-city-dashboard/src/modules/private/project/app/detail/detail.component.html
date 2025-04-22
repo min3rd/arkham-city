@@ -1,12 +1,12 @@
 <div class="w-full md:w-96 p-2">
   <form [formGroup]="form">
     <ark-text-input
-      controlName="name"
+      formControlName="name"
       label="{{ 'app name' | transloco | capitalize }}"
     >
     </ark-text-input>
     <ark-select
-      controlName="type"
+      formControlName="type"
       label="{{ 'type' | transloco | capitalize }}"
     >
       <ng-template #options>
@@ -19,12 +19,12 @@
       </ng-template>
     </ark-select>
     <ark-text-input
-      controlName="callback"
+      formControlName="callback"
       label="{{ 'callback url' | transloco | capitalize }}"
     >
     </ark-text-input>
     <ark-textarea
-      controlName="description"
+      formControlName="description"
       label="{{ 'description' | transloco | capitalize }}"
     ></ark-textarea>
 
