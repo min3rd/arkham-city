@@ -18,10 +18,11 @@ import { ArkTabContent } from '../../../../../../core/components/tabs/ark-tab-co
 import { RuleService } from '../rule.service';
 import { takeUntil } from 'rxjs';
 import { BaseFormComponent } from '../../../../../../core/components/base/base-form.component';
+import { ArkSelect } from '../../../../../../core/components/selects/ark-select/ark-select.component';
 
 @Component({
   selector: 'projects-firestore-rules-detail',
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, ArkTextInput, ArkButton, TranslocoModule, CapitalizePipe, ArkTabGroup, ArkTabContent],
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, ArkTextInput, ArkButton, TranslocoModule, CapitalizePipe, ArkTabGroup, ArkTabContent, ArkSelect],
   templateUrl: './detail.component.html',
 })
 export class DetailComponent extends BaseFormComponent {
@@ -73,5 +74,9 @@ export class DetailComponent extends BaseFormComponent {
 
   getChildFormControl(control: AbstractControl, name: string) {
     return control.get(name) as FormControl;
+  }
+
+  create() {
+    console.log(this.form.getRawValue());
   }
 }

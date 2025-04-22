@@ -15,8 +15,17 @@
               </div>
               <div class="max-h-96 mt-2 py-2 px-2 overflow-auto">
                 @for (condition of getConditionControls($index); track condition) {
-                  <ark-text-input [formControl]="getChildFormControl(condition, 'type')"
-                                  label="{{'type' | transloco | capitalize}}"></ark-text-input>
+                  <ark-select [formControl]="getChildFormControl(condition, 'type')"
+                              label="{{'type' | transloco | capitalize}}">
+                    <ng-template #options>
+                      <option value="" disabled selected>
+                        {{ 'choose' | transloco | capitalize }}
+                      </option>
+                      @for (type of ruleConditionTypes; track type) {
+                        <option value="{{type}}">{{ type | transloco | capitalize }}</option>
+                      }
+                    </ng-template>
+                  </ark-select>
                   <ark-text-input [formControl]="getChildFormControl(condition, 'customCondition')"
                                   label="{{'custom' | transloco | capitalize}}"></ark-text-input>
                 }
@@ -27,7 +36,7 @@
       }
     </div>
     <div class="flex items-center p-2">
-      <ark-button label="{{'create' | transloco | capitalize}}" size="small">
+      <ark-button (onClick)="create()" label="{{'create' | transloco | capitalize}}" size="small">
       </ark-button>
     </div>
   </form>
