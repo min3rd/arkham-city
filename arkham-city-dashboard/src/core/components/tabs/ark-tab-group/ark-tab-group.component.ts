@@ -1,14 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ContentChildren,
-  Input,
-  OnChanges,
-  OnInit,
-  QueryList,
-  SimpleChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChildren, Input, QueryList, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ArkIcon } from '../../icons/ark-icon/ark-icon.component';
 import { FormControlElement } from '../../base/form-control-element/form-control-element.component';
@@ -27,7 +17,7 @@ export interface ArkTabTitle {
   templateUrl: './ark-tab-group.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ArkTabGroup extends FormControlElement implements OnInit, AfterViewInit, OnChanges {
+export class ArkTabGroup extends FormControlElement {
   @Input() titles!: ArkTabTitle[];
   @ContentChildren(ArkTabContent) tabs!: QueryList<ArkTabContent>;
   selectedIndex = 0;
