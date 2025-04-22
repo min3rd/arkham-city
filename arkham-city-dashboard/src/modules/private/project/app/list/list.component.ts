@@ -15,7 +15,7 @@ import {
 import { BaseFormComponent } from '../../../../../core/components/base/base-form.component';
 
 @Component({
-  selector: 'app-list',
+  selector: 'projects-apps-list',
   imports: [
     CommonModule,
     RouterModule,
