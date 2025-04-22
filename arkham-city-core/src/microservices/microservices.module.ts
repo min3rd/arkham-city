@@ -43,6 +43,5 @@ import { MsWebsdkModule } from './ms-websdk/ms-websdk.module';
     MsFirestoreModule,
     MsWebsdkModule,
   ],
-  controllers: [],
 })
 export class MicroservicesModule {}
