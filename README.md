@@ -1,94 +1,73 @@
+# Arkham City Deployment
 
-# Arkham City (Firebase Alternative Open-Source)
-*The baddest city will be leaded by the modernest technology*
+This repository contains Docker configuration files for deploying the Arkham City application stack.
 
-## Mindset design
-![alt](/docs/images/Main%20Structure.drawio.png)
+## Components
 
-## Project structure
+The deployment consists of the following components:
 
-```
-arkham-city
-|-- arkham-city-core (All API come from here)
-  |-- gateway (API endpoint)
-  |-- microservice (message broker subscriber)
-  |-- modules (all services)
-|-- arkham-city-dashboard (Dashboard web application base on angular 19)
-(still on working)
-```
+1. **Gateway Service**: A NestJS application that serves as the API gateway.
+2. **Microservices**: Three instances of the NestJS application running in microservice mode.
+3. **Dashboard**: An Angular web application for the user interface.
+4. **Nginx**: A web server that serves the dashboard and routes API requests to the gateway.
+5. **MongoDB**: A database for storing application data.
+6. **Redis**: A message broker for communication between services.
 
-## Arkham City Core
+## Deployment Instructions
 
-Place
-```bash
-cd arkham-city
+### Prerequisites
 
-# run redis and mongo
-docker compose -f docker-compose-dev.yml
+- Docker and Docker Compose installed on your system
+- Git repository cloned to your local machine
 
-cd arkham-city/arkham-city-core
-```
+### Steps to Deploy
 
-Development enviroment
-```
-Nodejs >= 18
-Docker
-```
-
-Setup
-```bash
-npm i
-```
-
-Before start develope
+1. Build and start all services:
 
 ```bash
-# create .env
-cp .env.example .env
+docker-compose up -d
 ```
 
-Compile and run the project
+2. To view logs from all services:
+
 ```bash
-# development
-npm run start
-
-# hot reload
-npm run start:dev
-
-# debug
-npm run start:debug
-
-# run on production mode
-npm run start:production
+docker-compose logs -f
 ```
 
-Run tests
+3. To view logs from a specific service:
+
 ```bash
-npm run test
+docker-compose logs -f <service-name>
 ```
 
-API handle flow
+Where `<service-name>` can be one of: `gateway`, `microservice1`, `microservice2`, `microservice3`, `dashboard`,
+`nginx`, `mongo`, `redis`.
 
-![alt](/docs/images/Main%20Structure-API%20handle.drawio.png)
+### Accessing the Application
 
-Notice:
-- We use response interceptor to format all response to template, so we no need do format in service or controller, just focus into bussiness process
-    ```json
-    {
-        "error": false,
-        "timestamp": "2025-03-16T08:29:22.730Z",
-        "data" : {}
-    }
-    ```
-- It may be hard to understand how microservice working, but we can simplize that: we have more than 1 microservice which subscribe message "A", when a service call help by message "A" then 1 of which subscribed can do process and return the output. Just imagine, that will make sence when our system become bigger than google, and that is the way we can deploy our system.
+- **Dashboard**: Access the web dashboard at http://localhost/
+- **API**: Access the API directly at http://localhost:3000/ or through Nginx at http://localhost/api/
 
-## Arkham City Dashboard (on working)
+## Architecture
 
-Figma design
+- The **Gateway Service** handles HTTP API requests and communicates with microservices via Redis.
+- The **Microservices** process tasks asynchronously, communicating via Redis.
+- The **Dashboard** provides a web interface for users.
+- **Nginx** serves the dashboard and routes API requests to the gateway.
+- **MongoDB** stores application data in two databases: metadata and firestore.
+- **Redis** serves as a message broker for communication between services.
 
-```link
-https://www.figma.com/design/nA2SZouWXs0g1S9FvQCU4O/Arkham-City-Dashboard?node-id=220802-40276&t=jVRWiCPA0gHjynXk-1
+## Configuration
+
+The services are configured using environment variables defined in the docker-compose.yml file. You can modify these
+variables to customize the deployment.
+
+## Scaling
+
+To scale the number of microservice instances:
+
+```bash
+docker-compose up -d --scale microservice1=3 --scale microservice2=3 --scale microservice3=3
 ```
 
-## Author
-1. Vũ Văn Minh [Github](https://github.com/min3rd) [Facebook](https://fb.com/min3rd)
+This will start 3 instances of each microservice type.
