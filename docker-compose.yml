@@ -116,7 +116,7 @@ services:
       dockerfile: Dockerfile
     container_name: dashboard
     expose:
-      - 80
+      - 8181
     networks:
       - arkham_network
 

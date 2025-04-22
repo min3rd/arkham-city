@@ -21,8 +21,11 @@ FROM nginx:alpine
 # Copy the build output to replace the default nginx contents
 COPY --from=build /app/dist/arkham-city-dashboard /usr/share/nginx/html
 
-# Expose port 80
-EXPOSE 80
+# Expose port 8181
+EXPOSE 8181
+
+# Copy custom nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
