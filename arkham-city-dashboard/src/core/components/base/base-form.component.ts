@@ -5,12 +5,12 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'base-component',
+  selector: 'base-form-component',
   imports: [CommonModule],
   template: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BaseComponent implements OnInit, OnDestroy {
+export class BaseFormComponent implements OnInit, OnDestroy {
   form!: UntypedFormGroup;
   formBuilder: UntypedFormBuilder = inject(UntypedFormBuilder);
   changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);

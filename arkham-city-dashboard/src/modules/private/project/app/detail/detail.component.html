@@ -29,45 +29,45 @@
     ></ark-textarea>
 
     @if (app) {
-    <ark-text-input
-      [value]="project?._id"
-      label="{{ 'project id' | transloco | capitalize }}"
-      disabled
-      placeholder="{{ '32*' | transloco | capitalize }}"
-      class="w-full"
-    >
-    </ark-text-input>
-
-    <ark-text-input
-      [value]="app._id"
-      label="{{ 'app id' | transloco | capitalize }}"
-      disabled
-      placeholder="{{ '32*' | transloco | capitalize }}"
-      class="w-full"
-    >
-    </ark-text-input>
-    <div class="flex items-center gap-2">
       <ark-text-input
-        [value]="secret ?? '32*' | transloco"
-        label="{{ 'secret key' | transloco | capitalize }}"
+        [value]="project?._id"
+        label="{{ 'project id' | transloco | capitalize }}"
         disabled
         placeholder="{{ '32*' | transloco | capitalize }}"
         class="w-full"
       >
       </ark-text-input>
-      <ark-button (onClick)="getSecret()" icon="featherEye" ghost></ark-button>
-    </div>
+
+      <ark-text-input
+        [value]="app._id"
+        label="{{ 'app id' | transloco | capitalize }}"
+        disabled
+        placeholder="{{ '32*' | transloco | capitalize }}"
+        class="w-full"
+      >
+      </ark-text-input>
+      <div class="flex items-center gap-2">
+        <ark-text-input
+          [value]="secret ?? '32*' | transloco"
+          label="{{ 'secret key' | transloco | capitalize }}"
+          disabled
+          placeholder="{{ '32*' | transloco | capitalize }}"
+          class="w-full"
+        >
+        </ark-text-input>
+        <ark-button (onClick)="getSecret()" icon="featherEye" ghost></ark-button>
+      </div>
     }
 
     <div class="flex items-center justify-end gap-2">
       @if (app) {
-      <ark-button
-        (onClick)="delete()"
-        class="mr-auto"
-        label="{{ 'delete' | transloco | capitalize }}"
-        ghost
-        color="red"
-      ></ark-button>
+        <ark-button
+          (onClick)="delete()"
+          class="mr-auto"
+          label="{{ 'delete' | transloco | capitalize }}"
+          ghost
+          color="red"
+        ></ark-button>
       }
       <ark-button
         [routerLink]="['../']"
@@ -75,15 +75,16 @@
         ghost
       ></ark-button>
       @if (!this.app) {
-      <ark-button
-        (onClick)="create()"
-        label="{{ 'create' | transloco | capitalize }}"
-      ></ark-button>
-      } @if (app) {
-      <ark-button
-        (onClick)="update()"
-        label="{{ 'update' | transloco | capitalize }}"
-      ></ark-button>
+        <ark-button
+          (onClick)="create()"
+          label="{{ 'create' | transloco | capitalize }}"
+        ></ark-button>
+      }
+      @if (app) {
+        <ark-button
+          (onClick)="update()"
+          label="{{ 'update' | transloco | capitalize }}"
+        ></ark-button>
       }
     </div>
   </form>

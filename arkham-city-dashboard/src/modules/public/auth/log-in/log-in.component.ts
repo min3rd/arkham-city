@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  OnInit,
-} from '@angular/core';
-import { BaseComponent } from '../../../../core/components/base/base.component';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ArkTextInput } from '../../../../core/components/inputs/ark-text-input/ark-text-input.component';
@@ -15,6 +9,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CapitalizePipe } from '../../../../core/pipe/capitalize.pipe';
+import { BaseFormComponent } from '../../../../core/components/base/base-form.component';
 
 @Component({
   selector: 'app-login',
@@ -33,9 +28,10 @@ import { CapitalizePipe } from '../../../../core/pipe/capitalize.pipe';
   templateUrl: './log-in.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LogInComponent extends BaseComponent implements OnInit {
+export class LogInComponent extends BaseFormComponent implements OnInit {
   private authService: AuthService = inject(AuthService);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+
   override ngOnInit(): void {
     this.form = this.formBuilder.group({
       email: ['email@domain.com', [Validators.required, Validators.email]],
@@ -43,6 +39,7 @@ export class LogInComponent extends BaseComponent implements OnInit {
       rememberMe: [false],
     });
   }
+
   onLogIn() {
     if (this.form.invalid) {
       return;

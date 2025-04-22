@@ -1,19 +1,18 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, ViewChild } from '@angular/core';
 import { AppResDto } from '../app.types';
-import { BaseComponent } from '../../../../../core/components/base/base.component';
 import { AppService } from '../app.service';
 import { takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
-import { ArkDrawerContainer } from '../../../../../core/components/drawers/ark-drawer-container/ark-drawer-container.component';
+import {
+  ArkDrawerContainer,
+} from '../../../../../core/components/drawers/ark-drawer-container/ark-drawer-container.component';
 import { ArkDrawer } from '../../../../../core/components/drawers/ark-drawer/ark-drawer.component';
-import { ArkDrawerContent } from '../../../../../core/components/drawers/ark-drawer-content/ark-drawer-content.component';
+import {
+  ArkDrawerContent,
+} from '../../../../../core/components/drawers/ark-drawer-content/ark-drawer-content.component';
+import { BaseFormComponent } from '../../../../../core/components/base/base-form.component';
 
 @Component({
   selector: 'app-list',
@@ -28,12 +27,13 @@ import { ArkDrawerContent } from '../../../../../core/components/drawers/ark-dra
   templateUrl: './list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListComponent extends BaseComponent {
+export class ListComponent extends BaseFormComponent {
   apps!: AppResDto[] | null;
   selected!: AppResDto | null;
 
   @ViewChild('drawer', { static: true }) drawer!: ArkDrawer;
   private appService: AppService = inject(AppService);
+
   override ngOnInit(): void {
     super.ngOnInit();
     this.appService.apps$

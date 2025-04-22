@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { BaseComponent } from '../../../../../core/components/base/base.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ArkTextInput } from '../../../../../core/components/inputs/ark-text-input/ark-text-input.component';
@@ -15,6 +14,7 @@ import { ProjectService } from '../../project.service';
 import { RouterModule } from '@angular/router';
 import { ListComponent } from '../list/list.component';
 import { ProjectResDto } from '../../project.types';
+import { BaseFormComponent } from '../../../../../core/components/base/base-form.component';
 
 @Component({
   selector: 'app-detail',
@@ -33,13 +33,14 @@ import { ProjectResDto } from '../../project.types';
   templateUrl: './detail.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DetailComponent extends BaseComponent {
+export class DetailComponent extends BaseFormComponent {
   app!: AppResDto | null;
   project!: ProjectResDto | null;
   secret!: string | null;
   private appService: AppService = inject(AppService);
   private projectService: ProjectService = inject(ProjectService);
   private listComponent: ListComponent = inject(ListComponent);
+
   override ngOnInit(): void {
     super.ngOnInit();
     this.listComponent.drawer.open();
@@ -75,9 +76,11 @@ export class DetailComponent extends BaseComponent {
         this.changeDetectorRef.markForCheck();
       });
   }
+
   closeDrawer() {
     this.listComponent.drawer.close();
   }
+
   create() {
     if (this.form.invalid) {
       return;
@@ -118,6 +121,7 @@ export class DetailComponent extends BaseComponent {
     }
     this.appService.getSecret(this.project._id, this.app._id).subscribe();
   }
+
   delete() {
     if (!this.project) {
       return;

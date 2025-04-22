@@ -37,6 +37,7 @@ export class FormControlElement extends FormElement implements AfterViewInit {
 
   @ViewChild(FormControlName)
   _formControl!: FormControl;
+
   @ContentChild('errors') errors!: TemplateRef<any>;
   invalid = false;
 

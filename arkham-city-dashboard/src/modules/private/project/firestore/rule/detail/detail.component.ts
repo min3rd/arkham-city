@@ -1,5 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { BaseComponent } from '../../../../../../core/components/base/base.component';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -18,13 +17,14 @@ import { ArkTabGroup, ArkTabTitle } from '../../../../../../core/components/tabs
 import { ArkTabContent } from '../../../../../../core/components/tabs/ark-tab-content/ark-tab-content.component';
 import { RuleService } from '../rule.service';
 import { takeUntil } from 'rxjs';
+import { BaseFormComponent } from '../../../../../../core/components/base/base-form.component';
 
 @Component({
   selector: 'project-firestore-rule-detail',
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, ArkTextInput, ArkButton, TranslocoModule, CapitalizePipe, ArkTabGroup, ArkTabContent],
   templateUrl: './detail.component.html',
 })
-export class DetailComponent extends BaseComponent implements OnInit, OnDestroy {
+export class DetailComponent extends BaseFormComponent {
   tabs!: ArkTabTitle[] | undefined;
   ruleConditionTypes!: string[] | null;
   private ruleService = inject(RuleService);
@@ -63,6 +63,7 @@ export class DetailComponent extends BaseComponent implements OnInit, OnDestroy 
       type: ['', [Validators.required]],
       customCondition: ['', [Validators.required]],
     }));
+    this.changeDetectorRef.markForCheck();
   }
 
   getConditionControls(index: number) {
