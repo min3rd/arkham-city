@@ -11,6 +11,8 @@ import { ConfigService } from '../../../../../core/services/config.service';
 export class RuleService {
   private _rules: BehaviorSubject<RuleResDto[] | null> = new BehaviorSubject<RuleResDto[] | null>(null);
   private _rule: BehaviorSubject<RuleResDto | null> = new BehaviorSubject<RuleResDto | null>(null);
+  private _ruleTypes: BehaviorSubject<string[] | null> = new BehaviorSubject<string[] | null>(null);
+  private _ruleConditionTypes: BehaviorSubject<string[] | null> = new BehaviorSubject<string[] | null>(null);
   private httpClient: HttpClient = inject(HttpClient);
   private configService: ConfigService = inject(ConfigService);
 
@@ -20,6 +22,14 @@ export class RuleService {
 
   get rule$(): Observable<RuleResDto | null> {
     return this._rule.asObservable();
+  }
+
+  get ruleTypes$(): Observable<string[] | null> {
+    return this._ruleTypes.asObservable();
+  }
+
+  get ruleConditionTypes$(): Observable<string[] | null> {
+    return this._ruleConditionTypes.asObservable();
   }
 
   all(projectId: string): Observable<ApiResponse<RuleResDto[]>> {
@@ -77,5 +87,19 @@ export class RuleService {
 
   reset(): void {
     this._rule.next(null);
+  }
+
+  getAllRuleTypes(): Observable<ApiResponse<string[]>> {
+    return this.httpClient.get<ApiResponse<string[]>>(this.configService.endpoint('/firestore/rules')).pipe(switchMap(response => {
+      this._ruleTypes.next(response.data);
+      return of(response);
+    }));
+  }
+
+  getAllRuleConditionTypes(): Observable<ApiResponse<string[]>> {
+    return this.httpClient.get<ApiResponse<string[]>>(this.configService.endpoint('/firestore/conditions')).pipe(switchMap(response => {
+      this._ruleConditionTypes.next(response.data);
+      return of(response);
+    }));
   }
 }
