@@ -4,7 +4,7 @@ import {
 } from '../../../../modules/firestore/firestore-rule/firestore-rule.types';
 
 export interface GwProjectFirestoreRuleConditionDto {
-  type: RuleConditionType;
+  condition: RuleConditionType;
   customCondition: string;
 }
 
