@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
-  Input,
-  OnDestroy,
-  type OnInit,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input, OnDestroy, type OnInit } from '@angular/core';
 import { ControlContainer, FormGroupDirective } from '@angular/forms';
 import { LoadingService } from '../../../services/loading/loading.service';
 import { Subject, takeUntil } from 'rxjs';
@@ -15,7 +7,6 @@ import { Subject, takeUntil } from 'rxjs';
   selector: 'form-element',
   imports: [],
   template: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [
     {
       provide: ControlContainer,

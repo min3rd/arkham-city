@@ -1,12 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ContentChild,
-  Input,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { AfterContentInit, Component, ContentChild, Input, QueryList, TemplateRef, ViewChildren } from '@angular/core';
 import { FormElement } from '../form-element/form-element.component';
 import { AbstractControl, ControlContainer, FormControl, FormControlName, FormGroupDirective } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -15,7 +7,6 @@ import { CommonModule } from '@angular/common';
   selector: 'form-control-element',
   imports: [CommonModule],
   template: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [
     {
       provide: ControlContainer,
@@ -23,7 +14,7 @@ import { CommonModule } from '@angular/common';
     },
   ],
 })
-export class FormControlElement extends FormElement implements AfterViewInit {
+export class FormControlElement extends FormElement implements AfterContentInit {
   @Input() formControlName!: string;
   @Input() formControl!: AbstractControl | null;
   @Input() placeholder!: string;
@@ -35,17 +26,18 @@ export class FormControlElement extends FormElement implements AfterViewInit {
   @Input() size: 'default' | 'small' | 'large' = 'default';
   @Input() disabled: boolean | string = false;
 
-  @ViewChild(FormControlName)
-  _formControl!: FormControl;
+  @ViewChildren(FormControlName)
+  _formControls!: QueryList<FormControl>;
 
   @ContentChild('errors') errors!: TemplateRef<any>;
   invalid = false;
 
-  ngAfterViewInit(): void {
-    if (this._formControl) {
-      this._formControl.statusChanges.subscribe(() => {
-        this.invalid = this._formControl.invalid;
-        this.changeDetectorRef.markForCheck();
+  ngAfterContentInit(): void {
+    if (this._formControls) {
+      this._formControls.forEach((control) => {
+        control.valueChanges.subscribe(() => {
+          this.invalid = control.invalid;
+        });
       });
     }
   }

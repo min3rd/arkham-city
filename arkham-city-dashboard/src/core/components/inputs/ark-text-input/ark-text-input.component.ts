@@ -1,19 +1,31 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ControlContainer, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, forwardRef, Input } from '@angular/core';
+import {
+  ControlContainer,
+  FormGroupDirective,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { FormControlElement } from '../../base/form-control-element/form-control-element.component';
 
 @Component({
   selector: 'ark-text-input',
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './ark-text-input.component.html',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ArkTextInput),
+      multi: true,
+    },
+  ],
   viewProviders: [
     {
       provide: ControlContainer,
       useExisting: FormGroupDirective,
     },
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArkTextInput extends FormControlElement {
   @Input() type!: string;

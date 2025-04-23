@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Output, TemplateRef } from '@angular/core';
+import { Component, ContentChild, EventEmitter, Output, TemplateRef } from '@angular/core';
 import { ControlContainer, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormControlElement } from '../../base/form-control-element/form-control-element.component';
 
@@ -13,7 +13,6 @@ import { FormControlElement } from '../../base/form-control-element/form-control
       useExisting: FormGroupDirective,
     },
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArkSelect extends FormControlElement {
   @ContentChild('options') options!: TemplateRef<any>;
