@@ -102,16 +102,23 @@ export class FirestoreRuleService {
     return new GoodResponse(rawRule.toJSON());
   }
 
-  async getRawRule(projectId: string, ruleId: string) {
-    this.logger.log('getRawRule:start', projectId, ruleId);
+  async getRawRule(projectId: string, schema: string) {
+    this.logger.log('getRawRule:start', projectId, schema);
     const connection = this.dataService.createProjectConnection(projectId);
     const _RawRuleModel = connection.model(RawRule.name, RawRuleSchema);
-    const rawRule = await _RawRuleModel.findById(ruleId);
-    if (!rawRule) {
+    const rawRules = await _RawRuleModel.find({ schema: schema });
+    if (!rawRules) {
       return new BadResponse(Errors.PROJECT_FIRESTORE_RULE_COULD_NOT_FOUND);
     }
-    this.logger.log('getRawRule:end', rawRule);
-    return new GoodResponse(rawRule.toJSON());
+    this.logger.log('getRawRule:end', rawRules);
+    return new GoodResponse({
+      schema: rawRules[0].schema,
+      rules: rawRules.map((rule) => ({
+        _id: rule._id,
+        type: rule.type,
+        conditions: rule.conditions,
+      })),
+    });
   }
 
   async getRawRules(projectId: string) {
