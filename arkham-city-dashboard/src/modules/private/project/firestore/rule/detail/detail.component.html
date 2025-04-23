@@ -22,8 +22,8 @@
               <div class="max-h-96 mt-2 py-2 px-2 overflow-auto">
                 @for (condition of getConditionControls($index); track condition) {
                   <ark-select
-                    [formFieldControl]="condition.get('type')"
-                    label="{{'type' | transloco | capitalize}}">
+                    [formFieldControl]="condition.get('condition')"
+                    label="{{'condition' | transloco | capitalize}}">
                     <ng-template #options>
                       <option value="" disabled selected>
                         {{ 'choose' | transloco | capitalize }}
@@ -45,10 +45,37 @@
     </div>
     <div class="flex items-center p-2">
       <ark-button
-        (onClick)="create()"
-        label="{{'create' | transloco | capitalize}}"
+        color="red"
+        ghost
+        label="{{'delete' | transloco | capitalize}}"
         size="sm">
       </ark-button>
+      <ark-button
+        [routerLink]="['..']"
+        class="ml-auto"
+        ghost
+        label="{{'cancel' | transloco | capitalize}}"
+        size="sm"
+      >
+      </ark-button>
+      @if (!schemaRule) {
+        <ark-button
+          (onClick)="create()"
+          label="{{'create' | transloco | capitalize}}"
+          size="sm"
+          class="ml-2"
+        >
+        </ark-button>
+      }
+      @if (schemaRule) {
+        <ark-button
+          (onClick)="update()"
+          label="{{'update' | transloco | capitalize}}"
+          size="sm"
+          class="ml-2"
+        >
+        </ark-button>
+      }
     </div>
   </form>
 </div>

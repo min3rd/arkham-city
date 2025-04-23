@@ -5,7 +5,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { BaseListComponent } from '../../../../../../core/components/base/base-list/base-list.component';
 import { RuleService } from '../rule.service';
 import { takeUntil } from 'rxjs';
-import { GetAllRuleResDto } from '../rule.types';
+import { SchemaRuleResDto } from '../rule.types';
 import { ArkBadge } from '../../../../../../core/components/badges/ark-badge/ark-badge.component';
 
 @Component({
@@ -14,7 +14,7 @@ import { ArkBadge } from '../../../../../../core/components/badges/ark-badge/ark
   templateUrl: './list.component.html',
 })
 export class ListComponent extends BaseListComponent {
-  rules!: GetAllRuleResDto[] | null;
+  rules!: SchemaRuleResDto[] | null;
   private rulteService = inject(RuleService);
 
   override ngOnInit() {

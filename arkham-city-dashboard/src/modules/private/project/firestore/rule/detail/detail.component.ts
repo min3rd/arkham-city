@@ -14,6 +14,7 @@ import { BaseFormComponent } from '../../../../../../core/components/base/base-f
 import { ArkSelect } from '../../../../../../core/components/selects/ark-select/ark-select.component';
 import { ProjectResDto } from '../../../project.types';
 import { ProjectService } from '../../../project.service';
+import { SchemaRuleResDto } from '../rule.types';
 
 @Component({
   selector: 'projects-firestore-rules-detail',
@@ -24,6 +25,7 @@ export class DetailComponent extends BaseFormComponent {
   tabs!: ArkTabTitle[] | undefined;
   ruleConditionTypes!: string[] | null;
   project!: ProjectResDto | null;
+  schemaRule!: SchemaRuleResDto | null;
   private ruleService = inject(RuleService);
   private projectService = inject(ProjectService);
 
@@ -43,6 +45,22 @@ export class DetailComponent extends BaseFormComponent {
     this.projectService.project$.pipe(takeUntil(this.unsubscribeAll)).subscribe(project => {
       this.project = project;
       this.changeDetectorRef.markForCheck();
+    });
+
+    this.ruleService.rule$.pipe(takeUntil(this.unsubscribeAll)).subscribe(rule => {
+      this.schemaRule = rule;
+      if (rule) {
+        this.newForm();
+        if (rule.rules && rule.rules.length > 0) {
+          for (const _ of rule.rules) {
+            const index = this.tabs?.findIndex(e => e.id === _.type);
+            if (index !== undefined && index !== null && index >= 0) {
+              this.newCondition(index);
+            }
+          }
+        }
+        this.form.patchValue(rule);
+      }
     });
   }
 
@@ -65,7 +83,7 @@ export class DetailComponent extends BaseFormComponent {
   newCondition(index: number) {
     const conditions = ((this.form.get('rules') as FormArray).at(index) as FormGroup).get('conditions') as FormArray;
     conditions.push(this.formBuilder.group({
-      type: ['', [Validators.required]],
+      condition: ['', [Validators.required]],
       customCondition: [''],
     }));
     this.changeDetectorRef.markForCheck();
@@ -86,5 +104,9 @@ export class DetailComponent extends BaseFormComponent {
     this.ruleService.create(this.project._id, this.form.getRawValue()).subscribe(res => {
       console.log(res);
     });
+  }
+
+  update() {
+
   }
 }

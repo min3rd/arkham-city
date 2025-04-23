@@ -18,7 +18,7 @@ export interface RuleResDto {
   conditions?: RuleConditionResDto[];
 }
 
-export interface GetAllRuleResDto {
+export interface SchemaRuleResDto {
   _id: string;
   schema?: string;
   rules?: RuleResDto[];
