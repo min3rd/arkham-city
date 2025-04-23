@@ -39,7 +39,7 @@ export class MsProjectFirestoreRuleController {
   getRule(@Payload() payload: MsGetProjectFirestoreRuleReqPayload) {
     return this.firestoreRuleService.getRawRule(
       payload.projectId,
-      payload.ruleId,
+      payload.schema,
     );
   }
 

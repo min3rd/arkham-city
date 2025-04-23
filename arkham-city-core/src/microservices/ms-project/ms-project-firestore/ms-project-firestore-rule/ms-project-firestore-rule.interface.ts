@@ -38,7 +38,7 @@ export interface MsDeleteProjectFirestoreRuleReqPayload {
 export interface MsGetProjectFirestoreRuleReqPayload {
   user: JWTPayload;
   projectId: string;
-  ruleId: string;
+  schema: string;
 }
 
 export interface MsGetAllProjectFirestoreRulesReqPayload {
