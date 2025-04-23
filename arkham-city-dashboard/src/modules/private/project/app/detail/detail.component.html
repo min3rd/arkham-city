@@ -1,12 +1,12 @@
 <div class="w-full md:w-96 p-2">
   <form [formGroup]="form">
     <ark-text-input
-      formControlName="name"
+      [formFieldControl]="form.get('name')"
       label="{{ 'app name' | transloco | capitalize }}"
     >
     </ark-text-input>
     <ark-select
-      formControlName="type"
+      [formFieldControl]="form.get('type')"
       label="{{ 'type' | transloco | capitalize }}"
     >
       <ng-template #options>
@@ -19,18 +19,18 @@
       </ng-template>
     </ark-select>
     <ark-text-input
-      formControlName="callback"
+      [formFieldControl]="form.get('callback')"
       label="{{ 'callback url' | transloco | capitalize }}"
     >
     </ark-text-input>
     <ark-textarea
-      formControlName="description"
+      [formFieldControl]="form.get('description')"
       label="{{ 'description' | transloco | capitalize }}"
     ></ark-textarea>
 
     @if (app) {
       <ark-text-input
-        [value]="project?._id"
+        [model]="project?._id"
         label="{{ 'project id' | transloco | capitalize }}"
         disabled
         placeholder="{{ '32*' | transloco | capitalize }}"
@@ -39,7 +39,7 @@
       </ark-text-input>
 
       <ark-text-input
-        [value]="app._id"
+        [model]="app._id"
         label="{{ 'app id' | transloco | capitalize }}"
         disabled
         placeholder="{{ '32*' | transloco | capitalize }}"
@@ -48,7 +48,7 @@
       </ark-text-input>
       <div class="flex items-center gap-2">
         <ark-text-input
-          [value]="secret ?? '32*' | transloco"
+          [model]="secret ?? '32*' | transloco"
           label="{{ 'secret key' | transloco | capitalize }}"
           disabled
           placeholder="{{ '32*' | transloco | capitalize }}"

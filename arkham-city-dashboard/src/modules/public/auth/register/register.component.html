@@ -1,33 +1,33 @@
 <div class="min-w-96">
   <form [formGroup]="form">
     <ark-text-input
-      formControlName="firstNane"
+      [formFieldControl]="form.get('firstName')"
       type="text"
       label="{{ 'first name' | transloco | titlecase }}"
     ></ark-text-input>
     <ark-text-input
-      formControlName="lastName"
+      [formFieldControl]="form.get('lastName')"
       type="text"
       label="{{ 'last name' | transloco | titlecase }}"
     ></ark-text-input>
     <ark-text-input
-      formControlName="email"
+      [formFieldControl]="form.get('email')"
       type="email"
       label="{{ 'email' | transloco | titlecase }}"
     ></ark-text-input>
     <ark-text-input
-      formControlName="password"
+      [formFieldControl]="form.get('password')"
       type="password"
       label="{{ 'password' | transloco | titlecase }}"
     ></ark-text-input>
     <ark-text-input
-      formControlName="confirmPassword"
+      [formFieldControl]="form.get('confirmPassword')"
       type="password"
       label="{{ 'confirm password' | transloco | titlecase }}"
     ></ark-text-input>
     <div class="flex w-full pb-3">
       <ark-checkbox
-        formControlName="agree"
+        [formFieldControl]="form.get('agree')"
         label="{{ 'agree' | transloco | titlecase }}"
       ></ark-checkbox>
     </div>

@@ -8,25 +8,9 @@
     </label>
   }
   <div class="relative">
-    @if (formControl) {
+    @if (formFieldControl) {
       <select
         [formControl]="getFormControl()"
-        (change)="change($event)"
-        id="select-{{ label ? label : '' }}"
-        class="block w-full rounded-lg text-sm bg-neutral-200 border border-neutral-200 dark:text-white dark:bg-neutral-700 dark:border-neutral-700 hover:cursor-pointer"
-        [ngClass]="{
-          'py-3 px-4': size === 'default',
-          'py-2 px-3': size === 'small',
-          'p-4 sm:p-5': size === 'large',
-        }"
-      >
-        @if (options) {
-          <ng-container [ngTemplateOutlet]="options"></ng-container>
-        }
-      </select>
-    } @else if (formControlName) {
-      <select
-        [formControlName]="formControlName"
         (change)="change($event)"
         id="select-{{ label ? label : '' }}"
         class="block w-full rounded-lg text-sm bg-neutral-200 border border-neutral-200 dark:text-white dark:bg-neutral-700 dark:border-neutral-700 hover:cursor-pointer"

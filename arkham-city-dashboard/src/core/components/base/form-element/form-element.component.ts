@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, inject, Input, OnDestroy, type OnInit } from '@angular/core';
-import { ControlContainer, FormGroupDirective } from '@angular/forms';
 import { LoadingService } from '../../../services/loading/loading.service';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -7,12 +6,6 @@ import { Subject, takeUntil } from 'rxjs';
   selector: 'form-element',
   imports: [],
   template: ``,
-  viewProviders: [
-    {
-      provide: ControlContainer,
-      useExisting: FormGroupDirective,
-    },
-  ],
 })
 export class FormElement implements OnInit, OnDestroy {
   @Input() ignoreLoading: boolean | string = false;
