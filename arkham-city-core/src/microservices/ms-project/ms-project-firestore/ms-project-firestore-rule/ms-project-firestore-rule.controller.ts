@@ -25,7 +25,14 @@ export class MsProjectFirestoreRuleController {
   }
 
   @MessagePattern(microserviceConfig.project.firestore.rule.patterns.updateRule)
-  updateRule(@Payload() payload: MsUpdateProjectFirestoreRuleReqPayload) {}
+  updateRule(@Payload() payload: MsUpdateProjectFirestoreRuleReqPayload) {
+    return this.firestoreRuleService.updateRawRule(
+      payload.user,
+      payload.projectId,
+      payload.schema,
+      payload.rules,
+    );
+  }
 
   @MessagePattern(microserviceConfig.project.firestore.rule.patterns.deleteRule)
   deleteRule(@Payload() payload: MsDeleteProjectFirestoreRuleReqPayload) {

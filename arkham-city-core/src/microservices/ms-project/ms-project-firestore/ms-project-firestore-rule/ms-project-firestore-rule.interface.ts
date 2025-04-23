@@ -5,11 +5,11 @@ import {
 import { JWTPayload } from '../../../../modules/auth/auth.interface';
 
 export interface MsProjectFirestoreRuleCondition {
-  type: RuleConditionType;
+  condition: RuleConditionType;
   customCondition?: string;
 }
 
-export interface MsCreateProjectFirestoreRule {
+export interface MsProjectFirestoreRule {
   type: RuleType;
   conditions: MsProjectFirestoreRuleCondition[];
 }
@@ -18,15 +18,14 @@ export interface MsCreateProjectFirestoreRuleReqPayload {
   user: JWTPayload;
   projectId: string;
   schema: string;
-  rules: MsCreateProjectFirestoreRule[];
+  rules: MsProjectFirestoreRule[];
 }
 
 export interface MsUpdateProjectFirestoreRuleReqPayload {
   user: JWTPayload;
   projectId: string;
-  ruleId: string;
   schema: string;
-  rules: MsCreateProjectFirestoreRule[];
+  rules: MsProjectFirestoreRule[];
 }
 
 export interface MsDeleteProjectFirestoreRuleReqPayload {

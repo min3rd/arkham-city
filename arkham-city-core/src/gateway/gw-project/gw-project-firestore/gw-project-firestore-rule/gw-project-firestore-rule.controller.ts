@@ -68,9 +68,14 @@ export class GwProjectFirestoreRuleController extends GatewayController {
     const payload: MsUpdateProjectFirestoreRuleReqPayload = {
       user: request[REQUEST_FIELDS.user],
       projectId: params.projectId,
-      ruleId: params.ruleId,
       schema: data.schema,
-      rules: data.rules,
+      rules: data.rules.map((value) => ({
+        type: value.type,
+        conditions: value.conditions.map((condition) => ({
+          condition: condition.condition,
+          customCondition: condition.customCondition,
+        })),
+      })),
     };
     const response: ServiceResponse<any> = await firstValueFrom(
       this.clientProxy.send(

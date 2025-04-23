@@ -145,4 +145,9 @@ export class Errors {
     '01x0023',
     'Could not create new rule',
   );
+
+  static readonly PROJECT_FIRESTORE_RULE_CONDITIONS_EMPTY = new Error(
+    '01x0024',
+    'The rule conditions can not be empty',
+  );
 }

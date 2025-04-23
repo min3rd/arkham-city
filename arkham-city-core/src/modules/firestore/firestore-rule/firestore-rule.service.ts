@@ -1,10 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import {
-  RawRule,
-  RawRuleSchema,
-  RuleConditionType,
-  RuleType,
-} from './firestore-rule.types';
+import { RawRule, RawRuleSchema } from './firestore-rule.types';
 import { DatabaseService } from '../../database/database.service';
 import {
   BadResponse,
@@ -12,7 +7,7 @@ import {
   GoodResponse,
 } from '../../../core/microservice/microservice.types';
 import { JWTPayload } from '../../auth/auth.interface';
-import { MsCreateProjectFirestoreRule } from '../../../microservices/ms-project/ms-project-firestore/ms-project-firestore-rule/ms-project-firestore-rule.interface';
+import { MsProjectFirestoreRule } from '../../../microservices/ms-project/ms-project-firestore/ms-project-firestore-rule/ms-project-firestore-rule.interface';
 
 @Injectable()
 export class FirestoreRuleService {
@@ -24,7 +19,7 @@ export class FirestoreRuleService {
     user: JWTPayload,
     projectId: string,
     schema: string,
-    rules: MsCreateProjectFirestoreRule[],
+    rules: MsProjectFirestoreRule[],
   ) {
     this.logger.log('createRawRule:start', user, projectId, schema, rules);
     const connection = this.dataService.createProjectConnection(projectId);
@@ -55,39 +50,35 @@ export class FirestoreRuleService {
   }
 
   async updateRawRule(
+    user: JWTPayload,
     projectId: string,
-    ruleId: string,
     schema: string,
-    type: RuleType,
-    conditions: {
-      type: RuleConditionType;
-      customCondition?: string;
-    }[],
+    rules: MsProjectFirestoreRule[],
   ) {
-    this.logger.log(
-      'updateRawRule:start',
-      projectId,
-      ruleId,
-      schema,
-      type,
-      conditions,
-    );
+    this.logger.log('updateRawRule:start', user, projectId, schema, rules);
     const connection = this.dataService.createProjectConnection(projectId);
     const _RawRuleModel = connection.model(RawRule.name, RawRuleSchema);
-    const rawRule = await _RawRuleModel.findByIdAndUpdate(
-      ruleId,
-      {
+    for (const rule of rules) {
+      const rawRule = await _RawRuleModel.findOne({
         schema: schema,
-        type: type,
-        conditions: conditions,
-      },
-      { new: true },
-    );
-    if (!rawRule) {
-      return new BadResponse(Errors.PROJECT_FIRESTORE_RULE_COULD_NOT_FOUND);
+        type: rule.type,
+      });
+      if (!rawRule) {
+        return new BadResponse(Errors.PROJECT_FIRESTORE_RULE_COULD_NOT_FOUND);
+      }
+      if (rule.conditions.length === 0) {
+        return new BadResponse(Errors.PROJECT_FIRESTORE_RULE_CONDITIONS_EMPTY);
+      }
+      rawRule.conditions = rule.conditions.map(
+        (condition: { condition: any; customCondition: any }) => ({
+          condition: condition.condition,
+          customCondition: condition.customCondition,
+        }),
+      );
+      await rawRule.save();
     }
-    this.logger.log('updateRawRule:end', rawRule);
-    return new GoodResponse(rawRule.toJSON());
+    this.logger.log('updateRawRule:end', rules);
+    return new GoodResponse(rules);
   }
 
   async deleteRawRule(projectId: string, ruleId: string) {
