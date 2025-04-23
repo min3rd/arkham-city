@@ -99,12 +99,12 @@ export class GwProjectFirestoreRuleController extends GatewayController {
     return response.data;
   }
 
-  @Get(':ruleId')
+  @Get(':schema')
   async getFirestoreRule(@Req() request: Request, @Param() params: any) {
     const payload: MsGetProjectFirestoreRuleReqPayload = {
       user: request[REQUEST_FIELDS.user],
       projectId: params.projectId,
-      ruleId: params.ruleId,
+      schema: params.schema,
     };
     const response: ServiceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
