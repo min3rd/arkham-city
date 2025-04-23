@@ -18,11 +18,10 @@ import { ArkTabContent } from '../../../../../../core/components/tabs/ark-tab-co
 import { RuleService } from '../rule.service';
 import { takeUntil } from 'rxjs';
 import { BaseFormComponent } from '../../../../../../core/components/base/base-form.component';
-import { ArkSelect } from '../../../../../../core/components/selects/ark-select/ark-select.component';
 
 @Component({
   selector: 'projects-firestore-rules-detail',
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, ArkTextInput, ArkButton, TranslocoModule, CapitalizePipe, ArkTabGroup, ArkTabContent, ArkSelect],
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, ArkTextInput, ArkButton, TranslocoModule, CapitalizePipe, ArkTabGroup, ArkTabContent],
   templateUrl: './detail.component.html',
 })
 export class DetailComponent extends BaseFormComponent {
@@ -53,7 +52,12 @@ export class DetailComponent extends BaseFormComponent {
     }
     for (const tab of this.tabs) {
       this.form.addControl(tab.id, this.formBuilder.group({
-        conditions: this.formBuilder.array([]),
+        conditions: this.formBuilder.array([
+          this.formBuilder.group({
+            type: ['', [Validators.required]],
+            customCondition: [''],
+          }),
+        ]),
       }));
     }
   }
@@ -62,7 +66,7 @@ export class DetailComponent extends BaseFormComponent {
     const conditions = this.form.get(this.tabs![index].id)!.get('conditions') as UntypedFormArray;
     conditions.push(this.formBuilder.group({
       type: ['', [Validators.required]],
-      customCondition: ['', [Validators.required]],
+      customCondition: [''],
     }));
     this.changeDetectorRef.markForCheck();
   }

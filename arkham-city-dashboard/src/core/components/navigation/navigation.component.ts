@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NavigationItem } from './navigation.type';
 import { CommonModule } from '@angular/common';
 import { NgIcon } from '@ng-icons/core';
@@ -24,11 +16,11 @@ import { TranslocoModule } from '@jsverse/transloco';
     ArkNavigationGroupItem,
   ],
   templateUrl: './navigation.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArkNavigation implements OnChanges {
   @Input() items: NavigationItem[] = [];
   private changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
+
   ngOnChanges(changes: SimpleChanges): void {
     this.changeDetectorRef.markForCheck();
   }

@@ -1,33 +1,36 @@
 <div>
   <form [formGroup]="form">
     <div class="p-2">
-      <ark-text-input formControlName="schema" label="{{'schema' | transloco | capitalize}}"
-                      noSuffixSpace></ark-text-input>
+      <ark-text-input
+        formControlName="schema"
+        label="{{'schema' | transloco | capitalize}}"
+        noSuffixSpace>
+      </ark-text-input>
     </div>
-    <div class="p-2">
+    <div class="py-2">
       @if (tabs) {
         <ark-tab-group [titles]="tabs">
           @for (tab of tabs; track $index; ) {
             <ark-tab-content [title]="tab.title">
-              <div class="flex py-2 w-full border-b border-neutral-200 dark:border-neutral-700">
+              <div class="flex p-2 w-full border-b border-neutral-200 dark:border-neutral-700">
                 <ark-button (onClick)="newCondition($index)" label="{{'new condition' | transloco | capitalize}}"
                             size="small" icon="featherPlus"></ark-button>
               </div>
               <div class="max-h-96 mt-2 py-2 px-2 overflow-auto">
                 @for (condition of getConditionControls($index); track condition) {
-                  <ark-select [formControl]="getChildFormControl(condition, 'type')"
-                              label="{{'type' | transloco | capitalize}}">
-                    <ng-template #options>
-                      <option value="" disabled selected>
-                        {{ 'choose' | transloco | capitalize }}
-                      </option>
-                      @for (type of ruleConditionTypes; track type) {
-                        <option value="{{type}}">{{ type | transloco | capitalize }}</option>
-                      }
-                    </ng-template>
-                  </ark-select>
-                  <ark-text-input [formControl]="getChildFormControl(condition, 'customCondition')"
-                                  label="{{'custom' | transloco | capitalize}}"></ark-text-input>
+                  <!--                  <ark-select [formControl]="getChildFormControl(condition, 'type')"-->
+                    <!--                              label="{{'type' | transloco | capitalize}}">-->
+                    <!--                    <ng-template #options>-->
+                    <!--                      <option value="" disabled selected>-->
+                    <!--                        {{ 'choose' | transloco | capitalize }}-->
+                    <!--                      </option>-->
+                    <!--                      @for (type of ruleConditionTypes; track type) {-->
+                    <!--                        <option value="{{type}}">{{ type | transloco | capitalize }}</option>-->
+                    <!--                      }-->
+                    <!--                    </ng-template>-->
+                    <!--                  </ark-select>-->
+                    <!--                  <ark-text-input [formControl]="getChildFormControl(condition, 'customCondition')"-->
+                    <!--                                  label="{{'custom' | transloco | capitalize}}"></ark-text-input>-->
                 }
               </div>
             </ark-tab-content>

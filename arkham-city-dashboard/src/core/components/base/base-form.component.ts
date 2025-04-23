@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, type OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, type OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -8,7 +8,6 @@ import { Subject } from 'rxjs';
   selector: 'base-form-component',
   imports: [CommonModule],
   template: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseFormComponent implements OnInit, OnDestroy {
   form!: UntypedFormGroup;

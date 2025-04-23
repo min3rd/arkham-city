@@ -8,7 +8,7 @@
     </label>
   }
   <div class="relative">
-    @if (formControl) {
+    @if (getFormControl()) {
       <input
         type="{{ type }}"
         [formControl]="getFormControl()"
