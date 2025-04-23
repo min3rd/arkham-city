@@ -13,13 +13,13 @@
         id="hs-textarea-{{ label }}"
         class="py-2.5 sm:py-3 px-4 block w-full sm:text-sm bg-neutral-200 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600"
         [ngClass]="{
-          'rounded-xs': rounded === 'small',
-          'rounded-md': rounded === 'medium',
-          'rounded-lg': rounded === 'large',
+          'rounded-xs': rounded === 'sm',
+          'rounded-md': rounded === 'md',
+          'rounded-lg': rounded === 'lg',
           'rounded-full': rounded === 'full',
-          'py-3 px-4': size ==='default',
-          'py-2 px-3': size ==='small',
-          'p-4 sm:p-5': size ==='large',
+          'py-3 px-4': size ==='md',
+          'py-2 px-3': size ==='sm',
+          'p-4 sm:p-5': size ==='lg',
         }"
         rows="{{ rows }}"
         placeholder="{{ placeholder }}"
@@ -32,15 +32,14 @@
         class="py-2.5 sm:py-3 px-4 block w-full sm:text-sm border"
         [ngClass]="{
           'bg-neutral-200 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-600': !invalid,
-          'bg-red-100 border-red-500 dark:bg-red-100 dark:border-red-500':
-              invalid,
-          'rounded-xs': rounded === 'small',
-          'rounded-md': rounded === 'medium',
-          'rounded-lg': rounded === 'large',
+          'bg-red-100 border-red-500 dark:bg-red-100 dark:border-red-500': invalid,
+          'rounded-xs': rounded === 'sm',
+          'rounded-md': rounded === 'md',
+          'rounded-lg': rounded === 'lg',
           'rounded-full': rounded === 'full',
-          'py-3 px-4': size ==='default',
-          'py-2 px-3': size ==='small',
-          'p-4 sm:p-5': size ==='large',
+          'py-3 px-4': size ==='md',
+          'py-2 px-3': size ==='sm',
+          'p-4 sm:p-5': size ==='lg',
         }"
         rows="{{ rows }}"
         placeholder="{{ placeholder }}"

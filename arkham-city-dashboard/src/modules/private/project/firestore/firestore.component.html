@@ -1,6 +1,11 @@
 <div>
   <div class="flex w-full p-2 gap-2 border-b border-neutral-200 dark:border-neutral-700">
-    <ark-button [routerLink]="['rules']" label="{{'rules' | transloco | capitalize}}" size="small"></ark-button>
+    <ark-button
+      [routerLink]="['rules']"
+      label="{{'rules' | transloco | capitalize}}"
+      size="sm">
+
+    </ark-button>
   </div>
   <router-outlet></router-outlet>
 </div>

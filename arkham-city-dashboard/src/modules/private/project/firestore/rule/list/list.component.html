@@ -1,18 +1,24 @@
 <div class="w-full h-full">
   @if (rules && rules.length > 0) {
-    @for (rule of rules; track $index) {
-      <div class="flex w-full items-center border-b border-neutral-200 dark:border-neutral-700 p-2 gap-2">
+    @for (scheme of rules; track $index) {
+      <a
+        [routerLink]="[scheme.schema]"
+        class="flex w-full items-center border-b border-neutral-200 dark:border-neutral-700 p-2 gap-2 hover:cursor-pointer">
         <div>
-          {{ rule.schema }}
+          <div>
+            {{ scheme.schema }}
+          </div>
+          <div class="flex items-center gap-2">
+            @for (rule of scheme.rules; track rule) {
+              @if (rule.conditions) {
+                <ark-badge size="sm">
+                  {{ rule.type }}
+                </ark-badge>
+              }
+            }
+          </div>
         </div>
-        @for (_rule of rule.rules; track _rule) {
-          @if (_rule.conditions) {
-            <ark-badge>
-              {{ _rule.type }}
-            </ark-badge>
-          }
-        }
-      </div>
+      </a>
     }
   }
 </div>

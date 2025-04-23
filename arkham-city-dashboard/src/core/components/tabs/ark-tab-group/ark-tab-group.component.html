@@ -1,8 +1,8 @@
 <div
   [ngClass]="{
-  'rounded-sm': rounded === 'small',
-  'rounded-md': rounded === 'medium',
-  'rounded-lg': rounded === 'large',
+  'rounded-sm': rounded === 'sm',
+  'rounded-md': rounded === 'md',
+  'rounded-lg': rounded === 'lg',
   'rounded-full': rounded === 'full',
   }"
 >
@@ -28,9 +28,9 @@
               'border-red-600 text-red-600 border-b-2 border-red-600': color === 'red' && selectedIndex === $index,
               'hover:text-yellow-600 dark:hover:text-yellow-500': color === 'yellow' && !title.disabled && selectedIndex !== $index,
               'border-yellow-600 text-yellow-600 border-b-2 border-yellow-600': color === 'yellow' && selectedIndex === $index,
-              'py-2 px-1 gap-x-2': size === 'small',
-              'py-3 px-2 gap-x-3': size === 'default',
-              'py-4 px-3 gap-x-4': size === 'large',
+              'py-2 px-1 gap-x-2': size === 'sm',
+              'py-3 px-2 gap-x-3': size === 'md',
+              'py-4 px-3 gap-x-4': size === 'lg',
           }"
             type="button"
             [disabled]="title.disabled"

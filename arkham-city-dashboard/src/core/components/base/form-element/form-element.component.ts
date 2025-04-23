@@ -1,13 +1,14 @@
 import { ChangeDetectorRef, Component, inject, Input, OnDestroy, type OnInit } from '@angular/core';
 import { LoadingService } from '../../../services/loading/loading.service';
 import { Subject, takeUntil } from 'rxjs';
+import { BaseComponent } from '../base/base.component';
 
 @Component({
   selector: 'form-element',
   imports: [],
   template: ``,
 })
-export class FormElement implements OnInit, OnDestroy {
+export class FormElement extends BaseComponent implements OnInit, OnDestroy {
   @Input() ignoreLoading: boolean | string = false;
   @Input() noSuffixSpace: boolean | string = false;
   onLoading = false;

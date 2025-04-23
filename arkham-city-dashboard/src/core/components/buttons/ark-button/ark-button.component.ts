@@ -1,28 +1,17 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  Output,
-  type OnInit,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, inject, Input, type OnInit, Output } from '@angular/core';
 import { LoadingService } from '../../../services/loading/loading.service';
 import { Subject, takeUntil } from 'rxjs';
 import { ArkIcon } from '../../icons/ark-icon/ark-icon.component';
+import { BaseComponent } from '../../base/base/base.component';
 
 @Component({
   selector: 'ark-button',
   imports: [CommonModule, ArkIcon],
   templateUrl: './ark-button.component.html',
 })
-export class ArkButton implements OnInit {
+export class ArkButton extends BaseComponent implements OnInit {
   @Input() label!: string;
-  @Input() rounded: 'xs' | 'md' | 'lg' | 'full' = 'lg';
-  @Input() color: 'gray' | 'teal' | 'blue' | 'red' | 'yellow' | 'white' =
-    'teal';
-  @Input() size: 'default' | 'small' | 'large' = 'default';
   @Input() solid: boolean | string = false;
   @Input() outline: boolean | string = false;
   @Input() ghost: boolean | string = false;
@@ -39,6 +28,7 @@ export class ArkButton implements OnInit {
   private loadingService: LoadingService = inject(LoadingService);
   private changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
   private _unsubscribeAll = new Subject<any>();
+
   ngOnInit(): void {
     if (
       !this.isSolid() &&
@@ -63,24 +53,31 @@ export class ArkButton implements OnInit {
     }
     this.onClick.emit('click');
   }
+
   enableSolid(): boolean {
     return (this.solid || this.solid === '') as boolean;
   }
+
   enableOutline(): boolean {
     return (this.outline || this.outline === '') as boolean;
   }
+
   enableGhost(): boolean {
     return (this.ghost || this.ghost === '') as boolean;
   }
+
   enableSoft(): boolean {
     return (this.soft || this.soft === '') as boolean;
   }
+
   enableIgnoreLoading(): boolean {
     return (this.ignoreLoading || this.ignoreLoading === 'true') as boolean;
   }
+
   enableDisabled() {
     return (this.disabled || this.disabled === '') as boolean;
   }
+
   enableLink() {
     return (this.link || this.link === '') as boolean;
   }
@@ -94,6 +91,7 @@ export class ArkButton implements OnInit {
       !this.enableLink()
     );
   }
+
   isOutline(): boolean {
     return (
       this.enableOutline() &&
@@ -103,6 +101,7 @@ export class ArkButton implements OnInit {
       !this.enableLink()
     );
   }
+
   isGhost(): boolean {
     return (
       this.enableGhost() &&
@@ -112,6 +111,7 @@ export class ArkButton implements OnInit {
       !this.enableLink()
     );
   }
+
   isSoft(): boolean {
     return (
       this.enableSoft() &&
@@ -121,6 +121,7 @@ export class ArkButton implements OnInit {
       !this.enableLink()
     );
   }
+
   isLink(): boolean {
     return (
       this.enableLink() &&

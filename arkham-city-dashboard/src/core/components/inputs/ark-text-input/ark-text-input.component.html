@@ -8,7 +8,7 @@
     </label>
   }
   <div class="relative">
-    @if (getFormControl()) {
+    @if (formFieldControl) {
       <input
         type="{{ type }}"
         [formControl]="getFormControl()"
@@ -17,15 +17,14 @@
         class="block w-full sm:text-sm border"
         [ngClass]="{
           'bg-neutral-200 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-600': !invalid,
-          'bg-red-100 dark:bg-red-100 border-red-500':
-            invalid,
-        'rounded-xs': rounded === 'small',
-        'rounded-md': rounded === 'medium',
-        'rounded-lg': rounded === 'large',
-        'rounded-full': rounded === 'full',
-        'py-3 px-4': size ==='default',
-        'py-2 px-3': size ==='small',
-        'p-4 sm:p-5': size ==='large',
+          'bg-red-100 dark:bg-red-100 border-red-500': invalid,
+          'rounded-xs': rounded === 'sm',
+          'rounded-md': rounded === 'md',
+          'rounded-lg': rounded === 'lg',
+          'rounded-full': rounded === 'full',
+          'py-3 px-4': size ==='md',
+          'py-2 px-3': size ==='sm',
+          'p-4 sm:p-5': size ==='lg',
         }"
         placeholder="{{ placeholder }}"
         [disabled]="onLoading || enableDisabled()"
@@ -38,13 +37,13 @@
         name="text-input-{{ label }}"
         class="block w-full sm:text-sm bg-neutral-200 dark:bg-neutral-700"
         [ngClass]="{
-        'rounded-xs': rounded === 'small',
-        'rounded-md': rounded === 'medium',
-        'rounded-lg': rounded === 'large',
-        'rounded-full': rounded === 'full',
-        'py-3 px-4': size ==='default',
-        'py-2 px-3': size ==='small',
-        'p-4 sm:p-5': size ==='large',
+          'rounded-xs': rounded === 'sm',
+          'rounded-md': rounded === 'md',
+          'rounded-lg': rounded === 'lg',
+          'rounded-full': rounded === 'full',
+          'py-3 px-4': size ==='md',
+          'py-2 px-3': size ==='sm',
+          'p-4 sm:p-5': size ==='lg',
         }"
         placeholder="{{ placeholder }}"
         [disabled]="onLoading || enableDisabled()"

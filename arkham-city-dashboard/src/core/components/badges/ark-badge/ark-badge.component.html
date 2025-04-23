@@ -1,4 +1,19 @@
 <span
-  class="inline-flex items-center gap-x-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-gray-800 text-white dark:bg-white dark:text-neutral-800">
+  [ngClass]="{
+    'text-gray-700 dark:text-white': color === 'gray',
+    'bg-teal-500 text-white': color === 'teal',
+    'bg-blue-600 text-white': color === 'blue',
+    'bg-red-500 text-white': color === 'red',
+    'bg-yellow-500 text-white': color === 'yellow',
+    'py-1 px-2.5': size === 'md',
+    'py-0.5 px-1.5': size === 'sm',
+    'p-2 sm:p-3': size === 'lg',
+    'rounded-xs': rounded === 'sm',
+    'rounded-md': rounded === 'md',
+    'rounded-lg': rounded === 'lg',
+    'rounded-full': rounded === 'full',
+  }"
+  class="inline-flex items-center gap-x-1.5 text-xs font-medium"
+>
   <ng-content></ng-content>
 </span>
