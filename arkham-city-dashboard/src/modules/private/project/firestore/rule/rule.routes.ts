@@ -16,8 +16,8 @@ export const listResolve = (route: ActivatedRouteSnapshot, state: RouterStateSna
 export const detailResolve = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   const ruleService = inject(RuleService);
   const projectId = RouteUtils.getParam('projectId', route);
-  const ruleId = RouteUtils.getParam('ruleId', route);
-  return ruleService.get(projectId, ruleId);
+  const schema = RouteUtils.getParam('schema', route);
+  return ruleService.get(projectId, schema);
 };
 
 export const metadataResolve = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
@@ -47,7 +47,7 @@ export const routes: Routes = [
       },
       {
         path: ':schema',
-        resolve: [metadataResolve],
+        resolve: [metadataResolve, detailResolve],
         component: DetailComponent,
       },
     ],
