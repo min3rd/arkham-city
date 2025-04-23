@@ -13,7 +13,10 @@ import { microserviceConfig } from '../../../../config/microservice.config';
 import { ClientRedis } from '@nestjs/microservices';
 import { GatewayController } from '../../../../core/gateway/gateway.controller';
 import { Request } from 'express';
-import { GwCreateProjectFirestoreRuleReqDto } from './gw-project-firestore-rule.interface';
+import {
+  GwCreateProjectFirestoreRuleReqDto,
+  GwUpdateProjectFirestoreRuleReqDto,
+} from './gw-project-firestore-rule.interface';
 import {
   MsCreateProjectFirestoreRuleReqPayload,
   MsDeleteProjectFirestoreRuleReqPayload,
@@ -44,8 +47,7 @@ export class GwProjectFirestoreRuleController extends GatewayController {
       user: request[REQUEST_FIELDS.user],
       projectId: params.projectId,
       schema: data.schema,
-      type: data.type,
-      conditions: data.conditions,
+      rules: data.rules,
     };
     const response: ServiceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
@@ -61,15 +63,14 @@ export class GwProjectFirestoreRuleController extends GatewayController {
   async updateFirestoreRule(
     @Req() request: Request,
     @Param() params: any,
-    @Body() data: GwCreateProjectFirestoreRuleReqDto,
+    @Body() data: GwUpdateProjectFirestoreRuleReqDto,
   ) {
     const payload: MsUpdateProjectFirestoreRuleReqPayload = {
       user: request[REQUEST_FIELDS.user],
       projectId: params.projectId,
       ruleId: params.ruleId,
       schema: data.schema,
-      type: data.type,
-      conditions: data.conditions,
+      rules: data.rules,
     };
     const response: ServiceResponse<any> = await firstValueFrom(
       this.clientProxy.send(

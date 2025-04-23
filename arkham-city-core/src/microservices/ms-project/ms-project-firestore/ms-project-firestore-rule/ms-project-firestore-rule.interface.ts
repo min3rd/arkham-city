@@ -9,12 +9,16 @@ export interface MsProjectFirestoreRuleCondition {
   customCondition?: string;
 }
 
+export interface MsCreateProjectFirestoreRule {
+  type: RuleType;
+  conditions: MsProjectFirestoreRuleCondition[];
+}
+
 export interface MsCreateProjectFirestoreRuleReqPayload {
   user: JWTPayload;
   projectId: string;
   schema: string;
-  type: RuleType;
-  conditions: MsProjectFirestoreRuleCondition[];
+  rules: MsCreateProjectFirestoreRule[];
 }
 
 export interface MsUpdateProjectFirestoreRuleReqPayload {
@@ -22,8 +26,7 @@ export interface MsUpdateProjectFirestoreRuleReqPayload {
   projectId: string;
   ruleId: string;
   schema: string;
-  type: RuleType;
-  conditions: MsProjectFirestoreRuleCondition[];
+  rules: MsCreateProjectFirestoreRule[];
 }
 
 export interface MsDeleteProjectFirestoreRuleReqPayload {

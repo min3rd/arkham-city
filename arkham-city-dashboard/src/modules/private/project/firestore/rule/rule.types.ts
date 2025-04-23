@@ -1,38 +1,36 @@
-export enum RuleType {
-  read = 'read',
-  create = 'create',
-  update = 'update',
-  delete = 'delete',
-}
-
-export enum RuleConditionType {
-  require_auth = 'require_auth',
-  owner = 'owner',
-  allow = 'allow',
-  deny = 'deny',
-  custom = 'custom',
-}
-
 export interface RuleConditionResDto {
-  condition: RuleConditionType;
+  condition: string;
   customCondition: string;
 }
 
+export interface RuleConditionReqDto {
+  condition?: string;
+  customCondition?: string;
+}
+
+export interface RuleReqDto {
+  type?: string;
+  conditions?: RuleConditionReqDto[];
+}
+
 export interface RuleResDto {
+  type?: string;
+  conditions?: RuleConditionResDto[];
+}
+
+export interface GetAllRuleResDto {
   _id: string;
   schema?: string;
-  type?: RuleType;
-  conditions?: RuleConditionResDto[];
+  rules?: RuleResDto[];
 }
 
 export interface CreateRuleReqDto {
   schema?: string;
-  type?: RuleType;
-  conditions?: RuleConditionResDto[];
+  rules?: RuleReqDto[];
 }
 
 export interface UpdateRuleReqDto {
   schema?: string;
-  type?: RuleType;
+  type?: string;
   conditions?: RuleConditionResDto[];
 }
