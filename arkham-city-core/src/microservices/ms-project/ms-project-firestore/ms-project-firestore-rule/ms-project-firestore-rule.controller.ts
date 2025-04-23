@@ -15,32 +15,17 @@ export class MsProjectFirestoreRuleController {
   constructor(private readonly firestoreRuleService: FirestoreRuleService) {}
 
   @MessagePattern(microserviceConfig.project.firestore.rule.patterns.createRule)
-  createRule(@Payload() payload: MsCreateProjectFirestoreRuleReqPayload) {
+  async createRule(@Payload() payload: MsCreateProjectFirestoreRuleReqPayload) {
     return this.firestoreRuleService.createRawRule(
       payload.user,
       payload.projectId,
       payload.schema,
-      payload.type,
-      payload.conditions.map((e) => ({
-        type: e.type,
-        customCondition: e.customCondition,
-      })),
+      payload.rules,
     );
   }
 
   @MessagePattern(microserviceConfig.project.firestore.rule.patterns.updateRule)
-  updateRule(@Payload() payload: MsUpdateProjectFirestoreRuleReqPayload) {
-    return this.firestoreRuleService.updateRawRule(
-      payload.projectId,
-      payload.ruleId,
-      payload.schema,
-      payload.type,
-      payload.conditions.map((e) => ({
-        type: e.type,
-        customCondition: e.customCondition,
-      })),
-    );
-  }
+  updateRule(@Payload() payload: MsUpdateProjectFirestoreRuleReqPayload) {}
 
   @MessagePattern(microserviceConfig.project.firestore.rule.patterns.deleteRule)
   deleteRule(@Payload() payload: MsDeleteProjectFirestoreRuleReqPayload) {

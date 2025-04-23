@@ -8,22 +8,20 @@ export interface GwProjectFirestoreRuleConditionDto {
   customCondition: string;
 }
 
+export interface GwProjectFirestoreRuleDto {
+  type: RuleType;
+  conditions: GwProjectFirestoreRuleConditionDto[];
+}
+
 export interface GwCreateProjectFirestoreRuleReqDto {
   projectId: string;
   schema: string;
-  type: RuleType;
-  conditions: GwProjectFirestoreRuleConditionDto[];
+  rules: GwProjectFirestoreRuleDto[];
 }
 
 export interface GwUpdateProjectFirestoreRuleReqDto {
   projectId: string;
   ruleId: string;
   schema: string;
-  type: RuleType;
-  conditions: GwProjectFirestoreRuleConditionDto[];
-}
-
-export interface GwDeleteProjectFirestoreRuleReqDto {
-  projectId: string;
-  ruleId: string;
+  rules: GwProjectFirestoreRuleDto[];
 }

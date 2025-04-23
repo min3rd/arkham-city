@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, UntypedFormArray, Validators } from '@angular/forms';
+import { FormArray, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ArkTextInput } from '../../../../../../core/components/inputs/ark-text-input/ark-text-input.component';
@@ -12,6 +12,8 @@ import { RuleService } from '../rule.service';
 import { takeUntil } from 'rxjs';
 import { BaseFormComponent } from '../../../../../../core/components/base/base-form.component';
 import { ArkSelect } from '../../../../../../core/components/selects/ark-select/ark-select.component';
+import { ProjectResDto } from '../../../project.types';
+import { ProjectService } from '../../../project.service';
 
 @Component({
   selector: 'projects-firestore-rules-detail',
@@ -21,7 +23,9 @@ import { ArkSelect } from '../../../../../../core/components/selects/ark-select/
 export class DetailComponent extends BaseFormComponent {
   tabs!: ArkTabTitle[] | undefined;
   ruleConditionTypes!: string[] | null;
+  project!: ProjectResDto | null;
   private ruleService = inject(RuleService);
+  private projectService = inject(ProjectService);
 
   override ngOnInit() {
     super.ngOnInit();
@@ -35,29 +39,31 @@ export class DetailComponent extends BaseFormComponent {
       this.ruleConditionTypes = ruleConditionTypes;
       this.changeDetectorRef.markForCheck();
     });
+
+    this.projectService.project$.pipe(takeUntil(this.unsubscribeAll)).subscribe(project => {
+      this.project = project;
+      this.changeDetectorRef.markForCheck();
+    });
   }
 
   newForm() {
     this.form = this.formBuilder.group({
       schema: ['', [Validators.required]],
+      rules: this.formBuilder.array([]),
     });
     if (!this.tabs) {
       return;
     }
     for (const tab of this.tabs) {
-      this.form.addControl(tab.id, this.formBuilder.group({
-        conditions: this.formBuilder.array([
-          this.formBuilder.group({
-            type: ['', [Validators.required]],
-            customCondition: [''],
-          }),
-        ]),
+      (this.form.get('rules') as FormArray)?.push(this.formBuilder.group({
+        type: [tab.id, [Validators.required]],
+        conditions: this.formBuilder.array([]),
       }));
     }
   }
 
   newCondition(index: number) {
-    const conditions = this.form.get(this.tabs![index].id)!.get('conditions') as UntypedFormArray;
+    const conditions = ((this.form.get('rules') as FormArray).at(index) as FormGroup).get('conditions') as FormArray;
     conditions.push(this.formBuilder.group({
       type: ['', [Validators.required]],
       customCondition: [''],
@@ -66,11 +72,19 @@ export class DetailComponent extends BaseFormComponent {
   }
 
   getConditionControls(index: number) {
-    const condition = this.form.get(this.tabs![index].id)!.get('conditions') as UntypedFormArray;
-    return condition.controls;
+    const conditions = ((this.form.get('rules') as FormArray).at(index) as FormGroup).get('conditions') as FormArray;
+    return conditions.controls;
   }
 
   create() {
-    console.log(this.form.getRawValue());
+    if (!this.project) {
+      return;
+    }
+    if (this.form.invalid) {
+      return;
+    }
+    this.ruleService.create(this.project._id, this.form.getRawValue()).subscribe(res => {
+      console.log(res);
+    });
   }
 }

@@ -12,6 +12,7 @@ import {
   GoodResponse,
 } from '../../../core/microservice/microservice.types';
 import { JWTPayload } from '../../auth/auth.interface';
+import { MsCreateProjectFirestoreRule } from '../../../microservices/ms-project/ms-project-firestore/ms-project-firestore-rule/ms-project-firestore-rule.interface';
 
 @Injectable()
 export class FirestoreRuleService {
@@ -23,38 +24,34 @@ export class FirestoreRuleService {
     user: JWTPayload,
     projectId: string,
     schema: string,
-    type: RuleType,
-    conditions: {
-      type: RuleConditionType;
-      customCondition?: string;
-    }[],
+    rules: MsCreateProjectFirestoreRule[],
   ) {
-    this.logger.log('createRawRule:start', projectId, schema, type, conditions);
+    this.logger.log('createRawRule:start', user, projectId, schema, rules);
     const connection = this.dataService.createProjectConnection(projectId);
     const _RawRuleModel = connection.model(RawRule.name, RawRuleSchema);
-    if (
-      await _RawRuleModel.exists({
+    const results: any[] = [];
+    for (const rule of rules) {
+      if (!rule.conditions || rule.conditions.length === 0) {
+        continue;
+      }
+      if (await _RawRuleModel.exists({ schema: schema, type: rule.type })) {
+        return new BadResponse(Errors.PROJECT_FIRESTORE_RULE_ALREADY_EXISTS);
+      }
+      let rawRule = new _RawRuleModel({
         schema: schema,
-      })
-    ) {
-      return new BadResponse(Errors.PROJECT_FIRESTORE_RULE_ALREADY_EXISTS);
+        type: rule.type,
+        conditions: rule.conditions,
+      });
+      rawRule = await rawRule.save();
+      if (!rawRule) {
+        return new BadResponse(
+          Errors.PROJECT_FIRESTORE_RULE_COULD_NOT_CREATE_NEW_RULE,
+        );
+      }
+      results.push(rawRule.toJSON());
     }
-    let rawRule = new _RawRuleModel({
-      schema: schema,
-      type: type,
-      conditions: conditions,
-      user: {
-        _id: user.sub,
-      },
-    });
-    rawRule = await rawRule.save();
-    if (!rawRule) {
-      return new BadResponse(
-        Errors.PROJECT_FIRESTORE_RULE_COULD_NOT_CREATE_NEW_RULE,
-      );
-    }
-    this.logger.log('createRawRule:end', rawRule);
-    return new GoodResponse(rawRule.toJSON());
+    this.logger.log('createRawRule:end', results);
+    return new GoodResponse(results);
   }
 
   async updateRawRule(
@@ -126,6 +123,29 @@ export class FirestoreRuleService {
       return new BadResponse(Errors.PROJECT_FIRESTORE_RULE_COULD_NOT_FOUND);
     }
     this.logger.log('getRawRules:end', rawRules);
-    return new GoodResponse(rawRules.map((e) => e.toJSON()));
+    return new GoodResponse(
+      rawRules.reduce((acc: any[], cur) => {
+        const index = acc.findIndex((e) => e.schema === cur.schema);
+        if (index === -1) {
+          acc.push({
+            schema: cur.schema,
+            rules: [
+              {
+                _id: cur._id,
+                type: cur.type,
+                conditions: cur.conditions,
+              },
+            ],
+          });
+        } else {
+          acc[index].rules.push({
+            _id: cur._id,
+            type: cur.type,
+            conditions: cur.conditions,
+          });
+        }
+        return acc;
+      }, []),
+    );
   }
 }

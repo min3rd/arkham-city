@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, switchMap, take } from 'rxjs';
-import { CreateRuleReqDto, RuleResDto, UpdateRuleReqDto } from './rule.types';
+import { CreateRuleReqDto, GetAllRuleResDto, UpdateRuleReqDto } from './rule.types';
 import { HttpClient } from '@angular/common/http';
 import { ApiResponse } from '../../../../../core/type/response.type';
 import { ConfigService } from '../../../../../core/services/config.service';
@@ -9,18 +9,18 @@ import { ConfigService } from '../../../../../core/services/config.service';
   providedIn: 'root',
 })
 export class RuleService {
-  private _rules: BehaviorSubject<RuleResDto[] | null> = new BehaviorSubject<RuleResDto[] | null>(null);
-  private _rule: BehaviorSubject<RuleResDto | null> = new BehaviorSubject<RuleResDto | null>(null);
+  private _rules: BehaviorSubject<GetAllRuleResDto[] | null> = new BehaviorSubject<GetAllRuleResDto[] | null>(null);
+  private _rule: BehaviorSubject<GetAllRuleResDto | null> = new BehaviorSubject<GetAllRuleResDto | null>(null);
   private _ruleTypes: BehaviorSubject<string[] | null> = new BehaviorSubject<string[] | null>(null);
   private _ruleConditionTypes: BehaviorSubject<string[] | null> = new BehaviorSubject<string[] | null>(null);
   private httpClient: HttpClient = inject(HttpClient);
   private configService: ConfigService = inject(ConfigService);
 
-  get rules$(): Observable<RuleResDto[] | null> {
+  get rules$(): Observable<GetAllRuleResDto[] | null> {
     return this._rules.asObservable();
   }
 
-  get rule$(): Observable<RuleResDto | null> {
+  get rule$(): Observable<GetAllRuleResDto | null> {
     return this._rule.asObservable();
   }
 
@@ -32,22 +32,22 @@ export class RuleService {
     return this._ruleConditionTypes.asObservable();
   }
 
-  all(projectId: string): Observable<ApiResponse<RuleResDto[]>> {
-    return this.httpClient.get<ApiResponse<RuleResDto[]>>(this.configService.endpoint(`/projects/${projectId}/firestore/rules`)).pipe(switchMap(response => {
+  all(projectId: string): Observable<ApiResponse<GetAllRuleResDto[]>> {
+    return this.httpClient.get<ApiResponse<GetAllRuleResDto[]>>(this.configService.endpoint(`/projects/${projectId}/firestore/rules`)).pipe(switchMap(response => {
       this._rules.next(response.data);
       return of(response);
     }));
   }
 
-  get(projectId: string, ruleId: string): Observable<ApiResponse<RuleResDto>> {
-    return this.httpClient.get<ApiResponse<RuleResDto>>(this.configService.endpoint(`/projects/${projectId}/firestore/rules/${ruleId}`)).pipe(switchMap(response => {
+  get(projectId: string, ruleId: string): Observable<ApiResponse<GetAllRuleResDto>> {
+    return this.httpClient.get<ApiResponse<GetAllRuleResDto>>(this.configService.endpoint(`/projects/${projectId}/firestore/rules/${ruleId}`)).pipe(switchMap(response => {
       this._rule.next(response.data);
       return of(response);
     }));
   }
 
-  create(projectId: string, rule: CreateRuleReqDto): Observable<ApiResponse<RuleResDto>> {
-    return this._rules.pipe(take(1), switchMap(rules => this.httpClient.post<ApiResponse<RuleResDto>>(this.configService.endpoint(`/projects/${projectId}/firestore/rules`), rule).pipe(switchMap(response => {
+  create(projectId: string, rule: CreateRuleReqDto): Observable<ApiResponse<GetAllRuleResDto>> {
+    return this._rules.pipe(take(1), switchMap(rules => this.httpClient.post<ApiResponse<GetAllRuleResDto>>(this.configService.endpoint(`/projects/${projectId}/firestore/rules`), rule).pipe(switchMap(response => {
       if (!rules) {
         rules = [];
       }
@@ -57,8 +57,8 @@ export class RuleService {
     }))));
   }
 
-  update(projectId: string, ruleId: string, rule: UpdateRuleReqDto): Observable<ApiResponse<RuleResDto>> {
-    return this._rules.pipe(take(1), switchMap(rules => this.httpClient.put<ApiResponse<RuleResDto>>(this.configService.endpoint(`/projects/${projectId}/firestore/rules/${ruleId}`), rule).pipe(switchMap(response => {
+  update(projectId: string, ruleId: string, rule: UpdateRuleReqDto): Observable<ApiResponse<GetAllRuleResDto>> {
+    return this._rules.pipe(take(1), switchMap(rules => this.httpClient.put<ApiResponse<GetAllRuleResDto>>(this.configService.endpoint(`/projects/${projectId}/firestore/rules/${ruleId}`), rule).pipe(switchMap(response => {
       if (rules) {
         const index = rules.findIndex(rule => rule._id === ruleId);
         if (index !== -1) {
@@ -71,8 +71,8 @@ export class RuleService {
     }))));
   }
 
-  delete(projectId: string, ruleId: string): Observable<ApiResponse<RuleResDto>> {
-    return this._rules.pipe(take(1), switchMap(rules => this.httpClient.delete<ApiResponse<RuleResDto>>(this.configService.endpoint(`/projects/${projectId}/firestore/rules/${ruleId}`)).pipe(switchMap(response => {
+  delete(projectId: string, ruleId: string): Observable<ApiResponse<GetAllRuleResDto>> {
+    return this._rules.pipe(take(1), switchMap(rules => this.httpClient.delete<ApiResponse<GetAllRuleResDto>>(this.configService.endpoint(`/projects/${projectId}/firestore/rules/${ruleId}`)).pipe(switchMap(response => {
       if (rules) {
         const index = rules.findIndex(rule => rule._id === ruleId);
         if (index !== -1) {
