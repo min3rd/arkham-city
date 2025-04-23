@@ -1,16 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, ContentChild, EventEmitter, Output, TemplateRef } from '@angular/core';
-import { ControlContainer, FormGroupDirective, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, ContentChild, EventEmitter, forwardRef, Output, TemplateRef } from '@angular/core';
+import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { FormControlElement } from '../../base/form-control-element/form-control-element.component';
 
 @Component({
   selector: 'ark-select',
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './ark-select.component.html',
-  viewProviders: [
+  providers: [
     {
-      provide: ControlContainer,
-      useExisting: FormGroupDirective,
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ArkSelect),
+      multi: true,
     },
   ],
 })

@@ -1,12 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, forwardRef, Input } from '@angular/core';
-import {
-  ControlContainer,
-  FormGroupDirective,
-  FormsModule,
-  NG_VALUE_ACCESSOR,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { FormControlElement } from '../../base/form-control-element/form-control-element.component';
 
 @Component({
@@ -18,12 +12,6 @@ import { FormControlElement } from '../../base/form-control-element/form-control
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => ArkTextInput),
       multi: true,
-    },
-  ],
-  viewProviders: [
-    {
-      provide: ControlContainer,
-      useExisting: FormGroupDirective,
     },
   ],
 })

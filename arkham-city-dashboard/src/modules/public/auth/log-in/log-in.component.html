@@ -1,7 +1,7 @@
 <div class="md:min-w-96">
-  <form [formGroup]="form" (onSubmit)="onLogIn()">
+  <form [formGroup]="form">
     <ark-text-input
-      formControlName="email"
+      [formFieldControl]="form.get('email')"
       type="email"
       label="{{ 'Email' | transloco }}"
       placeholder="email@domain.com"
@@ -10,15 +10,16 @@
       <ng-template #errors>
         <span class="text-sm text-red-500">
           @if (form.get('email')?.hasError('required')) {
-          {{ "please enter your email" | transloco | capitalize }}
-          } @if (form.get('email')?.hasError('email')) {
-          {{ "please enter correct email" | transloco | capitalize }}
+            {{ "please enter your email" | transloco | capitalize }}
+          }
+          @if (form.get('email')?.hasError('email')) {
+            {{ "please enter correct email" | transloco | capitalize }}
           }
         </span>
       </ng-template>
     </ark-text-input>
     <ark-text-input
-      formControlName="password"
+      [formFieldControl]="form.get('password')"
       type="password"
       label="{{ 'Password' | transloco }}"
       placeholder="********"

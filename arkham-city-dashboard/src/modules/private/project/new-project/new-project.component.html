@@ -2,12 +2,13 @@
   <div class="w-full md:max-w-96">
     <form [formGroup]="form">
       <ark-text-input
-        formControlName="name"
+        [formFieldControl]="form.get('name')"
         label="{{ 'project name' | transloco | capitalize }}"
       ></ark-text-input>
       <ark-textarea
-        formControlName="description"
+        [formFieldControl]="form.get('description')"
         label="{{ 'project description' | transloco | capitalize }}"
+        rounded="large"
       >
       </ark-textarea>
       <div class="flex items-center gap-2">

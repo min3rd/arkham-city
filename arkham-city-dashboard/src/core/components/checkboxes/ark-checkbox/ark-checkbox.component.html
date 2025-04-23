@@ -1,5 +1,5 @@
 <div class="flex">
-  @if (!formControlName) {
+  @if (!formFieldControl) {
     <input
       type="checkbox"
       class="shrink-0 mt-0.5 border-gray-200 rounded-sm text-teal-600 focus:ring-teal-500 checked:border-teal-500 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-teal-500 dark:checked:border-teal-500 hover:cursor-pointer"
@@ -7,7 +7,7 @@
   } @else {
     <input
       type="checkbox"
-      [formControlName]="formControlName"
+      [formControl]="getFormControl()"
       class="shrink-0 mt-0.5 border-gray-200 rounded-sm text-teal-600 focus:ring-teal-500 checked:border-teal-500 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-teal-500 dark:checked:border-teal-500 hover:cursor-pointer"
     />
   }

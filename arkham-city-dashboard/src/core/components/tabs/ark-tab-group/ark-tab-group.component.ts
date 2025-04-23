@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ArkIcon } from '../../icons/ark-icon/ark-icon.component';
 import { FormControlElement } from '../../base/form-control-element/form-control-element.component';
 import { ArkTabContent } from '../ark-tab-content/ark-tab-content.component';
-import { ControlContainer, FormGroupDirective } from '@angular/forms';
 
 export interface ArkTabTitle {
   id: string;
@@ -16,10 +15,6 @@ export interface ArkTabTitle {
   selector: 'ark-tab-group',
   imports: [CommonModule, ArkIcon],
   templateUrl: './ark-tab-group.component.html',
-  viewProviders: [{
-    provide: ControlContainer,
-    useExisting: FormGroupDirective,
-  }],
 })
 export class ArkTabGroup extends FormControlElement {
   @Input() titles!: ArkTabTitle[];
