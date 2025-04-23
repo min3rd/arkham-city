@@ -13,11 +13,15 @@
         [formControl]="getFormControl()"
         (change)="change($event)"
         id="select-{{ label ? label : '' }}"
-        class="block w-full rounded-lg text-sm bg-neutral-200 border border-neutral-200 dark:text-white dark:bg-neutral-700 dark:border-neutral-700 hover:cursor-pointer"
+        class="block w-full text-sm bg-neutral-200 border border-neutral-200 dark:text-white dark:bg-neutral-700 dark:border-neutral-700 hover:cursor-pointer"
         [ngClass]="{
-          'py-3 px-4': size === 'default',
-          'py-2 px-3': size === 'small',
-          'p-4 sm:p-5': size === 'large',
+          'rounded-xs': rounded === 'sm',
+          'rounded-md': rounded === 'md',
+          'rounded-lg': rounded === 'lg',
+          'rounded-full': rounded === 'full',
+          'py-3 px-4': size === 'md',
+          'py-2 px-3': size === 'sm',
+          'p-4 sm:p-5': size === 'lg',
         }"
       >
         @if (options) {
@@ -28,11 +32,15 @@
       <select
         (change)="change($event)"
         id="select-{{ label ? label : '' }}"
-        class="block w-full rounded-lg text-sm bg-neutral-200 border border-neutral-200 dark:text-white dark:bg-neutral-700 dark:border-neutral-700 hover:cursor-pointer"
+        class="block w-full text-sm bg-neutral-200 border border-neutral-300 dark:text-white dark:bg-neutral-700 dark:border-neutral-600 hover:cursor-pointer"
         [ngClass]="{
-          'py-3 px-4': size === 'default',
-          'py-2 px-3': size === 'small',
-          'p-4 sm:p-5': size === 'large',
+          'rounded-xs': rounded === 'sm',
+          'rounded-md': rounded === 'md',
+          'rounded-lg': rounded === 'lg',
+          'rounded-full': rounded === 'full',
+          'py-3 px-4': size === 'md',
+          'py-2 px-3': size === 'sm',
+          'p-4 sm:p-5': size === 'lg',
         }"
       >
         @if (options) {

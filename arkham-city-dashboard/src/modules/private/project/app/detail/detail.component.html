@@ -67,23 +67,27 @@
           label="{{ 'delete' | transloco | capitalize }}"
           ghost
           color="red"
+          size="sm"
         ></ark-button>
       }
       <ark-button
         [routerLink]="['../']"
         label="{{ 'cancel' | transloco | capitalize }}"
         ghost
+        size="sm"
       ></ark-button>
       @if (!this.app) {
         <ark-button
           (onClick)="create()"
           label="{{ 'create' | transloco | capitalize }}"
+          size="sm"
         ></ark-button>
       }
       @if (app) {
         <ark-button
           (onClick)="update()"
           label="{{ 'update' | transloco | capitalize }}"
+          size="sm"
         ></ark-button>
       }
     </div>

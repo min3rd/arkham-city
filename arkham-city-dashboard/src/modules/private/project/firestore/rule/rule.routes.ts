@@ -45,6 +45,11 @@ export const routes: Routes = [
         resolve: [metadataResolve],
         component: DetailComponent,
       },
+      {
+        path: ':schema',
+        resolve: [metadataResolve],
+        component: DetailComponent,
+      },
     ],
   },
 ];
