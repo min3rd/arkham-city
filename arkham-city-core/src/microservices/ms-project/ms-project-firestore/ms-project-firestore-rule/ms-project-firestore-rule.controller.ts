@@ -38,7 +38,7 @@ export class MsProjectFirestoreRuleController {
   deleteRule(@Payload() payload: MsDeleteProjectFirestoreRuleReqPayload) {
     return this.firestoreRuleService.deleteRawRule(
       payload.projectId,
-      payload.ruleId,
+      payload.schema,
     );
   }
 

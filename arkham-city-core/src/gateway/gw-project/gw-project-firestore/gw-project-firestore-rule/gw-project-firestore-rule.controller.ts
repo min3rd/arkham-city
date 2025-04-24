@@ -59,7 +59,7 @@ export class GwProjectFirestoreRuleController extends GatewayController {
     return response.data;
   }
 
-  @Put(':ruleId')
+  @Put(':schema')
   async updateFirestoreRule(
     @Req() request: Request,
     @Param() params: any,
@@ -87,12 +87,12 @@ export class GwProjectFirestoreRuleController extends GatewayController {
     return response.data;
   }
 
-  @Delete(':ruleId')
+  @Delete(':schema')
   async deleteFirestoreRule(@Req() request: Request, @Param() params: any) {
     const payload: MsDeleteProjectFirestoreRuleReqPayload = {
       user: request[REQUEST_FIELDS.user],
       projectId: params.projectId,
-      ruleId: params.ruleId,
+      schema: params.schema,
     };
     const response: ServiceResponse<any> = await firstValueFrom(
       this.clientProxy.send(
