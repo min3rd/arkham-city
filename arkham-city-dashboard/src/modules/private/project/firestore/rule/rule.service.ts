@@ -57,10 +57,13 @@ export class RuleService {
     }))));
   }
 
-  update(projectId: string, ruleId: string, rule: UpdateRuleReqDto): Observable<ApiResponse<SchemaRuleResDto>> {
-    return this._rules.pipe(take(1), switchMap(rules => this.httpClient.put<ApiResponse<SchemaRuleResDto>>(this.configService.endpoint(`/projects/${projectId}/firestore/rules/${ruleId}`), rule).pipe(switchMap(response => {
+  update(projectId: string, schema: string | undefined, rule: UpdateRuleReqDto): Observable<ApiResponse<SchemaRuleResDto>> {
+    return this._rules.pipe(take(1), switchMap(rules => this.httpClient.put<ApiResponse<SchemaRuleResDto>>(this.configService.endpoint(`/projects/${projectId}/firestore/rules/${schema}`), rule).pipe(switchMap(response => {
+      if (!rules) {
+        rules = [];
+      }
       if (rules) {
-        const index = rules.findIndex(rule => rule._id === ruleId);
+        const index = rules.findIndex(rule => rule.schema === schema);
         if (index !== -1) {
           rules[index] = response.data;
           this._rules.next([...rules]);
@@ -71,16 +74,18 @@ export class RuleService {
     }))));
   }
 
-  delete(projectId: string, ruleId: string): Observable<ApiResponse<SchemaRuleResDto>> {
-    return this._rules.pipe(take(1), switchMap(rules => this.httpClient.delete<ApiResponse<SchemaRuleResDto>>(this.configService.endpoint(`/projects/${projectId}/firestore/rules/${ruleId}`)).pipe(switchMap(response => {
-      if (rules) {
-        const index = rules.findIndex(rule => rule._id === ruleId);
-        if (index !== -1) {
-          rules.splice(index, 1);
-          this._rules.next([...rules]);
+  delete(projectId: string, schema: string | undefined): Observable<ApiResponse<boolean>> {
+    return this._rules.pipe(take(1), switchMap(rules => this.httpClient.delete<ApiResponse<boolean>>(this.configService.endpoint(`/projects/${projectId}/firestore/rules/${schema}`)).pipe(switchMap(response => {
+      if (response.data) {
+        if (rules) {
+          const index = rules.findIndex(rule => rule.schema === schema);
+          if (index !== -1) {
+            rules.splice(index, 1);
+            this._rules.next([...rules]);
+          }
         }
+        this._rule.next(null);
       }
-      this._rule.next(null);
       return of(response);
     }))));
   }

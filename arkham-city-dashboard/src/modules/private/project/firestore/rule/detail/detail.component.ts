@@ -102,11 +102,38 @@ export class DetailComponent extends BaseFormComponent {
       return;
     }
     this.ruleService.create(this.project._id, this.form.getRawValue()).subscribe(res => {
-      console.log(res);
+      if (!res.error) {
+        this.router.navigate(['../', res.data.schema]);
+      }
     });
   }
 
   update() {
+    if (!this.project) {
+      return;
+    }
+    if (!this.schemaRule) {
+      return;
+    }
+    if (this.form.invalid) {
+      return;
+    }
+    this.ruleService.update(this.project._id, this.schemaRule.schema, this.form.getRawValue()).subscribe(res => {
 
+    });
+  }
+
+  delete() {
+    if (!this.project) {
+      return;
+    }
+    if (!this.schemaRule) {
+      return;
+    }
+    this.ruleService.delete(this.project._id, this.schemaRule.schema).subscribe(res => {
+      if (res.data) {
+        this.router.navigate(['../']);
+      }
+    });
   }
 }
