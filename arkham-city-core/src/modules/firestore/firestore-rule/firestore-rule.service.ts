@@ -46,7 +46,7 @@ export class FirestoreRuleService {
       results.push(rawRule.toJSON());
     }
     this.logger.log('createRawRule:end', results);
-    return new GoodResponse(results);
+    return new GoodResponse(this.combineRule(results));
   }
 
   async updateRawRule(
@@ -58,16 +58,20 @@ export class FirestoreRuleService {
     this.logger.log('updateRawRule:start', user, projectId, schema, rules);
     const connection = this.dataService.createProjectConnection(projectId);
     const _RawRuleModel = connection.model(RawRule.name, RawRuleSchema);
+    const rawRules: RawRule[] = [];
     for (const rule of rules) {
-      const rawRule = await _RawRuleModel.findOne({
+      if (rule.conditions.length === 0) {
+        continue;
+      }
+      let rawRule = await _RawRuleModel.findOne({
         schema: schema,
         type: rule.type,
       });
       if (!rawRule) {
-        return new BadResponse(Errors.PROJECT_FIRESTORE_RULE_COULD_NOT_FOUND);
-      }
-      if (rule.conditions.length === 0) {
-        return new BadResponse(Errors.PROJECT_FIRESTORE_RULE_CONDITIONS_EMPTY);
+        rawRule = new _RawRuleModel({
+          schema: schema,
+          type: rule.type,
+        });
       }
       rawRule.conditions = rule.conditions.map(
         (condition: { condition: any; customCondition: any }) => ({
@@ -75,10 +79,11 @@ export class FirestoreRuleService {
           customCondition: condition.customCondition,
         }),
       );
-      await rawRule.save();
+      rawRule = await rawRule.save();
+      rawRules.push(rawRule);
     }
     this.logger.log('updateRawRule:end', rules);
-    return new GoodResponse(rules);
+    return new GoodResponse(this.combineRule(rawRules));
   }
 
   async deleteRawRule(projectId: string, schema: string) {
@@ -118,29 +123,42 @@ export class FirestoreRuleService {
       return new BadResponse(Errors.PROJECT_FIRESTORE_RULE_COULD_NOT_FOUND);
     }
     this.logger.log('getRawRules:end', rawRules);
-    return new GoodResponse(
-      rawRules.reduce((acc: any[], cur) => {
-        const index = acc.findIndex((e) => e.schema === cur.schema);
-        if (index === -1) {
-          acc.push({
-            schema: cur.schema,
-            rules: [
-              {
-                _id: cur._id,
-                type: cur.type,
-                conditions: cur.conditions,
-              },
-            ],
-          });
-        } else {
-          acc[index].rules.push({
-            _id: cur._id,
-            type: cur.type,
-            conditions: cur.conditions,
-          });
-        }
-        return acc;
-      }, []),
-    );
+    return new GoodResponse(this.combineRules(rawRules));
+  }
+
+  private combineRules(rawRules: RawRule[]) {
+    return rawRules.reduce((acc: any[], cur) => {
+      const index = acc.findIndex((e) => e.schema === cur.schema);
+      if (index === -1) {
+        acc.push({
+          schema: cur.schema,
+          rules: [
+            {
+              _id: cur._id,
+              type: cur.type,
+              conditions: cur.conditions,
+            },
+          ],
+        });
+      } else {
+        acc[index].rules.push({
+          _id: cur._id,
+          type: cur.type,
+          conditions: cur.conditions,
+        });
+      }
+      return acc;
+    }, []);
+  }
+
+  private combineRule(rawRules: RawRule[]) {
+    return {
+      schema: rawRules[0].schema,
+      rules: rawRules.map((rule) => ({
+        _id: rule._id,
+        type: rule.type,
+        conditions: rule.conditions,
+      })),
+    };
   }
 }

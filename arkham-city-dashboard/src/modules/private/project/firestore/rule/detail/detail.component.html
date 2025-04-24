@@ -45,9 +45,10 @@
     </div>
     <div class="flex items-center p-2">
       <ark-button
+        (onClick)="delete()"
         color="red"
         ghost
-        label="{{'delete' | transloco | capitalize}}"
+        label="{{ 'delete' | transloco | capitalize }}"
         size="sm">
       </ark-button>
       <ark-button

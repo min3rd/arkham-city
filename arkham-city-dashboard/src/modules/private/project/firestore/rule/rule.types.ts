@@ -31,6 +31,5 @@ export interface CreateRuleReqDto {
 
 export interface UpdateRuleReqDto {
   schema?: string;
-  type?: string;
-  conditions?: RuleConditionResDto[];
+  rules?: RuleReqDto[];
 }
