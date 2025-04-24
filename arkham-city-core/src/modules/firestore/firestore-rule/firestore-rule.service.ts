@@ -81,16 +81,13 @@ export class FirestoreRuleService {
     return new GoodResponse(rules);
   }
 
-  async deleteRawRule(projectId: string, ruleId: string) {
-    this.logger.log('deleteRawRule:start', projectId, ruleId);
+  async deleteRawRule(projectId: string, schema: string) {
+    this.logger.log('deleteRawRule:start', projectId, schema);
     const connection = this.dataService.createProjectConnection(projectId);
     const _RawRuleModel = connection.model(RawRule.name, RawRuleSchema);
-    const rawRule = await _RawRuleModel.findByIdAndDelete(ruleId);
-    if (!rawRule) {
-      return new BadResponse(Errors.PROJECT_FIRESTORE_RULE_COULD_NOT_FOUND);
-    }
-    this.logger.log('deleteRawRule:end', rawRule);
-    return new GoodResponse(rawRule.toJSON());
+    await _RawRuleModel.deleteMany({ schema: schema });
+    this.logger.log('deleteRawRule:end');
+    return new GoodResponse(true);
   }
 
   async getRawRule(projectId: string, schema: string) {
