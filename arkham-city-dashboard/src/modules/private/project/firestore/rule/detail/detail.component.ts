@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormArray, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ArkTextInput } from '../../../../../../core/components/inputs/ark-text-input/ark-text-input.component';
 import { ArkButton } from '../../../../../../core/components/buttons/ark-button/ark-button.component';
 import { TranslocoModule } from '@jsverse/transloco';
@@ -28,6 +28,7 @@ export class DetailComponent extends BaseFormComponent {
   schemaRule!: SchemaRuleResDto | null;
   private ruleService = inject(RuleService);
   private projectService = inject(ProjectService);
+  private activatedRoute = inject(ActivatedRoute);
 
   override ngOnInit() {
     super.ngOnInit();
@@ -103,7 +104,9 @@ export class DetailComponent extends BaseFormComponent {
     }
     this.ruleService.create(this.project._id, this.form.getRawValue()).subscribe(res => {
       if (!res.error) {
-        this.router.navigate(['../', res.data.schema]);
+        this.router.navigate(['../', res.data.schema], {
+          relativeTo: this.activatedRoute,
+        });
       }
     });
   }
@@ -118,7 +121,7 @@ export class DetailComponent extends BaseFormComponent {
     if (this.form.invalid) {
       return;
     }
-    this.ruleService.update(this.project._id, this.schemaRule.schema, this.form.getRawValue()).subscribe(res => {
+    this.ruleService.update(this.project._id, this.schemaRule.schema, this.form.getRawValue()).subscribe(() => {
 
     });
   }
@@ -132,7 +135,9 @@ export class DetailComponent extends BaseFormComponent {
     }
     this.ruleService.delete(this.project._id, this.schemaRule.schema).subscribe(res => {
       if (res.data) {
-        this.router.navigate(['../']);
+        this.router.navigate(['../'], {
+          relativeTo: this.activatedRoute,
+        });
       }
     });
   }
