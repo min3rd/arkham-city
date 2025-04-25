@@ -44,3 +44,8 @@ export interface MsGetAllProjectFirestoreRulesReqPayload {
   user: JWTPayload;
   projectId: string;
 }
+
+export interface MSGetProjectFirestoreRuleResPayload {
+  schema: string;
+  rules: MsProjectFirestoreRule[];
+}

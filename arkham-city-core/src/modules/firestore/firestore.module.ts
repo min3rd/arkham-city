@@ -26,6 +26,14 @@ import { FirestoreRuleModule } from './firestore-rule/firestore-rule.module';
           port: parseInt(process.env.REDIS_PORT as string),
         },
       },
+      {
+        name: microserviceConfig.project.firestore.rule.name,
+        transport: Transport.REDIS,
+        options: {
+          host: process.env.REDIS_HOST as string,
+          port: parseInt(process.env.REDIS_PORT as string),
+        },
+      },
     ]),
     DatabaseModule,
     FirestoreRuleModule,
