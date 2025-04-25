@@ -65,35 +65,21 @@ export class FirestoreService {
   ) {
     this.logger.log(`webSDKCreateFirestoreRecord`, auth, schemaName, data);
 
-    const getRulePayload: MsGetProjectFirestoreRuleReqPayload = {
-      user: auth as JWTPayload,
-      projectId: auth.projectId as string,
-      schema: schemaName,
-    };
-    const response: ServiceResponse<MSGetProjectFirestoreRuleResPayload> =
-      await firstValueFrom(
-        this.projectFirestoreRuleClient.send(
-          microserviceConfig.project.firestore.rule.patterns.getRule,
-          getRulePayload,
-        ),
-      );
-
-    if (
-      response.data &&
-      response.data.rules.findIndex((e) => e.type == RuleType.create) >= 0
-    ) {
-      const rule = response.data.rules.find((e) => e.type == RuleType.create);
-      if (rule) {
-        for (const condition of rule.conditions) {
-          if (condition.condition == RuleConditionType.require_auth) {
-            if (!auth.sub) {
-              return new BadResponse(
-                Errors.WEB_SDK_FIRESTORE_CREATE_REQUIRE_AUTHORIZATION,
-              );
-            }
-          } else if (condition.condition == RuleConditionType.deny) {
-            return new BadResponse(Errors.WEB_SDK_FIRESTORE_CREATE_WAS_DENIED);
+    const conditions = await this.getConditions(
+      auth,
+      schemaName,
+      RuleType.create,
+    );
+    if (conditions != null && conditions.length) {
+      for (const condition of conditions) {
+        if (condition.condition == RuleConditionType.require_auth) {
+          if (!auth.sub) {
+            return new BadResponse(
+              Errors.WEB_SDK_FIRESTORE_CREATE_REQUIRE_AUTHORIZATION,
+            );
           }
+        } else if (condition.condition == RuleConditionType.deny) {
+          return new BadResponse(Errors.WEB_SDK_FIRESTORE_CREATE_WAS_DENIED);
         }
       }
     }
@@ -152,6 +138,30 @@ export class FirestoreService {
 
   async webSDKQueryRecord(auth: SDKJwtPayload, schemeName: string, query: any) {
     this.logger.log(`webSDKQueryRecord:start`, auth, schemeName, query);
+    let _query = { ...query };
+    const conditions = await this.getConditions(
+      auth,
+      schemeName,
+      RuleType.read,
+    );
+    if (conditions != null && conditions.length) {
+      for (const condition of conditions) {
+        if (condition.condition == RuleConditionType.require_auth) {
+          if (!auth.sub) {
+            return new BadResponse(
+              Errors.WEB_SDK_FIRESTORE_QUERY_REQUIRE_AUTHORIZATION,
+            );
+          }
+        } else if (condition.condition == RuleConditionType.owner) {
+          _query = {
+            ..._query,
+            auth: auth.sub,
+          };
+        } else if (condition.condition == RuleConditionType.deny) {
+          return new BadResponse(Errors.WEB_SDK_FIRESTORE_QUERY_WAS_DENIED);
+        }
+      }
+    }
     const connection = this.databaseService.createProjectConnection(
       auth.projectId as string,
     );
@@ -445,5 +455,32 @@ export class FirestoreService {
     const keys = Object.keys(RuleConditionType);
     this.logger.log(`getAllRuleConditionTypes:end`);
     return new GoodResponse(keys);
+  }
+
+  private async getConditions(
+    auth: SDKJwtPayload,
+    schema: string,
+    type: RuleType,
+  ) {
+    this.logger.log('getRule:start`, auth, schema, type');
+    const getRulePayload: MsGetProjectFirestoreRuleReqPayload = {
+      user: auth as JWTPayload,
+      projectId: auth.projectId as string,
+      schema: schema,
+    };
+    const response: ServiceResponse<MSGetProjectFirestoreRuleResPayload> =
+      await firstValueFrom(
+        this.projectFirestoreRuleClient.send(
+          microserviceConfig.project.firestore.rule.patterns.getRule,
+          getRulePayload,
+        ),
+      );
+    if (!response.data) {
+      this.logger.log('getRule:end null');
+      return null;
+    }
+    const rule = response.data.rules.find((e) => e.type == type);
+    this.logger.log('getRule:end');
+    return rule?.conditions;
   }
 }

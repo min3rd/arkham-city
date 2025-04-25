@@ -160,4 +160,14 @@ export class Errors {
     '01x0026',
     'The record creation was denied',
   );
+
+  static readonly WEB_SDK_FIRESTORE_QUERY_REQUIRE_AUTHORIZATION = new Error(
+    '01x0027',
+    'The record query requires authorization',
+  );
+
+  static readonly WEB_SDK_FIRESTORE_QUERY_WAS_DENIED = new Error(
+    '01x0028',
+    'The record query was denied',
+  );
 }
