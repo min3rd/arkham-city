@@ -200,4 +200,9 @@ export class Errors {
     '01x0034',
     'The record delete requires owner',
   );
+
+  static readonly WEB_SDK_FIRESTORE_QUERY_REQUIRES_OWNER = new Error(
+    '01x0035',
+    'The record query requires owner',
+  );
 }
