@@ -247,6 +247,33 @@ export class FirestoreService {
     if (record._id != data._id) {
       return new BadResponse(Errors.WEB_SDK_FIRESTORE_ID_WAS_NOT_MATCHED);
     }
+    const conditions = await this.getConditions(
+      auth,
+      schemaName,
+      RuleType.update,
+    );
+    if (!conditions || !conditions.length) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_UPDATE_WAS_DENIED);
+    }
+
+    for (const condition of conditions) {
+      if (condition.condition == RuleConditionType.require_auth) {
+        if (!auth.sub) {
+          return new BadResponse(
+            Errors.WEB_SDK_FIRESTORE_UPDATE_REQUIRE_AUTHORIZATION,
+          );
+        }
+      } else if (condition.condition == RuleConditionType.deny) {
+        return new BadResponse(Errors.WEB_SDK_FIRESTORE_UPDATE_WAS_DENIED);
+      } else if (condition.condition == RuleConditionType.owner) {
+        if (record.auth != auth.sub) {
+          return new BadResponse(
+            Errors.WEB_SDK_FIRESTORE_UPDATE_REQUIRES_OWNER,
+          );
+        }
+      }
+    }
+
     record = await recordModel.findOneAndUpdate(
       {
         _id: id,
@@ -305,7 +332,11 @@ export class FirestoreService {
     if (!dynamicSchema) {
       return null;
     }
-    const schema = {};
+    const schema = {
+      auth: {
+        type: String,
+      },
+    };
     for (const field of dynamicSchema.fields) {
       if (field.type === String.name) {
         schema[field.name] = {
@@ -393,7 +424,7 @@ export class FirestoreService {
       return this.fromDataToType(data.pop());
     }
     const dataType = {
-      user: {
+      auth: {
         type: String,
       },
     };
