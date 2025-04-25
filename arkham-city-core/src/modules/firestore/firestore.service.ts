@@ -330,6 +330,34 @@ export class FirestoreService {
     if (!record) {
       return new BadResponse(Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD);
     }
+
+    const conditions = await this.getConditions(
+      auth,
+      schemaName,
+      RuleType.delete,
+    );
+    if (!conditions || !conditions.length) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_DELETE_WAS_DENIED);
+    }
+
+    for (const condition of conditions) {
+      if (condition.condition == RuleConditionType.owner) {
+        if (record.auth != auth.sub) {
+          return new BadResponse(
+            Errors.WEB_SDK_FIRESTORE_DELETE_REQUIRE_AUTHORIZATION,
+          );
+        }
+      } else if (condition.condition == RuleConditionType.require_auth) {
+        if (!auth.sub) {
+          return new BadResponse(
+            Errors.WEB_SDK_FIRESTORE_DELETE_REQUIRE_AUTHORIZATION,
+          );
+        }
+      } else if (condition.condition == RuleConditionType.deny) {
+        return new BadResponse(Errors.WEB_SDK_FIRESTORE_DELETE_WAS_DENIED);
+      }
+    }
+
     await record.deleteOne();
     this.logger.log('webSDKDelete:end');
     return new GoodResponse(true);

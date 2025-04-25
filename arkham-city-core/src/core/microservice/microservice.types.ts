@@ -185,4 +185,19 @@ export class Errors {
     '01x0031',
     'The record update requires owner',
   );
+
+  static readonly WEB_SDK_FIRESTORE_DELETE_REQUIRE_AUTHORIZATION = new Error(
+    '01x0032',
+    'The record delete requires authorization',
+  );
+
+  static readonly WEB_SDK_FIRESTORE_DELETE_WAS_DENIED = new Error(
+    '01x0033',
+    'The record delete was denied',
+  );
+
+  static readonly WEB_SDK_FIRESTORE_DELETE_REQUIRES_OWNER = new Error(
+    '01x0034',
+    'The record delete requires owner',
+  );
 }
