@@ -170,4 +170,19 @@ export class Errors {
     '01x0028',
     'The record query was denied',
   );
+
+  static readonly WEB_SDK_FIRESTORE_UPDATE_REQUIRE_AUTHORIZATION = new Error(
+    '01x0029',
+    'The record update requires authorization',
+  );
+
+  static readonly WEB_SDK_FIRESTORE_UPDATE_WAS_DENIED = new Error(
+    '01x0030',
+    'The record update was denied',
+  );
+
+  static readonly WEB_SDK_FIRESTORE_UPDATE_REQUIRES_OWNER = new Error(
+    '01x0031',
+    'The record update requires owner',
+  );
 }
