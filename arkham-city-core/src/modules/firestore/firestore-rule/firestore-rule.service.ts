@@ -100,7 +100,7 @@ export class FirestoreRuleService {
     const connection = this.dataService.createProjectConnection(projectId);
     const _RawRuleModel = connection.model(RawRule.name, RawRuleSchema);
     const rawRules = await _RawRuleModel.find({ schema: schema });
-    if (!rawRules) {
+    if (!rawRules || rawRules.length === 0) {
       return new BadResponse(Errors.PROJECT_FIRESTORE_RULE_COULD_NOT_FOUND);
     }
     this.logger.log('getRawRule:end', rawRules);

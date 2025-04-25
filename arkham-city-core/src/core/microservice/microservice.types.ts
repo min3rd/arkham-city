@@ -150,4 +150,14 @@ export class Errors {
     '01x0024',
     'The rule conditions can not be empty',
   );
+
+  static readonly WEB_SDK_FIRESTORE_CREATE_REQUIRE_AUTHORIZATION = new Error(
+    '01x0025',
+    'The record creation requires authorization',
+  );
+
+  static readonly WEB_SDK_FIRESTORE_CREATE_WAS_DENIED = new Error(
+    '01x0026',
+    'The record creation was denied',
+  );
 }

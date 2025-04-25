@@ -6,10 +6,10 @@ describe('Firestore Client', () => {
   globalConfig({
     url: 'http://localhost:3000',
     version: 'v1',
-    projectId: '67f71b0ba9ae99e7aaf82e71',
-    appId: '67f71b1fa9ae99e7aaf82e75',
+    projectId: '68075da4ccae85f2016da2b5',
+    appId: '680af9adf25bf1f7cd9d936f',
     secretKey:
-      'Z315Nvw0CrpQoDpyQvvRvhTQSuo460SfzXU8wmP7LDWitXYEiTZjT4LDH4Wkz8Va',
+      'KFf/uq8Dl1VwNVABxgJyjM2I14OpItM9jIPQe8XnESZ+IAAZJQa/LFYUP2rTHO5z',
   });
   test('Firestore Client: firestore(schema)', () => {
     const testSchemaName = 'conversions';

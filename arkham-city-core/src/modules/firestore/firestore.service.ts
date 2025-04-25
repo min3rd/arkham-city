@@ -15,12 +15,17 @@ import { ClientRedis } from '@nestjs/microservices';
 import { MsWebSDKFirestoreStoreSchemaReqPayload } from 'src/microservices/ms-websdk/ms-websdk-firestore/ms-websdk-firestore.interface';
 import moment, { ISO_8601 } from 'moment';
 import mongoose, { Connection, SchemaTypes } from 'mongoose';
-import { ConfigService } from '@nestjs/config';
 import { DatabaseService } from '../database/database.service';
 import {
   RuleConditionType,
   RuleType,
 } from './firestore-rule/firestore-rule.types';
+import { firstValueFrom } from 'rxjs';
+import {
+  MsGetProjectFirestoreRuleReqPayload,
+  MSGetProjectFirestoreRuleResPayload,
+} from '../../microservices/ms-project/ms-project-firestore/ms-project-firestore-rule/ms-project-firestore-rule.interface';
+import { JWTPayload } from '../auth/auth.interface';
 
 @Injectable()
 export class FirestoreService {
@@ -30,9 +35,10 @@ export class FirestoreService {
 
   constructor(
     @Inject(microserviceConfig.websdk.firestore.name)
-    private readonly clientProxy: ClientRedis,
-    private readonly configService: ConfigService,
+    private readonly webSDKFirestoreClient: ClientRedis,
     private readonly databaseService: DatabaseService,
+    @Inject(microserviceConfig.project.firestore.rule.name)
+    private readonly projectFirestoreRuleClient: ClientRedis,
   ) {}
 
   async createRecord(
@@ -58,6 +64,40 @@ export class FirestoreService {
     data: any,
   ) {
     this.logger.log(`webSDKCreateFirestoreRecord`, auth, schemaName, data);
+
+    const getRulePayload: MsGetProjectFirestoreRuleReqPayload = {
+      user: auth as JWTPayload,
+      projectId: auth.projectId as string,
+      schema: schemaName,
+    };
+    const response: ServiceResponse<MSGetProjectFirestoreRuleResPayload> =
+      await firstValueFrom(
+        this.projectFirestoreRuleClient.send(
+          microserviceConfig.project.firestore.rule.patterns.getRule,
+          getRulePayload,
+        ),
+      );
+
+    if (
+      response.data &&
+      response.data.rules.findIndex((e) => e.type == RuleType.create) >= 0
+    ) {
+      const rule = response.data.rules.find((e) => e.type == RuleType.create);
+      if (rule) {
+        for (const condition of rule.conditions) {
+          if (condition.condition == RuleConditionType.require_auth) {
+            if (!auth.sub) {
+              return new BadResponse(
+                Errors.WEB_SDK_FIRESTORE_CREATE_REQUIRE_AUTHORIZATION,
+              );
+            }
+          } else if (condition.condition == RuleConditionType.deny) {
+            return new BadResponse(Errors.WEB_SDK_FIRESTORE_CREATE_WAS_DENIED);
+          }
+        }
+      }
+    }
+
     const preData = {
       ...data,
       project: {
@@ -79,7 +119,7 @@ export class FirestoreService {
       schemaName: schemaName,
       data: data,
     };
-    this.clientProxy.emit(
+    this.webSDKFirestoreClient.emit(
       microserviceConfig.websdk.firestore.patterns.storeSchema,
       payload,
     );
@@ -313,9 +353,7 @@ export class FirestoreService {
           if (moment(data[key], ISO_8601, true).isValid()) {
             type = Date.name;
           }
-        } catch (e) {
-          this.logger.debug(e);
-        }
+        } catch (e) {}
       } else if (typeof data[key] === 'number') {
         type = Number.name;
       } else if (typeof data[key] === 'bigint') {
@@ -365,9 +403,7 @@ export class FirestoreService {
               type: Date,
             };
           }
-        } catch (e) {
-          this.logger.debug(e);
-        }
+        } catch (e) {}
       } else if (typeof data[key] === 'number') {
         dataType[key] = {
           type: Number,
