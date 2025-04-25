@@ -70,17 +70,20 @@ export class FirestoreService {
       schemaName,
       RuleType.create,
     );
-    if (conditions != null && conditions.length) {
-      for (const condition of conditions) {
-        if (condition.condition == RuleConditionType.require_auth) {
-          if (!auth.sub) {
-            return new BadResponse(
-              Errors.WEB_SDK_FIRESTORE_CREATE_REQUIRE_AUTHORIZATION,
-            );
-          }
-        } else if (condition.condition == RuleConditionType.deny) {
-          return new BadResponse(Errors.WEB_SDK_FIRESTORE_CREATE_WAS_DENIED);
+
+    if (!conditions || !conditions.length) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_CREATE_WAS_DENIED);
+    }
+
+    for (const condition of conditions) {
+      if (condition.condition == RuleConditionType.require_auth) {
+        if (!auth.sub) {
+          return new BadResponse(
+            Errors.WEB_SDK_FIRESTORE_CREATE_REQUIRE_AUTHORIZATION,
+          );
         }
+      } else if (condition.condition == RuleConditionType.deny) {
+        return new BadResponse(Errors.WEB_SDK_FIRESTORE_CREATE_WAS_DENIED);
       }
     }
 
@@ -144,24 +147,28 @@ export class FirestoreService {
       schemeName,
       RuleType.read,
     );
-    if (conditions != null && conditions.length) {
-      for (const condition of conditions) {
-        if (condition.condition == RuleConditionType.require_auth) {
-          if (!auth.sub) {
-            return new BadResponse(
-              Errors.WEB_SDK_FIRESTORE_QUERY_REQUIRE_AUTHORIZATION,
-            );
-          }
-        } else if (condition.condition == RuleConditionType.owner) {
-          _query = {
-            ..._query,
-            auth: auth.sub,
-          };
-        } else if (condition.condition == RuleConditionType.deny) {
-          return new BadResponse(Errors.WEB_SDK_FIRESTORE_QUERY_WAS_DENIED);
+
+    if (!conditions || !conditions.length) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_QUERY_WAS_DENIED);
+    }
+
+    for (const condition of conditions) {
+      if (condition.condition == RuleConditionType.require_auth) {
+        if (!auth.sub) {
+          return new BadResponse(
+            Errors.WEB_SDK_FIRESTORE_QUERY_REQUIRE_AUTHORIZATION,
+          );
         }
+      } else if (condition.condition == RuleConditionType.owner) {
+        _query = {
+          ..._query,
+          auth: auth.sub,
+        };
+      } else if (condition.condition == RuleConditionType.deny) {
+        return new BadResponse(Errors.WEB_SDK_FIRESTORE_QUERY_WAS_DENIED);
       }
     }
+
     const connection = this.databaseService.createProjectConnection(
       auth.projectId as string,
     );
@@ -176,6 +183,16 @@ export class FirestoreService {
 
   async webSDKFindById(auth: SDKJwtPayload, schemaName: string, id: string) {
     this.logger.log(`webSDKGetRecord:start`, auth, schemaName, id);
+    const conditions = await this.getConditions(
+      auth,
+      schemaName,
+      RuleType.read,
+    );
+
+    if (!conditions || !conditions.length) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_QUERY_WAS_DENIED);
+    }
+
     const connection = this.databaseService.createProjectConnection(
       auth.projectId as string,
     );
@@ -184,6 +201,27 @@ export class FirestoreService {
       return new BadResponse(Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA);
     }
     const record = await recordModel.findById(id);
+
+    if (!record) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD);
+    }
+
+    for (const condition of conditions) {
+      if (condition.condition == RuleConditionType.require_auth) {
+        if (!auth.sub) {
+          return new BadResponse(
+            Errors.WEB_SDK_FIRESTORE_QUERY_REQUIRE_AUTHORIZATION,
+          );
+        }
+      } else if (condition.condition == RuleConditionType.owner) {
+        if (record.auth != auth.sub) {
+          return new BadResponse(Errors.WEB_SDK_FIRESTORE_QUERY_REQUIRES_OWNER);
+        }
+      } else if (condition.condition == RuleConditionType.deny) {
+        return new BadResponse(Errors.WEB_SDK_FIRESTORE_QUERY_WAS_DENIED);
+      }
+    }
+
     this.logger.log(`webSDKGetRecord:end`);
     return new GoodResponse(record?.toJSON());
   }
