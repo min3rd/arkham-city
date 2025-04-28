@@ -579,7 +579,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="dBBxBlrnxnKX6Cv7Blm_-1" value="Get Access Token" style="rounded=1;whiteSpace=wrap;html=1;shadow=1;dashed=1;strokeColor=#97D077;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=14;fontColor=default;labelBorderColor=none;labelBackgroundColor=default;fillColor=default;" vertex="1" parent="1">
-          <mxGeometry x="533" y="620" width="150" height="58" as="geometry" />
+          <mxGeometry x="560" y="620" width="150" height="58" as="geometry" />
         </mxCell>
         <mxCell id="dgE3ls5rRKycK8u-qRHe-99" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;jumpStyle=arc;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=1 1;strokeColor=#6c8ebf;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=9;fontColor=default;fontStyle=2;labelBorderColor=#FFCCE6;labelBackgroundColor=default;resizable=0;endArrow=classic;flowAnimation=1;fillColor=#dae8fc;" edge="1" parent="1" source="dBBxBlrnxnKX6Cv7Blm_-2" target="dgE3ls5rRKycK8u-qRHe-10">
           <mxGeometry relative="1" as="geometry">
@@ -643,7 +643,7 @@
         <mxCell id="dgE3ls5rRKycK8u-qRHe-7" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;dashPattern=1 1;strokeColor=#F19C99;strokeWidth=3;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;labelBackgroundColor=default;endArrow=classic;fillColor=#dae8fc;flowAnimation=1;" edge="1" parent="1" source="dgE3ls5rRKycK8u-qRHe-3" target="dBBxBlrnxnKX6Cv7Blm_-1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="608" y="598" />
+              <mxPoint x="630" y="598" />
             </Array>
           </mxGeometry>
         </mxCell>
