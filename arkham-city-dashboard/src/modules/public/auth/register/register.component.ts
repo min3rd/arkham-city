@@ -31,12 +31,12 @@ export class RegisterComponent extends BaseFormComponent {
   override ngOnInit(): void {
     super.ngOnInit();
     this.form = this.formBuilder.group({
-      firstNane: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]],
-      confirmPassword: ['', [Validators.required]],
-      agree: [false, [Validators.requiredTrue]],
+      firstName: ['Arkham City', [Validators.required]],
+      lastName: ['Dev', [Validators.required]],
+      email: ['email@domain.com', [Validators.required, Validators.email]],
+      password: ['ThisIsNewPassword', [Validators.required]],
+      confirmPassword: ['ThisIsNewPassword', [Validators.required]],
+      agree: [true, [Validators.requiredTrue]],
     });
   }
 

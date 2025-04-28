@@ -11,7 +11,6 @@ import { Request } from 'express';
 import { REQUEST_FIELDS } from 'src/config/request.config';
 import { IS_PUBLIC_KEY } from 'src/core/decorators/public';
 import { JWTPayload } from 'src/modules/auth/auth.interface';
-import { SDKJwtPayload } from 'src/modules/websdk/websdk-auth/websdk-auth.interface';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -45,11 +44,10 @@ export class AuthGuard implements CanActivate {
       if (payload.type === 'dashboard') {
         request[REQUEST_FIELDS.user] = payload;
       } else if (payload.type === 'websdk') {
-        const authPayload: SDKJwtPayload = await this.jwtService.verifyAsync(
+        request[REQUEST_FIELDS.auth] = await this.jwtService.verifyAsync(
           token,
           { secret: this.configService.get('JWT_SECRET') },
         );
-        request[REQUEST_FIELDS.auth] = authPayload;
       }
     } catch {
       throw new UnauthorizedException();

@@ -15,14 +15,17 @@ COPY . .
 # Build the application
 RUN npm run build
 
+# Edit configuration file
+RUN sed -i 's|http://localhost:3000|/api|g' /app/dist/arkham-city-dashboard/browser/assets/json/config.json
+
 # Production stage
 FROM nginx:alpine
 
 # Copy the build output to replace the default nginx contents
-COPY --from=build /app/dist/arkham-city-dashboard /usr/share/nginx/html
+COPY --from=build /app/dist/arkham-city-dashboard/browser /usr/share/nginx/html
 
-# Expose port 8181
-EXPOSE 8181
+# Expose port 80
+EXPOSE 80
 
 # Copy custom nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf

@@ -3,14 +3,15 @@ import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { ConsoleLogger, VersioningType } from '@nestjs/common';
 import { HttpInterceptor } from './core/interceptors/http/http.interceptor';
+import { ServiceModule } from './service.module';
 
 async function bootstrap() {
   if (process.env.MICROSERVICE_ONLY === 'true') {
     const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-      AppModule,
+      ServiceModule,
       {
         logger: new ConsoleLogger({
-          prefix: process.env.APP_NAME + '-microservices-only',
+          prefix: process.env.APP_NAME,
         }),
         transport: Transport.REDIS,
         options: {
