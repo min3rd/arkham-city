@@ -219,7 +219,8 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/modules/user/user.type.ts:11</a></div>
+                          <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/modules/user/user.type.ts:13</a>
+                          </div>
                         </td>
                     </tr>
 
@@ -255,7 +256,8 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/modules/user/user.type.ts:20</a></div>
+                          <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/modules/user/user.type.ts:22</a>
+                          </div>
                         </td>
                     </tr>
 
@@ -291,7 +293,8 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/modules/user/user.type.ts:23</a></div>
+                          <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/modules/user/user.type.ts:25</a>
+                          </div>
                         </td>
                     </tr>
 
@@ -327,7 +330,8 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/modules/user/user.type.ts:26</a></div>
+                          <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/modules/user/user.type.ts:28</a>
+                          </div>
                         </td>
                     </tr>
 
@@ -363,7 +367,8 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/modules/user/user.type.ts:14</a></div>
+                          <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/modules/user/user.type.ts:16</a>
+                          </div>
                         </td>
                     </tr>
 
@@ -399,7 +404,8 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/modules/user/user.type.ts:17</a></div>
+                          <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/modules/user/user.type.ts:19</a>
+                          </div>
                         </td>
                     </tr>
 
@@ -435,7 +441,8 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">src/modules/user/user.type.ts:29</a></div>
+                          <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">src/modules/user/user.type.ts:31</a>
+                          </div>
                         </td>
                     </tr>
 
@@ -471,7 +478,8 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/modules/user/user.type.ts:8</a></div>
+                          <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/modules/user/user.type.ts:10</a>
+                          </div>
                         </td>
                     </tr>
 
@@ -494,7 +502,9 @@
 import { HydratedDocument } from &#x27;mongoose&#x27;;
 import { AuditEntity } from &#x27;../base/base.type&#x27;;
 
-@Schema()
+@Schema({
+  timestamps: true,
+})
 export class User extends AuditEntity {
   @Prop()
   username: string;

@@ -140,20 +140,33 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                              <span class="modifier">Optional</span>
+                              <a href="#_id">_id</a>
+                            </li>
+                          <li>
+                            <span class="modifier"></span>
+                            <span class="modifier">Optional</span>
+                            <a href="#activated">activated</a>
+                          </li>
+                          <li>
                                     <span class="modifier"></span>
+                            <span class="modifier">Optional</span>
                                 <a href="#createdAt" >createdAt</a>
                             </li>
                             <li>
                                     <span class="modifier"></span>
+                              <span class="modifier">Optional</span>
                                 <a href="#createdBy" >createdBy</a>
                             </li>
                             <li>
                                     <span class="modifier"></span>
-                                <a href="#lastModifiedAt" >lastModifiedAt</a>
+                              <span class="modifier">Optional</span>
+                              <a href="#updatedAt">updatedAt</a>
                             </li>
                             <li>
                                     <span class="modifier"></span>
-                                <a href="#lastModifiedBy" >lastModifiedBy</a>
+                              <span class="modifier">Optional</span>
+                              <a href="#updatedBy">updatedBy</a>
                             </li>
                         </ul>
                     </td>
@@ -178,9 +191,85 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                  <a name="_id"></a>
+                  <span class="name">
+                            <span class="modifier">Optional</span>
+                        <span><b>_id</b></span>
+                        <a href="#_id"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+              <td class="col-md-4">
+                <i>Type : </i> <code><a
+                href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                target="_blank">string</a></code>
+
+              </td>
+            </tr>
+            <tr>
+              <td class="col-md-4">
+                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/modules/base/base.type.ts:14</a>
+                </div>
+              </td>
+            </tr>
+
+
+        </tbody>
+    </table>
+              <table class="table table-sm table-bordered">
+                <tbody>
+                <tr>
+                  <td class="col-md-4">
+                    <a name="activated"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier">Optional</span>
+                        <span><b>activated</b></span>
+                        <a href="#activated"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="col-md-4">
+                    <i>Type : </i> <code><a
+                    href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean"
+                    target="_blank">boolean</a></code>
+
+                  </td>
+                </tr>
+                <tr>
+                  <td class="col-md-4">
+                    <i>Default value : </i><code>true</code>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>
+                      @Prop({default: true, select: false})<br />
+                    </code>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">src/modules/base/base.type.ts:36</a>
+                    </div>
+                  </td>
+                </tr>
+
+
+                </tbody>
+              </table>
+              <table class="table table-sm table-bordered">
+                <tbody>
+                <tr>
+                  <td class="col-md-4">
                     <a name="createdAt"></a>
                     <span class="name">
                             <span class="modifier"></span>
+                            <span class="modifier">Optional</span>
                         <span ><b>createdAt</b></span>
                         <a href="#createdAt"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -197,13 +286,14 @@
                         <b>Decorators : </b>
                         <br />
                         <code>
-                            @Prop()<br />
+                          @Prop({default: undefined})<br />
                         </code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/modules/base/base.type.ts:16</a></div>
+                          <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/modules/base/base.type.ts:22</a>
+                          </div>
                         </td>
                     </tr>
 
@@ -217,6 +307,7 @@
                     <a name="createdBy"></a>
                     <span class="name">
                             <span class="modifier"></span>
+                            <span class="modifier">Optional</span>
                         <span ><b>createdBy</b></span>
                         <a href="#createdBy"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -239,7 +330,8 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/modules/base/base.type.ts:13</a></div>
+                          <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/modules/base/base.type.ts:17</a>
+                          </div>
                         </td>
                     </tr>
 
@@ -250,11 +342,12 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="lastModifiedAt"></a>
+                  <a name="updatedAt"></a>
                     <span class="name">
                             <span class="modifier"></span>
-                        <span ><b>lastModifiedAt</b></span>
-                        <a href="#lastModifiedAt"><span class="icon ion-ios-link"></span></a>
+                            <span class="modifier">Optional</span>
+                        <span><b>updatedAt</b></span>
+                        <a href="#updatedAt"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -269,13 +362,14 @@
                         <b>Decorators : </b>
                         <br />
                         <code>
-                            @Prop()<br />
+                          @Prop({default: undefined})<br />
                         </code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/modules/base/base.type.ts:22</a></div>
+                          <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/modules/base/base.type.ts:30</a>
+                          </div>
                         </td>
                     </tr>
 
@@ -286,11 +380,12 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="lastModifiedBy"></a>
+                  <a name="updatedBy"></a>
                     <span class="name">
                             <span class="modifier"></span>
-                        <span ><b>lastModifiedBy</b></span>
-                        <a href="#lastModifiedBy"><span class="icon ion-ios-link"></span></a>
+                            <span class="modifier">Optional</span>
+                        <span><b>updatedBy</b></span>
+                        <a href="#updatedBy"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -311,7 +406,8 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/modules/base/base.type.ts:19</a></div>
+                          <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/modules/base/base.type.ts:25</a>
+                          </div>
                         </td>
                     </tr>
 
@@ -339,19 +435,33 @@ export interface ResponseDto {
   data?: any;
 }
 
-@Schema()
+@Schema({
+  timestamps: true,
+})
 export class AuditEntity {
-  @Prop()
-  createdBy: string;
+  _id?: string;
 
   @Prop()
-  createdAt: Date;
+  createdBy?: string;
+
+  @Prop({
+    default: new Date(),
+  })
+  createdAt?: Date;
 
   @Prop()
-  lastModifiedBy: string;
+  updatedBy?: string;
 
-  @Prop()
-  lastModifiedAt: Date;
+  @Prop({
+    default: new Date(),
+  })
+  updatedAt?: Date;
+
+  @Prop({
+    default: true,
+    select: false,
+  })
+  activated?: boolean &#x3D; true;
 }
 </code></pre>
     </div>

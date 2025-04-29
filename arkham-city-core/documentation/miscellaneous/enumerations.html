@@ -112,7 +112,17 @@
                 <td class="col-md-4">
                     <ul class="index-list">
                         <li>
-                            <a href="#MicroserviceErrorCode" title="src/core/microservice/microservice.type.ts" ><b>MicroserviceErrorCode</b>&nbsp;&nbsp;&nbsp;(src/.../microservice.type.ts)</a>
+                          <a href="#APP_TYPE" title="src/modules/project/app/project-app.type.ts"><b>APP_TYPE</b>&nbsp;&nbsp;&nbsp;(src/.../project-app.type.ts)</a>
+                        </li>
+                      <li>
+                        <a href="#REQUEST_FIELDS" title="src/config/request.config.ts"><b>REQUEST_FIELDS</b>&nbsp;&nbsp;&nbsp;(src/.../request.config.ts)</a>
+                      </li>
+                      <li>
+                        <a href="#RuleConditionType"
+                           title="src/modules/firestore/firestore-rule/firestore-rule.types.ts"><b>RuleConditionType</b>&nbsp;&nbsp;&nbsp;(src/.../firestore-rule.types.ts)</a>
+                      </li>
+                      <li>
+                        <a href="#RuleType" title="src/modules/firestore/firestore-rule/firestore-rule.types.ts"><b>RuleType</b>&nbsp;&nbsp;&nbsp;(src/.../firestore-rule.types.ts)</a>
                         </li>
                     </ul>
                 </td>
@@ -121,74 +131,174 @@
     </table>
 </section>
 
-    <h3>src/core/microservice/microservice.type.ts</h3>
+                     <h3>src/modules/project/app/project-app.type.ts</h3>
+                     <section data-compodoc="block-enums">
+                       <table class="table table-sm table-bordered">
+                         <tbody>
+                         <tr>
+                           <td class="col-md-4">
+                             <a name="APP_TYPE"></a>
+                             <span class="name "><b>APP_TYPE</b><a href="#APP_TYPE"><span
+                               class="icon ion-ios-link"></span></a></span>
+                           </td>
+                         </tr>
+                         <tr>
+                           <td class="col-md-4">
+                             &nbsp;WEB_APP
+                           </td>
+                         </tr>
+                         <tr>
+                           <td class="col-md-4">
+                             <i>Value : </i><code>WEB_APP</code>
+                           </td>
+                         </tr>
+                         </tbody>
+                       </table>
+                     </section>
+                     <h3>src/config/request.config.ts</h3>
     <section data-compodoc="block-enums">
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="MicroserviceErrorCode"></a>
-                        <span class="name "><b>MicroserviceErrorCode</b><a href="#MicroserviceErrorCode"><span class="icon ion-ios-link"></span></a></span>
+                      <a name="REQUEST_FIELDS"></a>
+                      <span class="name "><b>REQUEST_FIELDS</b><a href="#REQUEST_FIELDS"><span
+                        class="icon ion-ios-link"></span></a></span>
                     </td>
+                </tr>
+                <tr>
+                  <td class="col-md-4">
+                    &nbsp;user
+                  </td>
+                </tr>
+                <tr>
+                  <td class="col-md-4">
+                    <i>Value : </i><code>user</code>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="col-md-4">
+                    &nbsp;auth
+                  </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                &nbsp;DEFAULT
+                              <i>Value : </i><code>auth</code>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+    </section>
+                     <h3>src/modules/firestore/firestore-rule/firestore-rule.types.ts</h3>
+                     <section data-compodoc="block-enums">
+                       <table class="table table-sm table-bordered">
+                         <tbody>
+                         <tr>
+                           <td class="col-md-4">
+                             <a name="RuleConditionType"></a>
+                             <span class="name "><b>RuleConditionType</b><a href="#RuleConditionType"><span
+                               class="icon ion-ios-link"></span></a></span>
+                           </td>
+                         </tr>
+                        <tr>
+                            <td class="col-md-4">
+                              &nbsp;require_auth
                             </td>
                         </tr>
                         <tr>
                             <td class="col-md-4">
-                                <i>Value : </i><code>00x0000</code>
+                              <i>Value : </i><code>require_auth</code>
                             </td>
                         </tr>
                         <tr>
                             <td class="col-md-4">
-                                &nbsp;DUPLICATE_EMAIL
+                              &nbsp;owner
                             </td>
                         </tr>
                         <tr>
                             <td class="col-md-4">
-                                <i>Value : </i><code>01x0001</code>
+                              <i>Value : </i><code>owner</code>
                             </td>
                         </tr>
                         <tr>
                             <td class="col-md-4">
-                                &nbsp;EMAIL_NOT_FOUND
+                              &nbsp;allow
                             </td>
                         </tr>
                         <tr>
                             <td class="col-md-4">
-                                <i>Value : </i><code>01x0002</code>
+                              <i>Value : </i><code>allow</code>
                             </td>
                         </tr>
                         <tr>
                             <td class="col-md-4">
-                                &nbsp;PASSWORD_IS_INCORRECT
+                              &nbsp;deny
                             </td>
                         </tr>
                         <tr>
                             <td class="col-md-4">
-                                <i>Value : </i><code>01x0003</code>
+                              <i>Value : </i><code>deny</code>
                             </td>
                         </tr>
                         <tr>
                             <td class="col-md-4">
-                                &nbsp;USER_NOT_FOUND
+                              &nbsp;custom
                             </td>
                         </tr>
                         <tr>
                             <td class="col-md-4">
-                                <i>Value : </i><code>01x0004</code>
+                              <i>Value : </i><code>custom</code>
                             </td>
                         </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                &nbsp;INCORRECT_REFRESH_TOKEN
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <i>Value : </i><code>01x0005</code>
+                         </tbody>
+                       </table>
+                       <table class="table table-sm table-bordered">
+                         <tbody>
+                         <tr>
+                           <td class="col-md-4">
+                             <a name="RuleType"></a>
+                             <span class="name "><b>RuleType</b><a href="#RuleType"><span
+                               class="icon ion-ios-link"></span></a></span>
+                           </td>
+                         </tr>
+                         <tr>
+                           <td class="col-md-4">
+                             &nbsp;read
+                           </td>
+                         </tr>
+                         <tr>
+                           <td class="col-md-4">
+                             <i>Value : </i><code>read</code>
+                           </td>
+                         </tr>
+                         <tr>
+                           <td class="col-md-4">
+                             &nbsp;create
+                           </td>
+                         </tr>
+                         <tr>
+                           <td class="col-md-4">
+                             <i>Value : </i><code>create</code>
+                           </td>
+                         </tr>
+                         <tr>
+                           <td class="col-md-4">
+                             &nbsp;update
+                           </td>
+                         </tr>
+                         <tr>
+                           <td class="col-md-4">
+                             <i>Value : </i><code>update</code>
+                           </td>
+                         </tr>
+                         <tr>
+                           <td class="col-md-4">
+                             &nbsp;delete
+                           </td>
+                         </tr>
+                         <tr>
+                           <td class="col-md-4">
+                             <i>Value : </i><code>delete</code>
                             </td>
                         </tr>
             </tbody>

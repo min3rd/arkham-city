@@ -8,592 +8,2506 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
-	    <link rel="stylesheet" href="../styles/style.css">
+      <link rel="stylesheet" href="../styles/style.css">
+      <link rel="stylesheet" href="../styles/dark.css">
     </head>
     <body>
+    <script>
+      // Blocking script to avoid flickering dark mode
+      // Dark mode toggle button
+      var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+      var darkModeState = useDark.matches;
+      var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+      var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+      var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
 
-        <div class="navbar navbar-default navbar-fixed-top visible-xs">
-            <a href="../" class="navbar-brand">arkham-city-core documentation</a>
-            <button type="button" class="btn btn-default btn-menu fa fa-bars" id="btn-menu"></button>
+      function checkToggle(check) {
+        for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+          $darkModeToggleSwitchers[i].checked = check;
+        }
+      }
+
+      function toggleDarkMode(state) {
+        if (window.localStorage) {
+          localStorage.setItem('compodoc_darkmode-state', state);
+        }
+
+        checkToggle(state);
+
+        const hasClass = document.body.classList.contains('dark');
+
+        if (state) {
+          for (var i = 0; i < $darkModeToggles.length; i++) {
+            $darkModeToggles[i].classList.add('dark');
+          }
+          if (!hasClass) {
+            document.body.classList.add('dark');
+          }
+        } else {
+          for (var i = 0; i < $darkModeToggles.length; i++) {
+            $darkModeToggles[i].classList.remove('dark');
+          }
+          if (hasClass) {
+            document.body.classList.remove('dark');
+          }
+        }
+      }
+
+      useDark.addEventListener('change', function(evt) {
+        toggleDarkMode(evt.matches);
+      });
+      if (darkModeStateLocal) {
+        darkModeState = darkModeStateLocal === 'true';
+      }
+      toggleDarkMode(darkModeState);
+    </script>
+
+    <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+      <div class="d-flex">
+        <a href="../" class="navbar-brand">arkham-city-core documentation</a>
+        <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+      </div>
         </div>
 
         <div class="xs-menu menu" id="mobile-menu">
-            <div id="book-search-input" role="search">
-                <input type="text" placeholder="Type to search">
-            </div>
-            <nav>
-            
-                <ul class="list">
-            
-                    <li class="title">
-                        <a href="../">arkham-city-core documentation</a>
-                    </li>
-            
-                    <li class="divider"></li>
-            
-            
-                    <li class="chapter">
-                        <a data-type="chapter-link" href="../"><span class="fa fa-home"></span>Getting started</a>
-                        <ul class="links">
-                                <li class="link">
-                                    <a href="../" ><span class="fa fa-file-text-o"></span>README</a>
-                                </li>
-                                <li class="link">
-                                    <a 
-                                        
-                                         href="../overview.html" 
-                                         href="../overview.html" 
-                                        >
-                                        <span class="fa fa-th"></span>Overview
-                                    </a>
-                                </li>
-                        </ul>
-                    </li>
-            
-            
-            
-            
-                    <li class="chapter">
-                        <div class="simple">
-                            <span class="fa fa-file-code-o"></span>
-                            <span>Classes</span>
-                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
-                                    data-target="#xs-classes-links"
-                                ></span>
-                        </div>
-                        <ul class="links collapse in"
-                                id="xs-classes-links"
-                            >
-                                <li class="link">
-                                    <a href="../classes/BadMicroserviceResponse.html" >BadMicroserviceResponse</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/BadRequestAlertException.html" >BadRequestAlertException</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/BaseService.html" >BaseService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/GatewayController.html" >GatewayController</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/IErrorCode.html" >IErrorCode</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/MicroserviceErrorCode.html" >MicroserviceErrorCode</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../classes/SuccessMicroserviceResponse.html" >SuccessMicroserviceResponse</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-            
-                    <li class="chapter">
-                        <div class="simple">
-                            <span class="fa fa-long-arrow-down"></span>
-                            <span>Injectables</span>
-                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
-                                    data-target="#xs-injectables-links"
-                                ></span>
-                        </div>
-                        <ul class="links collapse in"
-                                id="xs-injectables-links"
-                            >
-                                <li class="link">
-                                    <a href="../injectables/AppService.html" >AppService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/AuthGuard.html" >AuthGuard</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/AuthService.html" >AuthService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/ExceptionInterceptor.html" >ExceptionInterceptor</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/FirestoreService.html"  class="active" >FirestoreService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/HashService.html" >HashService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/MongooseService.html" >MongooseService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/ProjectService.html" >ProjectService</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/ResponseInterceptor.html" >ResponseInterceptor</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../injectables/UserService.html" >UserService</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-                    <li class="chapter">
-                        <div class="simple">
-                            <span class="fa fa-info"></span>
-                            <span>Interfaces</span>
-                            <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
-                                    data-target="#xs-interfaces-links"
-                                ></span>
-                        </div>
-                        <ul class="links collapse in"
-                                id="xs-interfaces-links"
-                            >
-                                <li class="link">
-                                    <a href="../interfaces/AllProjectAppReqPayload.html" >AllProjectAppReqPayload</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/CreateFirestoreRecord.html" >CreateFirestoreRecord</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/CreateProjectAppReqDto.html" >CreateProjectAppReqDto</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/CreateProjectAppReqPayload.html" >CreateProjectAppReqPayload</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/DeleteProjectAppReqPayload.html" >DeleteProjectAppReqPayload</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/GetProjectAppReqPayload.html" >GetProjectAppReqPayload</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/GetProjectByIdReqPayload.html" >GetProjectByIdReqPayload</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/JWTPayload.html" >JWTPayload</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/LogInByEmailAndPassword.html" >LogInByEmailAndPassword</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/LogInByRefreshToken.html" >LogInByRefreshToken</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/LogInResponseDto.html" >LogInResponseDto</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/MicroserviceResponse.html" >MicroserviceResponse</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/NewProjectDto.html" >NewProjectDto</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/NewProjectReqPayload.html" >NewProjectReqPayload</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/RegisterByEmailAndPasswordDto.html" >RegisterByEmailAndPasswordDto</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/RegisterResponseDto.html" >RegisterResponseDto</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/ResponseDto.html" >ResponseDto</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/UpdateProjectAppReqDto.html" >UpdateProjectAppReqDto</a>
-                                </li>
-                                <li class="link">
-                                    <a href="../interfaces/UpdateProjectAppReqPayload.html" >UpdateProjectAppReqPayload</a>
-                                </li>
-                        </ul>
-                    </li>
-            
-            
-                    <li class="chapter">
-                        <a data-type="chapter-link" href="../miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
-                    </li>
-            
-                    <li class="chapter">
-                        <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
-                    </li>
-            
-                    <li class="divider"></li>
-                    <li class="copyright">
-                            Documentation generated using <a href="https://compodoc.github.io/compodoc/" target="_blank">
-                                        <img src="..//images/compodoc-vectorise.svg" class="img-responsive">
-                            </a>
-                    </li>
-            
-                </ul>
-            
-            </nav>
+          <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>
+          <compodoc-menu></compodoc-menu>
         </div>
 
-        <div class="container-fluid main">
-           <div class="row main">
-               <div class="hidden-xs menu">
-                   <nav>
-                   
-                       <ul class="list">
-                   
-                           <li class="title">
-                               <a href="../">arkham-city-core documentation</a>
-                           </li>
-                   
-                           <li class="divider"></li>
-                   
-                               <div id="book-search-input" role="search">
-                                   <input type="text" placeholder="Type to search">
-                               </div>
-                   
-                           <li class="chapter">
-                               <a data-type="chapter-link" href="../"><span class="fa fa-home"></span>Getting started</a>
-                               <ul class="links">
-                                       <li class="link">
-                                           <a href="../" ><span class="fa fa-file-text-o"></span>README</a>
-                                       </li>
-                                       <li class="link">
-                                           <a 
-                                               
-                                                href="../overview.html" 
-                                                href="../overview.html" 
-                                               >
-                                               <span class="fa fa-th"></span>Overview
-                                           </a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                   
-                   
-                   
-                           <li class="chapter">
-                               <div class="simple">
-                                   <span class="fa fa-file-code-o"></span>
-                                   <span>Classes</span>
-                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
-                                           data-target="#classes-links"
-                   ></span>
-                               </div>
-                               <ul class="links collapse in"
-                                       id="classes-links"
-                   >
-                                       <li class="link">
-                                           <a href="../classes/BadMicroserviceResponse.html" >BadMicroserviceResponse</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/BadRequestAlertException.html" >BadRequestAlertException</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/BaseService.html" >BaseService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/GatewayController.html" >GatewayController</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/IErrorCode.html" >IErrorCode</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/MicroserviceErrorCode.html" >MicroserviceErrorCode</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../classes/SuccessMicroserviceResponse.html" >SuccessMicroserviceResponse</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                   
-                           <li class="chapter">
-                               <div class="simple">
-                                   <span class="fa fa-long-arrow-down"></span>
-                                   <span>Injectables</span>
-                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
-                                           data-target="#injectables-links"
-                   ></span>
-                               </div>
-                               <ul class="links collapse in"
-                                       id="injectables-links"
-                   >
-                                       <li class="link">
-                                           <a href="../injectables/AppService.html" >AppService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/AuthGuard.html" >AuthGuard</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/AuthService.html" >AuthService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/ExceptionInterceptor.html" >ExceptionInterceptor</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/FirestoreService.html"  class="active" >FirestoreService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/HashService.html" >HashService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/MongooseService.html" >MongooseService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/ProjectService.html" >ProjectService</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/ResponseInterceptor.html" >ResponseInterceptor</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../injectables/UserService.html" >UserService</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                           <li class="chapter">
-                               <div class="simple">
-                                   <span class="fa fa-info"></span>
-                                   <span>Interfaces</span>
-                                   <span class="menu-toggler fa fa-angle-up" data-toggle="collapse"
-                                           data-target="#interfaces-links"
-                   ></span>
-                               </div>
-                               <ul class="links collapse in"
-                                       id="interfaces-links"
-                   >
-                                       <li class="link">
-                                           <a href="../interfaces/AllProjectAppReqPayload.html" >AllProjectAppReqPayload</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/CreateFirestoreRecord.html" >CreateFirestoreRecord</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/CreateProjectAppReqDto.html" >CreateProjectAppReqDto</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/CreateProjectAppReqPayload.html" >CreateProjectAppReqPayload</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/DeleteProjectAppReqPayload.html" >DeleteProjectAppReqPayload</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/GetProjectAppReqPayload.html" >GetProjectAppReqPayload</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/GetProjectByIdReqPayload.html" >GetProjectByIdReqPayload</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/JWTPayload.html" >JWTPayload</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/LogInByEmailAndPassword.html" >LogInByEmailAndPassword</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/LogInByRefreshToken.html" >LogInByRefreshToken</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/LogInResponseDto.html" >LogInResponseDto</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/MicroserviceResponse.html" >MicroserviceResponse</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/NewProjectDto.html" >NewProjectDto</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/NewProjectReqPayload.html" >NewProjectReqPayload</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/RegisterByEmailAndPasswordDto.html" >RegisterByEmailAndPasswordDto</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/RegisterResponseDto.html" >RegisterResponseDto</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/ResponseDto.html" >ResponseDto</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/UpdateProjectAppReqDto.html" >UpdateProjectAppReqDto</a>
-                                       </li>
-                                       <li class="link">
-                                           <a href="../interfaces/UpdateProjectAppReqPayload.html" >UpdateProjectAppReqPayload</a>
-                                       </li>
-                               </ul>
-                           </li>
-                   
-                   
-                           <li class="chapter">
-                               <a data-type="chapter-link" href="../miscellaneous.html" ><span class="fa fa-cubes"></span>Miscellaneous</a>
-                           </li>
-                   
-                           <li class="chapter">
-                               <a data-type="chapter-link" href="../coverage.html" ><span class="fa fa-tasks"></span>Documentation coverage</a>
-                           </li>
-                   
-                           <li class="divider"></li>
-                           <li class="copyright">
-                                   Documentation generated using <a href="https://compodoc.github.io/compodoc/" target="_blank">
-                                               <img src="..//images/compodoc-vectorise.svg" class="img-responsive">
-                                   </a>
-                           </li>
-                   
-                       </ul>
-                   
-                   </nav>
-               </div>
-               <div class="content injectable">
-                   <div class="content-data">
+    <div class="container-fluid main">
+      <div class="row main">
+        <div class="d-none d-md-block menu">
+          <compodoc-menu mode="normal"></compodoc-menu>
+        </div>
+        <!-- START CONTENT -->
+        <div class="content injectable">
+          <div class="content-data">
 
 
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">Injectables</li>
+              <li class="breadcrumb-item">FirestoreService</li>
+            </ol>
+
+            <ul class="nav nav-tabs" role="tablist">
+              <li class="nav-item">
+                <a href="#info"
+                   class="nav-link"
+                   class="nav-link active"
+                   role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+              </li>
+              <li class="nav-item">
+                <a href="#source"
+                   class="nav-link"
+
+                   role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+              </li>
+            </ul>
+
+            <div class="tab-content">
+              <div class="tab-pane fade active in" id="info">
+                <p class="comment">
+                <h3>File</h3>
+                </p>
+                <p class="comment">
+                  <code>src/modules/firestore/firestore.service.ts</code>
+                </p>
 
 
-<ol class="breadcrumb">
-  <li>Injectables</li>
-  <li>FirestoreService</li>
-</ol>
+                <section data-compodoc="block-index">
+                  <h3 id="index">Index</h3>
+                  <table class="table table-sm table-bordered index-table">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <ul class="index-list">
+                          <li>
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                            <a href="#logger">logger</a>
+                          </li>
+                          <li>
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                            <a href="#schemaNameRegex">schemaNameRegex</a>
+                          </li>
+                          <li>
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                            <a href="#unsafeRegex">unsafeRegex</a>
+                          </li>
+                        </ul>
+                      </td>
+                    </tr>
 
-<ul class="nav nav-tabs" role="tablist">
-    <li class="active">
-        <a href="#infos" id="infos-tab" role="tab" data-toggle="tab">Infos</a>
-    </li>
-    <li>
-        <a href="#source" role="tab" id="source-tab" data-toggle="tab">Source</a>
-    </li>
-</ul>
+                    <tr>
+                      <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <ul class="index-list">
+                          <li>
+                            <span class="modifier">Async</span>
+                            <a href="#_createRecord">_createRecord</a>
+                          </li>
+                          <li>
+                            <span class="modifier">Async</span>
+                            <a href="#createRecord">createRecord</a>
+                          </li>
+                          <li>
+                            <a href="#fromDataToField">fromDataToField</a>
+                          </li>
+                          <li>
+                            <a href="#fromDataToType">fromDataToType</a>
+                          </li>
+                          <li>
+                            <a href="#getAllRuleConditionTypes">getAllRuleConditionTypes</a>
+                          </li>
+                          <li>
+                            <a href="#getAllRuleTypes">getAllRuleTypes</a>
+                          </li>
+                          <li>
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                            <a href="#getConditions">getConditions</a>
+                          </li>
+                          <li>
+                            <a href="#getFirestoreDynamicSchemaModel">getFirestoreDynamicSchemaModel</a>
+                          </li>
+                          <li>
+                            <span class="modifier">Async</span>
+                            <a href="#getRecordModel">getRecordModel</a>
+                          </li>
+                          <li>
+                            <a href="#getSafeSchemaName">getSafeSchemaName</a>
+                          </li>
+                          <li>
+                            <span class="modifier">Async</span>
+                            <a href="#webSDKCreateFirestoreRecord">webSDKCreateFirestoreRecord</a>
+                          </li>
+                          <li>
+                            <span class="modifier">Async</span>
+                            <a href="#webSDKDeleteById">webSDKDeleteById</a>
+                          </li>
+                          <li>
+                            <span class="modifier">Async</span>
+                            <a href="#webSDKFindById">webSDKFindById</a>
+                          </li>
+                          <li>
+                            <span class="modifier">Async</span>
+                            <a href="#webSDKPartialUpdate">webSDKPartialUpdate</a>
+                          </li>
+                          <li>
+                            <span class="modifier">Async</span>
+                            <a href="#webSDKQueryRecord">webSDKQueryRecord</a>
+                          </li>
+                          <li>
+                            <span class="modifier">Async</span>
+                            <a href="#webSDKStoreSchema">webSDKStoreSchema</a>
+                          </li>
+                          <li>
+                            <span class="modifier">Async</span>
+                            <a href="#webSDKUpdate">webSDKUpdate</a>
+                          </li>
+                        </ul>
+                      </td>
+                    </tr>
 
-<div class="tab-content">
-    <div class="tab-pane fade active in" id="infos">
-        <p class="comment">
-            <h3>File</h3>
-        </p>
-        <p class="comment">
-            <code>src/modules/firestore/firestore.service.ts</code>
-        </p>
 
+                    </tbody>
+                  </table>
+                </section>
 
-            <section>
-                <h3 id="constructor">Constructor</h3>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
+                <section data-compodoc="block-constructor">
+                  <h3 id="constructor">Constructor</h3>
+                  <table class="table table-sm table-bordered">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <code>constructor(webSDKFirestoreClient: ClientRedis, databaseService: <a
+                          href="../injectables/DatabaseService.html" target="_self">DatabaseService</a>,
+                          projectFirestoreRuleClient: ClientRedis)</code>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/modules/firestore/firestore.service.ts:34</a>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="col-md-4">
+                        <div>
+                          <b>Parameters :</b>
+                          <table class="params">
+                            <thead>
                             <tr>
-                                <td class="col-md-4">
-                                    <code>constructor(dynamicModel: any, client: ClientRedis, mongooseService: <a href="../injectables/MongooseService.html" >MongooseService</a>)</code>
-                                </td>
+                              <td>Name</td>
+                              <td>Type</td>
+                              <td>Optional</td>
                             </tr>
-            
-                        </tbody>
-                    </table>
-            </section>
+                            </thead>
+                            <tbody>
+                            <tr>
+                              <td>webSDKFirestoreClient</td>
 
-            <section>
-                <h3 id="methods">Methods</h3>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                            <tr>
-                                <td class="col-md-4">
-                                    <b><span class="modifier"></span> createRecord</b>
-                                </td>
+                              <td>
+                                <code>ClientRedis</code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
                             </tr>
-            
                             <tr>
-                                <td class="col-md-4">
-                                        <span class="modifier-icon method fa fa-play ">
-                                            <span class="fa fa-"></span>
-                                        </span>
-                                    <code>createRecord(schemaName: string, data: any)</code>
-                                </td>
+                              <td>databaseService</td>
+
+                              <td>
+                                <code><a href="../injectables/DatabaseService.html"
+                                         target="_self">DatabaseService</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
                             </tr>
-            
                             <tr>
-                                <td class="col-md-4">
-                                        <div class="io-description">
-                                            <b>Returns: </b>    <code>any</code>
-            
-                                        </div>
-                                </td>
+                              <td>projectFirestoreRuleClient</td>
+
+                              <td>
+                                <code>ClientRedis</code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
                             </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
+                            </tbody>
+                          </table>
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </section>
+
+                <section data-compodoc="block-methods">
+
+                  <h3 id="methods">
+                    Methods
+                  </h3>
+                  <table class="table table-sm table-bordered">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <a name="_createRecord"></a>
+                        <span class="name">
+                            <span class="modifier">Async</span>
+                        <span><b>_createRecord</b></span>
+                        <a href="#_createRecord"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>_createRecord(connection: Connection, schemaName: <a
+                          href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                          target="_blank">string</a>, data: <a
+                          href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+                        <div class="io-line">Defined in <a href="" data-line="404"
+                                                           class="link-to-prism">src/modules/firestore/firestore.service.ts:404</a>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+
+                        <div class="io-description">
+                          <b>Parameters :</b>
+
+                          <table class="params">
+                            <thead>
                             <tr>
-                                <td class="col-md-4">
-                                    <b><span class="modifier"></span> storeSchema</b>
-                                </td>
+                              <td>Name</td>
+                              <td>Type</td>
+                              <td>Optional</td>
                             </tr>
-            
+                            </thead>
+                            <tbody>
                             <tr>
-                                <td class="col-md-4">
-                                        <span class="modifier-icon method fa fa-play ">
-                                            <span class="fa fa-"></span>
-                                        </span>
-                                    <code>storeSchema(schemaName: string, fields: Field[])</code>
-                                </td>
+                              <td>connection</td>
+                              <td>
+                                <code>Connection</code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
                             </tr>
-            
                             <tr>
-                                <td class="col-md-4">
-                                        <div class="io-description">
-                                            <b>Returns: </b>    <code>void</code>
-            
-                                        </div>
-                                </td>
+                              <td>schemaName</td>
+                              <td>
+                                <code><a
+                                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                                  target="_blank">string</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
                             </tr>
-                        </tbody>
-                    </table>
-            </section>
+                            <tr>
+                              <td>data</td>
+                              <td>
+                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html"
+                                         target="_blank">any</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="io-description">
+                          <b>Returns : </b> <code>unknown</code>
+
+                        </div>
+                        <div class="io-description">
+
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-sm table-bordered">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <a name="createRecord"></a>
+                        <span class="name">
+                            <span class="modifier">Async</span>
+                        <span><b>createRecord</b></span>
+                        <a href="#createRecord"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>createRecord(schemaName: <a
+                          href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                          target="_blank">string</a>, data: <a
+                          href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+                        <div class="io-line">Defined in <a href="" data-line="44"
+                                                           class="link-to-prism">src/modules/firestore/firestore.service.ts:44</a>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+
+                        <div class="io-description">
+                          <b>Parameters :</b>
+
+                          <table class="params">
+                            <thead>
+                            <tr>
+                              <td>Name</td>
+                              <td>Type</td>
+                              <td>Optional</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                              <td>schemaName</td>
+                              <td>
+                                <code><a
+                                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                                  target="_blank">string</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            <tr>
+                              <td>data</td>
+                              <td>
+                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html"
+                                         target="_blank">any</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="io-description">
+                          <b>Returns : </b> <code><a href="../interfaces/ServiceResponse.html" target="_self">Promise&lt;ServiceResponse&lt;any&gt;&gt;</a></code>
+
+                        </div>
+                        <div class="io-description">
+
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-sm table-bordered">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <a name="fromDataToField"></a>
+                        <span class="name">
+                        <span><b>fromDataToField</b></span>
+                        <a href="#fromDataToField"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <code>fromDataToField(data: <a
+                          href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object"
+                          target="_blank">object</a>)</code>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+                        <div class="io-line">Defined in <a href="" data-line="479"
+                                                           class="link-to-prism">src/modules/firestore/firestore.service.ts:479</a>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+
+                        <div class="io-description">
+                          <b>Parameters :</b>
+
+                          <table class="params">
+                            <thead>
+                            <tr>
+                              <td>Name</td>
+                              <td>Type</td>
+                              <td>Optional</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                              <td>data</td>
+                              <td>
+                                <code><a
+                                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object"
+                                  target="_blank">object</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="io-description">
+                          <b>Returns : </b> <code>{}</code>
+
+                        </div>
+                        <div class="io-description">
+
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-sm table-bordered">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <a name="fromDataToType"></a>
+                        <span class="name">
+                        <span><b>fromDataToType</b></span>
+                        <a href="#fromDataToType"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <code>fromDataToType(data: <a
+                          href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object"
+                          target="_blank">object</a>)</code>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+                        <div class="io-line">Defined in <a href="" data-line="513"
+                                                           class="link-to-prism">src/modules/firestore/firestore.service.ts:513</a>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+
+                        <div class="io-description">
+                          <b>Parameters :</b>
+
+                          <table class="params">
+                            <thead>
+                            <tr>
+                              <td>Name</td>
+                              <td>Type</td>
+                              <td>Optional</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                              <td>data</td>
+                              <td>
+                                <code><a
+                                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object"
+                                  target="_blank">object</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="io-description">
+                          <b>Returns : </b> <code><a
+                          href="https://www.typescriptlang.org/docs/handbook/basic-types.html"
+                          target="_blank">any</a></code>
+
+                        </div>
+                        <div class="io-description">
+
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-sm table-bordered">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <a name="getAllRuleConditionTypes"></a>
+                        <span class="name">
+                        <span><b>getAllRuleConditionTypes</b></span>
+                        <a href="#getAllRuleConditionTypes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <code>getAllRuleConditionTypes()</code>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+                        <div class="io-line">Defined in <a href="" data-line="578"
+                                                           class="link-to-prism">src/modules/firestore/firestore.service.ts:578</a>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+
+                        <div class="io-description">
+                          <b>Returns : </b> <code><a
+                          href="https://www.typescriptlang.org/docs/handbook/basic-types.html"
+                          target="_blank">any</a></code>
+
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-sm table-bordered">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <a name="getAllRuleTypes"></a>
+                        <span class="name">
+                        <span><b>getAllRuleTypes</b></span>
+                        <a href="#getAllRuleTypes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <code>getAllRuleTypes()</code>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+                        <div class="io-line">Defined in <a href="" data-line="571"
+                                                           class="link-to-prism">src/modules/firestore/firestore.service.ts:571</a>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+
+                        <div class="io-description">
+                          <b>Returns : </b> <code><a
+                          href="https://www.typescriptlang.org/docs/handbook/basic-types.html"
+                          target="_blank">any</a></code>
+
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-sm table-bordered">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <a name="getConditions"></a>
+                        <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Async</span>
+                        <span><b>getConditions</b></span>
+                        <a href="#getConditions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getConditions(auth: <a href="../interfaces/SDKJwtPayload.html" target="_self">SDKJwtPayload</a>,
+                          schema: <a
+                            href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                            target="_blank">string</a>, type: <a href="../undefineds/RuleType.html" target="_self">RuleType</a>)</code>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+                        <div class="io-line">Defined in <a href="" data-line="585"
+                                                           class="link-to-prism">src/modules/firestore/firestore.service.ts:585</a>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+
+                        <div class="io-description">
+                          <b>Parameters :</b>
+
+                          <table class="params">
+                            <thead>
+                            <tr>
+                              <td>Name</td>
+                              <td>Type</td>
+                              <td>Optional</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                              <td>auth</td>
+                              <td>
+                                <code><a href="../interfaces/SDKJwtPayload.html" target="_self">SDKJwtPayload</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            <tr>
+                              <td>schema</td>
+                              <td>
+                                <code><a
+                                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                                  target="_blank">string</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            <tr>
+                              <td>type</td>
+                              <td>
+                                <code><a href="../miscellaneous/enumerations.html#RuleType" target="_self">RuleType</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="io-description">
+                          <b>Returns : </b> <code>unknown</code>
+
+                        </div>
+                        <div class="io-description">
+
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-sm table-bordered">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <a name="getFirestoreDynamicSchemaModel"></a>
+                        <span class="name">
+                        <span><b>getFirestoreDynamicSchemaModel</b></span>
+                        <a href="#getFirestoreDynamicSchemaModel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <code>getFirestoreDynamicSchemaModel(connection: Connection)</code>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+                        <div class="io-line">Defined in <a href="" data-line="475"
+                                                           class="link-to-prism">src/modules/firestore/firestore.service.ts:475</a>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+
+                        <div class="io-description">
+                          <b>Parameters :</b>
+
+                          <table class="params">
+                            <thead>
+                            <tr>
+                              <td>Name</td>
+                              <td>Type</td>
+                              <td>Optional</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                              <td>connection</td>
+                              <td>
+                                <code>Connection</code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="io-description">
+                          <b>Returns : </b> <code><a
+                          href="https://www.typescriptlang.org/docs/handbook/basic-types.html"
+                          target="_blank">any</a></code>
+
+                        </div>
+                        <div class="io-description">
+
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-sm table-bordered">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <a name="getRecordModel"></a>
+                        <span class="name">
+                            <span class="modifier">Async</span>
+                        <span><b>getRecordModel</b></span>
+                        <a href="#getRecordModel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getRecordModel(connection: Connection, schemeName: <a
+                          href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                          target="_blank">string</a>)</code>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+                        <div class="io-line">Defined in <a href="" data-line="421"
+                                                           class="link-to-prism">src/modules/firestore/firestore.service.ts:421</a>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+
+                        <div class="io-description">
+                          <b>Parameters :</b>
+
+                          <table class="params">
+                            <thead>
+                            <tr>
+                              <td>Name</td>
+                              <td>Type</td>
+                              <td>Optional</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                              <td>connection</td>
+                              <td>
+                                <code>Connection</code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            <tr>
+                              <td>schemeName</td>
+                              <td>
+                                <code><a
+                                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                                  target="_blank">string</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="io-description">
+                          <b>Returns : </b> <code>unknown</code>
+
+                        </div>
+                        <div class="io-description">
+
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-sm table-bordered">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <a name="getSafeSchemaName"></a>
+                        <span class="name">
+                        <span><b>getSafeSchemaName</b></span>
+                        <a href="#getSafeSchemaName"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <code>getSafeSchemaName(schemaName: <a
+                          href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                          target="_blank">string</a>)</code>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+                        <div class="io-line">Defined in <a href="" data-line="567"
+                                                           class="link-to-prism">src/modules/firestore/firestore.service.ts:567</a>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+
+                        <div class="io-description">
+                          <b>Parameters :</b>
+
+                          <table class="params">
+                            <thead>
+                            <tr>
+                              <td>Name</td>
+                              <td>Type</td>
+                              <td>Optional</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                              <td>schemaName</td>
+                              <td>
+                                <code><a
+                                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                                  target="_blank">string</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="io-description">
+                          <b>Returns : </b> <code><a
+                          href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                          target="_blank">string</a></code>
+
+                        </div>
+                        <div class="io-description">
+
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-sm table-bordered">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <a name="webSDKCreateFirestoreRecord"></a>
+                        <span class="name">
+                            <span class="modifier">Async</span>
+                        <span><b>webSDKCreateFirestoreRecord</b></span>
+                        <a href="#webSDKCreateFirestoreRecord"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>webSDKCreateFirestoreRecord(auth: <a href="../interfaces/SDKJwtPayload.html"
+                                                                   target="_self">SDKJwtPayload</a>, schemaName: <a
+                          href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                          target="_blank">string</a>, data: <a
+                          href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+                        <div class="io-line">Defined in <a href="" data-line="61"
+                                                           class="link-to-prism">src/modules/firestore/firestore.service.ts:61</a>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+
+                        <div class="io-description">
+                          <b>Parameters :</b>
+
+                          <table class="params">
+                            <thead>
+                            <tr>
+                              <td>Name</td>
+                              <td>Type</td>
+                              <td>Optional</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                              <td>auth</td>
+                              <td>
+                                <code><a href="../interfaces/SDKJwtPayload.html" target="_self">SDKJwtPayload</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            <tr>
+                              <td>schemaName</td>
+                              <td>
+                                <code><a
+                                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                                  target="_blank">string</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            <tr>
+                              <td>data</td>
+                              <td>
+                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html"
+                                         target="_blank">any</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="io-description">
+                          <b>Returns : </b> <code>unknown</code>
+
+                        </div>
+                        <div class="io-description">
+
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-sm table-bordered">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <a name="webSDKDeleteById"></a>
+                        <span class="name">
+                            <span class="modifier">Async</span>
+                        <span><b>webSDKDeleteById</b></span>
+                        <a href="#webSDKDeleteById"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>webSDKDeleteById(auth: <a href="../interfaces/SDKJwtPayload.html" target="_self">SDKJwtPayload</a>,
+                          schemaName: <a
+                            href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                            target="_blank">string</a>, id: <a
+                            href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                            target="_blank">string</a>)</code>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+                        <div class="io-line">Defined in <a href="" data-line="358"
+                                                           class="link-to-prism">src/modules/firestore/firestore.service.ts:358</a>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+
+                        <div class="io-description">
+                          <b>Parameters :</b>
+
+                          <table class="params">
+                            <thead>
+                            <tr>
+                              <td>Name</td>
+                              <td>Type</td>
+                              <td>Optional</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                              <td>auth</td>
+                              <td>
+                                <code><a href="../interfaces/SDKJwtPayload.html" target="_self">SDKJwtPayload</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            <tr>
+                              <td>schemaName</td>
+                              <td>
+                                <code><a
+                                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                                  target="_blank">string</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            <tr>
+                              <td>id</td>
+                              <td>
+                                <code><a
+                                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                                  target="_blank">string</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="io-description">
+                          <b>Returns : </b> <code>unknown</code>
+
+                        </div>
+                        <div class="io-description">
+
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-sm table-bordered">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <a name="webSDKFindById"></a>
+                        <span class="name">
+                            <span class="modifier">Async</span>
+                        <span><b>webSDKFindById</b></span>
+                        <a href="#webSDKFindById"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>webSDKFindById(auth: <a href="../interfaces/SDKJwtPayload.html" target="_self">SDKJwtPayload</a>,
+                          schemaName: <a
+                            href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                            target="_blank">string</a>, id: <a
+                            href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                            target="_blank">string</a>)</code>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+                        <div class="io-line">Defined in <a href="" data-line="184"
+                                                           class="link-to-prism">src/modules/firestore/firestore.service.ts:184</a>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+
+                        <div class="io-description">
+                          <b>Parameters :</b>
+
+                          <table class="params">
+                            <thead>
+                            <tr>
+                              <td>Name</td>
+                              <td>Type</td>
+                              <td>Optional</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                              <td>auth</td>
+                              <td>
+                                <code><a href="../interfaces/SDKJwtPayload.html" target="_self">SDKJwtPayload</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            <tr>
+                              <td>schemaName</td>
+                              <td>
+                                <code><a
+                                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                                  target="_blank">string</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            <tr>
+                              <td>id</td>
+                              <td>
+                                <code><a
+                                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                                  target="_blank">string</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="io-description">
+                          <b>Returns : </b> <code>unknown</code>
+
+                        </div>
+                        <div class="io-description">
+
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-sm table-bordered">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <a name="webSDKPartialUpdate"></a>
+                        <span class="name">
+                            <span class="modifier">Async</span>
+                        <span><b>webSDKPartialUpdate</b></span>
+                        <a href="#webSDKPartialUpdate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>webSDKPartialUpdate(auth: <a href="../interfaces/SDKJwtPayload.html" target="_self">SDKJwtPayload</a>,
+                          schemaName: <a
+                            href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                            target="_blank">string</a>, id: <a
+                            href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                            target="_blank">string</a>, data: <a
+                            href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+                        <div class="io-line">Defined in <a href="" data-line="229"
+                                                           class="link-to-prism">src/modules/firestore/firestore.service.ts:229</a>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+
+                        <div class="io-description">
+                          <b>Parameters :</b>
+
+                          <table class="params">
+                            <thead>
+                            <tr>
+                              <td>Name</td>
+                              <td>Type</td>
+                              <td>Optional</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                              <td>auth</td>
+                              <td>
+                                <code><a href="../interfaces/SDKJwtPayload.html" target="_self">SDKJwtPayload</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            <tr>
+                              <td>schemaName</td>
+                              <td>
+                                <code><a
+                                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                                  target="_blank">string</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            <tr>
+                              <td>id</td>
+                              <td>
+                                <code><a
+                                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                                  target="_blank">string</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            <tr>
+                              <td>data</td>
+                              <td>
+                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html"
+                                         target="_blank">any</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="io-description">
+                          <b>Returns : </b> <code>unknown</code>
+
+                        </div>
+                        <div class="io-description">
+
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-sm table-bordered">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <a name="webSDKQueryRecord"></a>
+                        <span class="name">
+                            <span class="modifier">Async</span>
+                        <span><b>webSDKQueryRecord</b></span>
+                        <a href="#webSDKQueryRecord"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>webSDKQueryRecord(auth: <a href="../interfaces/SDKJwtPayload.html" target="_self">SDKJwtPayload</a>,
+                          schemeName: <a
+                            href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                            target="_blank">string</a>, query: <a
+                            href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+                        <div class="io-line">Defined in <a href="" data-line="142"
+                                                           class="link-to-prism">src/modules/firestore/firestore.service.ts:142</a>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+
+                        <div class="io-description">
+                          <b>Parameters :</b>
+
+                          <table class="params">
+                            <thead>
+                            <tr>
+                              <td>Name</td>
+                              <td>Type</td>
+                              <td>Optional</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                              <td>auth</td>
+                              <td>
+                                <code><a href="../interfaces/SDKJwtPayload.html" target="_self">SDKJwtPayload</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            <tr>
+                              <td>schemeName</td>
+                              <td>
+                                <code><a
+                                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                                  target="_blank">string</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            <tr>
+                              <td>query</td>
+                              <td>
+                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html"
+                                         target="_blank">any</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="io-description">
+                          <b>Returns : </b> <code>unknown</code>
+
+                        </div>
+                        <div class="io-description">
+
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-sm table-bordered">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <a name="webSDKStoreSchema"></a>
+                        <span class="name">
+                            <span class="modifier">Async</span>
+                        <span><b>webSDKStoreSchema</b></span>
+                        <a href="#webSDKStoreSchema"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>webSDKStoreSchema(auth: <a href="../interfaces/SDKJwtPayload.html" target="_self">SDKJwtPayload</a>,
+                          schemaName: <a
+                            href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                            target="_blank">string</a>, data: <a
+                            href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+                        <div class="io-line">Defined in <a href="" data-line="118"
+                                                           class="link-to-prism">src/modules/firestore/firestore.service.ts:118</a>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+
+                        <div class="io-description">
+                          <b>Parameters :</b>
+
+                          <table class="params">
+                            <thead>
+                            <tr>
+                              <td>Name</td>
+                              <td>Type</td>
+                              <td>Optional</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                              <td>auth</td>
+                              <td>
+                                <code><a href="../interfaces/SDKJwtPayload.html" target="_self">SDKJwtPayload</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            <tr>
+                              <td>schemaName</td>
+                              <td>
+                                <code><a
+                                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                                  target="_blank">string</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            <tr>
+                              <td>data</td>
+                              <td>
+                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html"
+                                         target="_blank">any</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="io-description">
+                          <b>Returns : </b> <code>unknown</code>
+
+                        </div>
+                        <div class="io-description">
+
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-sm table-bordered">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <a name="webSDKUpdate"></a>
+                        <span class="name">
+                            <span class="modifier">Async</span>
+                        <span><b>webSDKUpdate</b></span>
+                        <a href="#webSDKUpdate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>webSDKUpdate(auth: <a href="../interfaces/SDKJwtPayload.html"
+                                                    target="_self">SDKJwtPayload</a>, schemaName: <a
+                          href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                          target="_blank">string</a>, id: <a
+                          href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                          target="_blank">string</a>, data: <a
+                          href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+                        <div class="io-line">Defined in <a href="" data-line="295"
+                                                           class="link-to-prism">src/modules/firestore/firestore.service.ts:295</a>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <td class="col-md-4">
+
+                        <div class="io-description">
+                          <b>Parameters :</b>
+
+                          <table class="params">
+                            <thead>
+                            <tr>
+                              <td>Name</td>
+                              <td>Type</td>
+                              <td>Optional</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                              <td>auth</td>
+                              <td>
+                                <code><a href="../interfaces/SDKJwtPayload.html" target="_self">SDKJwtPayload</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            <tr>
+                              <td>schemaName</td>
+                              <td>
+                                <code><a
+                                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                                  target="_blank">string</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            <tr>
+                              <td>id</td>
+                              <td>
+                                <code><a
+                                  href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                                  target="_blank">string</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            <tr>
+                              <td>data</td>
+                              <td>
+                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html"
+                                         target="_blank">any</a></code>
+                              </td>
+
+                              <td>
+                                No
+                              </td>
+
+
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="io-description">
+                          <b>Returns : </b> <code>unknown</code>
+
+                        </div>
+                        <div class="io-description">
+
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </section>
+                <section data-compodoc="block-properties">
+
+                  <h3 id="inputs">
+                    Properties
+                  </h3>
+                  <table class="table table-sm table-bordered">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <a name="logger"></a>
+                        <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span><b>logger</b></span>
+                        <a href="#logger"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <i>Default value : </i><code>new Logger(FirestoreService.name)</code>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">src/modules/firestore/firestore.service.ts:34</a>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    </tbody>
+                  </table>
+                  <table class="table table-sm table-bordered">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <a name="schemaNameRegex"></a>
+                        <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span><b>schemaNameRegex</b></span>
+                        <a href="#schemaNameRegex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <i>Default value : </i><code>new RegExp(/[a-zA-Z]+/)</code>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">src/modules/firestore/firestore.service.ts:32</a>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    </tbody>
+                  </table>
+                  <table class="table table-sm table-bordered">
+                    <tbody>
+                    <tr>
+                      <td class="col-md-4">
+                        <a name="unsafeRegex"></a>
+                        <span class="name">
+                            <span class="modifier">Private</span>
+                            <span class="modifier">Readonly</span>
+                        <span><b>unsafeRegex</b></span>
+                        <a href="#unsafeRegex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <i>Default value : </i><code>new RegExp(/[^a-zA-Z]+/g)</code>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="col-md-4">
+                        <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/modules/firestore/firestore.service.ts:33</a>
+                        </div>
+                      </td>
+                    </tr>
+
+
+                    </tbody>
+                  </table>
+                </section>
 
     </div>
-    <div class="tab-pane fade tab-source-code" id="source">
-        <pre><code class="hljs javascript">import { Inject, Injectable } from &quot;@nestjs/common&quot;;
-import { DynamicSchema, Field } from &quot;./firestore.type&quot;;
-import { InjectModel } from &quot;@nestjs/mongoose&quot;;
-import { Model } from &quot;mongoose&quot;;
-import { microserviceConfig } from &quot;src/config/microservice.config&quot;;
-import { ClientRedis } from &quot;@nestjs/microservices&quot;;
+
+
+              <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable, Logger } from &#x27;@nestjs/common&#x27;;
 import {
-  BadMicroserviceResponse,
-  MicroserviceErrorCode,
-  MicroserviceResponse,
-  SuccessMicroserviceResponse,
-} from &quot;src/core/microservice/microservice.type&quot;;
-import { MongooseService } from &quot;../mongoose/mongoose.service&quot;;
+  FirestoreDynamicSchemaSchema,
+  FirestoreSchemaField,
+} from &#x27;./firestore.types&#x27;;
+import { SDKJwtPayload } from &#x27;../websdk/websdk-auth/websdk-auth.interface&#x27;;
+import {
+  BadResponse,
+  Errors,
+  GoodResponse,
+  ServiceResponse,
+} from &#x27;src/core/microservice/microservice.types&#x27;;
+import { microserviceConfig } from &#x27;src/config/microservice.config&#x27;;
+import { ClientRedis } from &#x27;@nestjs/microservices&#x27;;
+import { MsWebSDKFirestoreStoreSchemaReqPayload } from &#x27;src/microservices/ms-websdk/ms-websdk-firestore/ms-websdk-firestore.interface&#x27;;
+import moment, { ISO_8601 } from &#x27;moment&#x27;;
+import mongoose, { Connection, SchemaTypes } from &#x27;mongoose&#x27;;
+import { DatabaseService } from &#x27;../database/database.service&#x27;;
+import {
+  RuleConditionType,
+  RuleType,
+} from &#x27;./firestore-rule/firestore-rule.types&#x27;;
+import { firstValueFrom } from &#x27;rxjs&#x27;;
+import {
+  MsGetProjectFirestoreRuleReqPayload,
+  MSGetProjectFirestoreRuleResPayload,
+} from &#x27;../../microservices/ms-project/ms-project-firestore/ms-project-firestore-rule/ms-project-firestore-rule.interface&#x27;;
+import { JWTPayload } from &#x27;../auth/auth.interface&#x27;;
 
 @Injectable()
 export class FirestoreService {
+  private readonly schemaNameRegex &#x3D; new RegExp(/[a-zA-Z]+/);
+  private readonly unsafeRegex &#x3D; new RegExp(/[^a-zA-Z]+/g);
+  private readonly logger &#x3D; new Logger(FirestoreService.name);
+
   constructor(
-    @InjectModel(DynamicSchema.name, &quot;firestore&quot;)
-    private readonly dynamicModel: Model&lt;DynamicSchema&gt;,
-    @Inject(microserviceConfig.firestore.name)
-    private readonly client: ClientRedis,
-    private readonly mongooseService: MongooseService,
+    @Inject(microserviceConfig.websdk.firestore.name)
+    private readonly webSDKFirestoreClient: ClientRedis,
+    private readonly databaseService: DatabaseService,
+    @Inject(microserviceConfig.project.firestore.rule.name)
+    private readonly projectFirestoreRuleClient: ClientRedis,
   ) {}
 
   async createRecord(
     schemaName: string,
     data: any,
-  ): Promise&lt;MicroserviceResponse&lt;any&gt;&gt; {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment
-    const record &#x3D; await this.mongooseService.createRecord(schemaName, data);
+  ): Promise&lt;ServiceResponse&lt;any&gt;&gt; {
+    this.logger.log(&#x60;createRecord:start:&#x60;, schemaName, data);
+    const record &#x3D; await this._createRecord(
+      this.databaseService.createProjectConnection(&#x27;test&#x27;),
+      schemaName,
+      data,
+    );
     if (!record) {
-      return new BadMicroserviceResponse(MicroserviceErrorCode.DEFAULT);
+      return new BadResponse(Errors.COULD_NOT_SAVE_THE_RECORD);
     }
-    return new SuccessMicroserviceResponse(record);
+    this.logger.log(&#x60;createRecord:end&#x60;);
+    return new GoodResponse(record.toJSON());
   }
 
-  async storeSchema(schemaName: string, fields: Field[]) {
-    let dynamicSchema &#x3D; new this.dynamicModel({
-      name: schemaName,
-      fields: fields,
+  async webSDKCreateFirestoreRecord(
+    auth: SDKJwtPayload,
+    schemaName: string,
+    data: any,
+  ) {
+    this.logger.log(&#x60;webSDKCreateFirestoreRecord&#x60;, auth, schemaName, data);
+
+    const conditions &#x3D; await this.getConditions(
+      auth,
+      schemaName,
+      RuleType.create,
+    );
+
+    if (!conditions || !conditions.length) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_CREATE_WAS_DENIED);
+    }
+
+    for (const condition of conditions) {
+      if (condition.condition &#x3D;&#x3D; RuleConditionType.require_auth) {
+        if (!auth.sub) {
+          return new BadResponse(
+            Errors.WEB_SDK_FIRESTORE_CREATE_REQUIRE_AUTHORIZATION,
+          );
+        }
+      } else if (condition.condition &#x3D;&#x3D; RuleConditionType.deny) {
+        return new BadResponse(Errors.WEB_SDK_FIRESTORE_CREATE_WAS_DENIED);
+      }
+    }
+
+    const preData &#x3D; {
+      ...data,
+      project: {
+        _id: auth.projectId,
+      },
+      auth: auth.sub,
+    };
+    const record &#x3D; await this._createRecord(
+      this.databaseService.createProjectConnection(auth.projectId as string),
+      schemaName,
+      preData,
+    );
+    if (!record) {
+      return new BadResponse(Errors.COULD_NOT_SAVE_THE_RECORD);
+    }
+    this.logger.log(&#x60;webSDKCreateFirestoreRecord:end&#x60;);
+    const payload: MsWebSDKFirestoreStoreSchemaReqPayload &#x3D; {
+      auth: auth,
+      schemaName: schemaName,
+      data: data,
+    };
+    this.webSDKFirestoreClient.emit(
+      microserviceConfig.websdk.firestore.patterns.storeSchema,
+      payload,
+    );
+    return new GoodResponse(record.toJSON());
+  }
+
+  async webSDKStoreSchema(auth: SDKJwtPayload, schemaName: string, data: any) {
+    this.logger.log(&#x60;webSDKStoreSchema:start:&#x60;, auth, schemaName, data);
+    if (!this.schemaNameRegex.exec(schemaName)) {
+      return new BadResponse(Errors.DEFAULT);
+    }
+    const connection &#x3D; this.databaseService.createProjectConnection(
+      auth.projectId as string,
+    );
+    const schemaModel &#x3D; this.getFirestoreDynamicSchemaModel(connection);
+
+    let dynamicSchema &#x3D; await schemaModel.findOne({
+      name: this.getSafeSchemaName(schemaName),
     });
+    if (!dynamicSchema) {
+      dynamicSchema &#x3D; new schemaModel({
+        name: this.getSafeSchemaName(schemaName),
+      });
+    }
+    dynamicSchema.fields &#x3D; this.fromDataToField(data);
     dynamicSchema &#x3D; await dynamicSchema.save();
-    return dynamicSchema;
+    this.logger.log(&#x60;webSDKStoreSchema:end&#x60;);
+    return new GoodResponse(dynamicSchema.toJSON());
+  }
+
+  async webSDKQueryRecord(auth: SDKJwtPayload, schemeName: string, query: any) {
+    this.logger.log(&#x60;webSDKQueryRecord:start&#x60;, auth, schemeName, query);
+    let _query &#x3D; { ...query };
+    const conditions &#x3D; await this.getConditions(
+      auth,
+      schemeName,
+      RuleType.read,
+    );
+
+    if (!conditions || !conditions.length) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_QUERY_WAS_DENIED);
+    }
+
+    for (const condition of conditions) {
+      if (condition.condition &#x3D;&#x3D; RuleConditionType.require_auth) {
+        if (!auth.sub) {
+          return new BadResponse(
+            Errors.WEB_SDK_FIRESTORE_QUERY_REQUIRE_AUTHORIZATION,
+          );
+        }
+      } else if (condition.condition &#x3D;&#x3D; RuleConditionType.owner) {
+        _query &#x3D; {
+          ..._query,
+          auth: auth.sub,
+        };
+      } else if (condition.condition &#x3D;&#x3D; RuleConditionType.deny) {
+        return new BadResponse(Errors.WEB_SDK_FIRESTORE_QUERY_WAS_DENIED);
+      }
+    }
+
+    const connection &#x3D; this.databaseService.createProjectConnection(
+      auth.projectId as string,
+    );
+    const recordModel &#x3D; await this.getRecordModel(connection, schemeName);
+    if (!recordModel) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA);
+    }
+    const records &#x3D; await recordModel.find(query);
+    this.logger.log(&#x60;webSDKQueryRecord:end&#x60;);
+    return new GoodResponse(records.map((e) &#x3D;&gt; e.toJSON()));
+  }
+
+  async webSDKFindById(auth: SDKJwtPayload, schemaName: string, id: string) {
+    this.logger.log(&#x60;webSDKGetRecord:start&#x60;, auth, schemaName, id);
+    const conditions &#x3D; await this.getConditions(
+      auth,
+      schemaName,
+      RuleType.read,
+    );
+
+    if (!conditions || !conditions.length) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_QUERY_WAS_DENIED);
+    }
+
+    const connection &#x3D; this.databaseService.createProjectConnection(
+      auth.projectId as string,
+    );
+    const recordModel &#x3D; await this.getRecordModel(connection, schemaName);
+    if (!recordModel) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA);
+    }
+    const record &#x3D; await recordModel.findById(id);
+
+    if (!record) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD);
+    }
+
+    for (const condition of conditions) {
+      if (condition.condition &#x3D;&#x3D; RuleConditionType.require_auth) {
+        if (!auth.sub) {
+          return new BadResponse(
+            Errors.WEB_SDK_FIRESTORE_QUERY_REQUIRE_AUTHORIZATION,
+          );
+        }
+      } else if (condition.condition &#x3D;&#x3D; RuleConditionType.owner) {
+        if (record.auth !&#x3D; auth.sub) {
+          return new BadResponse(Errors.WEB_SDK_FIRESTORE_QUERY_REQUIRES_OWNER);
+        }
+      } else if (condition.condition &#x3D;&#x3D; RuleConditionType.deny) {
+        return new BadResponse(Errors.WEB_SDK_FIRESTORE_QUERY_WAS_DENIED);
+      }
+    }
+
+    this.logger.log(&#x60;webSDKGetRecord:end&#x60;);
+    return new GoodResponse(record?.toJSON());
+  }
+
+  async webSDKPartialUpdate(
+    auth: SDKJwtPayload,
+    schemaName: string,
+    id: string,
+    data: any,
+  ) {
+    this.logger.log(&#x27;webSDKPartialUpdate:start&#x27;, auth, schemaName, id, data);
+    const connection &#x3D; this.databaseService.createProjectConnection(
+      auth.projectId as string,
+    );
+    const recordModel &#x3D; await this.getRecordModel(connection, schemaName);
+    if (!recordModel) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA);
+    }
+    let record &#x3D; await recordModel.findById(id);
+    if (!record) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD);
+    }
+
+    if (record._id !&#x3D; data._id) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_ID_WAS_NOT_MATCHED);
+    }
+
+    const conditions &#x3D; await this.getConditions(
+      auth,
+      schemaName,
+      RuleType.update,
+    );
+    if (!conditions || !conditions.length) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_UPDATE_WAS_DENIED);
+    }
+
+    for (const condition of conditions) {
+      if (condition.condition &#x3D;&#x3D; RuleConditionType.require_auth) {
+        if (!auth.sub) {
+          return new BadResponse(
+            Errors.WEB_SDK_FIRESTORE_UPDATE_REQUIRE_AUTHORIZATION,
+          );
+        }
+      } else if (condition.condition &#x3D;&#x3D; RuleConditionType.deny) {
+        return new BadResponse(Errors.WEB_SDK_FIRESTORE_UPDATE_WAS_DENIED);
+      } else if (condition.condition &#x3D;&#x3D; RuleConditionType.owner) {
+        if (record.auth !&#x3D; auth.sub) {
+          return new BadResponse(
+            Errors.WEB_SDK_FIRESTORE_UPDATE_REQUIRES_OWNER,
+          );
+        }
+      }
+    }
+
+    record &#x3D; await recordModel.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        ...record.toJSON(),
+        ...data,
+      },
+      {
+        new: true,
+      },
+    );
+    this.logger.log(&#x27;webSDKPartialUpdate:end&#x27;);
+    return new GoodResponse(record?.toJSON());
+  }
+
+  async webSDKUpdate(
+    auth: SDKJwtPayload,
+    schemaName: string,
+    id: string,
+    data: any,
+  ) {
+    this.logger.log(&#x27;webSDKUpdate:start&#x27;, auth, schemaName, id, data);
+    const connection &#x3D; this.databaseService.createProjectConnection(
+      auth.projectId as string,
+    );
+    const recordModel &#x3D; await this.getRecordModel(connection, schemaName);
+    if (!recordModel) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA);
+    }
+    let record &#x3D; await recordModel.findById(id);
+    if (!record) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD);
+    }
+    if (record._id !&#x3D; data._id) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_ID_WAS_NOT_MATCHED);
+    }
+    const conditions &#x3D; await this.getConditions(
+      auth,
+      schemaName,
+      RuleType.update,
+    );
+    if (!conditions || !conditions.length) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_UPDATE_WAS_DENIED);
+    }
+
+    for (const condition of conditions) {
+      if (condition.condition &#x3D;&#x3D; RuleConditionType.require_auth) {
+        if (!auth.sub) {
+          return new BadResponse(
+            Errors.WEB_SDK_FIRESTORE_UPDATE_REQUIRE_AUTHORIZATION,
+          );
+        }
+      } else if (condition.condition &#x3D;&#x3D; RuleConditionType.deny) {
+        return new BadResponse(Errors.WEB_SDK_FIRESTORE_UPDATE_WAS_DENIED);
+      } else if (condition.condition &#x3D;&#x3D; RuleConditionType.owner) {
+        if (record.auth !&#x3D; auth.sub) {
+          return new BadResponse(
+            Errors.WEB_SDK_FIRESTORE_UPDATE_REQUIRES_OWNER,
+          );
+        }
+      }
+    }
+
+    record &#x3D; await recordModel.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {
+        ...data,
+      },
+      {
+        new: true,
+      },
+    );
+    this.logger.log(&#x27;webSDKUpdate:end&#x27;);
+    return new GoodResponse(record?.toJSON());
+  }
+
+  async webSDKDeleteById(auth: SDKJwtPayload, schemaName: string, id: string) {
+    this.logger.log(&#x27;webSDKDelete:start&#x27;, auth, schemaName, id);
+    const connection &#x3D; this.databaseService.createProjectConnection(
+      auth.projectId as string,
+    );
+    const recordModel &#x3D; await this.getRecordModel(connection, schemaName);
+    if (!recordModel) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_SCHEMA);
+    }
+    const record &#x3D; await recordModel.findById(id);
+    if (!record) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_COULD_NOT_FOUND_RECORD);
+    }
+
+    const conditions &#x3D; await this.getConditions(
+      auth,
+      schemaName,
+      RuleType.delete,
+    );
+    if (!conditions || !conditions.length) {
+      return new BadResponse(Errors.WEB_SDK_FIRESTORE_DELETE_WAS_DENIED);
+    }
+
+    for (const condition of conditions) {
+      if (condition.condition &#x3D;&#x3D; RuleConditionType.owner) {
+        if (record.auth !&#x3D; auth.sub) {
+          return new BadResponse(
+            Errors.WEB_SDK_FIRESTORE_DELETE_REQUIRE_AUTHORIZATION,
+          );
+        }
+      } else if (condition.condition &#x3D;&#x3D; RuleConditionType.require_auth) {
+        if (!auth.sub) {
+          return new BadResponse(
+            Errors.WEB_SDK_FIRESTORE_DELETE_REQUIRE_AUTHORIZATION,
+          );
+        }
+      } else if (condition.condition &#x3D;&#x3D; RuleConditionType.deny) {
+        return new BadResponse(Errors.WEB_SDK_FIRESTORE_DELETE_WAS_DENIED);
+      }
+    }
+
+    await record.deleteOne();
+    this.logger.log(&#x27;webSDKDelete:end&#x27;);
+    return new GoodResponse(true);
+  }
+
+  async _createRecord(connection: Connection, schemaName: string, data: any) {
+    if (!this.schemaNameRegex.exec(schemaName)) {
+      return null;
+    }
+    const dataType &#x3D; this.fromDataToType(data);
+    this.logger.debug(&#x60;createRecord:dataType&#x3D;${JSON.stringify(dataType)}&#x60;);
+    const _Schema &#x3D; new mongoose.Schema(dataType);
+    const _Model &#x3D; connection.model(
+      this.getSafeSchemaName(schemaName),
+      _Schema,
+    );
+    const record &#x3D; new _Model({
+      ...data,
+    });
+    return await record.save();
+  }
+
+  async getRecordModel(connection: Connection, schemeName: string) {
+    const dynamicSchemaModel &#x3D; this.getFirestoreDynamicSchemaModel(connection);
+    const dynamicSchema &#x3D; await dynamicSchemaModel.findOne({
+      name: this.getSafeSchemaName(schemeName),
+    });
+    if (!dynamicSchema) {
+      return null;
+    }
+    const schema &#x3D; {
+      auth: {
+        type: String,
+      },
+    };
+    for (const field of dynamicSchema.fields) {
+      if (field.type &#x3D;&#x3D;&#x3D; String.name) {
+        schema[field.name] &#x3D; {
+          type: String,
+        };
+      } else if (field.type &#x3D;&#x3D;&#x3D; Date.name) {
+        schema[field.name] &#x3D; {
+          type: Date,
+        };
+      } else if (field.type &#x3D;&#x3D;&#x3D; Number.name) {
+        schema[field.name] &#x3D; {
+          type: Number,
+        };
+      } else if (field.type &#x3D;&#x3D;&#x3D; BigInt.name) {
+        schema[field.name] &#x3D; {
+          type: BigInt,
+        };
+      } else if (field.type &#x3D;&#x3D;&#x3D; Boolean.name) {
+        schema[field.name] &#x3D; {
+          type: Boolean,
+        };
+      } else if (field.type &#x3D;&#x3D;&#x3D; Object.name) {
+        schema[field.name] &#x3D; {
+          type: Object,
+        };
+      } else if (field.type &#x3D;&#x3D;&#x3D; Array.name) {
+        schema[field.name] &#x3D; {
+          type: Array,
+        };
+      } else if (field.type &#x3D;&#x3D;&#x3D; SchemaTypes.Mixed.name) {
+        schema[field.name] &#x3D; {
+          type: SchemaTypes.Mixed,
+        };
+      }
+    }
+    return connection.model(
+      this.getSafeSchemaName(schemeName),
+      new mongoose.Schema(schema),
+    );
+  }
+
+  getFirestoreDynamicSchemaModel(connection: Connection) {
+    return connection.model(&#x27;dynamic-schemas&#x27;, FirestoreDynamicSchemaSchema);
+  }
+
+  fromDataToField(data: object) {
+    const fields: FirestoreSchemaField[] &#x3D; [];
+    for (const key of Object.keys(data)) {
+      let type: string &#x3D; String.name;
+      if (data[key] &#x3D;&#x3D; null || data[key] &#x3D;&#x3D; undefined) {
+        type &#x3D; SchemaTypes.Mixed.name;
+      } else if (typeof data[key] &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
+        type &#x3D; String.name;
+        try {
+          if (moment(data[key], ISO_8601, true).isValid()) {
+            type &#x3D; Date.name;
+          }
+        } catch (e) {}
+      } else if (typeof data[key] &#x3D;&#x3D;&#x3D; &#x27;number&#x27;) {
+        type &#x3D; Number.name;
+      } else if (typeof data[key] &#x3D;&#x3D;&#x3D; &#x27;bigint&#x27;) {
+        type &#x3D; BigInt.name;
+      } else if (typeof data[key] &#x3D;&#x3D;&#x3D; &#x27;boolean&#x27;) {
+        type &#x3D; Boolean.name;
+      } else if (typeof data[key] &#x3D;&#x3D;&#x3D; &#x27;object&#x27;) {
+        type &#x3D; Object.name;
+        if (data[key] instanceof Array) {
+          type &#x3D; Array.name;
+        }
+      }
+      const field: FirestoreSchemaField &#x3D; {
+        name: key,
+        type: type,
+      };
+      fields.push(field);
+    }
+    return fields;
+  }
+
+  fromDataToType(data: object) {
+    if (typeof data !&#x3D;&#x3D; &#x27;object&#x27;) {
+      return false;
+    }
+    if (data instanceof Array) {
+      return this.fromDataToType(data.pop());
+    }
+    const dataType &#x3D; {
+      auth: {
+        type: String,
+      },
+    };
+    for (const key of Object.keys(data)) {
+      if (data[key] &#x3D;&#x3D; null || data[key] &#x3D;&#x3D;&#x3D; undefined) {
+        dataType[key] &#x3D; {
+          type: SchemaTypes.Mixed,
+        };
+      } else if (typeof data[key] &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
+        dataType[key] &#x3D; {
+          type: String,
+        };
+        try {
+          if (moment(data[key], ISO_8601, true).isValid()) {
+            this.logger.log(key);
+            dataType[key] &#x3D; {
+              type: Date,
+            };
+          }
+        } catch (e) {}
+      } else if (typeof data[key] &#x3D;&#x3D;&#x3D; &#x27;number&#x27;) {
+        dataType[key] &#x3D; {
+          type: Number,
+        };
+      } else if (typeof data[key] &#x3D;&#x3D;&#x3D; &#x27;bigint&#x27;) {
+        dataType[key] &#x3D; {
+          type: BigInt,
+        };
+      } else if (typeof data[key] &#x3D;&#x3D;&#x3D; &#x27;boolean&#x27;) {
+        dataType[key] &#x3D; {
+          type: Boolean,
+        };
+      } else if (typeof data[key] &#x3D;&#x3D;&#x3D; &#x27;object&#x27;) {
+        if (data[key] instanceof Array) {
+          dataType[key] &#x3D; {
+            type: Array,
+          };
+        } else {
+          dataType[key] &#x3D; this.fromDataToType(data[key] as object);
+        }
+      }
+    }
+    return dataType;
+  }
+
+  getSafeSchemaName(schemaName: string) {
+    return &#x60;firestore-${schemaName.toLowerCase().replaceAll(this.unsafeRegex, &#x27;-&#x27;)}&#x60;;
+  }
+
+  getAllRuleTypes() {
+    this.logger.log(&#x60;getAllRuleTypes:start&#x60;);
+    const keys &#x3D; Object.keys(RuleType);
+    this.logger.log(&#x60;getAllRuleTypes:end&#x60;);
+    return new GoodResponse(keys);
+  }
+
+  getAllRuleConditionTypes() {
+    this.logger.log(&#x60;getAllRuleConditionTypes:start&#x60;);
+    const keys &#x3D; Object.keys(RuleConditionType);
+    this.logger.log(&#x60;getAllRuleConditionTypes:end&#x60;);
+    return new GoodResponse(keys);
+  }
+
+  private async getConditions(
+    auth: SDKJwtPayload,
+    schema: string,
+    type: RuleType,
+  ) {
+    this.logger.log(&#x27;getRule:start&#x60;, auth, schema, type&#x27;);
+    const getRulePayload: MsGetProjectFirestoreRuleReqPayload &#x3D; {
+      user: auth as JWTPayload,
+      projectId: auth.projectId as string,
+      schema: schema,
+    };
+    const response: ServiceResponse&lt;MSGetProjectFirestoreRuleResPayload&gt; &#x3D;
+      await firstValueFrom(
+        this.projectFirestoreRuleClient.send(
+          microserviceConfig.project.firestore.rule.patterns.getRule,
+          getRulePayload,
+        ),
+      );
+    if (!response.data) {
+      this.logger.log(&#x27;getRule:end null&#x27;);
+      return null;
+    }
+    const rule &#x3D; response.data.rules.find((e) &#x3D;&gt; e.type &#x3D;&#x3D; type);
+    this.logger.log(&#x27;getRule:end&#x27;);
+    return rule?.conditions;
   }
 }
 </code></pre>
     </div>
+
 </div>
 
 
-
-
-
-
-
-                   </div><div class="search-results">
+          </div><div class="search-results">
     <div class="has-results">
         <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
         <ul class="search-results-list"></ul>
@@ -603,32 +2517,66 @@ export class FirestoreService {
     </div>
 </div>
 </div>
+        <!-- END CONTENT -->
            </div>
        </div>
 
-       <script src="../js/libs/bootstrap-native.js"></script>
+    <label class="dark-mode-switch">
+      <input type="checkbox">
+      <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000"
+                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20"
+                         xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+    </label>
+
+    <script>
+      var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+      var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+      var COMPODOC_CURRENT_PAGE_URL = 'FirestoreService.html';
+      var MAX_SEARCH_RESULTS = 15;
+    </script>
+
+    <script>
+      $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+      checkToggle(darkModeState);
+      if ($darkModeToggleSwitchers.length > 0) {
+        for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+          $darkModeToggleSwitchers[i].addEventListener('change', function(event) {
+            darkModeState = !darkModeState;
+            toggleDarkMode(darkModeState);
+          });
+        }
+      }
+    </script>
+
+    <script src="../js/libs/custom-elements.min.js"></script>
+    <script src="../js/libs/lit-html.js"></script>
+
+    <script src="../js/menu-wc.js" defer></script>
+    <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+    <script src="../js/libs/bootstrap-native.js"></script>
 
        <script src="../js/libs/es6-shim.min.js"></script>
        <script src="../js/libs/EventDispatcher.js"></script>
        <script src="../js/libs/promise.min.js"></script>
-       <script src="../js/libs/zepto.min.js"></script>
 
        <script src="../js/compodoc.js"></script>
 
-       <script src="../js/search/search.js"></script>
-       <script src="../js/search/lunr.min.js"></script>
-       <script src="../js/search/search-lunr.js"></script>
+    <script src="../js/tabs.js"></script>
+    <script src="../js/menu.js"></script>
+    <script src="../js/libs/clipboard.min.js"></script>
+    <script src="../js/libs/prism.js"></script>
+    <script src="../js/sourceCode.js"></script>
+    <script src="../js/search/search.js"></script>
+    <script src="../js/search/lunr.min.js"></script>
+    <script src="../js/search/search-lunr.js"></script>
+    <script src="../js/search/search_index.js"></script>
+    <script src="../js/lazy-load-graphs.js"></script>
 
-       <script src="../js/menu.js"></script>
-       <script src="../js/libs/highlight.pack.js"></script>
-       <script src="../js/libs/highlightjs-line-numbers.min.js"></script>
-       <script src="../js/search/search_index.js"></script>
-       <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                hljs.initHighlightingOnLoad();
-                hljs.initLineNumbersOnLoad();
-            });
-       </script>
 
     </body>
 </html>

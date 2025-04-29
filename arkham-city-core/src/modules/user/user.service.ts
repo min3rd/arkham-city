@@ -41,6 +41,7 @@ export class UserService {
       lastName: lastName,
       password: HashService.hash(password),
     });
+    this.logger.debug('create user', user.toJSON());
     user = await user.save();
     this.logger.log('registerByEmailAndPassword:end');
     return new GoodResponse<User>(user.toJSON());

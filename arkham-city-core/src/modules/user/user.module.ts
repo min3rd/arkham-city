@@ -13,7 +13,7 @@ import { UserService } from './user.service';
       'metadata',
     ),
   ],
-  providers: [HashService, UserService],
+  providers: [UserService],
   exports: [UserService],
 })
 export class UserModule {}

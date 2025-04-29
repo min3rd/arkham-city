@@ -119,7 +119,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/modules/project/project.type.ts</code>
+          <code>src/modules/project/project.types.ts</code>
         </p>
 
 
@@ -147,6 +147,14 @@
                             <li>
                                     <span class="modifier"></span>
                                 <a href="#name" >name</a>
+                            </li>
+                          <li>
+                            <span class="modifier"></span>
+                            <a href="#privateKey">privateKey</a>
+                          </li>
+                          <li>
+                            <span class="modifier"></span>
+                            <a href="#user">user</a>
                             </li>
                         </ul>
                     </td>
@@ -197,7 +205,8 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/modules/project/project.type.ts:11</a></div>
+                          <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/modules/project/project.types.ts:14</a>
+                          </div>
                         </td>
                     </tr>
 
@@ -233,7 +242,84 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/modules/project/project.type.ts:8</a></div>
+                          <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/modules/project/project.types.ts:11</a>
+                          </div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+              <table class="table table-sm table-bordered">
+                <tbody>
+                <tr>
+                  <td class="col-md-4">
+                    <a name="privateKey"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span><b>privateKey</b></span>
+                        <a href="#privateKey"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="col-md-4">
+                    <i>Type : </i> <code><a
+                    href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string"
+                    target="_blank">string</a></code>
+
+                  </td>
+                </tr>
+                <tr>
+                  <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>
+                      @Prop()<br />
+                    </code>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/modules/project/project.types.ts:20</a>
+                    </div>
+                  </td>
+                </tr>
+
+
+                </tbody>
+              </table>
+              <table class="table table-sm table-bordered">
+                <tbody>
+                <tr>
+                  <td class="col-md-4">
+                    <a name="user"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                        <span><b>user</b></span>
+                        <a href="#user"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="col-md-4">
+                    <i>Type : </i> <code><a href="../classes/User.html" target="_self">User</a></code>
+
+                  </td>
+                </tr>
+                <tr>
+                  <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>
+                      @Prop({type: undefined, ref: undefined})<br />
+                    </code>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/modules/project/project.types.ts:17</a>
+                    </div>
                         </td>
                     </tr>
 
@@ -253,21 +339,30 @@
 
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Prop, Schema, SchemaFactory } from &#x27;@nestjs/mongoose&#x27;;
-import { HydratedDocument } from &#x27;mongoose&#x27;;
+import mongoose, { HydratedDocument } from &#x27;mongoose&#x27;;
 import { AuditEntity } from &#x27;../base/base.type&#x27;;
+import { User } from &#x27;../user/user.type&#x27;;
 
-@Schema()
+@Schema({
+  timestamps: true,
+})
 export class Project extends AuditEntity {
   @Prop()
   name: string;
 
   @Prop()
   description?: string;
+
+  @Prop({ type: mongoose.Types.ObjectId, ref: User.name })
+  user: User;
+
+  @Prop()
+  privateKey: string;
 }
 
 export type ProjectDocument &#x3D; HydratedDocument&lt;Project&gt;;
 
-export const projectSchema &#x3D; SchemaFactory.createForClass(Project);
+export const ProjectSchema &#x3D; SchemaFactory.createForClass(Project);
 </code></pre>
     </div>
 </div>
