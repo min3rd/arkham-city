@@ -4,6 +4,7 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { ConsoleLogger, VersioningType } from '@nestjs/common';
 import { HttpInterceptor } from './core/interceptors/http/http.interceptor';
 import { ServiceModule } from './service.module';
+import * as process from 'node:process';
 
 async function bootstrap() {
   if (process.env.MICROSERVICE_ONLY === 'true') {
@@ -57,4 +58,8 @@ async function bootstrap() {
   }
 }
 
-bootstrap();
+bootstrap().then(() => {
+  console.log(
+    `${new Date().toUTCString()} ${process.env.APP_NAME} started successfully`,
+  );
+});
