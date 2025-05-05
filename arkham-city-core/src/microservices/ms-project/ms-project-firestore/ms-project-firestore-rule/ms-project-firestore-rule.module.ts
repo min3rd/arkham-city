@@ -16,7 +16,7 @@ import * as process from 'node:process';
         transport: Transport.RMQ,
         options: {
           urls: [process.env.RABBITMQ_URL ?? 'amqp://localhost:5672'],
-          queue: microserviceConfig.project.firestore.rule.name + '-queue',
+          queue: 'arkham-city',
           queueOptions: {
             durable: false,
           },
@@ -26,4 +26,5 @@ import * as process from 'node:process';
   ],
   controllers: [MsProjectFirestoreRuleController],
 })
-export class MsProjectFirestoreRuleModule {}
+export class MsProjectFirestoreRuleModule {
+}
