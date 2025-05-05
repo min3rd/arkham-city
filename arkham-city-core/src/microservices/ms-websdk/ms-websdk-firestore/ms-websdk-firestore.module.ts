@@ -14,9 +14,7 @@ import * as process from 'node:process';
         name: microserviceConfig.websdk.firestore.name,
         transport: Transport.RMQ,
         options: {
-          urls: [
-            (process.env.RABBITMQ_URL as string) ?? 'amqp://localhost:5672',
-          ],
+          urls: [process.env.RABBITMQ_URL ?? 'amqp://localhost:5672'],
           queue: microserviceConfig.websdk.firestore.name + '-queue',
           queueOptions: {
             durable: false,
