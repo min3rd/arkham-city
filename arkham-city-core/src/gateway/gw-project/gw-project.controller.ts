@@ -7,7 +7,7 @@ import {
   Post,
   Req,
 } from '@nestjs/common';
-import { ClientRedis } from '@nestjs/microservices';
+import { ClientRMQ } from '@nestjs/microservices';
 import { Request } from 'express';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { NewProjectReqPayload } from 'src/microservices/ms-project/ms-project.interface';
@@ -23,7 +23,7 @@ import { REQUEST_FIELDS } from 'src/config/request.config';
 export class GwProjectController extends GatewayController {
   constructor(
     @Inject(microserviceConfig.project.name)
-    private readonly clientProxy: ClientRedis,
+    private readonly rmqClient: ClientRMQ,
   ) {
     super();
   }
@@ -39,7 +39,7 @@ export class GwProjectController extends GatewayController {
       description: body?.description as string,
     };
     const res: ServiceResponse<Project> = await firstValueFrom(
-      this.clientProxy.send(microserviceConfig.project.patterns.create, data),
+      this.rmqClient.send(microserviceConfig.project.patterns.create, data),
     );
     this.afterCallMicroservice(res);
     return res.data;
@@ -48,7 +48,7 @@ export class GwProjectController extends GatewayController {
   @Get()
   async all(@Req() request: Request) {
     const res: ServiceResponse<Project[]> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.project.patterns.all,
         request[REQUEST_FIELDS.user] as JWTPayload,
       ),
@@ -60,7 +60,7 @@ export class GwProjectController extends GatewayController {
   @Get(':id')
   async get(@Req() request: Request, @Param() params: any) {
     const res: ServiceResponse<Project> = await firstValueFrom(
-      this.clientProxy.send(microserviceConfig.project.patterns.get, {
+      this.rmqClient.send(microserviceConfig.project.patterns.get, {
         user: request[REQUEST_FIELDS.user] as JWTPayload,
 
         projectId: params.id,

@@ -7,7 +7,7 @@ import {
   Post,
   Req,
 } from '@nestjs/common';
-import { ClientRedis } from '@nestjs/microservices';
+import { ClientRMQ } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { REQUEST_FIELDS } from 'src/config/request.config';
@@ -19,7 +19,7 @@ import { CreateFirestoreRecordReqPayload } from 'src/microservices/ms-firestore/
 export class GwFirestoreController extends GatewayController {
   constructor(
     @Inject(microserviceConfig.firestore.name)
-    private readonly clientProxy: ClientRedis,
+    private readonly rmqClient: ClientRMQ,
   ) {
     super();
   }
@@ -36,7 +36,7 @@ export class GwFirestoreController extends GatewayController {
       data: data,
     };
     const res: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.firestore.patterns.createRecord,
         payload,
       ),
@@ -51,7 +51,7 @@ export class GwFirestoreController extends GatewayController {
       auth: request[REQUEST_FIELDS.user],
     };
     const res: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.firestore.patterns.getAllRuleTypes,
         payload,
       ),
@@ -66,7 +66,7 @@ export class GwFirestoreController extends GatewayController {
       auth: request[REQUEST_FIELDS.user],
     };
     const res: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.firestore.patterns.getAllRuleConditionTypes,
         payload,
       ),

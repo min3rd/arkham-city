@@ -2,8 +2,9 @@ services:
   # Supporting services
   mongo:
     image: mongo
-    container_name: mongo
     restart: unless-stopped
+    expose:
+      - "27017"
     ports:
       - "27017:27017"
     volumes:
@@ -13,8 +14,9 @@ services:
 
   redis:
     image: redis
-    container_name: redis
     restart: unless-stopped
+    expose:
+      - "6379"
     ports:
       - "6379:6379"
     volumes:
@@ -23,7 +25,6 @@ services:
       - arkham_network
   rabbitmq:
     image: rabbitmq:management
-    container_name: rabbitmq
     restart: unless-stopped
     expose:
       - "15672" # RabbitMQ Management UI
@@ -39,7 +40,6 @@ services:
     build:
       context: ./arkham-city-core
       dockerfile: Dockerfile
-    container_name: gateway
     depends_on:
       - mongo
       - redis
@@ -57,6 +57,7 @@ services:
       - MONGO_DB_FIRESTORE=mongodb://mongo:27017/firestore
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - RABBITMQ_URL=amqp://rabbitmq:5672
       - JWT_SECRET=ThisShouldBeSuperSecret
       - JWT_ACCESS_TOKEN_EXPIRES_IN=15m
       - JWT_REFRESH_TOKEN_EXPIRES_IN=1d
@@ -68,7 +69,6 @@ services:
     build:
       context: ./arkham-city-core
       dockerfile: Dockerfile
-    container_name: microservice1
     restart: unless-stopped
     depends_on:
       - mongo
@@ -81,6 +81,7 @@ services:
       - MONGO_DB_FIRESTORE=mongodb://mongo:27017/firestore
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - RABBITMQ_URL=amqp://rabbitmq:5672
       - JWT_SECRET=ThisShouldBeSuperSecret
     networks:
       - arkham_network
@@ -89,7 +90,6 @@ services:
     build:
       context: ./arkham-city-core
       dockerfile: Dockerfile
-    container_name: microservice2
     restart: unless-stopped
     depends_on:
       - mongo
@@ -102,6 +102,7 @@ services:
       - MONGO_DB_FIRESTORE=mongodb://mongo:27017/firestore
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - RABBITMQ_URL=amqp://rabbitmq:5672
       - JWT_SECRET=ThisShouldBeSuperSecret
     networks:
       - arkham_network
@@ -110,7 +111,6 @@ services:
     build:
       context: ./arkham-city-core
       dockerfile: Dockerfile
-    container_name: microservice3
     restart: unless-stopped
     depends_on:
       - mongo
@@ -123,6 +123,7 @@ services:
       - MONGO_DB_FIRESTORE=mongodb://mongo:27017/firestore
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - RABBITMQ_URL=amqp://rabbitmq:5672
       - JWT_SECRET=ThisShouldBeSuperSecret
     networks:
       - arkham_network
@@ -132,7 +133,6 @@ services:
     build:
       context: ./arkham-city-dashboard
       dockerfile: Dockerfile
-    container_name: dashboard
     restart: unless-stopped
     expose:
       - 80
@@ -142,7 +142,6 @@ services:
   # Nginx service
   nginx:
     image: nginx:latest
-    container_name: nginx
     ports:
       - "9666:80"
     volumes:

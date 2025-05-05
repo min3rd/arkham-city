@@ -11,10 +11,15 @@ import * as process from 'node:process';
     ClientsModule.register([
       {
         name: microserviceConfig.project.firestore.rule.name,
-        transport: Transport.REDIS,
+        transport: Transport.RMQ,
         options: {
-          host: process.env.REDIS_HOST,
-          port: parseInt(process.env.REDIS_PORT as string),
+          urls: [
+            (process.env.RABBITMQ_URL as string) ?? 'amqp://localhost:5672',
+          ],
+          queue: microserviceConfig.project.firestore.rule.name + '-queue',
+          queueOptions: {
+            durable: false,
+          },
         },
       },
     ]),

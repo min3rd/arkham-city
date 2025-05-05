@@ -10,7 +10,7 @@ import {
   Put,
   Req,
 } from '@nestjs/common';
-import { ClientRedis } from '@nestjs/microservices';
+import { ClientRMQ } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { REQUEST_FIELDS } from 'src/config/request.config';
@@ -28,7 +28,7 @@ import {
 export class GwWebSDKFirestoreController extends GatewayController {
   constructor(
     @Inject(microserviceConfig.websdk.firestore.name)
-    private readonly clientProxy: ClientRedis,
+    private readonly rmqClient: ClientRMQ,
   ) {
     super();
   }
@@ -45,7 +45,7 @@ export class GwWebSDKFirestoreController extends GatewayController {
       data: data,
     };
     const res: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.websdk.firestore.patterns.createRecord,
         payload,
       ),
@@ -66,7 +66,7 @@ export class GwWebSDKFirestoreController extends GatewayController {
       query: query,
     };
     const res: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.websdk.firestore.patterns.querySchema,
         payload,
       ),
@@ -83,7 +83,7 @@ export class GwWebSDKFirestoreController extends GatewayController {
       id: params.id,
     };
     const res: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.websdk.firestore.patterns.findById,
         payload,
       ),
@@ -105,7 +105,7 @@ export class GwWebSDKFirestoreController extends GatewayController {
       data: data,
     };
     const res: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.websdk.firestore.patterns.update,
         payload,
       ),
@@ -127,7 +127,7 @@ export class GwWebSDKFirestoreController extends GatewayController {
       data: data,
     };
     const res: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.websdk.firestore.patterns.partialUpdate,
         payload,
       ),
@@ -144,7 +144,7 @@ export class GwWebSDKFirestoreController extends GatewayController {
       id: params.id,
     };
     const res: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.websdk.firestore.patterns.deleteById,
         payload,
       ),

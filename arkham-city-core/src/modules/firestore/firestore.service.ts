@@ -11,7 +11,7 @@ import {
   ServiceResponse,
 } from 'src/core/microservice/microservice.types';
 import { microserviceConfig } from 'src/config/microservice.config';
-import { ClientRedis } from '@nestjs/microservices';
+import { ClientRMQ } from '@nestjs/microservices';
 import { MsWebSDKFirestoreStoreSchemaReqPayload } from 'src/microservices/ms-websdk/ms-websdk-firestore/ms-websdk-firestore.interface';
 import moment, { ISO_8601 } from 'moment';
 import mongoose, { Connection, SchemaTypes } from 'mongoose';
@@ -35,10 +35,10 @@ export class FirestoreService {
 
   constructor(
     @Inject(microserviceConfig.websdk.firestore.name)
-    private readonly webSDKFirestoreClient: ClientRedis,
+    private readonly webSDKFirestoreClient: ClientRMQ,
     private readonly databaseService: DatabaseService,
     @Inject(microserviceConfig.project.firestore.rule.name)
-    private readonly projectFirestoreRuleClient: ClientRedis,
+    private readonly projectFirestoreRuleClient: ClientRMQ,
   ) {}
 
   async createRecord(

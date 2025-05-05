@@ -1,5 +1,5 @@
 import { Body, Controller, Inject, Post, Req } from '@nestjs/common';
-import { ClientRedis } from '@nestjs/microservices';
+import { ClientRMQ } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
 import {
   GwWebSDKAuthLogInDto,
@@ -22,7 +22,7 @@ import { SDKJwtPayload } from 'src/modules/websdk/websdk-auth/websdk-auth.interf
 export class GwWebsdkAuthController extends GatewayController {
   constructor(
     @Inject(microserviceConfig.websdk.auth.name)
-    private readonly clientProxy: ClientRedis,
+    private readonly rmqClient: ClientRMQ,
   ) {
     super();
   }
@@ -36,7 +36,7 @@ export class GwWebsdkAuthController extends GatewayController {
       secretKey: dto.secretKey,
     };
     const res: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.websdk.auth.patterns.authenticate,
         payload,
       ),
@@ -56,7 +56,7 @@ export class GwWebsdkAuthController extends GatewayController {
       password: dto.password,
     };
     const res: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.websdk.auth.patterns.logInByEmailAndPassword,
         payload,
       ),
@@ -76,7 +76,7 @@ export class GwWebsdkAuthController extends GatewayController {
       password: dto.password,
     };
     const res: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.websdk.auth.patterns.registerByEmailAndPassword,
         payload,
       ),

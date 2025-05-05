@@ -10,7 +10,7 @@ import {
   Req,
 } from '@nestjs/common';
 import { microserviceConfig } from '../../../../config/microservice.config';
-import { ClientRedis } from '@nestjs/microservices';
+import { ClientRMQ } from '@nestjs/microservices';
 import { GatewayController } from '../../../../core/gateway/gateway.controller';
 import { Request } from 'express';
 import {
@@ -32,7 +32,7 @@ import { REQUEST_FIELDS } from '../../../../config/request.config';
 export class GwProjectFirestoreRuleController extends GatewayController {
   constructor(
     @Inject(microserviceConfig.project.firestore.rule.name)
-    private readonly clientProxy: ClientRedis,
+    private readonly rmqClient: ClientRMQ,
   ) {
     super();
   }
@@ -50,7 +50,7 @@ export class GwProjectFirestoreRuleController extends GatewayController {
       rules: data.rules,
     };
     const response: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.project.firestore.rule.patterns.createRule,
         payload,
       ),
@@ -78,7 +78,7 @@ export class GwProjectFirestoreRuleController extends GatewayController {
       })),
     };
     const response: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.project.firestore.rule.patterns.updateRule,
         payload,
       ),
@@ -95,7 +95,7 @@ export class GwProjectFirestoreRuleController extends GatewayController {
       schema: params.schema,
     };
     const response: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.project.firestore.rule.patterns.deleteRule,
         payload,
       ),
@@ -112,7 +112,7 @@ export class GwProjectFirestoreRuleController extends GatewayController {
       schema: params.schema,
     };
     const response: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.project.firestore.rule.patterns.getRule,
         payload,
       ),
@@ -128,7 +128,7 @@ export class GwProjectFirestoreRuleController extends GatewayController {
       projectId: params.projectId,
     };
     const response: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.project.firestore.rule.patterns.getAllRules,
         payload,
       ),

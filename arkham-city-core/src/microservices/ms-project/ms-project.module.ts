@@ -6,6 +6,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { MsProjectController } from './ms-project.controller';
 import { MsProjectFirestoreModule } from './ms-project-firestore/ms-project-firestore.module';
+import * as process from 'node:process';
 
 @Module({
   imports: [
@@ -13,10 +14,15 @@ import { MsProjectFirestoreModule } from './ms-project-firestore/ms-project-fire
     ClientsModule.register([
       {
         name: microserviceConfig.project.name,
-        transport: Transport.REDIS,
+        transport: Transport.RMQ,
         options: {
-          host: process.env.REDIS_HOST as string,
-          port: parseInt(process.env.REDIS_PORT as string),
+          urls: [
+            (process.env.RABBITMQ_URL as string) ?? 'amqp://localhost:5672',
+          ],
+          queue: microserviceConfig.project.name + '-queue',
+          queueOptions: {
+            durable: false,
+          },
         },
       },
     ]),

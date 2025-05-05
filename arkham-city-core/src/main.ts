@@ -14,12 +14,11 @@ async function bootstrap() {
         logger: new ConsoleLogger({
           prefix: process.env.APP_NAME,
         }),
-        transport: Transport.REDIS,
+        transport: Transport.RMQ,
         options: {
-          host: (process.env.REDIS_HOST as string) || 'localhost',
-          port: parseInt(process.env.REDIS_PORT as string) || 6379,
-          retryAttempts: 5,
-          retryDelay: 3000,
+          urls: [
+            (process.env.RABBITMQ_URL as string) ?? 'amqp://localhost:5672',
+          ],
         },
       },
     );
@@ -32,12 +31,9 @@ async function bootstrap() {
     });
 
     app.connectMicroservice<MicroserviceOptions>({
-      transport: Transport.REDIS,
+      transport: Transport.RMQ,
       options: {
-        host: (process.env.REDIS_HOST as string) || 'localhost',
-        port: parseInt(process.env.REDIS_PORT as string) || 6379,
-        retryAttempts: 5,
-        retryDelay: 3000,
+        urls: [(process.env.RABBITMQ_URL as string) ?? 'amqp://localhost:5672'],
       },
     });
     await app.startAllMicroservices();
