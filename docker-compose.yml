@@ -21,6 +21,18 @@ services:
       - redis_data:/data
     networks:
       - arkham_network
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    restart: unless-stopped
+    expose:
+      - "15672" # RabbitMQ Management UI
+      - "5672"   # RabbitMQ default port
+    ports:
+      - "15672:15672" # RabbitMQ Management UI
+      - "5672:5672"   # RabbitMQ default port
+    networks:
+      - arkham_network
 
   # Gateway service
   gateway:
