@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { CoreModule } from './core/core.module';
 import { MicroservicesModule } from './microservices/microservices.module';
 import { ModulesModule } from './modules/modules.module';
+import * as process from 'node:process';
 
 @Module({
   imports: [
@@ -19,4 +20,5 @@ import { ModulesModule } from './modules/modules.module';
     ModulesModule,
   ],
 })
-export class ServiceModule {}
+export class ServiceModule {
+}

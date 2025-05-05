@@ -16,11 +16,10 @@ import { ModulesModule } from './modules/modules.module';
       connectionName: 'firestore',
     }),
     CoreModule,
-    MicroservicesModule,
-    GatewayModule,
     ModulesModule,
+    GatewayModule,
+    MicroservicesModule,
   ],
-  controllers: [],
-  providers: [],
 })
-export class AppModule {}
+export class AppModule {
+}
