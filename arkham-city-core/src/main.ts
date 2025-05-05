@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { MicroserviceOptions, RmqStatus, Transport } from '@nestjs/microservices';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { ConsoleLogger, VersioningType } from '@nestjs/common';
 import { HttpInterceptor } from './core/interceptors/http/http.interceptor';
 import { ServiceModule } from './service.module';
@@ -32,7 +32,7 @@ async function bootstrap() {
       }),
     });
 
-    const service = app.connectMicroservice<MicroserviceOptions>({
+    app.connectMicroservice<MicroserviceOptions>({
       transport: Transport.RMQ,
       options: {
         urls: [process.env.RABBITMQ_URL ?? 'amqp://localhost:5672'],
@@ -41,9 +41,6 @@ async function bootstrap() {
           durable: false,
         },
       },
-    });
-    service.status.subscribe((status: RmqStatus) => {
-      console.log(`Microservice status: ${status}`);
     });
 
     await app.startAllMicroservices();
