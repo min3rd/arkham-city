@@ -9,3 +9,16 @@ services:
     container_name: redis
     ports:
       - 6379:6379
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    restart: unless-stopped
+    expose:
+      - "15672" # RabbitMQ Management UI
+      - "5672"   # RabbitMQ default port
+    ports:
+      - "15672:15672" # RabbitMQ Management UI
+      - "5672:5672"   # RabbitMQ default port
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest

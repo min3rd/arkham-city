@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { WebSDKAuthModule } from 'src/modules/websdk/websdk-auth/websdk-auth.module';
+import * as process from 'node:process';
 
 @Module({
   imports: [
@@ -11,10 +12,15 @@ import { WebSDKAuthModule } from 'src/modules/websdk/websdk-auth/websdk-auth.mod
     ClientsModule.register([
       {
         name: microserviceConfig.websdk.auth.name,
-        transport: Transport.REDIS,
+        transport: Transport.RMQ,
         options: {
-          host: process.env.REDIS_HOST,
-          port: parseInt(process.env.REDIS_PORT as string),
+          urls: [
+            (process.env.RABBITMQ_URL as string) ?? 'amqp://localhost:5672',
+          ],
+          queue: microserviceConfig.websdk.auth.name + '-queue',
+          queueOptions: {
+            durable: false,
+          },
         },
       },
     ]),

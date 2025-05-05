@@ -6,6 +6,7 @@ import { ModulesModule } from 'src/modules/modules.module';
 import { GwProjectController } from './gw-project.controller';
 import { GwProjectAppModule } from './gw-project-app/gw-project-app.module';
 import { GwProjectFirestoreModule } from './gw-project-firestore/gw-project-firestore.module';
+import * as process from 'node:process';
 
 @Module({
   imports: [
@@ -13,10 +14,15 @@ import { GwProjectFirestoreModule } from './gw-project-firestore/gw-project-fire
     ClientsModule.register([
       {
         name: microserviceConfig.project.name,
-        transport: Transport.REDIS,
+        transport: Transport.RMQ,
         options: {
-          host: process.env.REDIS_HOST as string,
-          port: parseInt(process.env.REDIS_PORT as string),
+          urls: [
+            (process.env.RABBITMQ_URL as string) ?? 'amqp://localhost:5672',
+          ],
+          queue: microserviceConfig.project.name + '-queue',
+          queueOptions: {
+            durable: false,
+          },
         },
       },
     ]),

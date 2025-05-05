@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { ModulesModule } from 'src/modules/modules.module';
+import * as process from 'node:process';
 
 @Module({
   imports: [
@@ -11,10 +12,15 @@ import { ModulesModule } from 'src/modules/modules.module';
     ClientsModule.register([
       {
         name: microserviceConfig.project.app.name,
-        transport: Transport.REDIS,
+        transport: Transport.RMQ,
         options: {
-          host: process.env.REDIS_HOST as string,
-          port: parseInt(process.env.REDIS_PORT as string),
+          urls: [
+            (process.env.RABBITMQ_URL as string) ?? 'amqp://localhost:5672',
+          ],
+          queue: microserviceConfig.project.app.name + '-queue',
+          queueOptions: {
+            durable: false,
+          },
         },
       },
     ]),

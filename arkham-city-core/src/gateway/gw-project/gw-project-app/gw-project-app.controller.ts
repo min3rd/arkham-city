@@ -9,7 +9,7 @@ import {
   Post,
   Req,
 } from '@nestjs/common';
-import { ClientRedis } from '@nestjs/microservices';
+import { ClientRMQ } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
 import {
   CreateProjectAppReqDto,
@@ -32,7 +32,7 @@ import { REQUEST_FIELDS } from 'src/config/request.config';
 export class GwProjectAppController extends GatewayController {
   constructor(
     @Inject(microserviceConfig.project.app.name)
-    private readonly clientProxy: ClientRedis,
+    private readonly rmqClient: ClientRMQ,
   ) {
     super();
   }
@@ -49,7 +49,7 @@ export class GwProjectAppController extends GatewayController {
       projectId: params.projectId,
     };
     const res: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.project.app.patterns.create,
         payload,
       ),
@@ -65,10 +65,7 @@ export class GwProjectAppController extends GatewayController {
       projectId: params.projectId,
     };
     const res: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
-        microserviceConfig.project.app.patterns.all,
-        payload,
-      ),
+      this.rmqClient.send(microserviceConfig.project.app.patterns.all, payload),
     );
     this.afterCallMicroservice(res);
     return res.data;
@@ -82,10 +79,7 @@ export class GwProjectAppController extends GatewayController {
       appId: params.appId,
     };
     const res: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
-        microserviceConfig.project.app.patterns.get,
-        payload,
-      ),
+      this.rmqClient.send(microserviceConfig.project.app.patterns.get, payload),
     );
     this.afterCallMicroservice(res);
     return res.data;
@@ -104,7 +98,7 @@ export class GwProjectAppController extends GatewayController {
       appId: params.appId,
     };
     const res: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.project.app.patterns.update,
         payload,
       ),
@@ -121,7 +115,7 @@ export class GwProjectAppController extends GatewayController {
       appId: params.appId,
     };
     const res: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.project.app.patterns.delete,
         payload,
       ),
@@ -138,7 +132,7 @@ export class GwProjectAppController extends GatewayController {
       appId: params.appId,
     };
     const res: ServiceResponse<any> = await firstValueFrom(
-      this.clientProxy.send(
+      this.rmqClient.send(
         microserviceConfig.project.app.patterns.getSecret,
         payload,
       ),
