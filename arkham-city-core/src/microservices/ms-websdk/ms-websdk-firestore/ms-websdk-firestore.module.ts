@@ -15,7 +15,7 @@ import * as process from 'node:process';
         transport: Transport.RMQ,
         options: {
           urls: [process.env.RABBITMQ_URL ?? 'amqp://localhost:5672'],
-          queue: 'arkham-city',
+          queue: microserviceConfig.websdk.firestore.name + '-queue',
           queueOptions: {
             durable: false,
           },
@@ -27,5 +27,4 @@ import * as process from 'node:process';
   providers: [],
   controllers: [MsWebsdkFirestoreController],
 })
-export class MsWebsdkFirestoreModule {
-}
+export class MsWebsdkFirestoreModule {}

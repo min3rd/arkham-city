@@ -15,7 +15,7 @@ import * as process from 'node:process';
         transport: Transport.RMQ,
         options: {
           urls: [process.env.RABBITMQ_URL ?? 'amqp://localhost:5672'],
-          queue: 'arkham-city',
+          queue: microserviceConfig.project.app.name + '-queue',
           queueOptions: {
             durable: false,
           },
@@ -26,5 +26,4 @@ import * as process from 'node:process';
   ],
   controllers: [MsProjectAppController],
 })
-export class MsProjectAppModule {
-}
+export class MsProjectAppModule {}

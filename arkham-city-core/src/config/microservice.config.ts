@@ -34,14 +34,14 @@ export const microserviceConfig = {
       },
     },
     firestore: {
-      name: 'projects.firestore',
+      name: 'project.firestore',
       patterns: {
         querySchema: 'v1.project.firestore.query',
         findById: 'v1.project.firestore.find-by-id',
         deleteById: 'v1.project.firestore.delete-by-id',
       },
       rule: {
-        name: 'projects.firestore.rule',
+        name: 'project.firestore.rule',
         patterns: {
           createRule: 'v1.project.firestore.rule.create',
           updateRule: 'v1.project.firestore.rule.update',
@@ -75,4 +75,28 @@ export const microserviceConfig = {
       },
     },
   },
+};
+
+export const getMicroserviceConfigNames = () => {
+  const flattenedConfig: string[] = [];
+  Object.keys(microserviceConfig).forEach((key) => {
+    flattenedConfig.push(...getMicroserviceConfigName(microserviceConfig[key]));
+  });
+  return flattenedConfig;
+};
+
+export const getMicroserviceConfigName = (config: any): string[] => {
+  const result: string[] = [];
+
+  Object.keys(config).forEach((key) => {
+    if (key === 'name') {
+      result.push(config[key] as string);
+    }
+    if (typeof config[key] === 'object') {
+      const nestedResult = getMicroserviceConfigName(config[key]);
+      result.push(...nestedResult);
+    }
+  });
+
+  return result;
 };

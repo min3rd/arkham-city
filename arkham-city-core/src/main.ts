@@ -5,26 +5,44 @@ import { ConsoleLogger, VersioningType } from '@nestjs/common';
 import { HttpInterceptor } from './core/interceptors/http/http.interceptor';
 import { ServiceModule } from './service.module';
 import * as process from 'node:process';
+import {
+  getMicroserviceConfigNames,
+  microserviceConfig,
+} from './config/microservice.config';
 
 async function bootstrap() {
   if (process.env.MICROSERVICE_ONLY === 'true') {
-    const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-      ServiceModule,
-      {
-        logger: new ConsoleLogger({
-          prefix: process.env.APP_NAME,
-        }),
+    const app = await NestFactory.create(ServiceModule, {
+      logger: new ConsoleLogger({
+        prefix: process.env.APP_NAME,
+      }),
+    });
+    app.connectMicroservice<MicroserviceOptions>({
+      transport: Transport.RMQ,
+      options: {
+        urls: [process.env.RABBITMQ_URL ?? 'amqp://localhost:5672'],
+        queue: 'arkham-city',
+        queueOptions: {
+          durable: false,
+        },
+      },
+    });
+
+    // Connect to all microservice's queues
+    for (const name of getMicroserviceConfigNames()) {
+      app.connectMicroservice<MicroserviceOptions>({
         transport: Transport.RMQ,
         options: {
           urls: [process.env.RABBITMQ_URL ?? 'amqp://localhost:5672'],
-          queue: 'arkham-city',
+          queue: name + '-queue',
           queueOptions: {
             durable: false,
           },
         },
-      },
-    );
-    await app.listen();
+      });
+    }
+
+    await app.listen(process.env.PORT || 3000);
   } else {
     const app = await NestFactory.create(AppModule, {
       logger: new ConsoleLogger({
@@ -37,6 +55,31 @@ async function bootstrap() {
       options: {
         urls: [process.env.RABBITMQ_URL ?? 'amqp://localhost:5672'],
         queue: 'arkham-city',
+        queueOptions: {
+          durable: false,
+        },
+      },
+    });
+
+    // Connect to all microservice's queues
+    for (const name of getMicroserviceConfigNames()) {
+      app.connectMicroservice<MicroserviceOptions>({
+        transport: Transport.RMQ,
+        options: {
+          urls: [process.env.RABBITMQ_URL ?? 'amqp://localhost:5672'],
+          queue: name + '-queue',
+          queueOptions: {
+            durable: false,
+          },
+        },
+      });
+    }
+
+    app.connectMicroservice<MicroserviceOptions>({
+      transport: Transport.RMQ,
+      options: {
+        urls: [process.env.RABBITMQ_URL ?? 'amqp://localhost:5672'],
+        queue: microserviceConfig.auth.name + '-queue',
         queueOptions: {
           durable: false,
         },
