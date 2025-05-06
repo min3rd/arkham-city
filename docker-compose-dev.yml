@@ -20,5 +20,5 @@ services:
       - "15672:15672" # RabbitMQ Management UI
       - "5672:5672"   # RabbitMQ default port
     environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_DEFAULT_USER=arkham-city
+      - RABBITMQ_DEFAULT_PASS=arkham-city

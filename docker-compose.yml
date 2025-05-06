@@ -34,7 +34,9 @@ services:
       - "5672:5672"   # RabbitMQ default port
     networks:
       - arkham_network
-
+    environment:
+      - RABBITMQ_DEFAULT_USER=arkham-city
+      - RABBITMQ_DEFAULT_PASS=arkham-city
   # Gateway service
   gateway:
     build:
@@ -57,7 +59,7 @@ services:
       - MONGO_DB_FIRESTORE=mongodb://mongo:27017/firestore
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - RABBITMQ_URL=amqp://rabbitmq:5672
+      - RABBITMQ_URL=amqp://arkham-city:arkham-city@rabbitmq:5672
       - JWT_SECRET=ThisShouldBeSuperSecret
       - JWT_ACCESS_TOKEN_EXPIRES_IN=15m
       - JWT_REFRESH_TOKEN_EXPIRES_IN=1d
@@ -81,7 +83,7 @@ services:
       - MONGO_DB_FIRESTORE=mongodb://mongo:27017/firestore
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - RABBITMQ_URL=amqp://rabbitmq:5672
+      - RABBITMQ_URL=amqp://arkham-city:arkham-city@rabbitmq:5672
       - JWT_SECRET=ThisShouldBeSuperSecret
     networks:
       - arkham_network
@@ -102,7 +104,7 @@ services:
       - MONGO_DB_FIRESTORE=mongodb://mongo:27017/firestore
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - RABBITMQ_URL=amqp://rabbitmq:5672
+      - RABBITMQ_URL=amqp://arkham-city:arkham-city@rabbitmq:5672
       - JWT_SECRET=ThisShouldBeSuperSecret
     networks:
       - arkham_network
@@ -123,7 +125,7 @@ services:
       - MONGO_DB_FIRESTORE=mongodb://mongo:27017/firestore
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-      - RABBITMQ_URL=amqp://rabbitmq:5672
+      - RABBITMQ_URL=amqp://arkham-city:arkham-city@rabbitmq:5672
       - JWT_SECRET=ThisShouldBeSuperSecret
     networks:
       - arkham_network
