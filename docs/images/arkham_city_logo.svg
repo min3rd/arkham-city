@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="60" viewBox="0 0 240 60">
+    <!-- Definitions for gradients and filters -->
+    <defs>
+        <!-- Background gradient -->
+        <radialGradient id="backgroundGradient" cx="50%" cy="50%" r="70%" fx="50%" fy="50%">
+            <stop offset="0%" stop-color="#9932CC"/>
+            <stop offset="100%" stop-color="#191970"/>
+        </radialGradient>
+
+        <!-- Glow filter for text -->
+        <filter id="textGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="2" result="blur"/>
+            <feFlood flood-color="#FFD700" flood-opacity="0.7" result="glowColor"/>
+            <feComposite in="glowColor" in2="blur" operator="in" result="softGlow"/>
+            <feMerge>
+                <feMergeNode in="softGlow"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+
+        <!-- Star shape for sparkles -->
+        <polygon id="star" points="0,-5 1.5,-1.5 5,0 1.5,1.5 0,5 -1.5,1.5 -5,0 -1.5,-1.5"/>
+    </defs>
+
+    <!-- Enhanced fantasy background with gradient -->
+    <ellipse cx="120" cy="30" rx="115" ry="28" fill="url(#backgroundGradient)"/>
+
+    <!-- Decorative moon -->
+    <circle cx="40" cy="20" r="12" fill="#E6E6FA"/>
+    <circle cx="35" cy="17" r="10" fill="url(#backgroundGradient)"/>
+
+    <!-- Enhanced magical sparkles/stars with animation -->
+    <g fill="#F0F8FF">
+        <use href="#star" x="70" y="15" transform="scale(1.2) rotate(20)"/>
+        <use href="#star" x="180" y="20" transform="scale(1.5) rotate(45)"/>
+        <use href="#star" x="60" y="40" transform="scale(0.8) rotate(10)"/>
+        <use href="#star" x="190" y="35" transform="scale(1.3) rotate(30)"/>
+        <use href="#star" x="85" y="25" transform="scale(0.7) rotate(15)"/>
+        <use href="#star" x="160" y="15" transform="scale(1.0) rotate(25)"/>
+        <use href="#star" x="210" y="25" transform="scale(0.9) rotate(40)"/>
+        <use href="#star" x="30" y="35" transform="scale(1.1) rotate(5)"/>
+        <circle cx="100" cy="18" r="0.8" fill="#FFFFFF"/>
+        <circle cx="140" cy="22" r="0.6" fill="#FFFFFF"/>
+        <circle cx="170" cy="30" r="0.7" fill="#FFFFFF"/>
+        <circle cx="50" cy="28" r="0.5" fill="#FFFFFF"/>
+    </g>
+
+    <!-- Enhanced castle silhouette with details -->
+    <path d="M80 40 v-18 h5 v-3 h3 v-2 h4 v2 h3 v3 h5 v-8 h4 v-3 h4 v3 h4 v8 h5 v-3 h3 v-2 h4 v2 h3 v3 h5 v18 z
+           M85 40 v-5 h3 v5 z M95 40 v-5 h3 v5 z M105 40 v-5 h3 v5 z M115 40 v-5 h3 v5 z
+           M125 40 v-5 h3 v5 z M135 40 v-5 h3 v5 z M145 40 v-5 h3 v5 z"
+          fill="url(#backgroundGradient)" stroke="#C0C0C0" stroke-width="1"/>
+
+    <!-- Windows and details for castle -->
+    <rect x="88" y="25" width="2" height="3" fill="#87CEFA" opacity="0.7"/>
+    <rect x="98" y="25" width="2" height="3" fill="#87CEFA" opacity="0.7"/>
+    <rect x="118" y="25" width="2" height="3" fill="#87CEFA" opacity="0.7"/>
+    <rect x="128" y="25" width="2" height="3" fill="#87CEFA" opacity="0.7"/>
+    <rect x="138" y="25" width="2" height="3" fill="#87CEFA" opacity="0.7"/>
+
+    <!-- Enhanced dragon silhouette with more details -->
+    <path d="M160 30 c5-5, 15-5, 15 0 s-5 10, 0 15 c-10-5, -20-5, -15-15 z
+           M175 30 l10-5 l-5 10 z
+           M165 25 c0,0 2,-2 4,0 c2,2 0,4 0,4 c0,0 -2,2 -4,0 c-2,-2 0,-4 0,-4 z"
+          fill="#FF4500" stroke="#FFA500" stroke-width="0.5"/>
+
+    <!-- Dragon fire breath -->
+    <path d="M185 30 c5,-2 10,-1 15,2 c-5,0 -10,0 -15,-2 z"
+          fill="#FFFF00" opacity="0.8"/>
+
+    <!-- Enhanced Arkham City text with glow effect -->
+    <text x="120" y="35"
+          font-family="Fantasy, serif"
+          font-weight="bold"
+          font-size="18"
+          text-anchor="middle"
+          fill="#FFD700"
+          filter="url(#textGlow)"
+          letter-spacing="1">ARKHAM CITY
+    </text>
+</svg>

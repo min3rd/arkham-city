@@ -1,4 +1,6 @@
-# Arkham City
+<p align="center">
+  <img src="docs/images/arkham_city_logo.svg" alt="Arkham City Logo">
+</p>
 
 ![Arkham City Architecture](docs/images/arkham_city_architecture.svg)
 
@@ -312,4 +314,3 @@ The application follows a microservice architecture:
 ## Contributors
 
 We would like to thank all the contributors who have helped make this project possible:
-

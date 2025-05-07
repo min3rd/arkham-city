@@ -52,6 +52,9 @@ jobs:
         run: |
           mkdir -p themes
           git clone https://github.com/matcornic/hugo-theme-learn.git themes/hugo-theme-learn
+          # Copy custom logo with inline SVG
+          mkdir -p themes/hugo-theme-learn/layouts/partials
+          cp layouts/partials/logo.html themes/hugo-theme-learn/layouts/partials/
       - name: Build with Hugo
         env:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
