@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="650" viewBox="0 0 800 650">
+    <style>
+        .component { fill: #f0f0f0; stroke: #333; stroke-width: 2; }
+        .database { fill: #e6f7ff; stroke: #333; stroke-width: 2; }
+        .client { fill: #ffe6cc; stroke: #333; stroke-width: 2; }
+        .server { fill: #e6ffcc; stroke: #333; stroke-width: 2; }
+        .message-broker { fill: #f9e6ff; stroke: #333; stroke-width: 2; }
+        .cache { fill: #ffe6e6; stroke: #333; stroke-width: 2; }
+        .sdk { fill: #ccf2ff; stroke: #333; stroke-width: 2; }
+        .arrow { stroke: #666; stroke-width: 2; marker-end: url(#arrowhead); }
+        .label { font-family: Arial; font-size: 14px; fill: #333; text-anchor: middle; }
+        .title { font-family: Arial; font-size: 24px; font-weight: bold; fill: #333; text-anchor: middle; }
+        .subtitle { font-family: Arial; font-size: 16px; fill: #666; text-anchor: middle; }
+    </style>
+
+    <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+        </marker>
+    </defs>
+
+    <!-- Title -->
+    <text x="400" y="30" class="title">Arkham City Architecture</text>
+    <text x="400" y="55" class="subtitle">Microservice-based Application Stack</text>
+
+    <!-- Client Browser -->
+    <rect x="300" y="70" width="200" height="60" rx="5" class="client"/>
+    <text x="400" y="105" class="label">Client Browser</text>
+
+    <!-- Web SDK -->
+    <rect x="100" y="120" width="160" height="60" rx="5" class="sdk"/>
+    <text x="180" y="145" class="label">Web SDK</text>
+    <text x="180" y="165" class="label">(Client Library)</text>
+
+    <!-- Arrow from Client to Web SDK -->
+    <line x1="300" y1="100" x2="260" y2="120" class="arrow"/>
+
+    <!-- Nginx -->
+    <rect x="300" y="170" width="200" height="60" rx="5" class="server"/>
+    <text x="400" y="205" class="label">Nginx</text>
+
+    <!-- Arrow from Client to Nginx -->
+    <line x1="400" y1="130" x2="400" y2="170" class="arrow"/>
+
+    <!-- Gateway Service -->
+    <rect x="150" y="270" width="180" height="60" rx="5" class="server"/>
+    <text x="240" y="295" class="label">Gateway Service</text>
+    <text x="240" y="315" class="label">(NestJS API)</text>
+
+    <!-- Dashboard -->
+    <rect x="470" y="270" width="180" height="60" rx="5" class="component"/>
+    <text x="560" y="305" class="label">Dashboard (Angular)</text>
+
+    <!-- Arrows from Nginx -->
+    <line x1="350" y1="230" x2="240" y2="270" class="arrow"/>
+    <text x="280" y="250" class="label" style="text-anchor: start;">/api</text>
+
+    <line x1="450" y1="230" x2="560" y2="270" class="arrow"/>
+    <text x="520" y="250" class="label" style="text-anchor: start;">/</text>
+
+    <!-- Arrow from Web SDK to Gateway -->
+    <line x1="180" y1="180" x2="200" y2="270" class="arrow"/>
+    <text x="160" y="230" class="label" style="text-anchor: start;">HTTP API</text>
+
+    <!-- Message Broker -->
+    <rect x="150" y="370" width="180" height="60" rx="5" class="message-broker"/>
+    <text x="240" y="395" class="label">Message Broker</text>
+    <text x="240" y="415" class="label">(RabbitMQ)</text>
+
+    <!-- Arrow from Gateway to Message Broker -->
+    <line x1="240" y1="330" x2="240" y2="370" class="arrow"/>
+
+    <!-- Microservices -->
+    <rect x="50" y="470" width="120" height="60" rx="5" class="server"/>
+    <text x="110" y="505" class="label">Microservice 1</text>
+
+    <rect x="180" y="470" width="120" height="60" rx="5" class="server"/>
+    <text x="240" y="505" class="label">Microservice 2</text>
+
+    <rect x="310" y="470" width="120" height="60" rx="5" class="server"/>
+    <text x="370" y="505" class="label">Microservice 3</text>
+
+    <!-- Arrows from Message Broker to Microservices -->
+    <line x1="200" y1="430" x2="110" y2="470" class="arrow"/>
+    <line x1="240" y1="430" x2="240" y2="470" class="arrow"/>
+    <line x1="280" y1="430" x2="370" y2="470" class="arrow"/>
+
+    <!-- MongoDB -->
+    <rect x="180" y="570" width="120" height="60" rx="5" class="database"/>
+    <text x="240" y="605" class="label">MongoDB</text>
+
+    <!-- Arrows from Microservices to MongoDB -->
+    <line x1="110" y1="530" x2="200" y2="570" class="arrow"/>
+    <line x1="240" y1="530" x2="240" y2="570" class="arrow"/>
+    <line x1="370" y1="530" x2="280" y2="570" class="arrow"/>
+
+    <!-- Redis -->
+    <rect x="470" y="470" width="180" height="60" rx="5" class="cache"/>
+    <text x="560" y="495" class="label">Redis</text>
+    <text x="560" y="515" class="label">(Cache &amp; Storage)</text>
+
+    <!-- Arrows to Redis -->
+    <line x1="330" y1="300" x2="470" y2="470" class="arrow"/>
+    <line x1="240" y1="430" x2="470" y2="490" class="arrow"/>
+
+    <!-- Legend -->
+    <rect x="650" y="570" width="120" height="20" rx="5" class="sdk"/>
+    <text x="710" y="585" class="label">Web SDK</text>
+</svg>

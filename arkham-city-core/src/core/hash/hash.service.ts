@@ -1,4 +1,4 @@
-import { SHA256, AES, enc } from 'crypto-js';
+import { AES, enc, SHA256 } from 'crypto-js';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -20,7 +20,6 @@ export class HashService {
     try {
       return JSON.parse(decrypted) as T;
     } catch (e) {
-      console.error(e);
       return null;
     }
   }

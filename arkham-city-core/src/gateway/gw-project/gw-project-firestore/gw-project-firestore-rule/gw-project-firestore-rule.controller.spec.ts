@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { GwProjectFirestoreRuleController } from './gw-project-firestore-rule.controller';
+import { GwProjectFirestoreRuleModule } from './gw-project-firestore-rule.module';
 
 describe('GwProjectFirestoreRuleController', () => {
   let controller: GwProjectFirestoreRuleController;
@@ -7,6 +8,7 @@ describe('GwProjectFirestoreRuleController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [GwProjectFirestoreRuleController],
+      imports: [GwProjectFirestoreRuleModule],
     }).compile();
 
     controller = module.get<GwProjectFirestoreRuleController>(
