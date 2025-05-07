@@ -1,7 +1,7 @@
 baseURL = "https://min3rd.github.io/arkham-city/"
 languageCode = "en-us"
-title = "Arkham City Documentation"
-theme = "docsy"
+title = "Arkham City"
+theme = "hugo-theme-learn"
 contentDir = "docs/content"
 
 # Enable search functionality
@@ -15,12 +15,13 @@ description = "Documentation for the Arkham City project"
 # Author of the site will be used in meta-information
 author = "Arkham City Team"
 
-# Docsy theme parameters
-# UI
-ui_pref = "light"  # light, dark, or auto
-# Links to source code
-github_repo = "https://github.com/min3rd/arkham-city"
-github_branch = "develop"
+# hugo-theme-learn parameters
+# Change default color scheme with a variant one
+themeVariant = "blue"
+# Repository configuration for "Edit this page" links
+editURL = "https://github.com/min3rd/arkham-city/edit/develop/docs/content/"
+# Show a "Home" button in the menu
+home_button_enabled = true
 
 # For search functionality
 [outputFormats.JSON]

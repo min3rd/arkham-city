@@ -1,9 +1,9 @@
 +++
-title = "Arkham City Documentation"
+title = "Arkham City"
 description = "Documentation for the Arkham City project"
 +++
 
-# Arkham City Documentation
+# Arkham City
 
 Welcome to the Arkham City documentation. This site provides comprehensive information about the Arkham City project,
 including architecture, components, deployment instructions, and development workflow.
