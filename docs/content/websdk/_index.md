@@ -1,12 +1,9 @@
----
-title: "WebSDK Documentation"
-linkTitle: "WebSDK"
-description: "Documentation for the Web SDK"
-weight: 30
-menu:
-  main:
-    weight: 30
----
++++
+title = "WebSDK Documentation"
+description = "Documentation for the Web SDK"
+weight = 30
+chapter = true
++++
 
 # WebSDK Documentation
 

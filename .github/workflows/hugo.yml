@@ -47,12 +47,13 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
       - name: Install Node.js dependencies
-        run: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
-      # Using default Hugo theme
-      # - name: Install Hugo Theme
-      #   run: |
-      #     mkdir -p themes
-      #     git clone https://github.com/matcornic/hugo-theme-learn.git themes/hugo-theme-learn
+        run: npm ci
+      - name: Install Docsy Theme
+        run: |
+          mkdir -p themes
+          git clone https://github.com/google/docsy.git themes/docsy
+          cd themes/docsy
+          npm install
       - name: Build with Hugo
         env:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache

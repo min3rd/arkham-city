@@ -1,12 +1,9 @@
----
-title: "Core Documentation"
-linkTitle: "Core"
-description: "Documentation for the backend NestJS application"
-weight: 10
-menu:
-  main:
-    weight: 10
----
++++
+title = "Core Documentation"
+description = "Documentation for the backend NestJS application"
+weight = 10
+chapter = true
++++
 
 # Core Documentation
 

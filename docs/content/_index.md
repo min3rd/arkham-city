@@ -1,11 +1,7 @@
----
-title: "Arkham City Documentation"
-linkTitle: "Home"
-description: "Documentation for the Arkham City project"
-menu:
-  main:
-    weight: 1
----
++++
+title = "Arkham City Documentation"
+description = "Documentation for the Arkham City project"
++++
 
 # Arkham City Documentation
 
