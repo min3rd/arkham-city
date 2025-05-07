@@ -1,9 +1,12 @@
-+++
-title = "Dashboard Documentation"
-description = "Documentation for the frontend Angular application"
-weight = 20
-chapter = true
-+++
+---
+title: "Dashboard Documentation"
+linkTitle: "Dashboard"
+description: "Documentation for the frontend Angular application"
+weight: 20
+menu:
+  main:
+    weight: 20
+---
 
 # Dashboard Documentation
 

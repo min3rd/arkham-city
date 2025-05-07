@@ -1,0 +1,31 @@
+<footer class="bg-dark py-5 row d-print-none">
+  <div class="container-fluid mx-sm-5">
+    <div class="row">
+      <div class="col-6 col-sm-4 text-xs-center order-sm-2">
+        <ul class="list-inline mb-0">
+          <li aria-label="GitHub" class="list-inline-item mx-2 h3" data-placement="top" data-toggle="tooltip"
+              title="GitHub">
+            <a class="text-white" href="https://github.com/min3rd/arkham-city" target="_blank">
+              <i class="fab fa-github"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-6 col-sm-4 text-right text-xs-center order-sm-3">
+        <ul class="list-inline mb-0">
+          <li aria-label="Documentation" class="list-inline-item mx-2 h3" data-placement="top" data-toggle="tooltip"
+              title="Documentation">
+            <a class="text-white" href="{{ .Site.BaseURL }}" target="_blank">
+              <i class="fas fa-book"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
+        <small class="text-white">&copy; {{ now.Year }} {{ .Site.Params.author }}. All Rights Reserved.</small>
+        <small class="ml-1"><a href="https://github.com/min3rd/arkham-city/blob/main/LICENSE" target="_blank">MIT
+          License</a></small>
+      </div>
+    </div>
+  </div>
+</footer>

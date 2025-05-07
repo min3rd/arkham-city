@@ -1,80 +1,77 @@
 # Arkham City Documentation
 
 This directory contains the documentation for the Arkham City project. The documentation is built
-using [Hugo](https://gohugo.io/), a fast and flexible static site generator.
+using [Hugo](https://gohugo.io/) with the [Docsy](https://www.docsy.dev/) theme.
+
+## Prerequisites
+
+To build and run the documentation locally, you need:
+
+- [Hugo Extended](https://gohugo.io/getting-started/installing/) (v0.80.0 or later)
+- [Node.js](https://nodejs.org/) (v14.0.0 or later)
+- [npm](https://www.npmjs.com/) (v6.0.0 or later)
 
 ## Setup
 
-1. Install Hugo: Follow the [official installation guide](https://gohugo.io/installation/).
-2. Clone the repository: `git clone https://github.com/min3rd/arkham-city.git`
-3. Navigate to the project directory: `cd arkham-city`
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/min3rd/arkham-city.git
+   cd arkham-city
+   ```
 
-## Local Development
+2. Initialize and update the Docsy theme submodule:
+   ```bash
+   git submodule update --init --recursive
+   ```
 
-To run the documentation site locally:
+3. Install npm dependencies:
+   ```bash
+   npm install
+   ```
 
-```bash
-# Navigate to the docs directory
-cd docs
+## Development
 
-# Start the Hugo server
-hugo server -D
-```
-
-This will start a local server at http://localhost:1313/ where you can preview the documentation.
-
-## Adding Content
-
-The documentation content is organized in the `content` directory. Each section has its own directory with an
-`_index.md` file that serves as the section's home page.
-
-To add a new page:
-
-1. Create a new Markdown file in the appropriate section directory.
-2. Add front matter at the top of the file:
-
-```markdown
-+++
-title = "Your Page Title"
-description = "Description of your page"
-weight = 10  # Controls the order in the menu
-+++
-
-# Your Page Title
-
-Your content here...
-```
-
-## Building for Production
-
-To build the documentation site for production:
+To start the development server:
 
 ```bash
-# Navigate to the docs directory
-cd docs
-
-# Build the site
-hugo
+npm start
 ```
 
-This will generate the static site in the `public` directory, which can be deployed to any static hosting service.
+This will start the Hugo server with live reload. You can access the documentation
+at http://localhost:1313/arkham-city/.
 
-## Configuration
+## Building
 
-The Hugo configuration is located in the `config.toml` file at the root of the repository. This file controls the site's
-settings, theme, and menu structure.
-
-## Theme
-
-The documentation site uses the [Learn](https://themes.gohugo.io/themes/hugo-theme-learn/) theme. To install the theme:
+To build the documentation for production:
 
 ```bash
-# Navigate to the docs directory
-cd docs
-
-# Create themes directory if it doesn't exist
-mkdir -p themes
-
-# Clone the theme repository
-git clone https://github.com/matcornic/hugo-theme-learn.git themes/hugo-theme-learn
+npm run build
 ```
+
+This will generate the static site in the `public` directory.
+
+## Deployment
+
+The documentation is automatically deployed to GitHub Pages when changes are pushed to the main branch.
+
+## Directory Structure
+
+- `content/`: The main content of the documentation
+    - `_index.md`: The home page
+    - `core/`: Documentation for the backend NestJS application
+    - `dashboard/`: Documentation for the frontend Angular application
+    - `websdk/`: Documentation for the Web SDK
+- `layouts/`: Custom layouts for the Docsy theme
+- `static/`: Static assets like images and CSS
+- `config.toml`: Hugo configuration file
+
+## Contributing
+
+1. Create a new branch for your changes
+2. Make your changes to the documentation
+3. Test your changes locally
+4. Submit a pull request
+
+## License
+
+This documentation is licensed under the MIT License. See the LICENSE file for details.

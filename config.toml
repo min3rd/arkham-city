@@ -2,6 +2,7 @@ baseURL = "https://min3rd.github.io/arkham-city/"
 languageCode = "en-us"
 title = "Arkham City Documentation"
 contentDir = "docs/content"
+theme = "docsy"
 
 # Enable search functionality
 [outputs]
@@ -9,10 +10,31 @@ home = ["HTML", "RSS", "JSON"]
 
 # Configure parameters
 [params]
-# Description of the site, will be used in meta information
+# Description of the site will be used in meta-information
 description = "Documentation for the Arkham City project"
-# Author of the site, will be used in meta information
+# Author of the site will be used in meta-information
 author = "Arkham City Team"
+# GitHub repository link (for Docsy's "Edit this page" feature)
+github_repo = "https://github.com/min3rd/arkham-city"
+github_branch = "main"
+# Show GitHub edit links
+github_edit_page = true
+
+# Enable syntax highlighting
+pygmentsCodeFences = true
+pygmentsUseClasses = false
+pygmentsUseClassic = false
+pygmentsStyle = "tango"
+
+# Docsy theme options
+[params.ui]
+sidebar_menu_compact = true
+sidebar_menu_foldable = true
+sidebar_cache_limit = 10
+breadcrumb_disable = false
+sidebar_search_disable = false
+navbar_logo = true
+footer_about_disable = false
 
 # For search functionality
 [outputFormats.JSON]
@@ -20,3 +42,16 @@ baseName = "index"
 isPlainText = true
 mediaType = "application/json"
 notAlternative = true
+
+# Docsy menu configuration
+[menu]
+[[menu.main]]
+name = "Documentation"
+weight = 10
+url = "/"
+[[menu.main]]
+name = "GitHub"
+weight = 50
+url = "https://github.com/min3rd/arkham-city"
+pre = "<i class='fab fa-github'></i>"
+post = "<span class='badge badge-primary ml-2'>v0.1.0</span>"

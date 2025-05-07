@@ -1,19 +1,13 @@
 .idea
 *.drawio.*
-# Hugo default output directory
+# Hugo generated files
 /public/
-
-# Hugo generated resources
 /resources/
+.hugo_build.lock
 
-# Hugo server lock file
-/.hugo_build.lock
+# Node.js dependencies
+/node_modules/
 
 # OS generated files
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
