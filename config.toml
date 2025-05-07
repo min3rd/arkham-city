@@ -2,6 +2,7 @@ baseURL = "https://min3rd.github.io/arkham-city/"
 languageCode = "en-us"
 title = "Arkham City Documentation"
 theme = "hugo-theme-learn"
+contentDir = "docs/content"
 
 # Enable search functionality
 [outputs]
