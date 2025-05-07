@@ -315,3 +315,7 @@ The application follows a microservice architecture:
 
 We would like to thank all the contributors who have helped make this project possible:
 
+- Vũ Văn Minh - 170 commits
+- vanminh.vu - 62 commits
+- 9 Melody - 9 commits
+- github-actions[bot] - 1 commits

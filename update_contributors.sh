@@ -19,7 +19,7 @@ TEMP_FILE=$(mktemp)
 sed -n '1,/^## Contributors$/p' "$README_FILE" > "$TEMP_FILE"
 
 # Add the Contributors section header
-echo -e "\nWe would like to thank all the contributors who have helped make this project possible:\n" >> "$TEMP_FILE"
+echo "\nWe would like to thank all the contributors who have helped make this project possible:\n" >> "$TEMP_FILE"
 
 # Get contributor information from Git and add to the temporary file
 git shortlog -sne | while read -r line; do
@@ -32,9 +32,6 @@ git shortlog -sne | while read -r line; do
     github_username=""
     if [[ "$email" == *"@github.com"* ]]; then
         github_username=$(echo "$email" | cut -d '@' -f 1)
-    elif [[ "$email" == "min6th@gmail.com" ]]; then
-        # Hardcoded mapping for known email
-        github_username="min3rd"
     fi
     
     # Format the contributor line
