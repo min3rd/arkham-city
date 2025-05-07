@@ -1,7 +1,6 @@
 baseURL = "https://min3rd.github.io/arkham-city/"
 languageCode = "en-us"
 title = "Arkham City Documentation"
-theme = "hugo-theme-learn"
 contentDir = "docs/content"
 
 # Enable search functionality
@@ -10,36 +9,10 @@ home = ["HTML", "RSS", "JSON"]
 
 # Configure parameters
 [params]
-# Change default color scheme with a variant one
-themeVariant = "blue"
 # Description of the site, will be used in meta information
 description = "Documentation for the Arkham City project"
 # Author of the site, will be used in meta information
 author = "Arkham City Team"
-# Shows a checkmark for visited pages on the menu
-showVisitedLinks = true
-# Disable search functionality. It will hide search bar
-disableSearch = false
-# Javascript and CSS cache are automatically busted when new version of site is generated.
-# Set this to true to disable this behavior (some proxies don't handle well this optimization)
-disableAssetsBusting = false
-# Set this to true to disable copy-to-clipboard button for inline code.
-disableInlineCopyToClipBoard = false
-# A title for shortcuts in menu is set by default. Set this to true to disable it.
-disableShortcutsTitle = false
-# If set to false, a Home button will appear below the search bar on the menu.
-# It is redirecting to the landing page of the current language if specified. (Default is "/")
-disableLandingPageButton = false
-# When using mulitlingual website, disable the switch language button.
-disableLanguageSwitchingButton = false
-# Hide breadcrumbs in the header and only show the current page title
-disableBreadcrumb = false
-# If set to true, prevents Hugo from including the mermaid module if not needed (will reduce load times and traffic)
-disableMermaid = false
-# Hide Next and Previous page buttons normally displayed full height beside content
-disableNextPrev = false
-# Order sections in menu by "weight" or "title". Default to "weight"
-ordersectionsby = "weight"
 
 # For search functionality
 [outputFormats.JSON]
@@ -47,29 +20,3 @@ baseName = "index"
 isPlainText = true
 mediaType = "application/json"
 notAlternative = true
-
-# Configure menu
-[menu]
-[[menu.shortcuts]]
-name = "<i class='fab fa-github'></i> Github repo"
-identifier = "ds"
-url = "https://github.com/min3rd/arkham-city"
-weight = 10
-
-[[menu.shortcuts]]
-name = "<i class='fas fa-bookmark'></i> Core Documentation"
-identifier = "coredoc"
-url = "/core/"
-weight = 20
-
-[[menu.shortcuts]]
-name = "<i class='fas fa-bookmark'></i> Dashboard Documentation"
-identifier = "dashboarddoc"
-url = "/dashboard/"
-weight = 30
-
-[[menu.shortcuts]]
-name = "<i class='fas fa-bookmark'></i> WebSDK Documentation"
-identifier = "websdkdoc"
-url = "/websdk/"
-weight = 40
