@@ -314,3 +314,4 @@ The application follows a microservice architecture:
 ## Contributors
 
 We would like to thank all the contributors who have helped make this project possible:
+
