@@ -308,3 +308,15 @@ The application follows a microservice architecture:
 3. **Deployment**:
     - Build Docker images for all components
     - Deploy with `docker-compose.yml` for production
+
+## Contributors
+
+We would like to thank all the contributors who have helped make this project possible:
+
+- Vũ Văn Minh [GitHub](https://github.com/min3rd) - 144 commits
+- vanminh.vu [GitHub](https://github.com/min3rd) - 62 commits
+- 9 Melody [GitHub](https://github.com/min3rd) - 9 commits
+
+> Note: This section is automatically generated based on Git commit history using the `update_contributors.sh` script.
+> It is automatically updated by a GitHub Action when changes are merged into the develop branch. You can also manually
+> update it by running `./update_contributors.sh`.
