@@ -13,10 +13,13 @@ jobs:
       pull-requests: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Fetch all history for all branches and tags
-          token: ${{ github.token }}
+        run: |
+          # Clone the repository with full history
+          git clone --depth=1 https://${{ github.actor }}:${{ github.token }}@github.com/${{ github.repository }}.git .
+          # Fetch all history for all branches and tags
+          git fetch --prune --unshallow
+          # Checkout the current branch
+          git checkout ${{ github.ref_name }}
 
       - name: Set up Git user
         run: |
