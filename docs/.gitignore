@@ -1,0 +1,17 @@
+# Hugo default output directory
+/public/
+
+# Hugo generated resources
+/resources/
+
+# Hugo server lock file
+/.hugo_build.lock
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
