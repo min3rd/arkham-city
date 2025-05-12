@@ -12,26 +12,35 @@ import { FirestoreRuleModule } from './firestore-rule/firestore-rule.module';
     ClientsModule.register([
       {
         name: microserviceConfig.firestore.name,
-        transport: Transport.REDIS,
+        transport: Transport.RMQ,
         options: {
-          host: process.env.REDIS_HOST as string,
-          port: parseInt(process.env.REDIS_PORT as string),
+          urls: [process.env.RABBITMQ_URL as string],
+          queue: microserviceConfig.firestore.name + '-queue',
+          queueOptions: {
+            durable: false,
+          },
         },
       },
       {
         name: microserviceConfig.websdk.firestore.name,
-        transport: Transport.REDIS,
+        transport: Transport.RMQ,
         options: {
-          host: process.env.REDIS_HOST as string,
-          port: parseInt(process.env.REDIS_PORT as string),
+          urls: [process.env.RABBITMQ_URL as string],
+          queue: microserviceConfig.websdk.firestore.name + '-queue',
+          queueOptions: {
+            durable: false,
+          },
         },
       },
       {
         name: microserviceConfig.project.firestore.rule.name,
-        transport: Transport.REDIS,
+        transport: Transport.RMQ,
         options: {
-          host: process.env.REDIS_HOST as string,
-          port: parseInt(process.env.REDIS_PORT as string),
+          urls: [process.env.RABBITMQ_URL as string],
+          queue: microserviceConfig.project.firestore.rule.name + '-queue',
+          queueOptions: {
+            durable: false,
+          },
         },
       },
     ]),

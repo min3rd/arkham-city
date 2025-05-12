@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ProjectService } from './project.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Project, ProjectSchema } from './project.types';
+import { ProjectFirestoreModule } from './project-firestore/project-firestore.module';
 
 @Module({
   imports: [
@@ -13,8 +14,9 @@ import { Project, ProjectSchema } from './project.types';
       'metadata',
     ),
     ProjectAppModule,
+    ProjectFirestoreModule,
   ],
   providers: [ProjectService],
-  exports: [ProjectService, ProjectAppModule],
+  exports: [ProjectService, ProjectAppModule, ProjectFirestoreModule],
 })
 export class ProjectModule {}
