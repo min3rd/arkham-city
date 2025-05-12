@@ -15,6 +15,7 @@ export class ProjectService {
   constructor(
     @InjectModel(Project.name, 'metadata') private projectModel: Model<Project>,
   ) {}
+
   async create(user: JWTPayload, name: string, description: string = '') {
     const check = await this.projectModel.find({
       name: name,
