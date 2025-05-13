@@ -1,5 +1,5 @@
-<div>
-  <form [formGroup]="form">
+<div class="flex flex-col w-full h-full">
+  <form [formGroup]="form" class="flex flex-col w-full h-full">
     <div class="p-2">
       <ark-text-input
         [formFieldControl]="form.get( 'schema')"
@@ -7,43 +7,42 @@
         noSuffixSpace>
       </ark-text-input>
     </div>
-    <div class="py-2">
-      @if (tabs) {
-        <ark-tab-group [titles]="tabs">
-          @for (tab of tabs; track $index; ) {
-            <ark-tab-content [title]="tab.title">
-              <div class="flex p-2 w-full border-b border-neutral-200 dark:border-neutral-700">
-                <ark-button
-                  (onClick)="newCondition($index)"
-                  label="{{'new condition' | transloco | capitalize}}"
-                  size="sm"
-                  icon="featherPlus"></ark-button>
-              </div>
-              <div class="max-h-96 mt-2 py-2 px-2 overflow-auto">
-                @for (condition of getConditionControls($index); track condition) {
-                  <ark-select
-                    [formFieldControl]="condition.get('condition')"
-                    label="{{'condition' | transloco | capitalize}}">
-                    <ng-template #options>
-                      <option value="" disabled selected>
-                        {{ 'choose' | transloco | capitalize }}
-                      </option>
-                      @for (type of ruleConditionTypes; track type) {
-                        <option value="{{type}}">{{ type | transloco | capitalize }}</option>
-                      }
-                    </ng-template>
-                  </ark-select>
-                  <ark-text-input
-                    [formFieldControl]="condition.get('customCondition')"
-                    label="{{'custom' | transloco | capitalize}}"></ark-text-input>
-                }
-              </div>
-            </ark-tab-content>
-          }
-        </ark-tab-group>
-      }
-    </div>
-    <div class="flex items-center p-2">
+
+    @if (tabs) {
+      <ark-tab-group [titles]="tabs" class="flex flex-col w-full h-full py-2 overflow-auto">
+        @for (tab of tabs; track $index; ) {
+          <ark-tab-content [title]="tab.title">
+            <div class="flex p-2 w-full border-b border-neutral-200 dark:border-neutral-700">
+              <ark-button
+                (onClick)="newCondition($index)"
+                label="{{'new condition' | transloco | capitalize}}"
+                size="sm"
+                icon="featherPlus"></ark-button>
+            </div>
+            <div class="mt-2 py-4 px-2 overflow-auto">
+              @for (condition of getConditionControls($index); track condition) {
+                <ark-select
+                  [formFieldControl]="condition.get('condition')"
+                  label="{{'condition' | transloco | capitalize}}">
+                  <ng-template #options>
+                    <option value="" disabled selected>
+                      {{ 'choose' | transloco | capitalize }}
+                    </option>
+                    @for (type of ruleConditionTypes; track type) {
+                      <option value="{{type}}">{{ type | transloco | capitalize }}</option>
+                    }
+                  </ng-template>
+                </ark-select>
+                <ark-text-input
+                  [formFieldControl]="condition.get('customCondition')"
+                  label="{{'custom' | transloco | capitalize}}"></ark-text-input>
+              }
+            </div>
+          </ark-tab-content>
+        }
+      </ark-tab-group>
+    }
+    <div class="flex items-center p-2 border-t border-neutral-200 dark:border-neutral-700">
       <ark-button
         (onClick)="delete()"
         color="red"

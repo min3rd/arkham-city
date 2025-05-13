@@ -6,7 +6,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { CapitalizePipe } from '../../../../core/pipe/capitalize.pipe';
 
 @Component({
-  selector: 'projects-firestore',
+  selector: 'project-firestore',
   imports: [
     CommonModule,
     RouterModule,

@@ -2,11 +2,13 @@ services:
   mongo:
     image: mongo
     container_name: mongo
+    restart: unless-stopped
     ports:
       - 27017:27017
   redis:
     image: redis
     container_name: redis
+    restart: unless-stopped
     ports:
       - 6379:6379
   rabbitmq:

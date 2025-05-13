@@ -17,7 +17,7 @@ import { ProjectResDto } from '../../project.types';
 import { BaseFormComponent } from '../../../../../core/components/base/base-form.component';
 
 @Component({
-  selector: 'projects-apps-detail',
+  selector: 'project-app-list-detail',
   imports: [
     CommonModule,
     FormsModule,

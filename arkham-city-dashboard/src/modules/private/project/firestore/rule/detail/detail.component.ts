@@ -17,7 +17,7 @@ import { ProjectService } from '../../../project.service';
 import { SchemaRuleResDto } from '../rule.types';
 
 @Component({
-  selector: 'projects-firestore-rules-detail',
+  selector: 'project-firestore-rule-detail',
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, ArkTextInput, ArkButton, TranslocoModule, CapitalizePipe, ArkTabGroup, ArkTabContent, ArkSelect],
   templateUrl: './detail.component.html',
 })

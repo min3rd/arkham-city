@@ -7,6 +7,15 @@ export const routes: Routes = [
     component: FirestoreComponent,
     children: [
       {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'schemas',
+      },
+      {
+        path: 'schemas',
+        loadChildren: () => import('./schema/schema.routes').then(s => s.routes),
+      },
+      {
         path: 'rules',
         loadChildren: () => import('./rule/rule.routes').then(r => r.routes),
       },
