@@ -7,10 +7,10 @@ export interface ServiceResponse<T> {
 }
 
 export class BadResponse<T> implements ServiceResponse<T> {
-  private readonly logger = new Logger(BadResponse.name);
   error: boolean = true;
   errorCode: Error;
   data?: T | undefined;
+  private readonly logger = new Logger(BadResponse.name);
 
   constructor(errorCode: Error = Errors.DEFAULT) {
     this.errorCode = errorCode;
@@ -205,4 +205,14 @@ export class Errors {
     '01x0035',
     'The record query requires owner',
   );
+
+  static readonly PROJECT_FIRESTORE_SCHEMA_COULD_NOT_FOUND_THE_SCHEMA =
+    new Error('01x0036', 'Could not found the schema');
+
+  static readonly PROJECT_FIRESTORE_SCHEMA_COULD_NOT_FOUND_THE_SCHEMA_MODEL =
+    new Error('01x0037', 'Could not found the schema model');
+  static readonly PROJECT_FIRESTORE_SCHEMA_COULD_NOT_FOUND_THE_RECORD =
+    new Error('01x0038', 'Could not found the record');
+  static readonly PROJECT_FIRESTORE_SCHEMA_COULD_NOT_UPDATE_THE_RECORD =
+    new Error('01x0039', 'Could not update the record');
 }
