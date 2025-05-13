@@ -20,6 +20,17 @@ import { microserviceConfig } from '../../../config/microservice.config';
           },
         },
       },
+      {
+        name: microserviceConfig.project.firestore.record.name,
+        transport: Transport.RMQ,
+        options: {
+          urls: [process.env.RABBITMQ_URL as string],
+          queue: microserviceConfig.project.firestore.record.name + '-queue',
+          queueOptions: {
+            durable: false,
+          },
+        },
+      },
     ]),
     GwProjectFirestoreRuleModule,
   ],
