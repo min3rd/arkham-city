@@ -50,6 +50,22 @@ export const microserviceConfig = {
           getAllRules: 'v1.project.firestore.rule.all',
         },
       },
+      schema: {
+        name: 'project.firestore.schema',
+        patterns: {
+          query: 'v1.project.firestore.schema.query',
+        },
+      },
+      record: {
+        name: 'project.firestore.record',
+        patterns: {
+          createRecord: 'v1.project.firestore.record.create-record',
+          updateRecord: 'v1.project.firestore.record.update-record',
+          deleteRecord: 'v1.project.firestore.record.delete-record',
+          findById: 'v1.project.firestore.record.find-by-id',
+          queryRecord: 'v1.project.firestore.record.query-record',
+        },
+      },
     },
   },
   websdk: {
