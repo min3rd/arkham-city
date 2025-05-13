@@ -5,6 +5,7 @@
   'rounded-lg': rounded === 'lg',
   'rounded-full': rounded === 'full',
   }"
+  class="flex flex-col w-full h-full"
 >
   <div class="border-b border-neutral-300 dark:border-neutral-600">
     <nav aria-label="Tabs" aria-orientation="horizontal" class="flex gap-x-1 overflow-auto" role="tablist">
@@ -44,7 +45,7 @@
       }
     </nav>
   </div>
-  <div>
+  <div class="w-full h-full overflow-auto">
     <ng-content></ng-content>
   </div>
 </div>

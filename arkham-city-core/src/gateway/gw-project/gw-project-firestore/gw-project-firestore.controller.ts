@@ -8,6 +8,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Req,
 } from '@nestjs/common';
 import { GwQueryReqDto } from '../../../core/gateway/gateway.types';
@@ -41,9 +42,10 @@ export class GwProjectFirestoreController extends GatewayController {
   async querySchemas(
     @Req() request: Request,
     @Param('projectId') projectId: string,
-    @Body() queryDto: GwQueryReqDto,
+    @Query() queryDto: GwQueryReqDto,
   ) {
     this.logger.debug('querySchemas', projectId, queryDto);
+    console.log(request);
     const payload: MsQueryProjectFirestoreSchemaReqPayload = {
       auth: request[REQUEST_FIELDS.user],
       projectId: projectId,

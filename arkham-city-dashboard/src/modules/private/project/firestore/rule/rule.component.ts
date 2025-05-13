@@ -6,7 +6,7 @@ import { CapitalizePipe } from '../../../../../core/pipe/capitalize.pipe';
 import { ArkButton } from '../../../../../core/components/buttons/ark-button/ark-button.component';
 
 @Component({
-  selector: 'projects-firestore-rules',
+  selector: 'project-firestore-rule',
   imports: [CommonModule, RouterModule, TranslocoModule, CapitalizePipe, ArkButton],
   templateUrl: './rule.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

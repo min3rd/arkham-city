@@ -6,7 +6,7 @@ import { TranslocoModule } from '@jsverse/transloco';
 import { CapitalizePipe } from '../../../../core/pipe/capitalize.pipe';
 
 @Component({
-  selector: 'projects-apps',
+  selector: 'project-app',
   imports: [
     CommonModule,
     RouterModule,
@@ -17,4 +17,5 @@ import { CapitalizePipe } from '../../../../core/pipe/capitalize.pipe';
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {}
+export class AppComponent {
+}

@@ -9,7 +9,7 @@ import { SchemaRuleResDto } from '../rule.types';
 import { ArkBadge } from '../../../../../../core/components/badges/ark-badge/ark-badge.component';
 
 @Component({
-  selector: 'projects-firestore-rules-list',
+  selector: 'project-firestore-rule-list',
   imports: [CommonModule, RouterModule, TranslocoModule, ArkBadge],
   templateUrl: './list.component.html',
 })

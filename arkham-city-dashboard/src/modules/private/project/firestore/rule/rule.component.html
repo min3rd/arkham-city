@@ -1,4 +1,4 @@
-<div>
+<div class="flex flex-col w-full h-full">
   <div class="flex w-full p-2 border-b border-neutral-200 dark:border-neutral-700 gap-2">
     <ark-button
       [routerLink]="['new-rule']"
@@ -7,5 +7,7 @@
       size="sm">
     </ark-button>
   </div>
-  <router-outlet></router-outlet>
+  <div class="w-full h-full">
+    <router-outlet></router-outlet>
+  </div>
 </div>
