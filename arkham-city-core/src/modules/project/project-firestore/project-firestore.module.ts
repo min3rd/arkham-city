@@ -8,5 +8,6 @@ import { FirestoreModule } from '../../firestore/firestore.module';
   imports: [ConfigModule.forRoot(), FirestoreModule],
   controllers: [],
   providers: [DatabaseService, ProjectFirestoreService],
+  exports: [ProjectFirestoreService],
 })
 export class ProjectFirestoreModule {}

@@ -23,16 +23,16 @@ export class ProjectFirestoreService {
 
   /**
    * Query schemas of a project
-   * @param page
-   * @param size
    * @param projectId
    * @param query
+   * @param page
+   * @param size
    */
   async querySchemas(
+    projectId: string,
+    query: object = {},
     page: number = 0,
     size: number = 10,
-    projectId: string,
-    query: object,
   ) {
     const connection = this.databaseService.createProjectConnection(projectId);
     const schemaModel =
