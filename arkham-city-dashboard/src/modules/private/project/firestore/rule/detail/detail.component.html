@@ -11,7 +11,7 @@
     @if (tabs) {
       <ark-tab-group [titles]="tabs" class="flex flex-col w-full h-full py-2 overflow-auto">
         @for (tab of tabs; track $index; ) {
-          <ark-tab-content [title]="tab.title">
+          <ark-tab-content [title]="tab.title" [show]="$index === 0">
             <div class="flex p-2 w-full border-b border-neutral-200 dark:border-neutral-700">
               <ark-button
                 (onClick)="newCondition($index)"
