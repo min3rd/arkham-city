@@ -1,11 +1,12 @@
 <div
-  class="flex items-start w-full h-full"
+  [ngClass]="{
+    'flex-row-reverse': position === 'end',
+    'flex-row': position === 'start',
+  }"
+  class="flex w-full h-full"
 >
-  <ng-content select="ark-drawer-content"></ng-content>
-  <ng-content select="ark-drawer"></ng-content>
-  @if (!_content) {
-    <ark-drawer-content>
-      <ng-content></ng-content>
-    </ark-drawer-content>
+  @if (opened) {
+    <ng-content select="ark-drawer"></ng-content>
   }
+  <ng-content select="ark-drawer-content"></ng-content>
 </div>

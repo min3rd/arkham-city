@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
@@ -13,7 +13,7 @@ import { ArkBadge } from '../../../../../../core/components/badges/ark-badge/ark
   imports: [CommonModule, RouterModule, TranslocoModule, ArkBadge],
   templateUrl: './list.component.html',
 })
-export class ListComponent extends BaseListComponent {
+export class ListComponent extends BaseListComponent implements OnInit {
   rules!: SchemaRuleResDto[] | null;
   private rulteService = inject(RuleService);
 

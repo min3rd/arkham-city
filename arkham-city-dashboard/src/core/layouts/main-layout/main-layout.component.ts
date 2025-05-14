@@ -1,13 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, type OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnDestroy,
+  type OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ArkSwitchTheme } from '../../components/buttons/ark-switch-theme/ark-switch-theme.component';
-import { NgIcon, provideIcons } from '@ng-icons/core';
+import { provideIcons } from '@ng-icons/core';
 import * as feathers from '@ng-icons/feather-icons';
 import { TranslocoModule } from '@jsverse/transloco';
 import { ArkNavigation } from '../../components/navigation/navigation.component';
 import { NavigationItem } from '../../components/navigation/navigation.type';
-import { ArkLoading } from '../../components/loading/loading.component';
 import { ArkButton } from '../../components/buttons/ark-button/ark-button.component';
 import { ArkSelect } from '../../components/selects/ark-select/ark-select.component';
 import { ArkUser } from '../../components/users/ark-user/ark-user.component';
@@ -18,6 +25,9 @@ import { ProjectResDto } from '../../../modules/private/project/project.types';
 import { ProjectService } from '../../../modules/private/project/project.service';
 import { CapitalizePipe } from '../../pipe/capitalize.pipe';
 import { NavigationService } from '../../services/navigation.service';
+import { ArkDrawerContainer } from '../../components/drawers/ark-drawer-container/ark-drawer-container.component';
+import { ArkDrawer } from '../../components/drawers/ark-drawer/ark-drawer.component';
+import { ArkDrawerContent } from '../../components/drawers/ark-drawer-content/ark-drawer-content.component';
 
 @Component({
   selector: 'main-layout',
@@ -25,20 +35,23 @@ import { NavigationService } from '../../services/navigation.service';
     CommonModule,
     RouterModule,
     TranslocoModule,
-    NgIcon,
     CapitalizePipe,
     ArkSwitchTheme,
     ArkNavigation,
-    ArkLoading,
     ArkButton,
     ArkSelect,
     ArkUser,
+    ArkDrawerContainer,
+    ArkDrawer,
+    ArkDrawerContent,
   ],
   templateUrl: './main-layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideIcons({ ...feathers })],
 })
 export class MainLayoutComponent implements OnInit, OnDestroy {
+  @ViewChild('drawer') drawer!: ArkDrawer;
+
   user: UserResDto | null | undefined;
   projects!: ProjectResDto[] | null;
   project!: ProjectResDto | null;
@@ -86,5 +99,9 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
     }
     this.router.navigate([`/dashboard`]);
     this.projectService.select(project);
+  }
+
+  toggleDrawer() {
+    this.drawer.toggle();
   }
 }

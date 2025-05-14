@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { ArkTextInput } from '../../../../core/components/inputs/ark-text-input/ark-text-input.component';
 import { ArkButton } from '../../../../core/components/buttons/ark-button/ark-button.component';
 import { ArkCheckbox } from '../../../../core/components/checkboxes/ark-checkbox/ark-checkbox.component';
@@ -25,7 +25,7 @@ import { BaseFormComponent } from '../../../../core/components/base/base-form.co
   templateUrl: './register.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegisterComponent extends BaseFormComponent {
+export class RegisterComponent extends BaseFormComponent implements OnInit {
   private authService: AuthService = inject(AuthService);
 
   override ngOnInit(): void {

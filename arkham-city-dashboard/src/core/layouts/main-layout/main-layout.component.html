@@ -1,74 +1,56 @@
-<div
-  class="absolute w-full h-full text-neutral-800 bg-white dark:text-white dark:bg-neutral-900"
->
-  <ark-loading class="z-20 fixed top-0 left-0 w-full"></ark-loading>
-
-  <body
-    class="w-full h-full"
-  >
+<ark-drawer-container
+  class="absolute w-full h-full text-neutral-800 bg-white dark:text-white dark:bg-neutral-900">
+  <ark-drawer #drawer [opened]="true" class="bg-neutral-100 dark:bg-neutral-800" position="start">
     @if (navigations) {
       <ark-navigation-sidebar [items]="navigations"></ark-navigation-sidebar>
     }
-  <!-- Content -->
-  <div
-    class="flex flex-col h-full transition-all duration-300"
-  >
-    <!-- Navbar -->
-    <div
-      class="flex justify-end w-full p-2 border-b border-gray-200 dark:bg-neutral-800 dark:border-neutral-700"
-    >
-      <div class="flex items-center gap-2 mr-auto">
-        <!-- Navigation Toggle -->
-        <div class="md:hidden">
-          <button
-            aria-expanded="false"
-            aria-haspopup="dialog"
-            aria-label="Toggle navigation"
-            class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
-            type="button"
+  </ark-drawer>
+  <ark-drawer-content class="w-full h-full">
+    <!-- Content -->
+    <div class="flex flex-col h-full transition-all duration-300">
+      <!-- Navbar -->
+      <div
+        class="flex justify-end w-full p-2 border-b border-gray-200 dark:bg-neutral-800 dark:border-neutral-700"
+      >
+        <div class="flex items-center gap-2 mr-auto">
+          <ark-button (onClick)="toggleDrawer()" ghost icon="featherMenu" size="sm">
+          </ark-button>
+          <ark-button
+            [routerLink]="['/projects', 'new-project']"
+            icon="featherPlus"
+            label="{{ 'new project' | transloco | capitalize }}"
+            size="sm"
+          ></ark-button>
+
+          <ark-select
+            (onChange)="onProjectChange($event)"
+            noSuffixSpace
+            size="sm"
           >
-            <ng-icon name="featherMenu"></ng-icon>
-            <span class="sr-only">Navigation Toggle</span>
-          </button>
+            @if (projects) {
+              <ng-template #options>
+                @for (project of projects; track $index) {
+                  <option [value]="project._id">
+                    {{ project.name }}
+                  </option>
+                }
+              </ng-template>
+            }
+          </ark-select>
         </div>
-        <!-- End Navigation Toggle -->
 
-        <ark-button
-          [routerLink]="['/projects', 'new-project']"
-          icon="featherPlus"
-          label="{{ 'new project' | transloco | capitalize }}"
-          size="sm"
-        ></ark-button>
-
-        <ark-select
-          (onChange)="onProjectChange($event)"
-          noSuffixSpace
-          size="sm"
-        >
-          @if (projects) {
-            <ng-template #options>
-              @for (project of projects; track $index) {
-                <option [value]="project._id">
-                  {{ project.name }}
-                </option>
-              }
-            </ng-template>
-          }
-        </ark-select>
+        <div class="flex items-center gap-2">
+          <ark-switch-theme></ark-switch-theme>
+          <ark-user [user]="user" rounded="full"></ark-user>
+        </div>
       </div>
-
-      <div class="flex items-center gap-2">
-        <ark-switch-theme></ark-switch-theme>
-        <ark-user [user]="user" rounded="full"></ark-user>
+      <!-- End Navbar -->
+      <div
+        class="w-full h-full bg-white dark:bg-neutral-800 overflow-scroll [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
+      >
+        <router-outlet></router-outlet>
       </div>
     </div>
-    <!-- End Navbar -->
-    <div
-      class="w-full h-full bg-white dark:bg-neutral-800 overflow-scroll [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
-    >
-      <router-outlet></router-outlet>
-    </div>
-  </div>
-  <!-- End Content -->
-  </body>
-</div>
+    <!-- End Content -->
+  </ark-drawer-content>
+</ark-drawer-container>

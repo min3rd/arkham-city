@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { AppResDto } from '../app.types';
 import { AppService } from '../app.service';
 import { takeUntil } from 'rxjs';
@@ -27,7 +27,7 @@ import { BaseFormComponent } from '../../../../../core/components/base/base-form
   templateUrl: './list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListComponent extends BaseFormComponent {
+export class ListComponent extends BaseFormComponent implements OnInit {
   apps!: AppResDto[] | null;
   selected!: AppResDto | null;
 

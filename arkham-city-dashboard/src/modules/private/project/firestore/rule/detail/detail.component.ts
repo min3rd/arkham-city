@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormArray, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -21,7 +21,7 @@ import { SchemaRuleResDto } from '../rule.types';
   imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, ArkTextInput, ArkButton, TranslocoModule, CapitalizePipe, ArkTabGroup, ArkTabContent, ArkSelect],
   templateUrl: './detail.component.html',
 })
-export class DetailComponent extends BaseFormComponent {
+export class DetailComponent extends BaseFormComponent implements OnInit {
   tabs!: ArkTabTitle[] | undefined;
   ruleConditionTypes!: string[] | null;
   project!: ProjectResDto | null;
