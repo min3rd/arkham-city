@@ -16,7 +16,6 @@ export class ArkSwitchTheme implements OnInit {
   }
 
   ngOnInit() {
-
     if (!localStorage.getItem('theme')) {
       if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
         localStorage.setItem('theme', 'dark');
@@ -24,7 +23,6 @@ export class ArkSwitchTheme implements OnInit {
         localStorage.setItem('theme', 'light');
       }
     }
-
     document.documentElement.classList.toggle(
       'dark',
       localStorage.getItem('theme') === 'dark',

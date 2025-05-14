@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -12,13 +11,17 @@ import {
   SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'ark-drawer',
   exportAs: 'arkDrawer',
-  imports: [CommonModule],
   templateUrl: './ark-drawer.component.html',
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
+  imports: [
+    NgClass,
+  ],
 })
 export class ArkDrawer implements OnChanges {
   @Input() position: 'start' | 'end' = 'start';
@@ -35,7 +38,9 @@ export class ArkDrawer implements OnChanges {
   private readonly _render2 = inject(Renderer2);
 
   @HostBinding('class') get classList(): any {
-    return {};
+    return {
+      'border border-l': this.mode === 'side' && this.opened && this.position === 'start',
+    };
   }
 
   @HostBinding('style') get styleList(): any {

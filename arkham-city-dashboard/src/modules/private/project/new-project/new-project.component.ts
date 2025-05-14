@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoModule } from '@jsverse/transloco';
@@ -24,7 +24,7 @@ import { BaseFormComponent } from '../../../../core/components/base/base-form.co
   templateUrl: './new-project.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NewProjectComponent extends BaseFormComponent {
+export class NewProjectComponent extends BaseFormComponent implements OnInit {
   private projectService: ProjectService = inject(ProjectService);
 
   override ngOnInit(): void {

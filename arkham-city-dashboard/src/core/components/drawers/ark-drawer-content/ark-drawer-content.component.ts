@@ -1,11 +1,10 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'ark-drawer-content',
   exportAs: 'arkDrawerContent',
-  imports: [CommonModule],
   templateUrl: './ark-drawer-content.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
-export class ArkDrawerContent {}
+export class ArkDrawerContent {
+}

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { NavigationItem } from '../components/navigation/navigation.type';
-import { ProjectResDto } from '../../modules/private/project/project.types';
 
 @Injectable({
   providedIn: 'root',
@@ -59,12 +58,14 @@ export class NavigationService {
       ],
     },
   ];
+
   navigations(projectId: string): NavigationItem[] {
     return this.defaultNavigations.map((e) => this.compile(projectId, e));
   }
+
   compile(projectId: string, navigationItem: NavigationItem): NavigationItem {
     const temp = Object.assign({}, navigationItem);
-    if (!!temp.link) {
+    if (temp.link) {
       temp.link = temp.link.replaceAll('projectId', projectId);
     }
     if (temp.children && temp.children.length > 0) {
