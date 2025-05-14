@@ -4,14 +4,14 @@
   <ark-loading class="z-20 fixed top-0 left-0 w-full"></ark-loading>
 
   <body
-    class="w-full h-full hs-overlay-body-open hs-overlay-body-open:overflow-hidden"
+    class="w-full h-full"
   >
     @if (navigations) {
       <ark-navigation-sidebar [items]="navigations"></ark-navigation-sidebar>
     }
   <!-- Content -->
   <div
-    class="flex flex-col h-full sm:hs-overlay-layout-open:ms-64 transition-all duration-300"
+    class="flex flex-col h-full transition-all duration-300"
   >
     <!-- Navbar -->
     <div
@@ -21,12 +21,10 @@
         <!-- Navigation Toggle -->
         <div class="md:hidden">
           <button
-            aria-controls="hs-sidebar-content-push"
             aria-expanded="false"
             aria-haspopup="dialog"
             aria-label="Toggle navigation"
             class="flex justify-center items-center gap-x-3 size-8 text-sm text-gray-600 hover:bg-gray-100 rounded-full disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:text-neutral-200"
-            data-hs-overlay="#hs-sidebar-content-push"
             type="button"
           >
             <ng-icon name="featherMenu"></ng-icon>

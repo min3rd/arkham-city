@@ -1,11 +1,11 @@
 <div
-  class="flex items-start"
+  class="flex items-start w-full h-full"
 >
   <ng-content select="ark-drawer-content"></ng-content>
   <ng-content select="ark-drawer"></ng-content>
   @if (!_content) {
-  <ark-drawer-content>
-    <ng-content></ng-content>
-  </ark-drawer-content>
+    <ark-drawer-content>
+      <ng-content></ng-content>
+    </ark-drawer-content>
   }
 </div>

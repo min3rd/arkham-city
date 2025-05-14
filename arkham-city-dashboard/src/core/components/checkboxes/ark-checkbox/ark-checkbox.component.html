@@ -1,19 +1,21 @@
 <div class="flex">
   @if (!formFieldControl) {
     <input
+      id="ark-checkbox-{{ label }}"
       type="checkbox"
       class="shrink-0 mt-0.5 border-gray-200 rounded-sm text-teal-600 focus:ring-teal-500 checked:border-teal-500 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-teal-500 dark:checked:border-teal-500 hover:cursor-pointer"
     />
   } @else {
     <input
+      id="ark-checkbox-{{ label }}"
       type="checkbox"
       [formControl]="getFormControl()"
       class="shrink-0 mt-0.5 border-gray-200 rounded-sm text-teal-600 focus:ring-teal-500 checked:border-teal-500 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-teal-500 dark:checked:border-teal-500 hover:cursor-pointer"
     />
   }
   <label
-    for="hs-default-checkbox"
     class="text-sm text-gray-500 ms-3 dark:text-neutral-400 cursor-pointer"
+    for="ark-checkbox-{{ label }}"
   >
     {{ label }}
   </label>

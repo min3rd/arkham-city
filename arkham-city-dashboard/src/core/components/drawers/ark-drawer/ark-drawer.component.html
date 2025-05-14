@@ -1,11 +1,10 @@
 <div
   [ngClass]="{
-    'left-0 md:border-r': position === 'start',
-    'right-0 md:border-l': position === 'end',
-    'translate-x-full md:translate-x-0': !opened,
-    'translate-x-0': opened
+    'md:border-r': position === 'start',
+    'md:border-l': position === 'end',
   }"
-  class="absolute top-0 w-full h-full md:flex md:w-fit transition-all duration-300 transform border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 overflow-auto"
+  class="h-full border-neutral-200 dark:border-neutral-700"
 >
+  This is drawer content
   <ng-content></ng-content>
 </div>
