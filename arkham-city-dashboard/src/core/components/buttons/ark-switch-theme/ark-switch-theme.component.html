@@ -1,16 +1,13 @@
 <button
+  (click)="toggle()"
   class="block font-medium text-gray-800 rounded-full hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 dark:text-neutral-200 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
   type="button"
 >
   <span class="group inline-flex shrink-0 justify-center items-center size-9">
-    <ng-icon name="featherMoon"></ng-icon>
-  </span>
-</button>
-<button
-  class="hidden  font-medium text-gray-800 rounded-full hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 dark:text-neutral-200 dark:hover:bg-neutral-700 dark:focus:bg-neutral-800"
-  type="button"
->
-  <span class="group inline-flex shrink-0 justify-center items-center size-9">
-    <ng-icon name="featherSun"></ng-icon>
+    @if (isDarkMode) {
+      <ng-icon name="featherSun"></ng-icon>
+    } @else {
+      <ng-icon name="featherMoon"></ng-icon>
+    }
   </span>
 </button>
