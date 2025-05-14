@@ -1,10 +1,11 @@
-<div class="relative w-full">
+<div class="flex flex-col w-full h-full">
   <ark-drawer-container>
-    <ark-drawer #drawer position="end">
+    <ark-drawer #drawer [opened]="true" position="end">
       <router-outlet></router-outlet>
     </ark-drawer>
     <ark-drawer-content>
-      <ark-text-input></ark-text-input>
+      <ark-text-input class="w-full"></ark-text-input>
+      <ark-button (onClick)="toggleDrawer()" label="Toggle"></ark-button>
     </ark-drawer-content>
   </ark-drawer-container>
 </div>

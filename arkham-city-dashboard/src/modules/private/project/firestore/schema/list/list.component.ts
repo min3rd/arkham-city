@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import {
@@ -9,13 +9,18 @@ import {
   ArkDrawerContent,
 } from '../../../../../../core/components/drawers/ark-drawer-content/ark-drawer-content.component';
 import { ArkTextInput } from '../../../../../../core/components/inputs/ark-text-input/ark-text-input.component';
+import { ArkButton } from '../../../../../../core/components/buttons/ark-button/ark-button.component';
 
 @Component({
   selector: 'project-firestore-schema-list',
-  imports: [CommonModule, RouterModule, ArkDrawerContainer, ArkDrawer, ArkDrawerContent, ArkTextInput],
+  imports: [CommonModule, RouterModule, ArkDrawerContainer, ArkDrawer, ArkDrawerContent, ArkTextInput, ArkButton],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css',
 })
 export class ListComponent {
+  @ViewChild('drawer') drawer!: ArkDrawer;
 
+  toggleDrawer() {
+    this.drawer.toggle();
+  }
 }

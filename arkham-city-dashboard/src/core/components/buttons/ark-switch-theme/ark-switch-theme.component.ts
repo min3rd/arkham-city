@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { featherMoon, featherSun } from '@ng-icons/feather-icons';
 
@@ -9,4 +9,12 @@ import { featherMoon, featherSun } from '@ng-icons/feather-icons';
   templateUrl: './ark-switch-theme.component.html',
   providers: [provideIcons({ featherSun, featherMoon })],
 })
-export class ArkSwitchTheme {}
+export class ArkSwitchTheme implements OnInit {
+  ngOnInit() {
+    document.documentElement.classList.toggle(
+      'dark',
+      localStorage.getItem('theme') === 'dark' ||
+      (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches),
+    );
+  }
+}

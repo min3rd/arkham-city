@@ -1,7 +1,7 @@
 <div>
   @if (label) {
     <label
-      for="hs-textarea-{{ label }}"
+      for="ark-textarea-{{ label }}"
       class="block text-sm font-medium mb-2 dark:text-white"
     >
       {{ label }}
@@ -10,7 +10,7 @@
   <div class="relative">
     @if (!formFieldControl) {
       <textarea
-        id="hs-textarea-{{ label }}"
+        id="ark-textarea-{{ label }}"
         class="py-2.5 sm:py-3 px-4 block w-full sm:text-sm bg-neutral-200 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600"
         [ngClass]="{
           'rounded-xs': rounded === 'sm',
@@ -28,7 +28,7 @@
     @if (getFormControl()) {
       <textarea
         [formControl]="getFormControl()"
-        id="hs-textarea-{{ label }}"
+        id="ark-textarea-{{ label }}"
         class="py-2.5 sm:py-3 px-4 block w-full sm:text-sm border"
         [ngClass]="{
           'bg-neutral-200 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-600': !invalid,

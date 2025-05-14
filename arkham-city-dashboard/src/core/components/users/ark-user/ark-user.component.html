@@ -1,9 +1,8 @@
 @if (user) {
-  <div class="hs-dropdown relative inline-flex">
+  <div class="relative inline-flex">
     <button
-      id="hs-dropdown-custom-trigger"
       type="button"
-      class="hs-dropdown-toggle py-1 ps-1 pe-3 inline-flex items-center gap-x-2 text-sm font-medium border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 hover:cursor-pointer"
+      class="py-1 ps-1 pe-3 inline-flex items-center gap-x-2 text-sm font-medium border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 hover:cursor-pointer"
       [ngClass]="{
         'rounded-full': rounded === 'full',
         'rounded-lg': rounded === 'lg',
@@ -33,7 +32,7 @@
       {{ user.username }}
     </span>
       <svg
-        class="hs-dropdown-open:rotate-180 size-4"
+        class="size-4"
         xmlns="http://www.w3.org/2000/svg"
         width="24"
         height="24"
@@ -49,10 +48,9 @@
     </button>
 
     <div
-      class="z-30 hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 bg-white shadow-md rounded-lg mt-2 dark:bg-neutral-800 dark:border dark:border-neutral-700"
+      class="z-30 transition-[opacity,margin] duration opacity-0 hidden min-w-60 bg-white shadow-md rounded-lg mt-2 dark:bg-neutral-800 dark:border dark:border-neutral-700"
       role="menu"
       aria-orientation="vertical"
-      aria-labelledby="hs-dropdown-custom-trigger"
     >
       <div class="p-1 space-y-0.5">
         <a
