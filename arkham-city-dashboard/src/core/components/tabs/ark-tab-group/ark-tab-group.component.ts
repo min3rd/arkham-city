@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, ContentChildren, Input, QueryList } from '@angular/core';
+import { AfterContentInit, Component, ContentChildren, Input, QueryList, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ArkIcon } from '../../icons/ark-icon/ark-icon.component';
 import { ArkTabContent } from '../ark-tab-content/ark-tab-content.component';
@@ -15,6 +15,8 @@ export interface ArkTabTitle {
   selector: 'ark-tab-group',
   imports: [CommonModule, ArkIcon],
   templateUrl: './ark-tab-group.component.html',
+  encapsulation: ViewEncapsulation.None,
+  standalone: true,
 })
 export class ArkTabGroup extends BaseComponent implements AfterContentInit {
   @Input() titles!: ArkTabTitle[];

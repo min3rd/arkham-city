@@ -53,7 +53,6 @@ export class ArkDrawer implements OnChanges {
     if ('opened' in changes) {
       const currentOpened = changes['opened'].currentValue;
       this._toggleOpened(currentOpened);
-      this.openedChanged.next(currentOpened);
     }
 
     if ('mode' in changes) {
