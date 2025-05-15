@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, of, switchMap } from 'rxjs';
 import { LogInResDto, UserResDto } from './auth.type';
-import { ApiResponse } from '../type/response.type';
-import { ConfigService } from '../services/config.service';
-import { SecurityService } from '../services/security.service';
+import { ApiResponse } from '../../../projects/arkhamcity/src/lib/type/response.type';
+import { ConfigService } from '../../../projects/arkhamcity/src/lib/services/config.service';
+import { SecurityService } from '../../../projects/arkhamcity/src/lib/services/security.service';
 import { AuthUtils } from './auth.utils';
 
 @Injectable({
@@ -17,12 +17,7 @@ export class AuthService {
   private httpClient: HttpClient = inject(HttpClient);
   private configService: ConfigService = inject(ConfigService);
   private securityService: SecurityService = inject(SecurityService);
-  set accessToken(value: string) {
-    localStorage.setItem(
-      AuthService.KEY_ACCESS_TOKEN,
-      this.securityService.encrypt(value),
-    );
-  }
+
   get accessToken(): string | null {
     if (!localStorage.getItem(AuthService.KEY_ACCESS_TOKEN)) {
       return null;
@@ -31,12 +26,14 @@ export class AuthService {
       localStorage.getItem(AuthService.KEY_ACCESS_TOKEN) as string,
     );
   }
-  set refreshToken(value: string) {
+
+  set accessToken(value: string) {
     localStorage.setItem(
-      AuthService.KEY_REFRESH_TOKEN,
+      AuthService.KEY_ACCESS_TOKEN,
       this.securityService.encrypt(value),
     );
   }
+
   get refreshToken(): string | null {
     if (!localStorage.getItem(AuthService.KEY_REFRESH_TOKEN)) {
       return null;
@@ -45,18 +42,27 @@ export class AuthService {
       localStorage.getItem(AuthService.KEY_REFRESH_TOKEN) as string,
     );
   }
-  set user(value: UserResDto | null) {
+
+  set refreshToken(value: string) {
     localStorage.setItem(
-      AuthService.KEY_USER,
+      AuthService.KEY_REFRESH_TOKEN,
       this.securityService.encrypt(value),
     );
   }
+
   get user(): UserResDto | null {
     if (!localStorage.getItem(AuthService.KEY_USER)) {
       return null;
     }
     return this.securityService.decrypt<UserResDto>(
       localStorage.getItem(AuthService.KEY_USER) as string,
+    );
+  }
+
+  set user(value: UserResDto | null) {
+    localStorage.setItem(
+      AuthService.KEY_USER,
+      this.securityService.encrypt(value),
     );
   }
 
@@ -101,6 +107,7 @@ export class AuthService {
         }),
       );
   }
+
   logInByRefreshToken(): Observable<boolean> {
     return this.httpClient
       .post<any>(this.configService.endpoint('/auth/log-in-by-refresh-token'), {
@@ -121,6 +128,7 @@ export class AuthService {
         }),
       );
   }
+
   registerByEmailAndPassword(
     email: string,
     password: string,
@@ -137,6 +145,7 @@ export class AuthService {
       },
     );
   }
+
   logOut() {
     localStorage.clear();
   }

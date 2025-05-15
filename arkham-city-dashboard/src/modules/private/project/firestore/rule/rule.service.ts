@@ -2,8 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, switchMap, take } from 'rxjs';
 import { CreateRuleReqDto, SchemaRuleResDto, UpdateRuleReqDto } from './rule.types';
 import { HttpClient } from '@angular/common/http';
-import { ApiResponse } from '../../../../../core/type/response.type';
-import { ConfigService } from '../../../../../core/services/config.service';
+import { ApiResponse } from '../../../../../../projects/arkhamcity/src/lib/type/response.type';
+import { ConfigService } from '../../../../../../projects/arkhamcity/src/lib/services/config.service';
 
 @Injectable({
   providedIn: 'root',

@@ -1,14 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, switchMap, take } from 'rxjs';
-import {
-  AppResDto,
-  AppSecretResDto,
-  NewAppReqDto,
-  UpdateAppReqDto,
-} from './app.types';
+import { AppResDto, AppSecretResDto, NewAppReqDto, UpdateAppReqDto } from './app.types';
 import { HttpClient } from '@angular/common/http';
-import { ConfigService } from '../../../../core/services/config.service';
-import { ApiResponse } from '../../../../core/type/response.type';
+import { ConfigService } from '../../../../../projects/arkhamcity/src/lib/services/config.service';
+import { ApiResponse } from '../../../../../projects/arkhamcity/src/lib/type/response.type';
 
 @Injectable({
   providedIn: 'root',
@@ -24,15 +19,19 @@ export class AppService {
   >(null);
   private httpClient: HttpClient = inject(HttpClient);
   private configService: ConfigService = inject(ConfigService);
+
   get apps$(): Observable<AppResDto[] | null> {
     return this._apps.asObservable();
   }
+
   get app$(): Observable<AppResDto | null> {
     return this._app.asObservable();
   }
+
   get secret$(): Observable<string | null> {
     return this._secret.asObservable();
   }
+
   create(projectId: string, dto: NewAppReqDto) {
     return this._apps.pipe(
       take(1),
@@ -69,6 +68,7 @@ export class AppService {
         }),
       );
   }
+
   get(projectId: string, appId: string) {
     return this._apps.pipe(
       take(1),
@@ -151,6 +151,7 @@ export class AppService {
       ),
     );
   }
+
   new() {
     this._app.next(null);
   }

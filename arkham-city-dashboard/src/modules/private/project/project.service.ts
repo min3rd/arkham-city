@@ -2,8 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, switchMap, take } from 'rxjs';
 import { NewProjectReqDto, ProjectResDto } from './project.types';
 import { HttpClient } from '@angular/common/http';
-import { ConfigService } from '../../../core/services/config.service';
-import { ApiResponse } from '../../../core/type/response.type';
+import { ConfigService } from '../../../../projects/arkhamcity/src/lib/services/config.service';
+import { ApiResponse } from '../../../../projects/arkhamcity/src/lib/type/response.type';
 
 @Injectable({
   providedIn: 'root',
@@ -15,12 +15,15 @@ export class ProjectService {
     new BehaviorSubject<ProjectResDto | null>(null);
   private httpClient: HttpClient = inject(HttpClient);
   private configService: ConfigService = inject(ConfigService);
+
   get projects$(): Observable<ProjectResDto[] | null> {
     return this._projects.asObservable();
   }
+
   get project$(): Observable<ProjectResDto | null> {
     return this._project.asObservable();
   }
+
   create(newProject: NewProjectReqDto) {
     return this._projects.pipe(
       take(1),
@@ -44,6 +47,7 @@ export class ProjectService {
       }),
     );
   }
+
   all(): Observable<ApiResponse<ProjectResDto[]>> {
     return this.httpClient
       .get<ApiResponse<ProjectResDto[]>>(
@@ -56,6 +60,7 @@ export class ProjectService {
         }),
       );
   }
+
   select(project: ProjectResDto) {
     this._project.next(project);
   }
