@@ -1,13 +1,13 @@
 <ark-drawer-container
-  class="absolute w-full h-full text-neutral-800 bg-white dark:text-white dark:bg-neutral-900">
+  class="absolute w-full h-full text-neutral-800 bg-white dark:text-white dark:bg-neutral-900 overflow-auto">
   <ark-drawer #drawer [opened]="true" class="bg-neutral-100 dark:bg-neutral-800" position="start">
     @if (navigations) {
       <ark-navigation-sidebar [items]="navigations"></ark-navigation-sidebar>
     }
   </ark-drawer>
-  <ark-drawer-content class="w-full h-full">
+  <ark-drawer-content class="flex flex-auto flex-col w-full h-full">
     <!-- Content -->
-    <div class="flex flex-col h-full transition-all duration-300">
+    <div class="flex flex-col w-full h-full">
       <!-- Navbar -->
       <div
         class="flex justify-end w-full p-2 border-b border-gray-200 dark:bg-neutral-800 dark:border-neutral-700"
@@ -46,9 +46,11 @@
       </div>
       <!-- End Navbar -->
       <div
-        class="w-full h-full bg-white dark:bg-neutral-800 overflow-scroll [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
+        class="flex flex-auto flex-col w-full h-full bg-white dark:bg-neutral-800 overflow-scroll [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
       >
-        <router-outlet></router-outlet>
+        @if (true) {
+          <router-outlet></router-outlet>
+        }
       </div>
     </div>
     <!-- End Content -->
