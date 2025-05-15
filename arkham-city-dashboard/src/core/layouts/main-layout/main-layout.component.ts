@@ -26,7 +26,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { ProjectResDto } from '../../../modules/private/project/project.types';
 import { ProjectService } from '../../../modules/private/project/project.service';
 import { CapitalizePipe } from '../../pipe/capitalize.pipe';
-import { NavigationService } from '../../services/navigation.service';
+import { NavigationService } from '../../../../projects/arkhamcity/src/lib/services/navigation.service';
 import {
   ArkDrawerContainer,
 } from '../../../../projects/arkhamcity/src/lib/components/drawers/ark-drawer-container/ark-drawer-container.component';

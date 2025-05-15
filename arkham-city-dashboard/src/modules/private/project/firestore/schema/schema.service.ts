@@ -2,9 +2,9 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, of, switchMap } from 'rxjs';
 import { SchemaResDto } from './schema.types';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { QueryReqDto } from '../../../../../core/type/request.types';
-import { ApiResponse } from '../../../../../core/type/response.type';
-import { ConfigService } from '../../../../../core/services/config.service';
+import { QueryReqDto } from '../../../../../../projects/arkhamcity/src/lib/type/request.types';
+import { ApiResponse } from '../../../../../../projects/arkhamcity/src/lib/type/response.type';
+import { ConfigService } from '../../../../../../projects/arkhamcity/src/lib/services/config.service';
 
 @Injectable({
   providedIn: 'root',

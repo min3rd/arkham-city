@@ -6,9 +6,9 @@ import {
   provideEnvironmentInitializer,
   Provider,
 } from '@angular/core';
-import { loadingInterceptor } from '../services/loading/loading.interceptor';
-import { LoadingService } from '../services/loading/loading.service';
-import { ConfigService } from '../services/config.service';
+import { loadingInterceptor } from '../../../projects/arkhamcity/src/lib/services/loading/loading.interceptor';
+import { LoadingService } from '../../../projects/arkhamcity/src/lib/services/loading/loading.service';
+import { ConfigService } from '../../../projects/arkhamcity/src/lib/services/config.service';
 import { AuthService } from '../auth/auth.service';
 import { forkJoin } from 'rxjs';
 
