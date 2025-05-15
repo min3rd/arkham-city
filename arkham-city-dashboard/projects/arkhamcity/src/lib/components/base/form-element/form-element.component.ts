@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, inject, Input, OnDestroy, type OnInit } from '@angular/core';
-import { LoadingService } from '../../../services/loading/loading.service';
+import { LoadingService } from '../../../../../../../src/core/services/loading/loading.service';
 import { Subject, takeUntil } from 'rxjs';
 import { BaseComponent } from '../base/base.component';
 

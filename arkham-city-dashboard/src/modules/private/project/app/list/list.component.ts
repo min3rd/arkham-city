@@ -7,12 +7,14 @@ import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
 import {
   ArkDrawerContainer,
-} from '../../../../../core/components/drawers/ark-drawer-container/ark-drawer-container.component';
-import { ArkDrawer } from '../../../../../core/components/drawers/ark-drawer/ark-drawer.component';
+} from '../../../../../../projects/arkhamcity/src/lib/components/drawers/ark-drawer-container/ark-drawer-container.component';
+import {
+  ArkDrawer,
+} from '../../../../../../projects/arkhamcity/src/lib/components/drawers/ark-drawer/ark-drawer.component';
 import {
   ArkDrawerContent,
-} from '../../../../../core/components/drawers/ark-drawer-content/ark-drawer-content.component';
-import { BaseFormComponent } from '../../../../../core/components/base/base-form.component';
+} from '../../../../../../projects/arkhamcity/src/lib/components/drawers/ark-drawer-content/ark-drawer-content.component';
+import { BaseFormComponent } from '../../../../../../projects/arkhamcity/src/lib/components/base/base-form.component';
 
 @Component({
   selector: 'project-app-list',

@@ -4,6 +4,7 @@ import {
   Component,
   ContentChild,
   ContentChildren,
+  OnInit,
   QueryList,
   ViewEncapsulation,
 } from '@angular/core';
@@ -18,8 +19,9 @@ import { Subject, takeUntil } from 'rxjs';
   templateUrl: './ark-drawer-container.component.html',
   encapsulation: ViewEncapsulation.None,
 })
-export class ArkDrawerContainer implements AfterContentInit {
+export class ArkDrawerContainer implements OnInit, AfterContentInit {
   @ContentChildren(ArkDrawer) _allDrawers!: QueryList<ArkDrawer>;
+  @ContentChildren(ArkDrawerContent) _allContents!: QueryList<ArkDrawerContent>;
   @ContentChild(ArkDrawerContent) _content!: ArkDrawerContent;
 
   position: 'start' | 'end' | string = 'start';
@@ -27,6 +29,10 @@ export class ArkDrawerContainer implements AfterContentInit {
   opened = true;
 
   private _unsubscribedAll: Subject<any> = new Subject<any>();
+
+  ngOnInit() {
+    
+  }
 
   ngAfterContentInit() {
     this._allDrawers.forEach((drawer) => {

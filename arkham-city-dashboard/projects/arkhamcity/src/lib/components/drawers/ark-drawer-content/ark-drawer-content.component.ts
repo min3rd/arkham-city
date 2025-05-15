@@ -5,6 +5,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
   exportAs: 'arkDrawerContent',
   templateUrl: './ark-drawer-content.component.html',
   encapsulation: ViewEncapsulation.None,
+  standalone: true,
 })
 export class ArkDrawerContent {
 }

@@ -2,16 +2,29 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormArray, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { ArkTextInput } from '../../../../../../core/components/inputs/ark-text-input/ark-text-input.component';
-import { ArkButton } from '../../../../../../core/components/buttons/ark-button/ark-button.component';
+import {
+  ArkTextInput,
+} from '../../../../../../../projects/arkhamcity/src/lib/components/inputs/ark-text-input/ark-text-input.component';
+import {
+  ArkButton,
+} from '../../../../../../../projects/arkhamcity/src/lib/components/buttons/ark-button/ark-button.component';
 import { TranslocoModule } from '@jsverse/transloco';
 import { CapitalizePipe } from '../../../../../../core/pipe/capitalize.pipe';
-import { ArkTabGroup, ArkTabTitle } from '../../../../../../core/components/tabs/ark-tab-group/ark-tab-group.component';
-import { ArkTabContent } from '../../../../../../core/components/tabs/ark-tab-content/ark-tab-content.component';
+import {
+  ArkTabGroup,
+  ArkTabTitle,
+} from '../../../../../../../projects/arkhamcity/src/lib/components/tabs/ark-tab-group/ark-tab-group.component';
+import {
+  ArkTabContent,
+} from '../../../../../../../projects/arkhamcity/src/lib/components/tabs/ark-tab-content/ark-tab-content.component';
 import { RuleService } from '../rule.service';
 import { takeUntil } from 'rxjs';
-import { BaseFormComponent } from '../../../../../../core/components/base/base-form.component';
-import { ArkSelect } from '../../../../../../core/components/selects/ark-select/ark-select.component';
+import {
+  BaseFormComponent,
+} from '../../../../../../../projects/arkhamcity/src/lib/components/base/base-form.component';
+import {
+  ArkSelect,
+} from '../../../../../../../projects/arkhamcity/src/lib/components/selects/ark-select/ark-select.component';
 import { ProjectResDto } from '../../../project.types';
 import { ProjectService } from '../../../project.service';
 import { SchemaRuleResDto } from '../rule.types';

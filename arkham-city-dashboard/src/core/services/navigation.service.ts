@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NavigationItem } from '../components/navigation/navigation.type';
+import { NavigationItem } from '../../../projects/arkhamcity/src/lib/components/navigation/navigation.type';
 
 @Injectable({
   providedIn: 'root',

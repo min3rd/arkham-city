@@ -1,15 +1,23 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ArkTextInput } from '../../../../core/components/inputs/ark-text-input/ark-text-input.component';
-import { ArkButton } from '../../../../core/components/buttons/ark-button/ark-button.component';
-import { ArkCheckbox } from '../../../../core/components/checkboxes/ark-checkbox/ark-checkbox.component';
-import { ArkDivider } from '../../../../core/components/dividers/ark-divider/ark-divider.component';
+import {
+  ArkTextInput,
+} from '../../../../../projects/arkhamcity/src/lib/components/inputs/ark-text-input/ark-text-input.component';
+import {
+  ArkButton,
+} from '../../../../../projects/arkhamcity/src/lib/components/buttons/ark-button/ark-button.component';
+import {
+  ArkCheckbox,
+} from '../../../../../projects/arkhamcity/src/lib/components/checkboxes/ark-checkbox/ark-checkbox.component';
+import {
+  ArkDivider,
+} from '../../../../../projects/arkhamcity/src/lib/components/dividers/ark-divider/ark-divider.component';
 import { TranslocoModule } from '@jsverse/transloco';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CapitalizePipe } from '../../../../core/pipe/capitalize.pipe';
-import { BaseFormComponent } from '../../../../core/components/base/base-form.component';
+import { BaseFormComponent } from '../../../../../projects/arkhamcity/src/lib/components/base/base-form.component';
 
 @Component({
   selector: 'app-login',
