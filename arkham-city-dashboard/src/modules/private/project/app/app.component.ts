@@ -1,20 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {
-  ArkButton,
-} from '../../../../../projects/arkhamcity/src/lib/components/buttons/ark-button/ark-button.component';
 import { TranslocoModule } from '@jsverse/transloco';
-import { CapitalizePipe } from '../../../../core/pipe/capitalize.pipe';
+import { ArkButton, CapitalizePipe } from 'arkhamcity';
 
 @Component({
   selector: 'project-app',
   imports: [
     CommonModule,
     RouterModule,
-    ArkButton,
     TranslocoModule,
     CapitalizePipe,
+    ArkButton,
   ],
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

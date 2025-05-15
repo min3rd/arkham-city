@@ -1,21 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import {
-  ArkDrawerContainer,
-} from '../../../../../../../projects/arkhamcity/src/lib/components/drawers/ark-drawer-container/ark-drawer-container.component';
-import {
-  ArkDrawer,
-} from '../../../../../../../projects/arkhamcity/src/lib/components/drawers/ark-drawer/ark-drawer.component';
-import {
-  ArkDrawerContent,
-} from '../../../../../../../projects/arkhamcity/src/lib/components/drawers/ark-drawer-content/ark-drawer-content.component';
-import {
-  ArkTextInput,
-} from '../../../../../../../projects/arkhamcity/src/lib/components/inputs/ark-text-input/ark-text-input.component';
-import {
-  ArkButton,
-} from '../../../../../../../projects/arkhamcity/src/lib/components/buttons/ark-button/ark-button.component';
+import { ArkButton, ArkDrawer, ArkDrawerContainer, ArkDrawerContent, ArkTextInput } from 'arkhamcity';
+
 
 @Component({
   selector: 'project-firestore-schema-list',

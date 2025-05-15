@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, switchMap, take } from 'rxjs';
 import { NewProjectReqDto, ProjectResDto } from './project.types';
 import { HttpClient } from '@angular/common/http';
-import { ConfigService } from '../../../../projects/arkhamcity/src/lib/services/config.service';
+import { ConfigService } from '@core/services/config.service';
 import { ApiResponse } from '../../../../projects/arkhamcity/src/lib/type/response.type';
 
 @Injectable({

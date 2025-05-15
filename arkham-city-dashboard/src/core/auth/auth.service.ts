@@ -2,10 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, Observable, of, switchMap } from 'rxjs';
 import { LogInResDto, UserResDto } from './auth.type';
-import { ApiResponse } from '../../../projects/arkhamcity/src/lib/type/response.type';
-import { ConfigService } from '../../../projects/arkhamcity/src/lib/services/config.service';
-import { SecurityService } from '../../../projects/arkhamcity/src/lib/services/security.service';
 import { AuthUtils } from './auth.utils';
+import { ApiResponse, SecurityService } from 'arkhamcity';
+import { ConfigService } from '@core/services/config.service';
 
 @Injectable({
   providedIn: 'root',

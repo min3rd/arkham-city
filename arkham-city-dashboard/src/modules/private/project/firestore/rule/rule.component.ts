@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
-import { CapitalizePipe } from '../../../../../core/pipe/capitalize.pipe';
+import { CapitalizePipe } from '../../../../../../projects/arkhamcity/src/lib/pipes/capitalize.pipe';
 import {
   ArkButton,
 } from '../../../../../../projects/arkhamcity/src/lib/components/buttons/ark-button/ark-button.component';
