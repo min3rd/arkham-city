@@ -8,13 +8,13 @@ import {
   ArkButton,
 } from '../../../../../../projects/arkhamcity/src/lib/components/buttons/ark-button/ark-button.component';
 import { TranslocoModule } from '@jsverse/transloco';
-import { CapitalizePipe } from '../../../../../core/pipe/capitalize.pipe';
+import { CapitalizePipe } from '../../../../../../projects/arkhamcity/src/lib/pipes/capitalize.pipe';
 import {
   ArkSelect,
 } from '../../../../../../projects/arkhamcity/src/lib/components/selects/ark-select/ark-select.component';
 import {
   ArkTextarea,
-} from '../../../../../../projects/arkhamcity/src/lib/components/textareas/ark-textarea/ark-textarea.component';
+} from '../../../../../../projects/arkhamcity/src/lib/components/inputs/ark-textarea/ark-textarea.component';
 import { AppResDto } from '../app.types';
 import { AppService } from '../app.service';
 import { takeUntil } from 'rxjs';

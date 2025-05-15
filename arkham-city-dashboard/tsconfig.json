@@ -6,6 +6,12 @@
     "paths": {
       "arkhamcity": [
         "./dist/arkhamcity"
+      ],
+      "@modules/*": [
+        "./src/modules/*"
+      ],
+      "@core/*": [
+        "./src/core/*"
       ]
     },
     "outDir": "./dist/out-tsc",

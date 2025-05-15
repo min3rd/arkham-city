@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/cor
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoModule } from '@jsverse/transloco';
-import { CapitalizePipe } from '../../../../core/pipe/capitalize.pipe';
+import { CapitalizePipe } from '../../../../../projects/arkhamcity/src/lib/pipes/capitalize.pipe';
 import {
   ArkTextInput,
 } from '../../../../../projects/arkhamcity/src/lib/components/inputs/ark-text-input/ark-text-input.component';
@@ -11,7 +11,7 @@ import {
 } from '../../../../../projects/arkhamcity/src/lib/components/buttons/ark-button/ark-button.component';
 import {
   ArkTextarea,
-} from '../../../../../projects/arkhamcity/src/lib/components/textareas/ark-textarea/ark-textarea.component';
+} from '../../../../../projects/arkhamcity/src/lib/components/inputs/ark-textarea/ark-textarea.component';
 import { ProjectService } from '../project.service';
 import { BaseFormComponent } from '../../../../../projects/arkhamcity/src/lib/components/base/base-form.component';
 

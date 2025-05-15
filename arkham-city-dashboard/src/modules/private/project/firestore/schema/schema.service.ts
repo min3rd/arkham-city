@@ -4,7 +4,7 @@ import { SchemaResDto } from './schema.types';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { QueryReqDto } from '../../../../../../projects/arkhamcity/src/lib/type/request.types';
 import { ApiResponse } from '../../../../../../projects/arkhamcity/src/lib/type/response.type';
-import { ConfigService } from '../../../../../../projects/arkhamcity/src/lib/services/config.service';
+import { ConfigService } from '@core/services/config.service';
 
 @Injectable({
   providedIn: 'root',

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { AppConfig } from '../type/app.types';
 import { tap } from 'rxjs';
+import { AppConfig } from 'arkhamcity';
 
 @Injectable({
   providedIn: 'root',

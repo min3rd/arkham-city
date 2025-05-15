@@ -12,6 +12,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { NgClass } from '@angular/common';
+import { ArkhamCityMode, ArkhamCityPosition } from '../drawers.types';
 
 @Component({
   selector: 'ark-drawer',
@@ -24,9 +25,9 @@ import { NgClass } from '@angular/common';
   ],
 })
 export class ArkDrawer implements OnChanges {
-  @Input() position: 'start' | 'end' = 'start';
+  @Input() position: ArkhamCityPosition = 'start';
   @Input() opened = false;
-  @Input() mode: 'side' | 'over' = 'side';
+  @Input() mode: ArkhamCityMode = 'side';
 
   @Output() modeChanged: EventEmitter<string> = new EventEmitter<string>();
   @Output() openedChanged: EventEmitter<boolean> = new EventEmitter<boolean>();

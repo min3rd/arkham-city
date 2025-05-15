@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { UserResDto } from '../../../../../../../src/core/auth/auth.type';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@jsverse/transloco';
 import { RouterModule } from '@angular/router';
@@ -12,5 +11,5 @@ import { BaseComponent } from '../../base/base/base.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArkUser extends BaseComponent {
-  @Input() user!: UserResDto | null | undefined;
+  @Input() user!: any | null | undefined;
 }

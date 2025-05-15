@@ -5,7 +5,7 @@ import {
   ArkButton,
 } from '../../../../../projects/arkhamcity/src/lib/components/buttons/ark-button/ark-button.component';
 import { TranslocoModule } from '@jsverse/transloco';
-import { CapitalizePipe } from '../../../../core/pipe/capitalize.pipe';
+import { CapitalizePipe } from '../../../../../projects/arkhamcity/src/lib/pipes/capitalize.pipe';
 
 @Component({
   selector: 'project-firestore',
