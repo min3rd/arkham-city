@@ -3,13 +3,19 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import {
   ArkDrawerContainer,
-} from '../../../../../../core/components/drawers/ark-drawer-container/ark-drawer-container.component';
-import { ArkDrawer } from '../../../../../../core/components/drawers/ark-drawer/ark-drawer.component';
+} from '../../../../../../../projects/arkhamcity/src/lib/components/drawers/ark-drawer-container/ark-drawer-container.component';
+import {
+  ArkDrawer,
+} from '../../../../../../../projects/arkhamcity/src/lib/components/drawers/ark-drawer/ark-drawer.component';
 import {
   ArkDrawerContent,
-} from '../../../../../../core/components/drawers/ark-drawer-content/ark-drawer-content.component';
-import { ArkTextInput } from '../../../../../../core/components/inputs/ark-text-input/ark-text-input.component';
-import { ArkButton } from '../../../../../../core/components/buttons/ark-button/ark-button.component';
+} from '../../../../../../../projects/arkhamcity/src/lib/components/drawers/ark-drawer-content/ark-drawer-content.component';
+import {
+  ArkTextInput,
+} from '../../../../../../../projects/arkhamcity/src/lib/components/inputs/ark-text-input/ark-text-input.component';
+import {
+  ArkButton,
+} from '../../../../../../../projects/arkhamcity/src/lib/components/buttons/ark-button/ark-button.component';
 
 @Component({
   selector: 'project-firestore-schema-list',

@@ -3,11 +3,17 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoModule } from '@jsverse/transloco';
 import { CapitalizePipe } from '../../../../core/pipe/capitalize.pipe';
-import { ArkTextInput } from '../../../../core/components/inputs/ark-text-input/ark-text-input.component';
-import { ArkButton } from '../../../../core/components/buttons/ark-button/ark-button.component';
-import { ArkTextarea } from '../../../../core/components/textareas/ark-textarea/ark-textarea.component';
+import {
+  ArkTextInput,
+} from '../../../../../projects/arkhamcity/src/lib/components/inputs/ark-text-input/ark-text-input.component';
+import {
+  ArkButton,
+} from '../../../../../projects/arkhamcity/src/lib/components/buttons/ark-button/ark-button.component';
+import {
+  ArkTextarea,
+} from '../../../../../projects/arkhamcity/src/lib/components/textareas/ark-textarea/ark-textarea.component';
 import { ProjectService } from '../project.service';
-import { BaseFormComponent } from '../../../../core/components/base/base-form.component';
+import { BaseFormComponent } from '../../../../../projects/arkhamcity/src/lib/components/base/base-form.component';
 
 @Component({
   selector: 'projects-new-project',

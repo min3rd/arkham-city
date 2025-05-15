@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
 import { CapitalizePipe } from '../../../../../core/pipe/capitalize.pipe';
-import { ArkButton } from '../../../../../core/components/buttons/ark-button/ark-button.component';
+import {
+  ArkButton,
+} from '../../../../../../projects/arkhamcity/src/lib/components/buttons/ark-button/ark-button.component';
 
 @Component({
   selector: 'project-firestore-rule',

@@ -1,14 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { ArkTextInput } from '../../../../core/components/inputs/ark-text-input/ark-text-input.component';
-import { ArkButton } from '../../../../core/components/buttons/ark-button/ark-button.component';
-import { ArkCheckbox } from '../../../../core/components/checkboxes/ark-checkbox/ark-checkbox.component';
+import {
+  ArkTextInput,
+} from '../../../../../projects/arkhamcity/src/lib/components/inputs/ark-text-input/ark-text-input.component';
+import {
+  ArkButton,
+} from '../../../../../projects/arkhamcity/src/lib/components/buttons/ark-button/ark-button.component';
+import {
+  ArkCheckbox,
+} from '../../../../../projects/arkhamcity/src/lib/components/checkboxes/ark-checkbox/ark-checkbox.component';
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoModule } from '@jsverse/transloco';
 import { RouterModule } from '@angular/router';
 import { RegisterReqDto } from '../../../../core/auth/auth.type';
 import { AuthService } from '../../../../core/auth/auth.service';
-import { BaseFormComponent } from '../../../../core/components/base/base-form.component';
+import { BaseFormComponent } from '../../../../../projects/arkhamcity/src/lib/components/base/base-form.component';
 
 @Component({
   selector: 'app-register',

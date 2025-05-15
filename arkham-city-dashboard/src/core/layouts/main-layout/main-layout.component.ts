@@ -9,15 +9,17 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { ArkSwitchTheme } from '../../components/buttons/ark-switch-theme/ark-switch-theme.component';
+import {
+  ArkSwitchTheme,
+} from '../../../../projects/arkhamcity/src/lib/components/buttons/ark-switch-theme/ark-switch-theme.component';
 import { provideIcons } from '@ng-icons/core';
 import * as feathers from '@ng-icons/feather-icons';
 import { TranslocoModule } from '@jsverse/transloco';
-import { ArkNavigation } from '../../components/navigation/navigation.component';
-import { NavigationItem } from '../../components/navigation/navigation.type';
-import { ArkButton } from '../../components/buttons/ark-button/ark-button.component';
-import { ArkSelect } from '../../components/selects/ark-select/ark-select.component';
-import { ArkUser } from '../../components/users/ark-user/ark-user.component';
+import { ArkNavigation } from '../../../../projects/arkhamcity/src/lib/components/navigation/navigation.component';
+import { NavigationItem } from '../../../../projects/arkhamcity/src/lib/components/navigation/navigation.type';
+import { ArkButton } from '../../../../projects/arkhamcity/src/lib/components/buttons/ark-button/ark-button.component';
+import { ArkSelect } from '../../../../projects/arkhamcity/src/lib/components/selects/ark-select/ark-select.component';
+import { ArkUser } from '../../../../projects/arkhamcity/src/lib/components/users/ark-user/ark-user.component';
 import { UserResDto } from '../../auth/auth.type';
 import { AuthService } from '../../auth/auth.service';
 import { Subject, takeUntil } from 'rxjs';
@@ -25,9 +27,13 @@ import { ProjectResDto } from '../../../modules/private/project/project.types';
 import { ProjectService } from '../../../modules/private/project/project.service';
 import { CapitalizePipe } from '../../pipe/capitalize.pipe';
 import { NavigationService } from '../../services/navigation.service';
-import { ArkDrawerContainer } from '../../components/drawers/ark-drawer-container/ark-drawer-container.component';
-import { ArkDrawer } from '../../components/drawers/ark-drawer/ark-drawer.component';
-import { ArkDrawerContent } from '../../components/drawers/ark-drawer-content/ark-drawer-content.component';
+import {
+  ArkDrawerContainer,
+} from '../../../../projects/arkhamcity/src/lib/components/drawers/ark-drawer-container/ark-drawer-container.component';
+import { ArkDrawer } from '../../../../projects/arkhamcity/src/lib/components/drawers/ark-drawer/ark-drawer.component';
+import {
+  ArkDrawerContent,
+} from '../../../../projects/arkhamcity/src/lib/components/drawers/ark-drawer-content/ark-drawer-content.component';
 
 @Component({
   selector: 'main-layout',

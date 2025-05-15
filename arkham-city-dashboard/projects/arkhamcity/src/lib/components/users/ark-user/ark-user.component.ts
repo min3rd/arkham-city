@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { UserResDto } from '../../../auth/auth.type';
+import { UserResDto } from '../../../../../../../src/core/auth/auth.type';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@jsverse/transloco';
 import { RouterModule } from '@angular/router';

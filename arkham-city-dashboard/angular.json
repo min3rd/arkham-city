@@ -29,8 +29,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -98,6 +97,49 @@
               "src/**/*.ts",
               "src/**/*.html"
             ]
+          }
+        }
+      }
+    },
+    "arkhamcity": {
+      "projectType": "library",
+      "root": "projects/arkhamcity",
+      "sourceRoot": "projects/arkhamcity/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/arkhamcity/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/arkhamcity/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/arkhamcity/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/arkhamcity/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/arkhamcity/**/*.ts",
+              "projects/arkhamcity/**/*.html"
+            ],
+            "eslintConfig": "projects/arkhamcity/eslint.config.js"
           }
         }
       }
