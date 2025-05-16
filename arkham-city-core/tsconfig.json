@@ -1,5 +1,19 @@
 {
   "compilerOptions": {
+    "paths": {
+      "@src/*": [
+        "./src/*"
+      ],
+      "@core/*": [
+        "./src/core/*"
+      ],
+      "@modules/*": [
+        "./src/modules/*"
+      ],
+      "@microservices/*": [
+        "./src/microservices/*"
+      ]
+    },
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,

@@ -127,10 +127,12 @@ export class FirestoreService {
 
     let dynamicSchema = await schemaModel.findOne({
       name: this.getSafeSchemaName(schemaName),
+      rawName: schemaName,
     });
     if (!dynamicSchema) {
       dynamicSchema = new schemaModel({
         name: this.getSafeSchemaName(schemaName),
+        rawName: schemaName,
       });
     }
     dynamicSchema.fields = this.fromDataToField(data);

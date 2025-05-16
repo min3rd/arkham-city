@@ -21,5 +21,4 @@ import { ModulesModule } from './modules/modules.module';
     MicroservicesModule,
   ],
 })
-export class AppModule {
-}
+export class AppModule {}

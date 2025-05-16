@@ -1,19 +1,16 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ArkButton, ArkDrawer, ArkDrawerContainer, ArkDrawerContent, ArkTextInput } from 'arkhamcity';
+import { ArkDrawer, ArkDrawerContainer, ArkDrawerContent, ArkTextInput } from 'arkhamcity';
 
 
 @Component({
   selector: 'project-firestore-schema-list',
-  imports: [CommonModule, RouterModule, ArkDrawerContainer, ArkDrawer, ArkDrawerContent, ArkTextInput, ArkButton],
+  imports: [CommonModule, RouterModule, ArkDrawerContainer, ArkDrawer, ArkDrawerContent, ArkTextInput],
   templateUrl: './list.component.html',
-  styleUrl: './list.component.css',
+  encapsulation: ViewEncapsulation.None,
+  standalone: true,
 })
 export class ListComponent {
   @ViewChild('drawer') drawer!: ArkDrawer;
-
-  toggleDrawer() {
-    this.drawer.toggle();
-  }
 }

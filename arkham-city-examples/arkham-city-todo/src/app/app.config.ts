@@ -12,10 +12,10 @@ export const appConfig: ApplicationConfig = {
       globalConfig({
         url: 'http://localhost:3000',
         version: 'v1',
-        projectId: '68075da4ccae85f2016da2b5',
-        appId: '680af9adf25bf1f7cd9d936f',
+        projectId: '68196609a274d48747d8b437',
+        appId: '6819661ea274d48747d8b43b',
         secretKey:
-          'KFf/uq8Dl1VwNVABxgJyjM2I14OpItM9jIPQe8XnESZ+IAAZJQa/LFYUP2rTHO5z',
+          '0kzRT5JocEf+nUUpPzrwRzgFs0NIpI93Msp4ICMVmtzq31MOGitE+1aW7MmAyC5T',
         isProductionMode: !isDevMode(),
       });
     }),
