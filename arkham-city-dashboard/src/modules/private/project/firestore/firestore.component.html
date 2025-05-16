@@ -1,5 +1,5 @@
 <div class="flex flex-col w-full h-full">
-  <div class="flex w-full p-2 gap-2 border-b border-neutral-200 dark:border-neutral-700">
+  <div class="flex w-full p-2 gap-2 border-b border-neutral-200 dark:border-neutral-700 shrink-0">
     <ark-button
       [routerLink]="['rules']"
       label="{{'rules' | transloco | capitalize}}"
@@ -7,7 +7,7 @@
 
     </ark-button>
   </div>
-  <div class="w-full h-full">
+  <div class="w-full h-full flex-1 overflow-hidden">
     <router-outlet></router-outlet>
   </div>
 </div>
