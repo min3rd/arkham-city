@@ -45,6 +45,11 @@ export class ArkDrawer implements OnChanges {
   }
 
   @HostBinding('style') get styleList(): any {
+    // In side mode, we control visibility with width, not with visibility
+    // This prevents the empty block issue in side mode
+    if (this.mode === 'side') {
+      return {};
+    }
     return {
       visibility: this.opened ? 'visible' : 'hidden',
     };
@@ -85,11 +90,15 @@ export class ArkDrawer implements OnChanges {
   }
 
   _showOverlay() {
-
+    // The overlay is now handled in the template with *ngIf
+    // This method is kept for backward compatibility
+    document.body.classList.add('overflow-hidden');
   }
 
   _hideOverlay() {
-
+    // The overlay is now handled in the template with *ngIf
+    // This method is kept for backward compatibility
+    document.body.classList.remove('overflow-hidden');
   }
 
   _toggleOpened(value: boolean) {
