@@ -2,9 +2,9 @@
   <form [formGroup]="form">
     <ark-text-input
       [formFieldControl]="form.get('email')"
-      type="email"
       label="{{ 'Email' | transloco }}"
       placeholder="email@domain.com"
+      type="email"
     >
       <ng-template #errors>
         <span class="text-sm text-red-500">
@@ -19,13 +19,13 @@
     </ark-text-input>
     <ark-text-input
       [formFieldControl]="form.get('password')"
-      type="password"
       label="{{ 'Password' | transloco }}"
       placeholder="********"
+      type="password"
     ></ark-text-input>
     <div class="flex items-center justify-between pb-3">
       <ark-checkbox
-        formControlName="rememberMe"
+        [formFieldControl]="form.get('rememberMe')"
         label="{{ 'Remember me' | transloco }}"
       ></ark-checkbox>
       <ark-button
@@ -40,8 +40,8 @@
     <ark-divider label="{{ 'Or' | transloco }}"></ark-divider>
     <ark-button
       [routerLink]="['../', 'register']"
-      label="{{ 'Create a new account' | transloco }}"
       color="teal"
+      label="{{ 'Create a new account' | transloco }}"
       outline
     ></ark-button>
   </form>
