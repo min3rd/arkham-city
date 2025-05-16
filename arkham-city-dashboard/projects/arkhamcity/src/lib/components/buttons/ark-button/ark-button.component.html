@@ -44,16 +44,18 @@
       role="status"
       aria-label="loading"
     >
-    <span class="sr-only">
-      {{ label }}
+      <span class="sr-only">
+        {{ label }}
+      </span>
     </span>
-  </span>
 
     @if (label) {
       <span class="truncate">
         {{ label }}
       </span>
     }
+
+    <ng-content></ng-content>
   }
   @if (!onLoading) {
     <div class="flex items-center gap-2 truncate">
@@ -65,6 +67,7 @@
           {{ label }}
         </span>
       }
+      <ng-content></ng-content>
     </div>
   }
 </button>

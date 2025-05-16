@@ -1,13 +1,15 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, type OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, type OnInit, ViewEncapsulation } from '@angular/core';
 import { LoadingService } from '../../../services/loading/loading.service';
 import { Subject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { ArkProgressBar } from '../../progress-bars/ark-progress-bar/ark-progress-bar.component';
 
 @Component({
   selector: 'ark-loading',
-  imports: [CommonModule],
+  imports: [CommonModule, ArkProgressBar],
   templateUrl: './loading.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  standalone: true,
 })
 export class ArkLoading implements OnInit, OnDestroy {
   loading = false;
