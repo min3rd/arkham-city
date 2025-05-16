@@ -3,10 +3,9 @@
     'flex-row-reverse': position === 'end',
     'flex-row': position === 'start',
   }"
-  class="flex flex-auto w-full h-full"
+  class="flex flex-auto w-full h-full overflow-hidden"
 >
-  @if (opened) {
-    <ng-content select="ark-drawer"></ng-content>
-  }
+  <!-- Always render the drawer, visibility is controlled by the drawer component -->
+  <ng-content select="ark-drawer"></ng-content>
   <ng-content select="ark-drawer-content"></ng-content>
 </div>
