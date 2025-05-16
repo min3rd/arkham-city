@@ -1,97 +1,96 @@
-<div class="w-full md:w-96">
-  <form [formGroup]="form">
-    <div class="p-2">
-      <ark-text-input
-        [formFieldControl]="form.get('name')"
-        label="{{ 'app name' | transloco | capitalize }}"
-      >
-      </ark-text-input>
-      <ark-select
-        [formFieldControl]="form.get('type')"
-        label="{{ 'type' | transloco | capitalize }}"
-      >
-        <ng-template #options>
-          <option disabled selected value="">
-            {{ 'choose' | transloco | capitalize }}
-          </option>
-          <option value="WEB_APP">
-            {{ 'web app' | transloco | capitalize }}
-          </option>
-        </ng-template>
-      </ark-select>
-      <ark-text-input
-        [formFieldControl]="form.get('callback')"
-        label="{{ 'callback url' | transloco | capitalize }}"
-      >
-      </ark-text-input>
-      <ark-textarea
-        [formFieldControl]="form.get('description')"
-        label="{{ 'description' | transloco | capitalize }}"
-      ></ark-textarea>
+<form [formGroup]="form" class="flex flex-auto flex-col min-w-96">
+  <div class="flex flex-auto flex-col p-2 h-full overflow-auto">
+    <ark-text-input
+      [formFieldControl]="form.get('name')"
+      label="{{ 'app name' | transloco | capitalize }}"
+    >
+    </ark-text-input>
+    <ark-select
+      [formFieldControl]="form.get('type')"
+      label="{{ 'type' | transloco | capitalize }}"
+    >
+      <ng-template #options>
+        <option disabled selected value="">
+          {{ 'choose' | transloco | capitalize }}
+        </option>
+        <option value="WEB_APP">
+          {{ 'web app' | transloco | capitalize }}
+        </option>
+      </ng-template>
+    </ark-select>
+    <ark-text-input
+      [formFieldControl]="form.get('callback')"
+      label="{{ 'callback url' | transloco | capitalize }}"
+    >
+    </ark-text-input>
+    <ark-textarea
+      [formFieldControl]="form.get('description')"
+      label="{{ 'description' | transloco | capitalize }}"
+    ></ark-textarea>
 
-      @if (app) {
+    @if (app) {
+      <ark-text-input
+        [model]="project?._id"
+        label="{{ 'project id' | transloco | capitalize }}"
+        disabled
+        placeholder="{{ '32*' | transloco | capitalize }}"
+        class="w-full"
+      >
+      </ark-text-input>
+
+      <ark-text-input
+        [model]="app._id"
+        label="{{ 'app id' | transloco | capitalize }}"
+        disabled
+        placeholder="{{ '32*' | transloco | capitalize }}"
+        class="w-full"
+      >
+      </ark-text-input>
+      <div class="flex items-center gap-2">
         <ark-text-input
-          [model]="project?._id"
-          label="{{ 'project id' | transloco | capitalize }}"
+          [model]="secret ?? '32*' | transloco"
+          label="{{ 'secret key' | transloco | capitalize }}"
           disabled
           placeholder="{{ '32*' | transloco | capitalize }}"
           class="w-full"
         >
         </ark-text-input>
+        <ark-button (onClick)="getSecret()" icon="featherEye" ghost></ark-button>
+      </div>
+    }
+  </div>
 
-        <ark-text-input
-          [model]="app._id"
-          label="{{ 'app id' | transloco | capitalize }}"
-          disabled
-          placeholder="{{ '32*' | transloco | capitalize }}"
-          class="w-full"
-        >
-        </ark-text-input>
-        <div class="flex items-center gap-2">
-          <ark-text-input
-            [model]="secret ?? '32*' | transloco"
-            label="{{ 'secret key' | transloco | capitalize }}"
-            disabled
-            placeholder="{{ '32*' | transloco | capitalize }}"
-            class="w-full"
-          >
-          </ark-text-input>
-          <ark-button (onClick)="getSecret()" icon="featherEye" ghost></ark-button>
-        </div>
-      }
-    </div>
-
-    <div class="flex items-center justify-end gap-2 border-t border-neutral-200 dark:border-neutral-700 p-2">
-      @if (app) {
-        <ark-button
-          (onClick)="delete()"
-          class="mr-auto"
-          label="{{ 'delete' | transloco | capitalize }}"
-          ghost
-          color="red"
-          size="sm"
-        ></ark-button>
-      }
+  <div
+    class="flex mt-auto items-center justify-end gap-2 border-t border-neutral-200 dark:border-neutral-700 p-2 shrink-0">
+    @if (app) {
       <ark-button
-        [routerLink]="['../']"
+        (onClick)="delete()"
+        class="mr-auto"
+        label="{{ 'delete' | transloco | capitalize }}"
         ghost
-        label="{{ 'cancel' | transloco | capitalize }}"
+        color="red"
         size="sm"
       ></ark-button>
-      @if (!this.app) {
-        <ark-button
-          (onClick)="create()"
-          label="{{ 'create' | transloco | capitalize }}"
-          size="sm"
-        ></ark-button>
-      }
-      @if (app) {
-        <ark-button
-          (onClick)="update()"
-          label="{{ 'update' | transloco | capitalize }}"
-          size="sm"
-        ></ark-button>
-      }
-    </div>
-  </form>
-</div>
+    }
+    <ark-button
+      [routerLink]="['../']"
+      ghost
+      label="{{ 'cancel' | transloco | capitalize }}"
+      size="sm"
+    ></ark-button>
+    @if (!this.app) {
+      <ark-button
+        (onClick)="create()"
+        label="{{ 'create' | transloco | capitalize }}"
+        size="sm"
+      ></ark-button>
+    }
+    @if (app) {
+      <ark-button
+        (onClick)="update()"
+        label="{{ 'update' | transloco | capitalize }}"
+        size="sm"
+      ></ark-button>
+    }
+  </div>
+</form>

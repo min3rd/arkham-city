@@ -5,6 +5,7 @@
     'fixed top-0 z-40': mode === 'over',
     'left-0': mode === 'over' && position === 'start',
     'right-0': mode === 'over' && position === 'end',
+    'ml-auto': mode === 'side' && position === 'end',
     'translate-x-0': mode === 'over' && opened,
     '-translate-x-full': mode === 'over' && !opened && position === 'start',
     'translate-x-full': mode === 'over' && !opened && position === 'end',
