@@ -1,25 +1,48 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  type OnInit,
-} from '@angular/core';
-import { AuthService } from '../../../../core/auth/auth.service';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, type OnInit } from '@angular/core';
+import { AuthService } from '@core/auth/auth.service';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { TranslocoModule } from '@jsverse/transloco';
+import { CapitalizePipe } from 'arkhamcity';
 
 @Component({
   selector: 'app-log-out',
-  imports: [],
+  imports: [CommonModule, TranslocoModule, CapitalizePipe],
   templateUrl: './log-out.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LogOutComponent implements OnInit {
+export class LogOutComponent implements OnInit, OnDestroy {
+  countdown = 5;
   private authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
+  private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  private intervalId: any;
+
   ngOnInit(): void {
-    setTimeout(() => {
-      this.authService.logOut();
-      this.router.navigate(['/log-in']);
-    }, 5000);
+    this.startCountdown();
+  }
+
+  ngOnDestroy(): void {
+    this.clearCountdownInterval();
+  }
+
+  private startCountdown(): void {
+    this.intervalId = setInterval(() => {
+      this.countdown--;
+      this.cdr.markForCheck(); // Trigger change detection
+
+      if (this.countdown <= 0) {
+        this.clearCountdownInterval();
+        this.authService.logOut();
+        this.router.navigate(['/log-in']);
+      }
+    }, 1000);
+  }
+
+  private clearCountdownInterval(): void {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+    }
   }
 }
