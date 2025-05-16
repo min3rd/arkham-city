@@ -1,4 +1,13 @@
-import { AfterContentInit, Component, ContentChildren, Input, QueryList, ViewEncapsulation } from '@angular/core';
+import {
+  AfterContentInit,
+  Component,
+  ContentChildren,
+  EventEmitter,
+  Input,
+  Output,
+  QueryList,
+  ViewEncapsulation,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ArkIcon } from '../../icons/ark-icon/ark-icon.component';
 import { ArkTabContent } from '../ark-tab-content/ark-tab-content.component';
@@ -20,16 +29,43 @@ export interface ArkTabTitle {
 })
 export class ArkTabGroup extends BaseComponent implements AfterContentInit {
   @Input() titles!: ArkTabTitle[];
+  @Output() tabChange = new EventEmitter<number>();
   @ContentChildren(ArkTabContent) tabs!: QueryList<ArkTabContent>;
   selectedIndex = 0;
 
-  ngAfterContentInit() {
-    this.change(this.selectedIndex);
+  @Input() set activeIndex(index: number) {
+    if (index !== this.selectedIndex && index >= 0) {
+      this.change(index);
+    }
   }
 
-  change(index: number) {
+  ngAfterContentInit(): void {
+    // Initialize tabs
+    this.updateTabVisibility();
+
+    // Listen for changes to the tabs collection
+    this.tabs.changes.subscribe(() => {
+      this.updateTabVisibility();
+    });
+  }
+
+  change(index: number): void {
+    if (index < 0 || !this.tabs || index >= this.tabs.length) {
+      return;
+    }
+
     this.selectedIndex = index;
-    this.tabs.forEach(e => e.setShow(false));
-    this.tabs.get(index)?.setShow(true);
+    this.updateTabVisibility();
+    this.tabChange.emit(index);
+  }
+
+  private updateTabVisibility(): void {
+    if (!this.tabs) {
+      return;
+    }
+
+    this.tabs.forEach((tab, i) => {
+      tab.setShow(i === this.selectedIndex);
+    });
   }
 }
