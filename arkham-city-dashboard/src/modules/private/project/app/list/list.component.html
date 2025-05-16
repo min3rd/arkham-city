@@ -1,25 +1,22 @@
-<div>
-  <ark-drawer-container>
-    <ark-drawer #drawer position="end">
-      <router-outlet></router-outlet>
-    </ark-drawer>
-    <ark-drawer-content class="w-full h-full">
-      <div class="flex flex-col w-full">
-        @for (app of apps; track $index) {
-        <a
-          [routerLink]="[app._id]"
-          class="flex px-2 py-4 border-b border-neutral-200 dark:border-b-neutral-700 hover:cursor-pointer"
-          [ngClass]="{
+<ark-drawer-container>
+  <ark-drawer #drawer position="end">
+    <router-outlet></router-outlet>
+  </ark-drawer>
+  <ark-drawer-content class="flex flex-auto flex-col w-full h-full">
+    @for (app of apps; track $index) {
+      <a
+        [routerLink]="[app._id]"
+        class="flex px-2 py-4 border-b border-neutral-200 dark:border-b-neutral-700 hover:cursor-pointer"
+        [ngClass]="{
             'bg-neutral-200 dark:bg-neutral-700':
               selected && selected._id === app._id
           }"
-        >
-          <div>
-            {{ app.name }}
-          </div>
-        </a>
-        }
-      </div>
-    </ark-drawer-content>
-  </ark-drawer-container>
-</div>
+      >
+        <div>
+          {{ app.name }}
+        </div>
+      </a>
+    }
+  </ark-drawer-content>
+</ark-drawer-container>
+

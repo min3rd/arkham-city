@@ -69,6 +69,11 @@ export class ArkDrawer implements OnChanges {
       }
       this.modeChanged.next(currentMode);
     }
+
+    if ('position' in changes) {
+      const currentPosition = changes['position'].currentValue;
+      this.positionChanged.next(currentPosition);
+    }
   }
 
   open() {
