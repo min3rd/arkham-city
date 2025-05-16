@@ -1,0 +1,63 @@
+<div [ngClass]="{
+        'h-1.5': !size,
+        'h-2': size === 'sm',
+        'h-3': size === 'md',
+        'h-4': size === 'lg',
+        'rounded-xs': rounded === 'sm',
+        'rounded-md': rounded === 'md',
+        'rounded-lg': rounded === 'lg',
+        'rounded-full': rounded === 'full',
+     }"
+     class="relative w-full overflow-hidden"
+     role="progressbar"
+>
+  @if (mode === 'determinate') {
+    <div
+      class="flex flex-col justify-center overflow-hidden w-full h-full dark:bg-teal-500"
+      [ngClass]="{
+        'bg-gray-200': !color,
+        'bg-gray-200 dark:bg-neutral-700': color === 'gray',
+        'bg-teal-600 dark:bg-teal-500': color === 'teal',
+        'bg-blue-600 dark:bg-blue-500': color === 'blue',
+        'bg-red-500 dark:bg-red-500': color === 'red',
+        'bg-yellow-500 dark:bg-yellow-500': color === 'yellow',
+        'rounded-xs': rounded === 'sm',
+        'rounded-md': rounded === 'md',
+        'rounded-lg': rounded === 'lg',
+        'rounded-full': rounded === 'full',
+      }"
+      [style.width]="value + '%'"
+    ></div>
+  } @else if (mode === 'indeterminate') {
+    <div
+      class="w-full h-full"
+      [ngClass]="{
+        'bg-gray-200': !color,
+        'bg-gray-200 dark:bg-neutral-700': color === 'gray',
+        'bg-teal-600/30 dark:bg-teal-500/30': color === 'teal',
+        'bg-blue-600/30 dark:bg-blue-500/30': color === 'blue',
+        'bg-red-500/30 dark:bg-red-500/30': color === 'red',
+        'bg-yellow-500/30 dark:bg-yellow-500/30': color === 'yellow',
+        'rounded-xs': rounded === 'sm',
+        'rounded-md': rounded === 'md',
+        'rounded-lg': rounded === 'lg',
+        'rounded-full': rounded === 'full',
+      }"
+    >
+      <div
+        class="indeterminate-bar"
+        [ngClass]="{
+          'bg-teal-600 dark:bg-teal-500': !color || color === 'teal',
+          'bg-blue-600 dark:bg-blue-500': color === 'blue',
+          'bg-red-500 dark:bg-red-500': color === 'red',
+          'bg-yellow-500 dark:bg-yellow-500': color === 'yellow',
+          'bg-gray-400 dark:bg-gray-500': color === 'gray',
+          'rounded-xs': rounded === 'sm',
+          'rounded-md': rounded === 'md',
+          'rounded-lg': rounded === 'lg',
+          'rounded-full': rounded === 'full',
+        }"
+      ></div>
+    </div>
+  }
+</div>
