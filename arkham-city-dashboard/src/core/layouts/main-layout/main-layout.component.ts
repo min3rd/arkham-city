@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  HostListener,
   inject,
   OnDestroy,
   type OnInit,
@@ -56,6 +57,9 @@ import { ProjectService } from '@modules/private/project/project.service';
 export class MainLayoutComponent implements OnInit, OnDestroy {
   @ViewChild('drawer') drawer!: ArkDrawer;
 
+  openDrawer = false;
+  drawerMode: 'over' | 'side' = 'side';
+
   user: UserResDto | null | undefined;
   projects!: ProjectResDto[] | null;
   project!: ProjectResDto | null;
@@ -67,7 +71,15 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   private router: Router = inject(Router);
   private _unsubscribeAll = new Subject<any>();
 
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.checkScreenSize();
+  }
+
   ngOnInit(): void {
+    // Check screen size on initialization
+    this.checkScreenSize();
+
     this.user = this.authService.user;
     this.projectService.projects$
       .pipe(takeUntil(this._unsubscribeAll))
@@ -107,5 +119,24 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
 
   toggleDrawer() {
     this.drawer.toggle();
+  }
+
+  /**
+   * Checks the screen size and sets the drawer mode accordingly
+   * - For screens smaller than 768px (smartphones), use 'over' mode
+   * - For screens 768px and larger (tablets and desktops), use 'side' mode
+   */
+  checkScreenSize() {
+    const isSmallScreen = window.innerWidth < 768;
+    this.openDrawer = !isSmallScreen;
+    this.drawerMode = isSmallScreen ? 'over' : 'side';
+
+    // If drawer is open and we're switching to small screen, close it
+    if (isSmallScreen && this.openDrawer && this.drawer) {
+      this.openDrawer = false;
+      this.drawer.close();
+    }
+
+    this.changeDetectorRef.markForCheck();
   }
 }
