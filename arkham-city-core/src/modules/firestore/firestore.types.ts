@@ -18,6 +18,9 @@ export class FirestoreDynamicSchema extends AuditEntity {
   @Prop()
   name: string;
 
+  @Prop()
+  rawName: string;
+
   @Prop({
     type: mongoose.Types.ArraySubdocument,
   })

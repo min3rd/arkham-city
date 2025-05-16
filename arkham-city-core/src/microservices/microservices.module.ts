@@ -15,5 +15,4 @@ import { MsWebsdkModule } from './ms-websdk/ms-websdk.module';
   ],
   exports: [MsProjectModule, MsUserModule, MsFirestoreModule, MsWebsdkModule],
 })
-export class MicroservicesModule {
-}
+export class MicroservicesModule {}

@@ -1,7 +1,7 @@
 import { Controller, Logger } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
-import { microserviceConfig } from '../../../config/microservice.config';
-import { ProjectFirestoreService } from '../../../modules/project/project-firestore/project-firestore.service';
+import { microserviceConfig } from '@src/config/microservice.config';
+import { ProjectFirestoreService } from '@modules/project/project-firestore/project-firestore.service';
 import {
   MsCreateProjectFirestoreSchemaRecordReqPayload,
   MsDeleteProjectFirestoreSchemaRecordReqPayload,
@@ -24,7 +24,7 @@ export class MsProjectFirestoreController {
     this.logger.log('querySchemas', payload);
     return this.projectFirestoreService.querySchemas(
       payload.projectId,
-      payload.query,
+      JSON.parse(payload.query as any),
       payload.page,
       payload.size,
     );
@@ -40,7 +40,7 @@ export class MsProjectFirestoreController {
     return this.projectFirestoreService.querySchemaRecords(
       payload.projectId,
       payload.schemaName,
-      payload.query,
+      JSON.parse(payload.query as any),
       payload.page,
       payload.size,
     );

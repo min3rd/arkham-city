@@ -5,7 +5,7 @@ import {
   BadResponse,
   Errors,
   GoodResponse,
-} from '../../../core/microservice/microservice.types';
+} from '@core/microservice/microservice.types';
 
 @Injectable()
 export class ProjectFirestoreService {
@@ -30,16 +30,14 @@ export class ProjectFirestoreService {
     size: number = 10,
   ) {
     this.logger.log(`querySchemas:start`, projectId, query, page, size);
+    const _query = !query ? { activated: true } : { ...query, activated: true };
     const connection = this.databaseService.createProjectConnection(projectId);
     const schemaModel =
       this.firestoreService.getFirestoreDynamicSchemaModel(connection);
-    const schemas = await schemaModel.find(
-      { ...query, activated: true },
-      {
-        skip: page * size,
-        limit: size,
-      },
-    );
+    const schemas = await schemaModel
+      .find(_query)
+      .skip((page - 1) * size)
+      .limit(size);
     this.logger.log(`querySchemas:end`);
     return new GoodResponse(schemas.map((e) => e.toJSON()));
   }
@@ -70,7 +68,7 @@ export class ProjectFirestoreService {
     const schemaModel =
       this.firestoreService.getFirestoreDynamicSchemaModel(connection);
     const schema = await schemaModel.findOne({
-      name: schemaName,
+      rawName: schemaName,
     });
     if (!schema) {
       return new BadResponse(
@@ -86,13 +84,10 @@ export class ProjectFirestoreService {
         Errors.PROJECT_FIRESTORE_SCHEMA_COULD_NOT_FOUND_THE_SCHEMA_MODEL,
       );
     }
-    const records = await recordModel.find(
-      { ...query, activated: true },
-      {
-        skip: page * size,
-        limit: size,
-      },
-    );
+    const records = await recordModel
+      .find({ ...query, activated: true })
+      .skip((page - 1) * size)
+      .limit(size);
     this.logger.log(`querySchemaRecords:end`);
     return new GoodResponse(records.map((e) => e.toJSON()));
   }

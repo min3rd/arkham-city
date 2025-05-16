@@ -20,5 +20,4 @@ import * as process from 'node:process';
     ModulesModule,
   ],
 })
-export class ServiceModule {
-}
+export class ServiceModule {}

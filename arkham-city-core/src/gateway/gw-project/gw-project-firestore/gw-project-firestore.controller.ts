@@ -11,11 +11,11 @@ import {
   Query,
   Req,
 } from '@nestjs/common';
-import { GwQueryReqDto } from '../../../core/gateway/gateway.types';
-import { microserviceConfig } from '../../../config/microservice.config';
+import { GwQueryReqDto } from '@core/gateway/gateway.types';
+import { microserviceConfig } from '@src/config/microservice.config';
 import { ClientRMQ } from '@nestjs/microservices';
-import { GatewayController } from '../../../core/gateway/gateway.controller';
-import { ServiceResponse } from '../../../core/microservice/microservice.types';
+import { GatewayController } from '@core/gateway/gateway.controller';
+import { ServiceResponse } from '@core/microservice/microservice.types';
 import { firstValueFrom } from 'rxjs';
 import {
   MsCreateProjectFirestoreSchemaRecordReqPayload,
@@ -24,8 +24,8 @@ import {
   MsQueryProjectFirestoreSchemaRecordsReqPayload,
   MsQueryProjectFirestoreSchemaReqPayload,
   MsUpdateProjectFirestoreSchemaRecordReqPayload,
-} from '../../../microservices/ms-project/ms-project-firestore/ms-project-firestore.types';
-import { REQUEST_FIELDS } from '../../../config/request.config';
+} from '@microservices/ms-project/ms-project-firestore/ms-project-firestore.types';
+import { REQUEST_FIELDS } from '@src/config/request.config';
 
 @Controller('projects')
 export class GwProjectFirestoreController extends GatewayController {
@@ -45,7 +45,6 @@ export class GwProjectFirestoreController extends GatewayController {
     @Query() queryDto: GwQueryReqDto,
   ) {
     this.logger.debug('querySchemas', projectId, queryDto);
-    console.log(request);
     const payload: MsQueryProjectFirestoreSchemaReqPayload = {
       auth: request[REQUEST_FIELDS.user],
       projectId: projectId,

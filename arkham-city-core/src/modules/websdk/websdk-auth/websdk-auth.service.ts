@@ -15,8 +15,8 @@ import { WebSDKUserSchema } from './websdk-auth.types';
  */
 @Injectable()
 export class WebSDKAuthService {
-  private readonly logger = new Logger(WebSDKAuthService.name);
   public static readonly userSchemaName: string = 'user';
+  private readonly logger = new Logger(WebSDKAuthService.name);
 
   constructor(
     @InjectModel(ProjectApp.name, 'metadata')
