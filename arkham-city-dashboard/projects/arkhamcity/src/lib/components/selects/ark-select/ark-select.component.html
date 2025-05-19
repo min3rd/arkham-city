@@ -14,8 +14,10 @@
         (change)="change($event)"
         (blur)="onBlur()"
         id="select-{{ label ? label : '' }}"
-        class="block w-full text-sm bg-neutral-200 border border-neutral-200 dark:text-white dark:bg-neutral-700 dark:border-neutral-700 hover:cursor-pointer"
+        class="block w-full text-sm border hover:cursor-pointer"
         [ngClass]="{
+          'bg-neutral-200 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-600': !invalid,
+          'bg-red-100 dark:bg-red-100 border-red-500': invalid,
           'rounded-xs': rounded === 'sm',
           'rounded-md': rounded === 'md',
           'rounded-lg': rounded === 'lg',
@@ -35,8 +37,10 @@
         (blur)="onBlur()"
         [(ngModel)]="selectedValue"
         id="select-{{ label ? label : '' }}"
-        class="block w-full text-sm bg-neutral-200 border border-neutral-300 dark:text-white dark:bg-neutral-700 dark:border-neutral-600 hover:cursor-pointer"
+        class="block w-full text-sm border hover:cursor-pointer"
         [ngClass]="{
+          'bg-neutral-200 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-600': !invalid,
+          'bg-red-100 dark:bg-red-100 border-red-500': invalid,
           'rounded-xs': rounded === 'sm',
           'rounded-md': rounded === 'md',
           'rounded-lg': rounded === 'lg',
