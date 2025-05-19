@@ -31,6 +31,7 @@
     } @else {
       <select
         (change)="change($event)"
+        [(ngModel)]="selectedValue"
         id="select-{{ label ? label : '' }}"
         class="block w-full text-sm bg-neutral-200 border border-neutral-300 dark:text-white dark:bg-neutral-700 dark:border-neutral-600 hover:cursor-pointer"
         [ngClass]="{
