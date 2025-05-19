@@ -1,0 +1,40 @@
+/* Add any custom styles for the dropdown component here */
+.max-h-60 {
+  max-height: 15rem;
+}
+
+/* Ensure the dropdown menu stays above other elements */
+.z-10 {
+  z-index: 10;
+}
+
+/* Add a subtle transition for the dropdown */
+button {
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Style for the dropdown items - these will be used in the template passed to ng-content */
+:host ::ng-deep .dropdown-item {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+:host ::ng-deep .dropdown-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+:host ::ng-deep .dropdown-item.selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode styles */
+:host-context(.dark) ::ng-deep .dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+:host-context(.dark) ::ng-deep .dropdown-item.selected {
+  background-color: rgba(255, 255, 255, 0.1);
+}

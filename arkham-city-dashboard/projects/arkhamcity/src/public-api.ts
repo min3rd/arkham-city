@@ -9,3 +9,4 @@ export * from './lib/components/public-api';
 export * from './lib/services/public-api';
 export * from './lib/type/public-api';
 export * from './lib/pipes/public-api';
+export * from './lib/directives/public-api';
