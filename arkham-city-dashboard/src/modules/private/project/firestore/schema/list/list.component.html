@@ -3,6 +3,21 @@
     <router-outlet></router-outlet>
   </ark-drawer>
   <ark-drawer-content class="flex flex-auto flex-col w-full h-full p-2">
-    <ark-text-input class="w-full"></ark-text-input>
+    <div class="flex">
+      <ark-text-input class="w-full"></ark-text-input>
+    </div>
+    <div class="flex flex-auto flex-col w-full h-full">
+      @if (schemas && schemas.length) {
+        @for (schema of schemas; track $index) {
+          <div>
+            {{ schema.rawName }}
+          </div>
+        }
+      } @else {
+        <span>
+          {{ 'there are no records' | transloco | capitalize }}
+        </span>
+      }
+    </div>
   </ark-drawer-content>
 </ark-drawer-container>
