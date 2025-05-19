@@ -9,16 +9,15 @@ import { ClickOutsideDirective } from '../../../directives/click-outside/click-o
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, ClickOutsideDirective],
   templateUrl: './ark-dropdown.component.html',
-  styleUrl: './ark-dropdown.component.css',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ArkDropdownComponent),
+      useExisting: forwardRef(() => ArkDropdown),
       multi: true,
     },
   ],
 })
-export class ArkDropdownComponent extends FormControlElement {
+export class ArkDropdown extends FormControlElement {
   @ContentChild('options') options!: TemplateRef<any>;
   @Output() onChange: EventEmitter<any> = new EventEmitter<any>();
   @Input() multiple = false;
