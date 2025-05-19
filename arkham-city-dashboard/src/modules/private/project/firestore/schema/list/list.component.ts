@@ -13,11 +13,14 @@ import { SchemaResDto } from '@modules/private/project/firestore/schema/schema.t
 import { SchemaService } from '@modules/private/project/firestore/schema/schema.service';
 import { takeUntil } from 'rxjs';
 import { TranslocoPipe } from '@jsverse/transloco';
+import {
+  ArkButton,
+} from '../../../../../../../projects/arkhamcity/src/lib/components/buttons/ark-button/ark-button.component';
 
 
 @Component({
   selector: 'project-firestore-schema-list',
-  imports: [CommonModule, RouterModule, ArkDrawerContainer, ArkDrawer, ArkDrawerContent, ArkTextInput, TranslocoPipe, CapitalizePipe],
+  imports: [CommonModule, RouterModule, ArkDrawerContainer, ArkDrawer, ArkDrawerContent, ArkTextInput, TranslocoPipe, CapitalizePipe, ArkButton],
   templateUrl: './list.component.html',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
