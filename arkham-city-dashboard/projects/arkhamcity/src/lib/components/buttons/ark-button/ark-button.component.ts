@@ -1,5 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component, EventEmitter, inject, Input, type OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  type OnInit,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
 import { LoadingService } from '../../../services/loading/loading.service';
 import { Subject, takeUntil } from 'rxjs';
 import { ArkIcon } from '../../icons/ark-icon/ark-icon.component';
@@ -9,6 +18,8 @@ import { BaseComponent } from '../../base/base/base.component';
   selector: 'ark-button',
   imports: [CommonModule, ArkIcon],
   templateUrl: './ark-button.component.html',
+  encapsulation: ViewEncapsulation.None,
+  standalone: true,
 })
 export class ArkButton extends BaseComponent implements OnInit {
   @Input() label!: string;

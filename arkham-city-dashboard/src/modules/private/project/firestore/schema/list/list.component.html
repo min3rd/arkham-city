@@ -2,19 +2,27 @@
   <ark-drawer #drawer [opened]="false" position="end">
     <router-outlet></router-outlet>
   </ark-drawer>
-  <ark-drawer-content class="flex flex-auto flex-col w-full h-full p-2">
-    <div class="flex gap-2">
-      <ark-text-input class="w-full" rounded="full"></ark-text-input>
-      <ark-button>
+  <ark-drawer-content class="flex flex-auto flex-col w-full h-full">
+    <div class="flex items-center p-2 gap-2 border-b border-neutral-200 dark:border-neutral-700">
+      <ark-text-input class="w-full" noSuffixSpace rounded="full"></ark-text-input>
+      <ark-button rounded="full" size="sm">
         {{ 'search' | transloco | capitalize }}
       </ark-button>
     </div>
     <div class="flex flex-auto flex-col w-full h-full">
       @if (schemas && schemas.length) {
         @for (schema of schemas; track $index) {
-          <div>
-            {{ schema.rawName }}
-          </div>
+          <a [routerLink]="[schema.rawName]"
+             class="p-2 border-b border-neutral-200 dark:border-neutral-700 hover:cursor-pointer">
+            <div>
+              <div>
+                {{ schema.rawName }}
+              </div>
+              <div class="text-xs text-neutral-500 dark:text-neutral-400">
+                {{ schema.updatedAt | date: 'short' }}
+              </div>
+            </div>
+          </a>
         }
       } @else {
         <span>
