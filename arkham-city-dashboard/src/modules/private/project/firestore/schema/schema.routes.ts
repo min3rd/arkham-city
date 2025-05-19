@@ -19,6 +19,20 @@ export const schemaListResolve = (router: ActivatedRouteSnapshot, state: RouterS
     });
 };
 
+export const recordListResolve = (router: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+  const service = inject(SchemaService);
+  return service.queryRecords(
+    RouteUtils.getParam('projectId', router),
+    RouteUtils.getParam('schema', router),
+    {
+      query: RouteUtils.getParam('recordQuery', router) != 'all' ?
+        { 'rawName': RouteUtils.getParam('recordQuery', router) }
+        : {},
+      page: RouteUtils.getParam('recordPage', router),
+      size: RouteUtils.getParam('recordSize', router),
+    });
+};
+
 export const routes: Routes = [
   {
     path: '',
@@ -56,6 +70,7 @@ export const routes: Routes = [
                       { path: '', pathMatch: 'full', redirectTo: '1/10' },
                       {
                         path: ':recordPage/:recordSize',
+                        resolve: [recordListResolve],
                         component: RecordComponent,
                       },
                     ],

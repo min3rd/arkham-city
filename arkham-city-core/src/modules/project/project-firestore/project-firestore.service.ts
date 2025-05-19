@@ -64,6 +64,7 @@ export class ProjectFirestoreService {
       page,
       size,
     );
+    const _query = !query ? { activated: true } : { ...query, activated: true };
     const connection = this.databaseService.createProjectConnection(projectId);
     const schemaModel =
       this.firestoreService.getFirestoreDynamicSchemaModel(connection);
@@ -85,7 +86,7 @@ export class ProjectFirestoreService {
       );
     }
     const records = await recordModel
-      .find({ ...query, activated: true })
+      .find(_query)
       .skip((page - 1) * size)
       .limit(size);
     this.logger.log(`querySchemaRecords:end`);

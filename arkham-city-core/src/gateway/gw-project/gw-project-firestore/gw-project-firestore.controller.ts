@@ -67,7 +67,7 @@ export class GwProjectFirestoreController extends GatewayController {
     @Req() request: Request,
     @Param('projectId') projectId: string,
     @Param('schemaName') schemaName: string,
-    @Body() queryDto: GwQueryReqDto,
+    @Query() queryDto: GwQueryReqDto,
   ) {
     this.logger.debug('querySchemaRecords', projectId, schemaName, queryDto);
     const payload: MsQueryProjectFirestoreSchemaRecordsReqPayload = {

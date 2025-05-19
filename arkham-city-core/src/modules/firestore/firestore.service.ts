@@ -93,6 +93,7 @@ export class FirestoreService {
         _id: auth.projectId,
       },
       auth: auth.sub,
+      activated: true,
     };
     const record = await this._createRecord(
       this.databaseService.createProjectConnection(auth.projectId as string),
@@ -522,6 +523,10 @@ export class FirestoreService {
     const dataType = {
       auth: {
         type: String,
+      },
+      activated: {
+        type: Boolean,
+        default: true,
       },
     };
     for (const key of Object.keys(data)) {

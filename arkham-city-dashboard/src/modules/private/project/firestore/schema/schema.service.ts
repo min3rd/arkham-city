@@ -11,12 +11,17 @@ import { ConfigService } from '@core/services/config.service';
 })
 export class SchemaService {
   private _schemas: BehaviorSubject<SchemaResDto[]> = new BehaviorSubject<SchemaResDto[]>([]);
+  private _records: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
 
   private readonly httpClient = inject(HttpClient);
   private readonly configService = inject(ConfigService);
 
   get schemas$(): BehaviorSubject<SchemaResDto[]> {
     return this._schemas;
+  }
+
+  get records$(): BehaviorSubject<any[]> {
+    return this._records;
   }
 
   querySchemas(projectId: string, query: QueryReqDto) {
@@ -31,6 +36,22 @@ export class SchemaService {
       })
       .pipe(switchMap((response) => {
         this._schemas.next(response.data);
+        return of(response);
+      }));
+  }
+
+  queryRecords(projectId: string, schema: string, query: QueryReqDto) {
+    return this.httpClient
+      .get<ApiResponse<any[]>>(this.configService.endpoint(`/projects/${projectId}/schemas/${schema}/records`), {
+        params: new HttpParams({
+          fromObject: {
+            ...query,
+            query: JSON.stringify(query.query),
+          },
+        }),
+      })
+      .pipe(switchMap((response) => {
+        this._records.next(response.data);
         return of(response);
       }));
   }
