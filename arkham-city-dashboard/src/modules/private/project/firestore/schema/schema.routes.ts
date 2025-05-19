@@ -4,6 +4,7 @@ import { ListComponent } from './list/list.component';
 import { inject } from '@angular/core';
 import { SchemaService } from './schema.service';
 import { RouteUtils } from '../../../../../core/utils/route.utils';
+import { RecordComponent } from '@modules/private/project/firestore/schema/record/record.component';
 
 export const schemaListResolve = (router: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   const service = inject(SchemaService);
@@ -32,6 +33,22 @@ export const routes: Routes = [
         path: ':query/:page/:size',
         resolve: [schemaListResolve],
         component: ListComponent,
+        children: [
+          {
+            path: ':schema',
+            children: [
+              {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: 'all/1/10',
+              },
+              {
+                path: ':recordQuery/:recordPage/:recordSize',
+                component: RecordComponent,
+              },
+            ],
+          },
+        ],
       },
     ],
   },
