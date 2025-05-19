@@ -23,7 +23,7 @@ export class ListComponent extends BaseListComponent implements OnInit {
 
   override ngOnInit() {
     super.ngOnInit();
-    this.rulteService.rules$.pipe(takeUntil(this.unsubscrubeAll)).subscribe(rules => {
+    this.rulteService.rules$.pipe(takeUntil(this.unsubscribeAll)).subscribe(rules => {
       this.rules = rules;
       this.changeDetectorRef.detectChanges();
     });
