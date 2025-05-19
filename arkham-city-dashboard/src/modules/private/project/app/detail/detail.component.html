@@ -10,7 +10,7 @@
       label="{{ 'type' | transloco | capitalize }}"
     >
       <ng-template #options>
-        <option disabled selected value="">
+        <option [selected]="!form.get('type')?.value" disabled value="">
           {{ 'choose' | transloco | capitalize }}
         </option>
         <option value="WEB_APP">

@@ -25,7 +25,7 @@
                   [formFieldControl]="condition.get('condition')"
                   label="{{'condition' | transloco | capitalize}}">
                   <ng-template #options>
-                    <option value="" disabled selected>
+                    <option value="" disabled [selected]="!condition.get('condition')?.value">
                       {{ 'choose' | transloco | capitalize }}
                     </option>
                     @for (type of ruleConditionTypes; track type) {
