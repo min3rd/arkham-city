@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './base-list.component.html',
 })
 export class BaseListComponent implements OnInit, OnDestroy {
-  unsubscrubeAll = new Subject<any>();
+  unsubscribeAll = new Subject<any>();
   router = inject(Router);
   changeDetectorRef = inject(ChangeDetectorRef);
 
@@ -16,7 +16,7 @@ export class BaseListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.unsubscrubeAll.next(null);
-    this.unsubscrubeAll.complete();
+    this.unsubscribeAll.next(null);
+    this.unsubscribeAll.complete();
   }
 }
