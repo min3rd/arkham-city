@@ -3,8 +3,11 @@
     <router-outlet></router-outlet>
   </ark-drawer>
   <ark-drawer-content class="flex flex-auto flex-col w-full h-full p-2">
-    <div class="flex">
-      <ark-text-input class="w-full"></ark-text-input>
+    <div class="flex gap-2">
+      <ark-text-input class="w-full" rounded="full"></ark-text-input>
+      <ark-button>
+        {{ 'search' | transloco | capitalize }}
+      </ark-button>
     </div>
     <div class="flex flex-auto flex-col w-full h-full">
       @if (schemas && schemas.length) {
