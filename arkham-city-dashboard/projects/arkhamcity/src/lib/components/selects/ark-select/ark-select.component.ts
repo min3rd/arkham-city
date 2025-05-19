@@ -2,19 +2,22 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   ContentChild,
+  DestroyRef,
   EventEmitter,
   forwardRef,
+  inject,
   OnDestroy,
   OnInit,
   Output,
   TemplateRef,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { FormControlElement } from '../../base/form-control-element/form-control-element.component';
-import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'ark-select',
+  standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './ark-select.component.html',
   providers: [
@@ -30,7 +33,7 @@ export class ArkSelect extends FormControlElement implements OnInit, OnDestroy {
   @Output() onChange: EventEmitter<any> = new EventEmitter<any>();
 
   selectedValue: any;
-  private unsubscribe$ = new Subject<void>();
+  private destroyRef = inject(DestroyRef);
 
   override ngOnInit() {
     // Initialize selectedValue from model if provided
@@ -41,7 +44,7 @@ export class ArkSelect extends FormControlElement implements OnInit, OnDestroy {
     // Subscribe to form control value changes
     if (this.formFieldControl) {
       this.formFieldControl.valueChanges
-        .pipe(takeUntil(this.unsubscribe$))
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(value => {
           this.selectedValue = value;
         });
@@ -49,8 +52,18 @@ export class ArkSelect extends FormControlElement implements OnInit, OnDestroy {
   }
 
   change(e: Event) {
-    this.selectedValue = (e.target as any).value;
+    const target = e.target as HTMLSelectElement;
+    this.selectedValue = target.value;
     this.onChange.emit(this.selectedValue);
+  }
+
+  onBlur(): void {
+    // Handle blur event for both FormControl and ngModel versions
+    if (this.formFieldControl) {
+      this.getFormControl().markAsTouched();
+    }
+    // Call the touch callback for ControlValueAccessor integration
+    this.onTouchedCallback();
   }
 
   // Implement ControlValueAccessor
@@ -69,7 +82,8 @@ export class ArkSelect extends FormControlElement implements OnInit, OnDestroy {
   }
 
   registerOnTouched(fn: any): void {
-    // Not implemented
+    // Store the callback function to be called when the control is touched
+    this.onTouchedCallback = fn;
   }
 
   setDisabledState?(isDisabled: boolean): void {
@@ -77,8 +91,10 @@ export class ArkSelect extends FormControlElement implements OnInit, OnDestroy {
   }
 
   override ngOnDestroy(): void {
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
+    // No need to manually unsubscribe as we're using takeUntilDestroyed
     super.ngOnDestroy();
   }
+
+  private onTouchedCallback: () => void = () => {
+  };
 }
