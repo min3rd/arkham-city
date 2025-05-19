@@ -1,11 +1,141 @@
 <div class="px-4 py-6">
-  <div class="mb-4">
+  <div class="mb-8">
     <h3 class="text-lg font-medium mb-2">Determinate Progress Bar</h3>
     <ark-progress-bar [value]="50" rounded="md"></ark-progress-bar>
   </div>
 
-  <div class="mb-4">
+  <div class="mb-8">
     <h3 class="text-lg font-medium mb-2">Indeterminate Progress Bar</h3>
     <ark-progress-bar mode="indeterminate" rounded="md"></ark-progress-bar>
+  </div>
+
+  <!-- Basic Dropdown Example -->
+  <div class="mb-8">
+    <h3 class="text-lg font-medium mb-2">Basic Dropdown</h3>
+    <ark-dropdown
+      (onChange)="onCountryChange($event)"
+      label="Select a country"
+      placeholder="Choose a country"
+    >
+      <ng-template #options let-isSelected="isSelected" let-searchText="searchText" let-selectItem="selectItem">
+        <div (click)="selectItem(country)"
+             (keydown.enter)="selectItem(country)"
+             (keydown.space)="selectItem(country); $event.preventDefault()"
+             *ngFor="let country of countries"
+             [attr.aria-selected]="isSelected(country)"
+             [class.selected]="isSelected(country)"
+             class="dropdown-item"
+             role="option"
+             tabindex="0">
+          {{ country.label }}
+          <span *ngIf="isSelected(country)">✓</span>
+        </div>
+      </ng-template>
+    </ark-dropdown>
+  </div>
+
+  <!-- Searchable Dropdown Example -->
+  <div class="mb-8">
+    <h3 class="text-lg font-medium mb-2">Searchable Dropdown</h3>
+    <ark-dropdown
+      (onChange)="onCountryChange($event)"
+      [searchable]="true"
+      label="Search for a country"
+      placeholder="Type to search..."
+    >
+      <ng-template #options let-isSelected="isSelected" let-searchText="searchText" let-selectItem="selectItem">
+        <div (click)="selectItem(country)"
+             (keydown.enter)="selectItem(country)"
+             (keydown.space)="selectItem(country); $event.preventDefault()"
+             *ngFor="let country of filterCountries(searchText)"
+             [attr.aria-selected]="isSelected(country)"
+             [class.selected]="isSelected(country)"
+             class="dropdown-item"
+             role="option"
+             tabindex="0">
+          {{ country.label }}
+          <span *ngIf="isSelected(country)">✓</span>
+        </div>
+      </ng-template>
+    </ark-dropdown>
+  </div>
+
+  <!-- Multiple Selection Dropdown Example -->
+  <div class="mb-8">
+    <h3 class="text-lg font-medium mb-2">Multiple Selection Dropdown</h3>
+    <ark-dropdown
+      (onChange)="onCountryChange($event)"
+      [multiple]="true"
+      label="Select multiple countries"
+      placeholder="Choose countries"
+    >
+      <ng-template #options let-isSelected="isSelected" let-searchText="searchText" let-selectItem="selectItem">
+        <div (click)="selectItem(country)"
+             (keydown.enter)="selectItem(country)"
+             (keydown.space)="selectItem(country); $event.preventDefault()"
+             *ngFor="let country of countries"
+             [attr.aria-selected]="isSelected(country)"
+             [class.selected]="isSelected(country)"
+             class="dropdown-item"
+             role="option"
+             tabindex="0">
+          {{ country.label }}
+          <span *ngIf="isSelected(country)">✓</span>
+        </div>
+      </ng-template>
+    </ark-dropdown>
+  </div>
+
+  <!-- Reactive Form Dropdown Example -->
+  <div class="mb-8">
+    <h3 class="text-lg font-medium mb-2">Reactive Form Dropdown</h3>
+    <form [formGroup]="countryForm">
+      <div class="mb-4">
+        <ark-dropdown
+          [formFieldControl]="countryForm.get('country')"
+          label="Select a country (Form Control)"
+          placeholder="Choose a country"
+        >
+          <ng-template #options let-isSelected="isSelected" let-searchText="searchText" let-selectItem="selectItem">
+            <div (click)="selectItem(country)"
+                 (keydown.enter)="selectItem(country)"
+                 (keydown.space)="selectItem(country); $event.preventDefault()"
+                 *ngFor="let country of countries"
+                 [attr.aria-selected]="isSelected(country)"
+                 [class.selected]="isSelected(country)"
+                 class="dropdown-item"
+                 role="option"
+                 tabindex="0">
+              {{ country.label }}
+              <span *ngIf="isSelected(country)">✓</span>
+            </div>
+          </ng-template>
+        </ark-dropdown>
+      </div>
+
+      <div class="mb-4">
+        <ark-dropdown
+          [formFieldControl]="countryForm.get('multiCountry')"
+          [multiple]="true"
+          label="Select multiple countries (Form Control)"
+          placeholder="Choose countries"
+        >
+          <ng-template #options let-isSelected="isSelected" let-searchText="searchText" let-selectItem="selectItem">
+            <div (click)="selectItem(country)"
+                 (keydown.enter)="selectItem(country)"
+                 (keydown.space)="selectItem(country); $event.preventDefault()"
+                 *ngFor="let country of countries"
+                 [attr.aria-selected]="isSelected(country)"
+                 [class.selected]="isSelected(country)"
+                 class="dropdown-item"
+                 role="option"
+                 tabindex="0">
+              {{ country.label }}
+              <span *ngIf="isSelected(country)">✓</span>
+            </div>
+          </ng-template>
+        </ark-dropdown>
+      </div>
+    </form>
   </div>
 </div>
