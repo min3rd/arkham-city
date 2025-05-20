@@ -6,6 +6,7 @@ import {
   Errors,
   GoodResponse,
 } from '@core/microservice/microservice.types';
+import { Pagination } from '@core/core.types';
 
 @Injectable()
 export class ProjectFirestoreService {
@@ -39,7 +40,15 @@ export class ProjectFirestoreService {
       .skip((page - 1) * size)
       .limit(size);
     this.logger.log(`querySchemas:end`);
-    return new GoodResponse(schemas.map((e) => e.toJSON()));
+    const pagination: Pagination<any> = new Pagination(
+      query,
+      [],
+      page,
+      size,
+      await schemaModel.countDocuments(_query),
+      schemas.map((e) => e.toJSON()),
+    );
+    return new GoodResponse(pagination);
   }
 
   /**
