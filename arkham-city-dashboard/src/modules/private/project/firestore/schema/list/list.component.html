@@ -32,13 +32,9 @@
         </span>
       }
     </div>
-    <div class="flex items-center p-2 gap-2 w-full justify-center border-t border-neutral-200 dark:border-neutral-700">
-      <ark-button ghost icon="featherChevronLeft"></ark-button>
-      <ark-button ghost icon="featherChevronRight"></ark-button>
-      <div class="text-sm text-neutral-500 dark:text-neutral-400">
-        {{ (pageSchema.page - 1) * size }} - {{ (pageSchema.page - 1) * size + pageSchema.data.length }}
-        / {{ pageSchema.total }}
-      </div>
+    <div class="p-2 border-t border-neutral-200 dark:border-neutral-700">
+      <ark-paginator [count]="pageSchema.data.length" [pageSizeOptions]="[10,20,30,50,100]" [pageSize]="pageSchema.size"
+                     [page]="pageSchema.page" [total]="pageSchema.total"></ark-paginator>
     </div>
   </ark-drawer-content>
 </ark-drawer-container>

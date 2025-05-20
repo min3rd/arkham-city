@@ -17,7 +17,6 @@ import { FormControlElement } from '../../base/form-control-element/form-control
 
 @Component({
   selector: 'ark-select',
-  standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './ark-select.component.html',
   providers: [
@@ -27,6 +26,7 @@ import { FormControlElement } from '../../base/form-control-element/form-control
       multi: true,
     },
   ],
+  standalone: true,
 })
 export class ArkSelect extends FormControlElement implements OnInit, OnDestroy {
   @ContentChild('options') options!: TemplateRef<any>;
