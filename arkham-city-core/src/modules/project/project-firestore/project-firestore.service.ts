@@ -99,7 +99,15 @@ export class ProjectFirestoreService {
       .skip((page - 1) * size)
       .limit(size);
     this.logger.log(`querySchemaRecords:end`);
-    return new GoodResponse(records.map((e) => e.toJSON()));
+    const pagination: Pagination<any> = new Pagination(
+      query,
+      [],
+      page,
+      size,
+      await recordModel.countDocuments(_query),
+      records.map((e) => e.toJSON()),
+    );
+    return new GoodResponse(pagination);
   }
 
   /**
