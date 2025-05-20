@@ -12,8 +12,8 @@
       </ark-button>
     </form>
     <div class="flex flex-auto flex-col w-full h-full">
-      @if (schemas && schemas.length) {
-        @for (schema of schemas; track $index) {
+      @if (pageSchema && pageSchema.data.length) {
+        @for (schema of pageSchema.data; track $index) {
           <a [routerLink]="[schema.rawName]"
              class="p-2 border-b border-neutral-200 dark:border-neutral-700 hover:cursor-pointer">
             <div>

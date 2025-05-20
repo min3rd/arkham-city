@@ -12,6 +12,7 @@ import { ClientRMQ } from '@nestjs/microservices';
 import { ServiceResponse } from 'src/core/microservice/microservice.types';
 import { User } from 'src/modules/user/user.type';
 import { firstValueFrom } from 'rxjs';
+import { GwRegisterByEmailAndPasswordResDto } from '@src/gateway/gw-auth/gw-auth.types';
 
 @Controller('auth')
 export class GwAuthController extends GatewayController {
@@ -27,7 +28,9 @@ export class GwAuthController extends GatewayController {
 
   @Public()
   @Post('register-by-email-and-password')
-  async registerByEmail(@Body() payload: RegisterByEmailAndPasswordDto) {
+  async registerByEmail(
+    @Body() payload: RegisterByEmailAndPasswordDto,
+  ): Promise<GwRegisterByEmailAndPasswordResDto> {
     this.logger.debug('Registering user by email and password', payload);
     const res: ServiceResponse<User> = await firstValueFrom(
       this.rmqClient.send(

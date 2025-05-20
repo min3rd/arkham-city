@@ -2,9 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, of, switchMap } from 'rxjs';
 import { SchemaResDto } from './schema.types';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { QueryReqDto } from '../../../../../../projects/arkhamcity/src/lib/type/request.types';
-import { ApiResponse } from '../../../../../../projects/arkhamcity/src/lib/type/response.type';
 import { ConfigService } from '@core/services/config.service';
+import { ApiResponse, Pagination, QueryReqDto } from 'arkhamcity';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +11,7 @@ import { ConfigService } from '@core/services/config.service';
 export class SchemaService {
   private _schemas: BehaviorSubject<SchemaResDto[]> = new BehaviorSubject<SchemaResDto[]>([]);
   private _records: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  private _pageSchema: BehaviorSubject<Pagination<SchemaResDto>> = new BehaviorSubject<any>(null);
 
   private readonly httpClient = inject(HttpClient);
   private readonly configService = inject(ConfigService);
@@ -24,9 +24,13 @@ export class SchemaService {
     return this._records;
   }
 
+  get pageSchema$(): BehaviorSubject<Pagination<SchemaResDto>> {
+    return this._pageSchema;
+  }
+
   querySchemas(projectId: string, query: QueryReqDto) {
     return this.httpClient
-      .get<ApiResponse<SchemaResDto[]>>(this.configService.endpoint(`/projects/${projectId}/schemas`), {
+      .get<ApiResponse<Pagination<SchemaResDto>>>(this.configService.endpoint(`/projects/${projectId}/schemas`), {
         params: new HttpParams({
           fromObject: {
             ...query,
@@ -35,7 +39,8 @@ export class SchemaService {
         }),
       })
       .pipe(switchMap((response) => {
-        this._schemas.next(response.data);
+        this._schemas.next(response.data.data);
+        this._pageSchema.next(response.data);
         return of(response);
       }));
   }

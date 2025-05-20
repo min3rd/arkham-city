@@ -9,6 +9,7 @@ import {
   ArkTextInput,
   BaseListComponent,
   CapitalizePipe,
+  Pagination,
 } from 'arkhamcity';
 import { SchemaResDto } from '@modules/private/project/firestore/schema/schema.types';
 import { SchemaService } from '@modules/private/project/firestore/schema/schema.service';
@@ -38,7 +39,7 @@ import { FormBuilder, ReactiveFormsModule, UntypedFormGroup } from '@angular/for
 })
 export class ListComponent extends BaseListComponent {
   @ViewChild('drawer') drawer!: ArkDrawer;
-  schemas: SchemaResDto[] = [];
+  pageSchema!: Pagination<SchemaResDto>;
 
   form!: UntypedFormGroup;
 
@@ -47,8 +48,8 @@ export class ListComponent extends BaseListComponent {
   private readonly activatedRoute = inject(ActivatedRoute);
 
   override ngOnInit() {
-    this.schemaService.schemas$.pipe(takeUntil(this.unsubscribeAll)).subscribe(schemas => {
-      this.schemas = schemas;
+    this.schemaService.pageSchema$.pipe(takeUntil(this.unsubscribeAll)).subscribe(page => {
+      this.pageSchema = page;
       this.changeDetectorRef.markForCheck();
     });
 
