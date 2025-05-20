@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { FirestoreService } from './firestore.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { microserviceConfig } from 'src/config/microservice.config';
-import { DatabaseModule } from '../database/database.module';
 import { FirestoreRuleModule } from './firestore-rule/firestore-rule.module';
+import { microserviceConfig } from '@src/config/microservice.config';
+import { DatabaseModule } from '@modules/database/database.module';
 
 @Module({
   imports: [
