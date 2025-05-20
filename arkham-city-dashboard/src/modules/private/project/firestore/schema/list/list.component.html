@@ -11,7 +11,7 @@
         {{ 'search' | transloco | capitalize }}
       </ark-button>
     </form>
-    <div class="flex flex-auto flex-col w-full h-full">
+    <div class="flex flex-auto flex-col w-full h-full overflow-auto">
       @if (pageSchema && pageSchema.data.length) {
         @for (schema of pageSchema.data; track $index) {
           <a [routerLink]="[schema.rawName]"
@@ -31,6 +31,14 @@
           {{ 'there are no records' | transloco | capitalize }}
         </span>
       }
+    </div>
+    <div class="flex items-center p-2 gap-2 w-full justify-center border-t border-neutral-200 dark:border-neutral-700">
+      <ark-button ghost icon="featherChevronLeft"></ark-button>
+      <ark-button ghost icon="featherChevronRight"></ark-button>
+      <div class="text-sm text-neutral-500 dark:text-neutral-400">
+        {{ (pageSchema.page - 1) * size }} - {{ (pageSchema.page - 1) * size + pageSchema.data.length }}
+        / {{ pageSchema.total }}
+      </div>
     </div>
   </ark-drawer-content>
 </ark-drawer-container>
