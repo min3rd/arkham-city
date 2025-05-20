@@ -1,6 +1,6 @@
 <div class="flex items-center justify-center gap-2">
-  <ark-button ghost icon="featherChevronLeft"></ark-button>
-  <ark-button ghost icon="featherChevronRight"></ark-button>
+  <ark-button [color]="color" [rounded]="rounded" [size]="size" ghost icon="featherChevronLeft"></ark-button>
+  <ark-button [color]="color" [rounded]="rounded" [size]="size" ghost icon="featherChevronRight"></ark-button>
   <div class="text-sm text-neutral-500 dark:text-neutral-400">
     {{ (page - 1) * pageSize }} - {{ (page - 1) * pageSize + count }}
     / {{ total }}
