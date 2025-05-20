@@ -33,3 +33,7 @@ export type FirestoreDynamicSchemaDocument =
 export const FirestoreDynamicSchemaSchema = SchemaFactory.createForClass(
   FirestoreDynamicSchema,
 );
+
+FirestoreDynamicSchemaSchema.pre('findOneAndUpdate', () => {
+  console.log('findOneAndUpdate');
+});

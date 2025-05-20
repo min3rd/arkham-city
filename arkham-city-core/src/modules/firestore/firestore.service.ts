@@ -1,31 +1,31 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import {
-  FirestoreDynamicSchemaSchema,
-  FirestoreSchemaField,
-} from './firestore.types';
-import { SDKJwtPayload } from '../websdk/websdk-auth/websdk-auth.interface';
-import {
   BadResponse,
   Errors,
   GoodResponse,
   ServiceResponse,
-} from 'src/core/microservice/microservice.types';
-import { microserviceConfig } from 'src/config/microservice.config';
+} from '@src/core/microservice/microservice.types';
+import { microserviceConfig } from '@src/config/microservice.config';
 import { ClientRMQ } from '@nestjs/microservices';
-import { MsWebSDKFirestoreStoreSchemaReqPayload } from 'src/microservices/ms-websdk/ms-websdk-firestore/ms-websdk-firestore.interface';
+import { MsWebSDKFirestoreStoreSchemaReqPayload } from '@src/microservices/ms-websdk/ms-websdk-firestore/ms-websdk-firestore.interface';
 import moment, { ISO_8601 } from 'moment';
 import mongoose, { Connection, SchemaTypes } from 'mongoose';
-import { DatabaseService } from '../database/database.service';
-import {
-  RuleConditionType,
-  RuleType,
-} from './firestore-rule/firestore-rule.types';
 import { firstValueFrom } from 'rxjs';
 import {
   MsGetProjectFirestoreRuleReqPayload,
   MSGetProjectFirestoreRuleResPayload,
-} from '../../microservices/ms-project/ms-project-firestore/ms-project-firestore-rule/ms-project-firestore-rule.interface';
-import { JWTPayload } from '../auth/auth.interface';
+} from '@microservices/ms-project/ms-project-firestore/ms-project-firestore-rule/ms-project-firestore-rule.interface';
+import { JWTPayload } from '@modules/auth/auth.interface';
+import {
+  RuleConditionType,
+  RuleType,
+} from '@modules/firestore/firestore-rule/firestore-rule.types';
+import { DatabaseService } from '@modules/database/database.service';
+import { SDKJwtPayload } from '@modules/websdk/websdk-auth/websdk-auth.interface';
+import {
+  FirestoreDynamicSchemaSchema,
+  FirestoreSchemaField,
+} from '@modules/firestore/firestore.types';
 
 @Injectable()
 export class FirestoreService {
