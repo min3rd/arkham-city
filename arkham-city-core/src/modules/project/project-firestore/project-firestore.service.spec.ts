@@ -1,15 +1,24 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { ProjectFirestoreService } from './project-firestore.service';
+
+// Mock dependencies as needed by ProjectFirestoreService
+const mockFirestoreClient = { send: jest.fn(), emit: jest.fn() };
 
 describe('ProjectFirestoreService', () => {
   let service: ProjectFirestoreService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [ProjectFirestoreService],
+    mockFirestoreClient.send.mockReset();
+    mockFirestoreClient.emit.mockReset();
+
+    const moduleRef = await Test.createTestingModule({
+      providers: [
+        ProjectFirestoreService,
+        { provide: 'project.firestore', useValue: mockFirestoreClient },
+      ],
     }).compile();
 
-    service = module.get<ProjectFirestoreService>(ProjectFirestoreService);
+    service = moduleRef.get(ProjectFirestoreService);
   });
 
   it('should be defined', () => {
