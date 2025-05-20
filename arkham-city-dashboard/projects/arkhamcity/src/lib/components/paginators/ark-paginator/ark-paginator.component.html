@@ -1,0 +1,17 @@
+<div class="flex items-center justify-center gap-2">
+  <ark-button ghost icon="featherChevronLeft"></ark-button>
+  <ark-button ghost icon="featherChevronRight"></ark-button>
+  <div class="text-sm text-neutral-500 dark:text-neutral-400">
+    {{ (page - 1) * pageSize }} - {{ (page - 1) * pageSize + count }}
+    / {{ total }}
+  </div>
+  <ark-select [(ngModel)]="pageSize" noSuffixSpace size="sm">
+    <ng-template #options>
+      @for (option of pageSizeOptions; track $index) {
+        <option value="{{ option }}">
+          {{ option }}
+        </option>
+      }
+    </ng-template>
+  </ark-select>
+</div>

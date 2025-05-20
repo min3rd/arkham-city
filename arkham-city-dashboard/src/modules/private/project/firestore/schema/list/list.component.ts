@@ -6,6 +6,7 @@ import {
   ArkDrawer,
   ArkDrawerContainer,
   ArkDrawerContent,
+  ArkPaginator,
   ArkTextInput,
   BaseListComponent,
   CapitalizePipe,
@@ -31,6 +32,7 @@ import { FormBuilder, ReactiveFormsModule, UntypedFormGroup } from '@angular/for
     ArkButton,
     ReactiveFormsModule,
     ArkTextInput,
+    ArkPaginator,
   ],
   templateUrl: './list.component.html',
   encapsulation: ViewEncapsulation.None,
@@ -40,8 +42,6 @@ import { FormBuilder, ReactiveFormsModule, UntypedFormGroup } from '@angular/for
 export class ListComponent extends BaseListComponent {
   @ViewChild('drawer') drawer!: ArkDrawer;
   pageSchema!: Pagination<SchemaResDto>;
-  page = 1;
-  size = 10;
 
   form!: UntypedFormGroup;
 
@@ -62,12 +62,6 @@ export class ListComponent extends BaseListComponent {
     this.activatedRoute.params.pipe(takeUntil(this.unsubscribeAll)).subscribe(params => {
       if ('query' in params && params['query'] !== 'all') {
         this.form.get('search')?.setValue(params['query']);
-      }
-      if ('page' in params) {
-        this.page = +params['page'];
-      }
-      if ('size' in params) {
-        this.size = +params['size'];
       }
     });
   }
