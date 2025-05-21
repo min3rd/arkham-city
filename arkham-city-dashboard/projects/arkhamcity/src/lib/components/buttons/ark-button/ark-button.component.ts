@@ -59,7 +59,7 @@ export class ArkButton extends BaseComponent implements OnInit {
   }
 
   onClickEvent() {
-    if (this.disabled || this.onLoading) {
+    if (this.enableDisabled() || this.onLoading) {
       return;
     }
     this.onClick.emit('click');
