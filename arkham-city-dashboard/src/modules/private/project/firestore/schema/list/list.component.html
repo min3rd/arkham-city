@@ -10,6 +10,8 @@
       <ark-button (onClick)="search()" rounded="full" size="sm">
         {{ 'search' | transloco | capitalize }}
       </ark-button>
+      <ark-button ghost icon="featherList"></ark-button>
+      <ark-button ghost icon="featherGrid"></ark-button>
     </form>
     <div class="flex flex-auto flex-col w-full h-full overflow-auto">
       @if (pageSchema && pageSchema.data.length) {
@@ -33,7 +35,9 @@
       }
     </div>
     <div class="p-2 border-t border-neutral-200 dark:border-neutral-700">
-      <ark-paginator [count]="pageSchema.data.length" [pageSizeOptions]="[10,20,30,50,100]" [pageSize]="pageSchema.size"
+      <ark-paginator (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"
+                     [count]="pageSchema.data.length"
+                     [pageSizeOptions]="[10,20,30,50,100]" [pageSize]="pageSchema.size"
                      [page]="pageSchema.page"
                      [total]="pageSchema.total" size="sm"></ark-paginator>
     </div>

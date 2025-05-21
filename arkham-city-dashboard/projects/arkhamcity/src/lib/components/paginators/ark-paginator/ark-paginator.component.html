@@ -34,7 +34,7 @@
     {{ (page - 1) * pageSize }} - {{ (page - 1) * pageSize + count }}
     / {{ total }}
   </div>
-  <ark-select (onChange)="onPageSizeChange(pageSize)" [(ngModel)]="pageSize" noSuffixSpace size="sm">
+  <ark-select (onChange)="onPageSizeChange($event)" [(ngModel)]="pageSize" noSuffixSpace size="sm">
     <ng-template #options>
       @for (option of pageSizeOptions; track $index) {
         <option value="{{ option }}">
