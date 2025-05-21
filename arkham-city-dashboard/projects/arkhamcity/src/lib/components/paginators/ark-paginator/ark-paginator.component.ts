@@ -38,5 +38,7 @@ export class ArkPaginator extends BaseComponent {
   onPageSizeChange(pageSize: number): void {
     this.pageSize = pageSize;
     this.pageSizeChange.emit(this.pageSize);
+    this.page = 1; // Reset to first page when page size changes
+    this.pageChange.emit(this.page);
   }
 }
