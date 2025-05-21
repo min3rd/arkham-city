@@ -13,7 +13,6 @@ export class FormControlElement extends FormElement implements AfterContentInit 
   @Input() placeholder!: string;
   @Input() model!: string | any;
   @Input() label!: string;
-  @Input() disabled: boolean | string = false;
 
   @ContentChild('errors') errors!: TemplateRef<any>;
   invalid = false;
@@ -24,10 +23,6 @@ export class FormControlElement extends FormElement implements AfterContentInit 
         this.invalid = status === 'INVALID';
       });
     }
-  }
-
-  enableDisabled(): boolean {
-    return (this.disabled || this.disabled === '') as boolean;
   }
 
   getFormControl(): FormControl {

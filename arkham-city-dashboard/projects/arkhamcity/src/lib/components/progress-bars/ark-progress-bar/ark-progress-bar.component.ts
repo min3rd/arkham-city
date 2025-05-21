@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
   exportAs: 'arkProgressBar',
   imports: [CommonModule],
   templateUrl: './ark-progress-bar.component.html',
+  styleUrl: './ark-progress-bar.component.css',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
 })

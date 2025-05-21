@@ -13,3 +13,4 @@ export * from './tabs/public-api';
 export * from './users/public-api';
 export * from './progress-bars/public-api';
 export * from './paginators/public-api';
+export * from './dataviews/public-api';

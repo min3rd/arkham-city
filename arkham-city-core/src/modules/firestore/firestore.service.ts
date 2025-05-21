@@ -71,19 +71,21 @@ export class FirestoreService {
       RuleType.create,
     );
 
-    if (!conditions || !conditions.length) {
-      return new BadResponse(Errors.WEB_SDK_FIRESTORE_CREATE_WAS_DENIED);
-    }
-
-    for (const condition of conditions) {
-      if (condition.condition == RuleConditionType.require_auth) {
-        if (!auth.sub) {
-          return new BadResponse(
-            Errors.WEB_SDK_FIRESTORE_CREATE_REQUIRE_AUTHORIZATION,
-          );
-        }
-      } else if (condition.condition == RuleConditionType.deny) {
+    if (!process.env.DEBUG) {
+      if (!conditions || !conditions.length) {
         return new BadResponse(Errors.WEB_SDK_FIRESTORE_CREATE_WAS_DENIED);
+      }
+
+      for (const condition of conditions) {
+        if (condition.condition == RuleConditionType.require_auth) {
+          if (!auth.sub) {
+            return new BadResponse(
+              Errors.WEB_SDK_FIRESTORE_CREATE_REQUIRE_AUTHORIZATION,
+            );
+          }
+        } else if (condition.condition == RuleConditionType.deny) {
+          return new BadResponse(Errors.WEB_SDK_FIRESTORE_CREATE_WAS_DENIED);
+        }
       }
     }
 

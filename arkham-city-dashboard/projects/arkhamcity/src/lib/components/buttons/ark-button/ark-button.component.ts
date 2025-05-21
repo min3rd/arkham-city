@@ -28,8 +28,6 @@ export class ArkButton extends BaseComponent implements OnInit {
   @Input() ghost: boolean | string = false;
   @Input() soft: boolean | string = false;
   @Input() icon!: string;
-  @Input() ignoreLoading: boolean | string = false;
-  @Input() disabled: boolean | string = false;
   @Input() link: boolean | string = false;
 
   @Output() onClick = new EventEmitter<any>();
@@ -79,14 +77,6 @@ export class ArkButton extends BaseComponent implements OnInit {
 
   enableSoft(): boolean {
     return (this.soft || this.soft === '') as boolean;
-  }
-
-  enableIgnoreLoading(): boolean {
-    return (this.ignoreLoading || this.ignoreLoading === 'true') as boolean;
-  }
-
-  enableDisabled() {
-    return (this.disabled || this.disabled === '') as boolean;
   }
 
   enableLink() {

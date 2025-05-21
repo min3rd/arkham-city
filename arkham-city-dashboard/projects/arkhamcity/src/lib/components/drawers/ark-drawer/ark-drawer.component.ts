@@ -11,7 +11,7 @@ import {
   SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
-import { NgClass } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ArkhamCityMode, ArkhamCityPosition } from '../drawers.types';
 
 @Component({
@@ -21,7 +21,7 @@ import { ArkhamCityMode, ArkhamCityPosition } from '../drawers.types';
   encapsulation: ViewEncapsulation.None,
   standalone: true,
   imports: [
-    NgClass,
+    CommonModule,
   ],
 })
 export class ArkDrawer implements OnChanges {

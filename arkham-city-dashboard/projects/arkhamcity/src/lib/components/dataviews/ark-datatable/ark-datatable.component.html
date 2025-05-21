@@ -1,0 +1,18 @@
+<div class="flex flex-auto flex-col w-full h-full">
+  <div class="flex w-full p-2 gap-2 border-b border-neutral-200 dark:border-neutral-700 shrink-0">
+    <form class="flex gap-2">
+      <ark-text-input [color]="color" [rounded]="rounded" [size]="size" noSuffixSpace></ark-text-input>
+      <ark-button [color]="color" [rounded]="rounded" [size]="size">
+        {{ 'search' | transloco | capitalize }}
+      </ark-button>
+    </form>
+    <ark-button [color]="color" [rounded]="rounded" ghost icon="featherList"></ark-button>
+    <ark-button [color]="color" [rounded]="rounded" ghost icon="featherGrid"></ark-button>
+  </div>
+  <div class="flex flex-auto flex-col w-full h-full">
+
+  </div>
+  <div class="p-2 border-t border-neutral-200 dark:border-neutral-700">
+    <ark-paginator [color]="color" [rounded]="rounded" [size]="size"></ark-paginator>
+  </div>
+</div>

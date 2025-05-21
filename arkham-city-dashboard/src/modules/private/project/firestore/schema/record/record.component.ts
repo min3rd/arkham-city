@@ -1,22 +1,26 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { ListComponent } from '@modules/private/project/firestore/schema/list/list.component';
+import { CommonModule } from '@angular/common';
+import { ArkDatatable, BaseListComponent } from 'arkhamcity';
+
 
 @Component({
   selector: 'project-firestore-schema-record',
-  imports: [],
+  imports: [CommonModule, ArkDatatable],
   templateUrl: './record.component.html',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
 })
-export class RecordComponent implements OnInit {
+export class RecordComponent extends BaseListComponent {
 
   constructor(
     private readonly listComponent: ListComponent,
   ) {
+    super();
   }
 
-  ngOnInit() {
+  override ngOnInit() {
+    super.ngOnInit();
     this.listComponent.drawer.open();
   }
-
 }

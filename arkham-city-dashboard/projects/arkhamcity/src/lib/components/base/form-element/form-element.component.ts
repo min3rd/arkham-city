@@ -9,7 +9,6 @@ import { BaseComponent } from '../base/base.component';
   template: ``,
 })
 export class FormElement extends BaseComponent implements OnInit, OnDestroy {
-  @Input() ignoreLoading: boolean | string = false;
   @Input() noSuffixSpace: boolean | string = false;
   onLoading = false;
   changeDetectorRef: ChangeDetectorRef = inject(ChangeDetectorRef);
@@ -29,10 +28,6 @@ export class FormElement extends BaseComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribeAll.next(null);
     this.unsubscribeAll.complete();
-  }
-
-  enableIgnoreLoading(): boolean {
-    return (this.ignoreLoading || this.ignoreLoading === '') as boolean;
   }
 
   enableNoSuffixSpace(): boolean {
