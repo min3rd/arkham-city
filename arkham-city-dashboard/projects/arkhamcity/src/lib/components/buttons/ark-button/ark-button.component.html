@@ -1,6 +1,6 @@
 <button
   (click)="onClickEvent()"
-  [disabled]="!enableIgnoreLoading() && onLoading"
+  [disabled]="enableDisabled() || (!enableIgnoreLoading() && onLoading)"
   [ngClass]="{
     'text-white': isSolid(),
     'bg-gray-500 hover:bg-gray-600': color === 'gray' && isSolid(),

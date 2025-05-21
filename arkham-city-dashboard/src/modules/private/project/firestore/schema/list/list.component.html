@@ -6,7 +6,7 @@
     <form (submit)="search()" [formGroup]="form"
           class="flex items-center p-2 gap-2 border-b border-neutral-200 dark:border-neutral-700">
       <ark-text-input [formFieldControl]="form.get('search')" class="w-full" noSuffixSpace
-                      rounded="full"></ark-text-input>
+                      rounded="full" size="sm"></ark-text-input>
       <ark-button (onClick)="search()" rounded="full" size="sm">
         {{ 'search' | transloco | capitalize }}
       </ark-button>
