@@ -42,6 +42,7 @@ import { FormBuilder, ReactiveFormsModule, UntypedFormGroup } from '@angular/for
 export class ListComponent extends BaseListComponent {
   @ViewChild('drawer') drawer!: ArkDrawer;
   pageSchema!: Pagination<SchemaResDto>;
+  pageSize = 10;
 
   form!: UntypedFormGroup;
 
@@ -63,6 +64,10 @@ export class ListComponent extends BaseListComponent {
       if ('query' in params && params['query'] !== 'all') {
         this.form.get('search')?.setValue(params['query']);
       }
+
+      if ('size' in params) {
+        this.pageSize = +params['size'];
+      }
     });
   }
 
@@ -72,6 +77,19 @@ export class ListComponent extends BaseListComponent {
       search = 'all';
     }
     this.router.navigate(['../../../', search], {
+      relativeTo: this.activatedRoute,
+    });
+  }
+
+  onPageChange(page: any) {
+    this.router.navigate(['../../', page, this.pageSize], {
+      relativeTo: this.activatedRoute,
+    });
+  }
+
+  onPageSizeChange(pageSize: any) {
+    this.pageSize = parseInt(pageSize);
+    this.router.navigate(['../', this.pageSize], {
       relativeTo: this.activatedRoute,
     });
   }
