@@ -40,7 +40,7 @@ import { FormBuilder, ReactiveFormsModule, UntypedFormGroup } from '@angular/for
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent extends BaseListComponent {
-  @ViewChild('drawer') drawer!: ArkDrawer;
+  @ViewChild('drawer', { static: true }) drawer!: ArkDrawer;
   pageSchema!: Pagination<SchemaResDto>;
   pageSize = 10;
 

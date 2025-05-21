@@ -9,23 +9,18 @@ import { ApiResponse, Pagination, QueryReqDto } from 'arkhamcity';
   providedIn: 'root',
 })
 export class SchemaService {
-  private _schemas: BehaviorSubject<SchemaResDto[]> = new BehaviorSubject<SchemaResDto[]>([]);
-  private _records: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   private _pageSchema: BehaviorSubject<Pagination<SchemaResDto>> = new BehaviorSubject<any>(null);
+  private _pageRecords: BehaviorSubject<Pagination<any>> = new BehaviorSubject<any>(null);
 
   private readonly httpClient = inject(HttpClient);
   private readonly configService = inject(ConfigService);
 
-  get schemas$(): BehaviorSubject<SchemaResDto[]> {
-    return this._schemas;
-  }
-
-  get records$(): BehaviorSubject<any[]> {
-    return this._records;
-  }
-
   get pageSchema$(): BehaviorSubject<Pagination<SchemaResDto>> {
     return this._pageSchema;
+  }
+
+  get pageRecords$(): BehaviorSubject<Pagination<any>> {
+    return this._pageRecords;
   }
 
   querySchemas(projectId: string, query: QueryReqDto) {
@@ -39,7 +34,6 @@ export class SchemaService {
         }),
       })
       .pipe(switchMap((response) => {
-        this._schemas.next(response.data.data);
         this._pageSchema.next(response.data);
         return of(response);
       }));
@@ -47,7 +41,7 @@ export class SchemaService {
 
   queryRecords(projectId: string, schema: string, query: QueryReqDto) {
     return this.httpClient
-      .get<ApiResponse<any[]>>(this.configService.endpoint(`/projects/${projectId}/schemas/${schema}/records`), {
+      .get<ApiResponse<Pagination<any>>>(this.configService.endpoint(`/projects/${projectId}/schemas/${schema}/records`), {
         params: new HttpParams({
           fromObject: {
             ...query,
@@ -56,7 +50,7 @@ export class SchemaService {
         }),
       })
       .pipe(switchMap((response) => {
-        this._records.next(response.data);
+        this._pageRecords.next(response.data);
         return of(response);
       }));
   }
