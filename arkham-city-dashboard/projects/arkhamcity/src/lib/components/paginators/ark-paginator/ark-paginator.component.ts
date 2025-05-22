@@ -23,10 +23,43 @@ export class ArkPaginator extends BaseComponent {
   @Output() pageSizeChange = new EventEmitter();
 
   getPageOptions(): number[] {
+    const totalPages = Math.ceil(this.total / this.pageSize);
+    const currentPage = +this.page;
     const options: number[] = [];
-    for (let i = 1; i <= Math.ceil(this.total / this.pageSize); i++) {
+
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) {
+        options.push(i);
+      }
+      return options;
+    }
+
+    options.push(1);
+
+    if (currentPage > 4) {
+      options.push(-1); // Ellipsis
+    }
+
+    let start = Math.max(2, currentPage - 1);
+    let end = Math.min(totalPages - 1, currentPage + 1);
+
+    if (currentPage <= 4) {
+      end = 4;
+    }
+    if (currentPage >= totalPages - 3) {
+      start = totalPages - 3;
+    }
+
+    for (let i = start; i <= end; i++) {
       options.push(i);
     }
+
+    if (currentPage < totalPages - 3) {
+      options.push(-1); // Ellipsis
+    }
+
+    options.push(totalPages);
+
     return options;
   }
 
