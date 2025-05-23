@@ -18,6 +18,7 @@ export class ArkPaginator extends BaseComponent {
   @Input() total!: number;
   @Input() count!: number;
   @Input() pageSizeOptions: number[] = [10, 25, 50, 100];
+  @Input() disablePageSelector: boolean | string = false;
 
   @Output() pageChange = new EventEmitter();
   @Output() pageSizeChange = new EventEmitter();
@@ -73,5 +74,9 @@ export class ArkPaginator extends BaseComponent {
     this.pageSizeChange.emit(this.pageSize);
     this.page = 1; // Reset to first page when page size changes
     this.pageChange.emit(this.page);
+  }
+
+  enableDisablePageSelector(): boolean {
+    return this.disablePageSelector === true || this.disablePageSelector === '';
   }
 }

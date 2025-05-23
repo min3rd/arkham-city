@@ -3,29 +3,31 @@
               [size]="size"
               ghost icon="featherChevronLeft">
   </ark-button>
-  @for (pageOption of getPageOptions(); track $index) {
-    @if (+pageOption === -1) {
-      <span class="text-neutral-600 dark:text-neutral-400">...</span>
-    } @else if (+pageOption === +page) {
-      <ark-button
-        [color]="color"
-        [rounded]="rounded"
-        [size]="size"
-        solid
-        disabled
-      >
-        {{ pageOption }}
-      </ark-button>
-    } @else {
-      <ark-button
-        (onClick)="onPageChange(+pageOption)"
-        [color]="color"
-        [rounded]="rounded"
-        [size]="size"
-        ghost
-      >
-        {{ pageOption }}
-      </ark-button>
+  @if (!enableDisablePageSelector()) {
+    @for (pageOption of getPageOptions(); track $index) {
+      @if (+pageOption === -1) {
+        <span class="text-neutral-600 dark:text-neutral-400">...</span>
+      } @else if (+pageOption === +page) {
+        <ark-button
+          [color]="color"
+          [rounded]="rounded"
+          [size]="size"
+          solid
+          disabled
+        >
+          {{ pageOption }}
+        </ark-button>
+      } @else {
+        <ark-button
+          (onClick)="onPageChange(+pageOption)"
+          [color]="color"
+          [rounded]="rounded"
+          [size]="size"
+          ghost
+        >
+          {{ pageOption }}
+        </ark-button>
+      }
     }
   }
   <ark-button (onClick)="onPageChange((+page + 1))" [color]="color" [disabled]="page >= total/pageSize"

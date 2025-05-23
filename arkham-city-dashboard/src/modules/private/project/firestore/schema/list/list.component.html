@@ -17,7 +17,7 @@
       @if (pageSchema && pageSchema.data.length) {
         @for (schema of pageSchema.data; track $index) {
           <a [routerLink]="[schema.rawName]"
-             class="p-2 border-b border-neutral-200 dark:border-neutral-700 hover:cursor-pointer">
+             class="p-2 hover:cursor-pointer">
             <div>
               <div>
                 {{ schema.rawName }}
@@ -27,6 +27,7 @@
               </div>
             </div>
           </a>
+          <div class="border-b border-neutral-200 dark:border-neutral-700"></div>
         }
       } @else {
         <span>
@@ -39,7 +40,7 @@
                      [count]="pageSchema.data.length"
                      [pageSizeOptions]="[10,20,30,50,100]" [pageSize]="pageSchema.size"
                      [page]="pageSchema.page"
-                     [total]="pageSchema.total" size="sm"></ark-paginator>
+                     [total]="pageSchema.total" disablePageSelector size="sm"></ark-paginator>
     </div>
   </ark-drawer-content>
 </ark-drawer-container>

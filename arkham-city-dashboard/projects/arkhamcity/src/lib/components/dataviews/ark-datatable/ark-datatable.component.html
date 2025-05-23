@@ -10,9 +10,18 @@
     <ark-button [color]="color" [rounded]="rounded" ghost icon="featherGrid"></ark-button>
   </div>
   <div class="flex flex-auto flex-col w-full h-full">
+    @if (!data) {
+      <div class="p-2">
+        {{ 'there are no records' | transloco | capitalize }}
+      </div>
+    } @else {
 
+    }
   </div>
   <div class="p-2 border-t border-neutral-200 dark:border-neutral-700">
-    <ark-paginator [color]="color" [rounded]="rounded" [size]="size"></ark-paginator>
+    <ark-paginator [color]="color" [disablePageSelector]="disablePageSelector" [pageSizeOptions]="pageSizeOptions"
+                   [pageSize]="pageSize"
+                   [page]="page" [rounded]="rounded" [size]="size"
+                   [total]="total"></ark-paginator>
   </div>
 </div>
