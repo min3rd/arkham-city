@@ -38,7 +38,7 @@ export class ArkDatatable extends BaseComponent implements AfterContentInit, Aft
   @Input() total!: number;
   @Input() pageSizeOptions: number[] = [10, 25, 50, 100];
   @Input() data!: any[];
-  @Input() disablePageSelector: boolean | string = true;
+  @Input() disablePageSelector: boolean | string = false;
 
   @ViewChild(CdkListItemDirective) listTemplate !: TemplateRef<any>;
 
