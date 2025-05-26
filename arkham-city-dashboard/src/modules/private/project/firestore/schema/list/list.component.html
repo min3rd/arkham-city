@@ -16,10 +16,9 @@
     <div class="flex flex-auto flex-col w-full h-full overflow-auto">
       @if (pageSchema && pageSchema.data.length) {
         @for (schema of pageSchema.data; track $index) {
-          <a [routerLink]="[schema.rawName]"
-             class="p-2 hover:cursor-pointer">
-            <div>
-              <div>
+          <a [routerLink]="[schema.rawName]" class="p-2 hover:cursor-pointer">
+            <div class="flex flex-col">
+              <div class="font-semibold">
                 {{ schema.rawName }}
               </div>
               <div class="text-xs text-neutral-500 dark:text-neutral-400">
@@ -38,9 +37,9 @@
     <div class="p-2 border-t border-neutral-200 dark:border-neutral-700">
       <ark-paginator (pageChange)="onPageChange($event)" (pageSizeChange)="onPageSizeChange($event)"
                      [count]="pageSchema.data.length"
-                     [pageSizeOptions]="[10,20,30,50,100]" [pageSize]="pageSchema.size"
+                     [pageSize]="pageSchema.size"
                      [page]="pageSchema.page"
-                     [total]="pageSchema.total" disablePageSelector size="sm"></ark-paginator>
+                     [total]="pageSchema.total" size="sm"></ark-paginator>
     </div>
   </ark-drawer-content>
 </ark-drawer-container>

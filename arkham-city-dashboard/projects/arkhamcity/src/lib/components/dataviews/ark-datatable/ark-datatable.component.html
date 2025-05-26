@@ -15,13 +15,21 @@
         {{ 'there are no records' | transloco | capitalize }}
       </div>
     } @else {
-
+      @for (row of data; track $index) {
+      }
     }
   </div>
   <div class="p-2 border-t border-neutral-200 dark:border-neutral-700">
-    <ark-paginator [color]="color" [disablePageSelector]="disablePageSelector" [pageSizeOptions]="pageSizeOptions"
+    <ark-paginator [color]="color"
+                   [count]="data.length"
+                   [disablePageSelector]="disablePageSelector"
+                   [pageSizeOptions]="pageSizeOptions"
                    [pageSize]="pageSize"
-                   [page]="page" [rounded]="rounded" [size]="size"
-                   [total]="total"></ark-paginator>
+                   [page]="page"
+                   [rounded]="rounded"
+                   [size]="size"
+                   [total]="total">
+
+    </ark-paginator>
   </div>
 </div>

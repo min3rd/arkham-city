@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, type OnInit } from '@angular/core';
 import { AuthService } from '@core/auth/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TranslocoModule } from '@jsverse/transloco';
 import { CapitalizePipe } from 'arkhamcity';
@@ -17,6 +17,7 @@ export class LogOutComponent implements OnInit, OnDestroy {
   private router: Router = inject(Router);
   private cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
   private intervalId: any;
+  private activatedRoute = inject(ActivatedRoute);
 
   ngOnInit(): void {
     this.startCountdown();
@@ -34,7 +35,9 @@ export class LogOutComponent implements OnInit, OnDestroy {
       if (this.countdown <= 0) {
         this.clearCountdownInterval();
         this.authService.logOut();
-        this.router.navigate(['/log-in']);
+        this.router.navigate(['/log-in'], {
+          relativeTo: this.activatedRoute,
+        });
       }
     }, 1000);
   }

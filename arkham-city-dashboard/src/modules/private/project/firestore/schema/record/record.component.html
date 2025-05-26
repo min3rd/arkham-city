@@ -1,5 +1,11 @@
 <div class="flex flex-auto flex-col w-full h-full">
-  <ark-datatable class="flex flex-auto flex-col w-full h-full" rounded="full" size="sm">
-    <ng-content CdkListItem></ng-content>
+  <ark-datatable
+    [data]="pageRecord.data"
+    [pageSize]="pageRecord.size"
+    [page]="pageRecord.page"
+    [total]="pageRecord.total"
+    class="flex flex-auto flex-col w-full h-full"
+    rounded="full"
+    size="sm">
   </ark-datatable>
 </div>
