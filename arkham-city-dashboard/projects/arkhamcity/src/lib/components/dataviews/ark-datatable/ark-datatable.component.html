@@ -15,8 +15,7 @@
         {{ 'there are no records' | transloco | capitalize }}
       </div>
     } @else {
-      @for (row of data; track $index) {
-      }
+      <ng-content></ng-content>
     }
   </div>
   <div class="p-2 border-t border-neutral-200 dark:border-neutral-700">
