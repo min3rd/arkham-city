@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
 import { ListComponent } from '@modules/private/project/firestore/schema/list/list.component';
 import { CommonModule } from '@angular/common';
-import { ArkDatatable, BaseListComponent, CdkListItemDirective } from 'arkhamcity';
+import { ArkDatatable, BaseListComponent, Pagination } from 'arkhamcity';
 import { SchemaService } from '@modules/private/project/firestore/schema/schema.service';
-import { Pagination } from '../../../../../../../projects/arkhamcity/src/lib/type/pagination.types';
 import { takeUntil } from 'rxjs';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'project-firestore-schema-record',
-  imports: [CommonModule, ArkDatatable, CdkListItemDirective],
+  imports: [CommonModule, ArkDatatable, RouterModule],
   templateUrl: './record.component.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,6 +17,7 @@ import { takeUntil } from 'rxjs';
 })
 export class RecordComponent extends BaseListComponent {
   pageRecord!: Pagination<any>;
+  pageSize = 10;
   private readonly schemaService = inject(SchemaService);
 
   constructor(
@@ -33,5 +34,25 @@ export class RecordComponent extends BaseListComponent {
       this.pageRecord = page;
       this.changeDetectorRef.markForCheck();
     });
+
+    this.activatedRoute.params.pipe(takeUntil(this.unsubscribeAll)).subscribe(params => {
+      if ('size' in params) {
+        this.pageSize = +params['size'];
+      }
+    });
+  }
+
+  onPageChange(page: number) {
+    this.router.navigate(['../../', page, this.pageSize], {
+      relativeTo: this.activatedRoute,
+    });
+  }
+
+  onPageSizeChange(pageSize: number) {
+    this.pageSize = +pageSize;
+    this.router.navigate(['../', this.pageSize], {
+        relativeTo: this.activatedRoute,
+      },
+    );
   }
 }

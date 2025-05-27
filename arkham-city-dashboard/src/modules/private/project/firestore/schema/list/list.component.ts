@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import {
   ArkButton,
   ArkDrawer,
@@ -48,7 +48,6 @@ export class ListComponent extends BaseListComponent {
 
   private readonly schemaService = inject(SchemaService);
   private readonly formBuilder = inject(FormBuilder);
-  private readonly activatedRoute = inject(ActivatedRoute);
 
   override ngOnInit() {
     this.schemaService.pageSchema$.pipe(takeUntil(this.unsubscribeAll)).subscribe(page => {
