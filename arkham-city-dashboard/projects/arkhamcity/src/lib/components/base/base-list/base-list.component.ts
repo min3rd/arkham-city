@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'base-list-component',
@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 export class BaseListComponent implements OnInit, OnDestroy {
   unsubscribeAll = new Subject<any>();
   router = inject(Router);
+  activatedRoute = inject(ActivatedRoute);
   changeDetectorRef = inject(ChangeDetectorRef);
 
   ngOnInit() {

@@ -1,4 +1,12 @@
-import { AfterContentInit, AfterViewInit, Component, Input, ViewEncapsulation } from '@angular/core';
+import {
+  AfterContentInit,
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
 import { BaseComponent } from '../../base/base/base.component';
 import { ArkTextInput } from '../../inputs/ark-text-input/ark-text-input.component';
 import { ArkButton } from '../../buttons/ark-button/ark-button.component';
@@ -31,11 +39,22 @@ export class ArkDatatable extends BaseComponent implements AfterContentInit, Aft
   @Input() data!: any[];
   @Input() disablePageSelector: boolean | string = false;
 
+  @Output() pageChange = new EventEmitter<number>();
+  @Output() pageSizeChange = new EventEmitter<number>();
+
   ngAfterContentInit() {
 
   }
 
   ngAfterViewInit() {
 
+  }
+
+  onPageChange(page: number) {
+    this.pageChange.emit(page);
+  }
+
+  onPageSizeChange(pageSize: number) {
+    this.pageSizeChange.emit(pageSize);
   }
 }

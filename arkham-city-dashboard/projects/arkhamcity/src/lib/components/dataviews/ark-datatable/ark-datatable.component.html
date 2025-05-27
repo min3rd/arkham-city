@@ -9,7 +9,7 @@
     <ark-button [color]="color" [rounded]="rounded" ghost icon="featherList"></ark-button>
     <ark-button [color]="color" [rounded]="rounded" ghost icon="featherGrid"></ark-button>
   </div>
-  <div class="flex flex-auto flex-col w-full h-full">
+  <div class="flex flex-auto flex-col w-full h-full overflow-auto">
     @if (!data) {
       <div class="p-2">
         {{ 'there are no records' | transloco | capitalize }}
@@ -19,7 +19,9 @@
     }
   </div>
   <div class="p-2 border-t border-neutral-200 dark:border-neutral-700">
-    <ark-paginator [color]="color"
+    <ark-paginator (pageChange)="onPageChange($event)"
+                   (pageSizeChange)="onPageSizeChange($event)"
+                   [color]="color"
                    [count]="data.length"
                    [disablePageSelector]="disablePageSelector"
                    [pageSizeOptions]="pageSizeOptions"
@@ -28,7 +30,6 @@
                    [rounded]="rounded"
                    [size]="size"
                    [total]="total">
-
     </ark-paginator>
   </div>
 </div>

@@ -49,29 +49,41 @@ export const routes: Routes = [
           {
             path: '',
             pathMatch: 'full',
-            redirectTo: '1/10',
+            redirectTo: '1',
           },
           {
-            path: ':page/:size',
-            resolve: [schemaListResolve],
-            component: ListComponent,
+            path: ':page',
             children: [
+              { path: '', pathMatch: 'full', redirectTo: '10' },
               {
-                path: ':schema',
+                path: ':size',
+                resolve: [schemaListResolve],
+                component: ListComponent,
                 children: [
                   {
-                    path: '',
-                    pathMatch: 'full',
-                    redirectTo: 'all/1/10',
-                  },
-                  {
-                    path: ':recordQuery',
+                    path: ':schema',
                     children: [
-                      { path: '', pathMatch: 'full', redirectTo: '1/10' },
                       {
-                        path: ':recordPage/:recordSize',
-                        resolve: [recordListResolve],
-                        component: RecordComponent,
+                        path: '',
+                        pathMatch: 'full',
+                        redirectTo: 'all',
+                      },
+                      {
+                        path: ':recordQuery',
+                        children: [
+                          { path: '', pathMatch: 'full', redirectTo: '1' },
+                          {
+                            path: ':recordPage',
+                            children: [
+                              { path: '', pathMatch: 'full', redirectTo: '10' },
+                              {
+                                path: ':recordSize',
+                                resolve: [recordListResolve],
+                                component: RecordComponent,
+                              },
+                            ],
+                          },
+                        ],
                       },
                     ],
                   },

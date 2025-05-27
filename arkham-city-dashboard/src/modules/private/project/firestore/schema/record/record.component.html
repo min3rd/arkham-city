@@ -1,5 +1,7 @@
 <div class="flex flex-auto flex-col w-full h-full">
   <ark-datatable
+    (pageChange)="onPageChange($event)"
+    (pageSizeChange)="onPageSizeChange($event)"
     [data]="pageRecord.data"
     [pageSize]="pageRecord.size"
     [page]="pageRecord.page"
@@ -8,9 +10,16 @@
     rounded="full"
     size="sm">
     @for (row of pageRecord.data; track $index) {
-      <div>
-        {{ row }}
-      </div>
+      <a [routerLink]="[row._id]" class="flex items-center p-2">
+        <div>
+          <div class="font-semibold truncate line-clamp-1">
+            {{ row._id }}
+          </div>
+          <div class="text-xs">
+            {{ row.updatedAt | date: 'short' }}
+          </div>
+        </div>
+      </a>
       <div class="border-b border-neutral-200 dark:border-neutral-700"></div>
     }
   </ark-datatable>
