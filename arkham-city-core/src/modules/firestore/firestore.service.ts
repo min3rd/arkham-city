@@ -530,6 +530,20 @@ export class FirestoreService {
         type: Boolean,
         default: true,
       },
+      createdAt: {
+        type: Date,
+        default: Date.now,
+      },
+      createdBy: {
+        type: String,
+      },
+      updatedAt: {
+        type: Date,
+        default: Date.now,
+      },
+      updatedBy: {
+        type: String,
+      },
     };
     for (const key of Object.keys(data)) {
       if (data[key] == null || data[key] === undefined) {
