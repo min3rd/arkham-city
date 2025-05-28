@@ -1,7 +1,14 @@
-import { ChangeDetectionStrategy, Component, inject, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ListComponent } from '@modules/private/project/firestore/schema/list/list.component';
 import { CommonModule } from '@angular/common';
-import { ArkDatatable, BaseListComponent, Pagination } from 'arkhamcity';
+import {
+  ArkDatatable,
+  ArkDrawer,
+  ArkDrawerContainer,
+  ArkDrawerContent,
+  BaseListComponent,
+  Pagination,
+} from 'arkhamcity';
 import { SchemaService } from '@modules/private/project/firestore/schema/schema.service';
 import { takeUntil } from 'rxjs';
 import { RouterModule } from '@angular/router';
@@ -9,13 +16,14 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'project-firestore-schema-record',
-  imports: [CommonModule, ArkDatatable, RouterModule],
+  imports: [CommonModule, ArkDatatable, RouterModule, ArkDrawerContainer, ArkDrawerContent, ArkDrawer],
   templateUrl: './record.component.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class RecordComponent extends BaseListComponent {
+  @ViewChild('drawer', { static: true }) drawer!: ArkDrawer;
   pageRecord!: Pagination<any>;
   pageSize = 10;
   private readonly schemaService = inject(SchemaService);

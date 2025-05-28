@@ -5,6 +5,7 @@ import { SchemaService } from './schema.service';
 import { RouteUtils } from '@core/utils/route.utils';
 import { ListComponent } from './list/list.component';
 import { RecordComponent } from './record/record.component';
+import { DetailComponent } from '@modules/private/project/firestore/schema/record/detail/detail.component';
 
 export const schemaListResolve = (router: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
   const service = inject(SchemaService);
@@ -80,6 +81,13 @@ export const routes: Routes = [
                                 path: ':recordSize',
                                 resolve: [recordListResolve],
                                 component: RecordComponent,
+                                children: [
+                                  {
+                                    path: ':recordId',
+                                    resolve: [],
+                                    component: DetailComponent,
+                                  },
+                                ],
                               },
                             ],
                           },
