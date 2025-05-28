@@ -2,7 +2,7 @@
   <ark-drawer #drawer [opened]="false" class="w-full" position="end">
     <router-outlet></router-outlet>
   </ark-drawer>
-  <ark-drawer-content class="flex flex-auto flex-col w-full h-full">
+  <ark-drawer-content class="flex flex-auto flex-col h-full border-r border-neutral-200 dark:border-neutral-700">
     <form (submit)="search()" [formGroup]="form"
           class="flex items-center p-2 gap-2 border-b border-neutral-200 dark:border-neutral-700">
       <ark-text-input [formFieldControl]="form.get('search')" class="w-full" noSuffixSpace

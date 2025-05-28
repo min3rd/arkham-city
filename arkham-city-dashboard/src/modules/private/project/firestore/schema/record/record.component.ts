@@ -63,4 +63,13 @@ export class RecordComponent extends BaseListComponent {
       },
     );
   }
+
+  onSearch(search: string) {
+    if (!search) {
+      search = 'all';
+    }
+    this.router.navigate(['../../../', search], {
+      relativeTo: this.activatedRoute,
+    });
+  }
 }

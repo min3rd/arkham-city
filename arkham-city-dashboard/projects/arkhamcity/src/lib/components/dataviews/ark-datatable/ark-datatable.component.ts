@@ -1,12 +1,4 @@
-import {
-  AfterContentInit,
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { BaseComponent } from '../../base/base/base.component';
 import { ArkTextInput } from '../../inputs/ark-text-input/ark-text-input.component';
 import { ArkButton } from '../../buttons/ark-button/ark-button.component';
@@ -14,6 +6,7 @@ import { CapitalizePipe } from '../../../pipes/capitalize.pipe';
 import { TranslocoModule } from '@jsverse/transloco';
 import { CommonModule } from '@angular/common';
 import { ArkPaginator } from '../../paginators/ark-paginator/ark-paginator.component';
+import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'ark-datatable',
@@ -25,13 +18,14 @@ import { ArkPaginator } from '../../paginators/ark-paginator/ark-paginator.compo
     ArkTextInput,
     ArkButton,
     ArkPaginator,
+    ReactiveFormsModule,
   ],
   templateUrl: './ark-datatable.component.html',
   styleUrl: './ark-datatable.component.css',
   encapsulation: ViewEncapsulation.None,
   standalone: true,
 })
-export class ArkDatatable extends BaseComponent implements AfterContentInit, AfterViewInit {
+export class ArkDatatable extends BaseComponent implements OnInit {
   @Input() page!: number;
   @Input() pageSize!: number;
   @Input() total!: number;
@@ -41,13 +35,15 @@ export class ArkDatatable extends BaseComponent implements AfterContentInit, Aft
 
   @Output() pageChange = new EventEmitter<number>();
   @Output() pageSizeChange = new EventEmitter<number>();
+  @Output() search = new EventEmitter<string>();
 
-  ngAfterContentInit() {
+  form!: UntypedFormGroup;
+  formBuilder = inject(UntypedFormBuilder);
 
-  }
-
-  ngAfterViewInit() {
-
+  ngOnInit() {
+    this.form = this.formBuilder.group({
+      'search': [''],
+    });
   }
 
   onPageChange(page: number) {
@@ -56,5 +52,9 @@ export class ArkDatatable extends BaseComponent implements AfterContentInit, Aft
 
   onPageSizeChange(pageSize: number) {
     this.pageSizeChange.emit(pageSize);
+  }
+
+  onSearch() {
+    this.search.emit(this.form.get('search')?.getRawValue());
   }
 }

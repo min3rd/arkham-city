@@ -1,7 +1,5 @@
 <div
   [ngClass]="{
-    'border-l': mode === 'side' && opened && position === 'end',
-    'border-r': mode === 'side' && opened && position === 'start',
     'fixed top-0 z-40': mode === 'over',
     'left-0': mode === 'over' && position === 'start',
     'right-0': mode === 'over' && position === 'end',

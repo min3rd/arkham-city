@@ -1,15 +1,16 @@
 <ark-drawer-container>
-  <ark-drawer-content class="w-full h-full">
+  <ark-drawer-content class="h-full border-r border-neutral-200 dark:border-neutral-700">
     <div class="flex flex-auto flex-col w-full h-full">
       <ark-datatable
         (pageChange)="onPageChange($event)"
         (pageSizeChange)="onPageSizeChange($event)"
+        (search)="onSearch($event)"
         [data]="pageRecord.data"
         [pageSize]="pageRecord.size"
         [page]="pageRecord.page"
         [total]="pageRecord.total"
         class="flex flex-auto flex-col w-full h-full"
-        rounded="full"
+        rounded="md"
         size="sm">
         @for (row of pageRecord.data; track $index) {
           <a [routerLink]="[row._id]" class="flex items-center p-2">
