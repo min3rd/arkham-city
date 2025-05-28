@@ -1,8 +1,9 @@
 <div class="flex flex-auto flex-col w-full h-full">
   <div class="flex w-full p-2 gap-2 border-b border-neutral-200 dark:border-neutral-700 shrink-0">
-    <form class="flex gap-2">
-      <ark-text-input [color]="color" [rounded]="rounded" [size]="size" noSuffixSpace></ark-text-input>
-      <ark-button [color]="color" [rounded]="rounded" [size]="size">
+    <form (submit)="onSearch()" [formGroup]="form" class="flex gap-2">
+      <ark-text-input [color]="color" [formFieldControl]="form.get('search')" [rounded]="rounded" [size]="size"
+                      noSuffixSpace></ark-text-input>
+      <ark-button (onClick)="onSearch()" [color]="color" [rounded]="rounded" [size]="size">
         {{ 'search' | transloco | capitalize }}
       </ark-button>
     </form>

@@ -1,44 +1,47 @@
-<div class="flex items-center justify-center gap-2">
+<div class="flex flex-auto items-center justify-center gap-2">
   <ark-button (onClick)="onPageChange((+page - 1))" [color]="color" [disabled]="page <= 1" [rounded]="rounded"
               [size]="size"
               ghost icon="featherChevronLeft">
   </ark-button>
   @if (!enableDisablePageSelector()) {
-    @for (pageOption of getPageOptions(); track $index) {
-      @if (+pageOption === -1) {
-        <span class="text-neutral-600 dark:text-neutral-400">...</span>
-      } @else if (+pageOption === +page) {
-        <ark-button
-          [color]="color"
-          [rounded]="rounded"
-          [size]="size"
-          solid
-          disabled
-        >
-          {{ pageOption }}
-        </ark-button>
-      } @else {
-        <ark-button
-          (onClick)="onPageChange(+pageOption)"
-          [color]="color"
-          [rounded]="rounded"
-          [size]="size"
-          ghost
-        >
-          {{ pageOption }}
-        </ark-button>
+    <div class="flex flex-auto items-center gap-2 w-full overflow-auto">
+      @for (pageOption of getPageOptions(); track $index) {
+        @if (+pageOption === -1) {
+          <span class="text-neutral-600 dark:text-neutral-400">...</span>
+        } @else if (+pageOption === +page) {
+          <ark-button
+            [color]="color"
+            [rounded]="rounded"
+            [size]="size"
+            solid
+            disabled
+          >
+            {{ pageOption }}
+          </ark-button>
+        } @else {
+          <ark-button
+            (onClick)="onPageChange(+pageOption)"
+            [color]="color"
+            [rounded]="rounded"
+            [size]="size"
+            ghost
+          >
+            {{ pageOption }}
+          </ark-button>
+        }
       }
-    }
+    </div>
   }
   <ark-button (onClick)="onPageChange((+page + 1))" [color]="color" [disabled]="page >= total/pageSize"
               [rounded]="rounded"
               [size]="size"
               ghost icon="featherChevronRight"></ark-button>
-  <div class="text-sm text-neutral-500 dark:text-neutral-400">
+  <div class="flex flex-auto w-full text-sm text-neutral-500 dark:text-neutral-400">
     {{ (page - 1) * pageSize }} - {{ (page - 1) * pageSize + count }}
     / {{ total }}
   </div>
-  <ark-select (onChange)="onPageSizeChange(+$event)" [(ngModel)]="pageSize" noSuffixSpace size="sm">
+  <ark-select (onChange)="onPageSizeChange(+$event)" [(ngModel)]="pageSize" class="flex flex-auto w-full" noSuffixSpace
+              size="sm">
     <ng-template #options>
       @for (option of pageSizeOptions; track $index) {
         <option value="{{ option }}">

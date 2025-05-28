@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import {
@@ -39,7 +39,7 @@ import { FormBuilder, ReactiveFormsModule, UntypedFormGroup } from '@angular/for
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListComponent extends BaseListComponent {
+export class ListComponent extends BaseListComponent implements OnInit {
   @ViewChild('drawer', { static: true }) drawer!: ArkDrawer;
   pageSchema!: Pagination<SchemaResDto>;
   pageSize = 10;
