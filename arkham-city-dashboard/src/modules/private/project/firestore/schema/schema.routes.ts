@@ -34,6 +34,15 @@ export const recordListResolve = (router: ActivatedRouteSnapshot, state: RouterS
     });
 };
 
+export const recordDetailResolve = (router: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+  const service = inject(SchemaService);
+  return service.getRecord(
+    RouteUtils.getParam('projectId', router),
+    RouteUtils.getParam('schema', router),
+    RouteUtils.getParam('recordId', router),
+  );
+};
+
 export const routes: Routes = [
   {
     path: '',
@@ -84,7 +93,7 @@ export const routes: Routes = [
                                 children: [
                                   {
                                     path: ':recordId',
-                                    resolve: [],
+                                    resolve: [recordDetailResolve],
                                     component: DetailComponent,
                                   },
                                 ],
