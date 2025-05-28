@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import {
   ArkButton,
+  ArkDatatable,
   ArkDrawer,
   ArkDrawerContainer,
   ArkDrawerContent,
@@ -15,8 +16,6 @@ import {
 import { SchemaResDto } from '@modules/private/project/firestore/schema/schema.types';
 import { SchemaService } from '@modules/private/project/firestore/schema/schema.service';
 import { takeUntil } from 'rxjs';
-import { TranslocoPipe } from '@jsverse/transloco';
-import { FormBuilder, ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'project-firestore-schema-list',
@@ -27,12 +26,11 @@ import { FormBuilder, ReactiveFormsModule, UntypedFormGroup } from '@angular/for
     ArkDrawer,
     ArkDrawerContent,
     ArkTextInput,
-    TranslocoPipe,
     CapitalizePipe,
     ArkButton,
-    ReactiveFormsModule,
     ArkTextInput,
     ArkPaginator,
+    ArkDatatable,
   ],
   templateUrl: './list.component.html',
   encapsulation: ViewEncapsulation.None,
@@ -43,11 +41,7 @@ export class ListComponent extends BaseListComponent implements OnInit {
   @ViewChild('drawer', { static: true }) drawer!: ArkDrawer;
   pageSchema!: Pagination<SchemaResDto>;
   pageSize = 10;
-
-  form!: UntypedFormGroup;
-
   private readonly schemaService = inject(SchemaService);
-  private readonly formBuilder = inject(FormBuilder);
 
   override ngOnInit() {
     this.schemaService.pageSchema$.pipe(takeUntil(this.unsubscribeAll)).subscribe(page => {
@@ -55,24 +49,15 @@ export class ListComponent extends BaseListComponent implements OnInit {
       this.changeDetectorRef.markForCheck();
     });
 
-    this.form = this.formBuilder.group({
-      'search': [''],
-    });
-
     this.activatedRoute.params.pipe(takeUntil(this.unsubscribeAll)).subscribe(params => {
-      if ('query' in params && params['query'] !== 'all') {
-        this.form.get('search')?.setValue(params['query']);
-      }
-
       if ('size' in params) {
         this.pageSize = +params['size'];
       }
     });
   }
 
-  search() {
-    let search = this.form.get('search')?.getRawValue();
-    if (!this.form.get('search')?.getRawValue()) {
+  onSearch(search: string) {
+    if (!search) {
       search = 'all';
     }
     this.router.navigate(['../../../', search], {
