@@ -1,16 +1,19 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import {
-  ArkButton,
   ArkDatatable,
   ArkDrawer,
   ArkDrawerContainer,
   ArkDrawerContent,
-  ArkPaginator,
-  ArkTextInput,
   BaseListComponent,
-  CapitalizePipe,
   Pagination,
 } from 'arkhamcity';
 import { SchemaResDto } from '@modules/private/project/firestore/schema/schema.types';
@@ -25,11 +28,6 @@ import { takeUntil } from 'rxjs';
     ArkDrawerContainer,
     ArkDrawer,
     ArkDrawerContent,
-    ArkTextInput,
-    CapitalizePipe,
-    ArkButton,
-    ArkTextInput,
-    ArkPaginator,
     ArkDatatable,
   ],
   templateUrl: './list.component.html',
@@ -44,16 +42,20 @@ export class ListComponent extends BaseListComponent implements OnInit {
   private readonly schemaService = inject(SchemaService);
 
   override ngOnInit() {
-    this.schemaService.pageSchema$.pipe(takeUntil(this.unsubscribeAll)).subscribe(page => {
-      this.pageSchema = page;
-      this.changeDetectorRef.markForCheck();
-    });
+    this.schemaService.pageSchema$
+      .pipe(takeUntil(this.unsubscribeAll))
+      .subscribe((page) => {
+        this.pageSchema = page;
+        this.changeDetectorRef.markForCheck();
+      });
 
-    this.activatedRoute.params.pipe(takeUntil(this.unsubscribeAll)).subscribe(params => {
-      if ('size' in params) {
-        this.pageSize = +params['size'];
-      }
-    });
+    this.activatedRoute.params
+      .pipe(takeUntil(this.unsubscribeAll))
+      .subscribe((params) => {
+        if ('size' in params) {
+          this.pageSize = +params['size'];
+        }
+      });
   }
 
   onSearch(search: string) {
