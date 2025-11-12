@@ -215,4 +215,45 @@ export class Errors {
     new Error('01x0038', 'Could not found the record');
   static readonly PROJECT_FIRESTORE_SCHEMA_COULD_NOT_UPDATE_THE_RECORD =
     new Error('01x0039', 'Could not update the record');
+
+  static readonly STORAGE_FILE_SIZE_EXCEEDS_LIMIT = new Error(
+    '01x0040',
+    'File size exceeds maximum limit',
+  );
+  static readonly STORAGE_FILE_NOT_FOUND = new Error(
+    '01x0041',
+    'File not found',
+  );
+  static readonly STORAGE_ACCESS_DENIED = new Error(
+    '01x0042',
+    'Access denied to file',
+  );
+  static readonly STORAGE_FILE_UPLOAD_FAILED = new Error(
+    '01x0043',
+    'Failed to upload file',
+  );
+  static readonly STORAGE_FILE_DOWNLOAD_FAILED = new Error(
+    '01x0044',
+    'Failed to download file',
+  );
+  static readonly STORAGE_FILE_DELETE_FAILED = new Error(
+    '01x0045',
+    'Failed to delete file',
+  );
+  static readonly STORAGE_FILE_LIST_FAILED = new Error(
+    '01x0046',
+    'Failed to list files',
+  );
+  static readonly STORAGE_SIGNED_URL_EXPIRED = new Error(
+    '01x0047',
+    'Signed URL has expired',
+  );
+  static readonly STORAGE_SIGNED_URL_INVALID = new Error(
+    '01x0048',
+    'Invalid signed URL',
+  );
+  static readonly STORAGE_FILE_NOT_FOUND_ON_DISK = new Error(
+    '01x0049',
+    'File not found on disk',
+  );
 }
