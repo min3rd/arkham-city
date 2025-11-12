@@ -1,5 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
@@ -18,19 +20,25 @@ import {
   Errors,
 } from '@src/core/microservice/microservice.types';
 import { DatabaseService } from '@modules/database/database.service';
+import { Project } from '@modules/project/project.types';
 
 @Injectable()
 export class StorageService {
   private readonly logger = new Logger(StorageService.name);
   private readonly storageBasePath: string;
-  private readonly maxFileSize: number = 100 * 1024 * 1024;
+  private readonly defaultMaxFileSize: number;
 
   constructor(
     private readonly configService: ConfigService,
     private readonly databaseService: DatabaseService,
+    @InjectModel(Project.name, 'metadata')
+    private readonly projectModel: Model<Project>,
   ) {
     this.storageBasePath =
       this.configService.get<string>('STORAGE_BASE_PATH') || './storage';
+    this.defaultMaxFileSize =
+      this.configService.get<number>('STORAGE_MAX_FILE_SIZE') ||
+      100 * 1024 * 1024;
     this.ensureStorageDirectory();
   }
 
@@ -80,7 +88,10 @@ export class StorageService {
       projectId: uploadDto.projectId,
     });
 
-    if (uploadDto.file.length > this.maxFileSize) {
+    const project = await this.projectModel.findById(uploadDto.projectId);
+    const maxFileSize = project?.maxFileSize || this.defaultMaxFileSize;
+
+    if (uploadDto.file.length > maxFileSize) {
       return new BadResponse(Errors.STORAGE_FILE_SIZE_EXCEEDS_LIMIT);
     }
 

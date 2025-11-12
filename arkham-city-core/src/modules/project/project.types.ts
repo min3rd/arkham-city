@@ -18,6 +18,9 @@ export class Project extends AuditEntity {
 
   @Prop()
   privateKey: string;
+
+  @Prop()
+  maxFileSize?: number;
 }
 
 export type ProjectDocument = HydratedDocument<Project>;

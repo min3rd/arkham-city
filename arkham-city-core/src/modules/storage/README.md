@@ -31,9 +31,17 @@ Add to `.env`:
 ```env
 STORAGE_BASE_PATH=./storage
 STORAGE_SIGNING_SECRET=YourSecureSecretKeyHere
+STORAGE_MAX_FILE_SIZE=104857600
 ```
 
-**Important:** The `STORAGE_SIGNING_SECRET` must be set for signed URL generation to work. This should be a strong, randomly generated secret different from `JWT_SECRET` to decouple storage URL signing from authentication.
+**Configuration Details:**
+- `STORAGE_BASE_PATH`: Base directory for file storage (default: `./storage`)
+- `STORAGE_SIGNING_SECRET`: Secret for signing URLs - must be set and different from `JWT_SECRET`
+- `STORAGE_MAX_FILE_SIZE`: Default maximum file size in bytes (default: 104857600 = 100MB)
+
+### Project-Level Configuration
+
+Each project can have a custom `maxFileSize` setting in the Project entity. If set, it overrides the default `STORAGE_MAX_FILE_SIZE` from the environment configuration. This allows different projects to have different file size limits based on their requirements.
 
 ## Message Patterns
 
@@ -113,23 +121,56 @@ const payload: MsStorageListFilesReqPayload = {
 
 ## Database Schema
 
-Files metadata is stored in MongoDB with the following schema:
+### StorageFile Schema
+
+The `StorageFile` entity extends `AuditEntity` and uses NestJS/Mongoose decorators for schema definition:
 
 ```typescript
-{
-  filename: string,           // Generated unique filename
-  originalName: string,       // Original filename from upload
-  mimeType: string,          // File MIME type
-  size: number,              // File size in bytes
-  path: string,              // Full file path on disk
-  projectId: string,         // Project identifier
-  userId: string,            // Owner user ID
-  metadata: object,          // Custom metadata
-  isPublic: boolean,         // Public accessibility
-  expiresAt: Date,           // Optional expiration date
-  createdAt: Date,           // Auto-generated
-  updatedAt: Date,           // Auto-generated
+@Schema({
+  timestamps: true,
+})
+export class StorageFile extends AuditEntity {
+  @Prop({ required: true, index: true })
+  filename: string;           // Generated unique filename
+  
+  @Prop({ required: true })
+  originalName: string;       // Original filename from upload
+  
+  @Prop({ required: true })
+  mimeType: string;          // File MIME type
+  
+  @Prop({ required: true })
+  size: number;              // File size in bytes
+  
+  @Prop({ required: true })
+  path: string;              // Full file path on disk
+  
+  @Prop({ required: true, index: true })
+  projectId: string;         // Project identifier
+  
+  @Prop({ index: true })
+  userId?: string;           // Owner user ID
+  
+  @Prop({ type: Object })
+  metadata?: object;         // Custom metadata
+  
+  @Prop({ default: false })
+  isPublic: boolean;         // Public accessibility
+  
+  @Prop()
+  expiresAt?: Date;          // Optional expiration date
 }
+```
+
+The schema includes compound indexes on `(projectId, userId)` and a TTL index on `expiresAt` for automatic document expiration.
+
+### Project Schema Extension
+
+The `Project` entity includes an optional `maxFileSize` field:
+
+```typescript
+@Prop()
+maxFileSize?: number;  // Custom file size limit in bytes (overrides default)
 ```
 
 ## Error Codes
