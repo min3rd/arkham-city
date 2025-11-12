@@ -2,86 +2,80 @@
   <ark-drawer #drawer [opened]="false" class="w-96" position="end">
     <router-outlet></router-outlet>
   </ark-drawer>
-  <ark-drawer-content class="flex flex-auto flex-col max-w-2xl h-screen border-r border-neutral-200 dark:border-neutral-700">
-    <div class="flex flex-col w-full h-full">
-      <div class="p-3 border-b border-neutral-200 dark:border-neutral-700 flex-shrink-0">
-        <div class="flex items-center justify-between">
-          <h2 class="text-lg font-semibold">{{ 'storage files' | transloco | capitalize }}</h2>
-          <ark-button (click)="onUploadClick()" size="sm" variant="primary">
-            {{ 'upload file' | transloco | capitalize }}
-          </ark-button>
-        </div>
+  <ark-drawer-content class="flex flex-auto flex-col h-full border-r border-neutral-200 dark:border-neutral-700">
+    <ark-datatable
+      (pageChange)="onPageChange($event)"
+      (pageSizeChange)="onPageSizeChange($event)"
+      (search)="onSearch($event)"
+      [data]="files()"
+      [pageSize]="pageSize()"
+      [page]="page()"
+      [total]="total()"
+      class="flex flex-auto flex-col w-full h-full"
+      rounded="md"
+      size="sm"
+    >
+      <div class="flex items-center justify-end p-3 border-b border-neutral-200 dark:border-neutral-700">
+        <ark-button (click)="onUploadClick()" size="sm" variant="primary">
+          {{ 'upload file' | transloco | capitalize }}
+        </ark-button>
       </div>
-
-      <ark-datatable
-        (pageChange)="onPageChange($event)"
-        (pageSizeChange)="onPageSizeChange($event)"
-        (search)="onSearch($event)"
-        [data]="files()"
-        [pageSize]="pageSize()"
-        [page]="page()"
-        [total]="total()"
-        class="flex flex-auto flex-col w-full h-full"
-        rounded="md"
-        size="sm"
-      >
-        @if (isLoading()) {
-          <div class="flex items-center justify-center p-8">
-            <div class="text-neutral-500">{{ 'loading files' | transloco | capitalize }}...</div>
-          </div>
-        } @else if (files().length === 0) {
-          <div class="flex items-center justify-center p-8">
-            <div class="text-neutral-500">{{ 'no files found upload your first file to get started' | transloco | capitalize }}.</div>
-          </div>
-        } @else {
-          @for (file of files(); track file._id) {
-            <button
-              type="button"
-              class="p-2 hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:cursor-pointer transition-colors w-full text-left"
-              (click)="onFileClick(file)"
-            >
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2 flex-1 min-w-0">
-                  <div class="flex-shrink-0">
-                    <ng-icon
-                      [name]="'feather' + getFileIcon(file.mimeType)"
-                      class="text-lg text-neutral-600 dark:text-neutral-400"
-                    ></ng-icon>
-                  </div>
-                  <div class="flex-1 min-w-0">
-                    <div class="text-sm font-medium truncate">
-                      {{ file.originalName }}
-                    </div>
-                    <div class="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-                      <span>{{ formatFileSize(file.size) }}</span>
-                      <span>•</span>
-                      <span class="truncate">{{ file.mimeType }}</span>
-                      <span>•</span>
-                      <span>{{ file.createdAt | date: 'short' }}</span>
-                      @if (file.isPublic) {
-                        <span class="px-1.5 py-0.5 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-full text-xs flex-shrink-0">
-                          {{ 'public' | transloco | capitalize }}
-                        </span>
-                      }
-                    </div>
-                  </div>
+      @if (isLoading()) {
+        <div class="flex items-center justify-center p-8">
+          <div class="text-neutral-500">{{ 'loading files' | transloco | capitalize }}...</div>
+        </div>
+      } @else if (files().length === 0) {
+        <div class="flex items-center justify-center p-8">
+          <div class="text-neutral-500">{{ 'no files found upload your first file to get started' | transloco | capitalize }}.</div>
+        </div>
+      } @else {
+        @for (file of files(); track file._id) {
+          <button
+            type="button"
+            class="p-2 hover:bg-neutral-50 dark:hover:bg-neutral-800 hover:cursor-pointer transition-colors w-full text-left"
+            (click)="onFileClick(file)"
+          >
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2 flex-1 min-w-0">
+                <div class="flex-shrink-0">
+                  <ng-icon
+                    [name]="'feather' + getFileIcon(file.mimeType)"
+                    class="text-base text-neutral-600 dark:text-neutral-400"
+                  ></ng-icon>
                 </div>
-                <div class="flex items-center gap-1 flex-shrink-0">
-                  <ark-button
-                    (click)="deleteFile(file, $event)"
-                    size="sm"
-                    variant="ghost"
-                    title="Delete file"
-                  >
-                    <ng-icon name="featherTrash2" class="text-red-600 dark:text-red-400"></ng-icon>
-                  </ark-button>
+                <div class="flex-1 min-w-0">
+                  <div class="text-sm font-medium truncate">
+                    {{ file.originalName }}
+                  </div>
+                  <div class="flex items-center gap-2 text-xs text-neutral-500 dark:text-neutral-400">
+                    <span>{{ formatFileSize(file.size) }}</span>
+                    <span>•</span>
+                    <span class="truncate">{{ file.mimeType }}</span>
+                    <span>•</span>
+                    <span>{{ file.createdAt | date: 'short' }}</span>
+                    @if (file.isPublic) {
+                      <span class="px-1.5 py-0.5 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-full text-xs flex-shrink-0">
+                        {{ 'public' | transloco | capitalize }}
+                      </span>
+                    }
+                  </div>
                 </div>
               </div>
-            </button>
-            <div class="border-b border-neutral-200 dark:border-neutral-700"></div>
-          }
+              <div class="flex items-center gap-1 flex-shrink-0">
+                <ark-button
+                  (click)="deleteFile(file, $event)"
+                  size="sm"
+                  variant="ghost"
+                  title="Delete file"
+                >
+                  <ng-icon name="featherTrash2" class="text-red-600 dark:text-red-400"></ng-icon>
+                </ark-button>
+              </div>
+            </div>
+          </button>
+          <div class="border-b border-neutral-200 dark:border-neutral-700"></div>
         }
-      </ark-datatable>
-    </div>
+      }
+    </ark-datatable>
   </ark-drawer-content>
 </ark-drawer-container>
