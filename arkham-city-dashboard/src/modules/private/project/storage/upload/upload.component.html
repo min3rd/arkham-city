@@ -1,7 +1,7 @@
 <div class="flex flex-col w-full h-full bg-white dark:bg-neutral-900">
   <div class="p-6 border-b border-neutral-200 dark:border-neutral-700">
     <div class="flex items-center justify-between">
-      <h2 class="text-2xl font-semibold">Upload Files</h2>
+      <h2 class="text-2xl font-semibold">{{ 'upload files' | transloco | capitalize }}</h2>
       <ark-button (click)="onCancel()" size="sm" variant="ghost">
         <ng-icon name="featherX"></ng-icon>
       </ark-button>
@@ -11,7 +11,7 @@
   <div class="flex-1 overflow-y-auto p-6">
     <form [formGroup]="uploadForm" class="space-y-6">
       <div>
-        <span class="block text-sm font-medium mb-2">Select Files</span>
+        <span class="block text-sm font-medium mb-2">{{ 'select files' | transloco | capitalize }}</span>
         <div class="relative">
           <input
             type="file"
@@ -20,7 +20,7 @@
             class="hidden"
             #fileInput
             id="file-input"
-            aria-label="Select files to upload"
+            [attr.aria-label]="'select files to upload' | transloco | capitalize"
           />
           <button
             type="button"
@@ -32,10 +32,10 @@
               class="text-4xl text-neutral-400 dark:text-neutral-500 mx-auto mb-3"
             ></ng-icon>
             <p class="text-sm text-neutral-600 dark:text-neutral-400">
-              Click to select files or drag and drop
+              {{ 'click to select files or drag and drop' | transloco | capitalize }}
             </p>
             <p class="text-xs text-neutral-500 dark:text-neutral-500 mt-1">
-              Multiple files supported
+              {{ 'multiple files supported' | transloco | capitalize }}
             </p>
           </button>
         </div>
@@ -43,7 +43,7 @@
 
       @if (selectedFiles().length > 0) {
         <div>
-          <span class="block text-sm font-medium mb-2">Selected Files ({{ selectedFiles().length }})</span>
+          <span class="block text-sm font-medium mb-2">{{ 'selected files' | transloco | capitalize }} ({{ selectedFiles().length }})</span>
           <div class="space-y-2">
             @for (file of selectedFiles(); track $index; let i = $index) {
               <div
@@ -68,7 +68,7 @@
                             class="text-sm"
                           ></ng-icon>
                           <span class="text-xs" [class]="getStatusClass(progress.status)">
-                            {{ progress.status }}
+                            {{ progress.status | transloco }}
                           </span>
                           @if (progress.status === 'uploading') {
                             <span class="text-xs text-neutral-500">{{ progress.progress }}%</span>
@@ -96,7 +96,7 @@
                     (click)="removeFile(i)"
                     size="sm"
                     variant="ghost"
-                    title="Remove file"
+                    [title]="'remove file' | transloco | capitalize"
                   >
                     <ng-icon
                       name="featherX"
@@ -111,15 +111,15 @@
       }
 
       <div>
-        <span class="block text-sm font-medium mb-2">Options</span>
+        <span class="block text-sm font-medium mb-2">{{ 'options' | transloco | capitalize }}</span>
         <div class="space-y-3">
           <ark-checkbox formControlName="isPublic">
-            <span class="text-sm">Make files public</span>
+            <span class="text-sm">{{ 'make files public' | transloco | capitalize }}</span>
           </ark-checkbox>
           
           <div>
             <label for="metadata-input" class="block text-sm font-medium mb-1">
-              Metadata (Optional JSON)
+              {{ 'metadata optional json' | transloco | capitalize }}
             </label>
             <ark-text-input
               id="metadata-input"
@@ -128,7 +128,7 @@
               class="w-full"
             ></ark-text-input>
             <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-              Enter custom metadata as JSON object
+              {{ 'enter custom metadata as json object' | transloco | capitalize }}
             </p>
           </div>
         </div>
@@ -139,7 +139,7 @@
   <div class="p-6 border-t border-neutral-200 dark:border-neutral-700">
     <div class="flex items-center justify-end gap-3">
       <ark-button (click)="onCancel()" variant="ghost" [disabled]="isUploading()">
-        Cancel
+        {{ 'cancel' | transloco | capitalize }}
       </ark-button>
       <ark-button
         (click)="onUpload()"
@@ -147,9 +147,9 @@
         [disabled]="selectedFiles().length === 0 || isUploading()"
       >
         @if (isUploading()) {
-          <span>Uploading...</span>
+          <span>{{ 'uploading' | transloco | capitalize }}...</span>
         } @else {
-          <span>Upload {{ selectedFiles().length }} file(s)</span>
+          <span>{{ 'upload' | transloco | capitalize }} {{ selectedFiles().length }} {{ 'files' | transloco }}</span>
         }
       </ark-button>
     </div>

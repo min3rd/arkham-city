@@ -24,15 +24,15 @@
         class="flex flex-auto flex-col w-full h-full"
         rounded="md"
         size="sm"
-        searchPlaceholder="Filter by MIME type..."
+        [searchPlaceholder]="'filter by mime type' | transloco | capitalize"
       >
         @if (isLoading()) {
           <div class="flex items-center justify-center p-8">
-            <div class="text-neutral-500">Loading files...</div>
+            <div class="text-neutral-500">{{ 'loading files' | transloco | capitalize }}...</div>
           </div>
         } @else if (files().length === 0) {
           <div class="flex items-center justify-center p-8">
-            <div class="text-neutral-500">No files found. Upload your first file to get started.</div>
+            <div class="text-neutral-500">{{ 'no files found upload your first file to get started' | transloco | capitalize }}.</div>
           </div>
         } @else {
           @for (file of files(); track file._id) {
@@ -61,7 +61,7 @@
                       <span>{{ file.createdAt | date: 'short' }}</span>
                       @if (file.isPublic) {
                         <span class="px-2 py-0.5 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-full text-xs">
-                          Public
+                          {{ 'public' | transloco | capitalize }}
                         </span>
                       }
                     </div>
