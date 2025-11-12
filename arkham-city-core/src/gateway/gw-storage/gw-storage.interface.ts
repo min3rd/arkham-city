@@ -1,6 +1,4 @@
 export interface UploadFileDto {
-  originalName: string;
-  mimeType: string;
   projectId: string;
   metadata?: Record<string, any>;
   isPublic?: boolean;
