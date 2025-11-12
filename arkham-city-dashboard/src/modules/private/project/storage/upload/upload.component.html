@@ -113,7 +113,7 @@
       <div>
         <span class="block text-sm font-medium mb-2">{{ 'options' | transloco | capitalize }}</span>
         <div class="space-y-3">
-          <ark-checkbox formControlName="isPublic">
+          <ark-checkbox [formFieldControl]="uploadForm.get('isPublic')">
             <span class="text-sm">{{ 'make files public' | transloco | capitalize }}</span>
           </ark-checkbox>
           
