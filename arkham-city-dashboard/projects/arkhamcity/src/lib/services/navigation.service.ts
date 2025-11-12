@@ -25,6 +25,7 @@ export class NavigationService {
       title: 'storage',
       icon: 'featherHardDrive',
       type: 'basic',
+      link: '/projects/projectId/storage',
     },
     {
       id: 'realtime',

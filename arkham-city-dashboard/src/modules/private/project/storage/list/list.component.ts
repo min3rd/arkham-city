@@ -8,8 +8,9 @@ import {
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, ActivatedRoute, Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { provideIcons, NgIconComponent } from '@ng-icons/core';
+import { TranslocoModule } from '@jsverse/transloco';
 import * as feathers from '@ng-icons/feather-icons';
 import {
   ArkButton,
@@ -17,12 +18,13 @@ import {
   ArkDrawer,
   ArkDrawerContainer,
   ArkDrawerContent,
-  ArkPaginator,
   ArkTextInput,
   BaseListComponent,
+  CapitalizePipe,
 } from 'arkhamcity';
 import { StorageFile } from '@modules/private/project/storage/storage.types';
 import { StorageService } from '@modules/private/project/storage/storage.service';
+import { formatFileSize } from '@modules/private/project/storage/storage.utils';
 import { takeUntil, combineLatest } from 'rxjs';
 
 @Component({
@@ -30,12 +32,13 @@ import { takeUntil, combineLatest } from 'rxjs';
   imports: [
     CommonModule,
     RouterModule,
+    TranslocoModule,
+    CapitalizePipe,
     ArkDrawerContainer,
     ArkDrawer,
     ArkDrawerContent,
     ArkTextInput,
     ArkButton,
-    ArkPaginator,
     ArkDatatable,
     NgIconComponent,
   ],
@@ -166,11 +169,7 @@ export class ListComponent extends BaseListComponent implements OnInit {
   }
 
   formatFileSize(bytes: number): string {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+    return formatFileSize(bytes);
   }
 
   getFileIcon(mimeType: string): string {

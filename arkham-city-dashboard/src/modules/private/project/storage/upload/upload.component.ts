@@ -7,8 +7,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { provideIcons, NgIconComponent } from '@ng-icons/core';
 import * as feathers from '@ng-icons/feather-icons';
 import {
@@ -19,7 +19,10 @@ import {
 } from 'arkhamcity';
 import { StorageService } from '@modules/private/project/storage/storage.service';
 import { UploadProgress } from '@modules/private/project/storage/storage.types';
+import { formatFileSize } from '@modules/private/project/storage/storage.utils';
 import { takeUntil } from 'rxjs';
+
+const UPLOAD_COMPLETE_DELAY_MS = 1000;
 
 @Component({
   selector: 'project-storage-upload',
@@ -89,7 +92,17 @@ export class UploadComponent extends BaseListComponent implements OnInit {
 
     this.isUploading.set(true);
     const formValue = this.uploadForm.value;
-    const metadata = formValue.metadata ? JSON.parse(formValue.metadata) : undefined;
+    
+    let metadata: Record<string, any> | undefined;
+    if (formValue.metadata) {
+      try {
+        metadata = JSON.parse(formValue.metadata);
+      } catch (error) {
+        alert('Invalid JSON format in metadata field. Please check and try again.');
+        this.isUploading.set(false);
+        return;
+      }
+    }
 
     const uploadDto = {
       projectId: this.projectId(),
@@ -134,7 +147,7 @@ export class UploadComponent extends BaseListComponent implements OnInit {
       this.storageService.clearUploadProgress();
       this.router.navigate(['../'], { relativeTo: this.activatedRoute });
       this.changeDetectorRef.markForCheck();
-    }, 1000);
+    }, UPLOAD_COMPLETE_DELAY_MS);
   }
 
   onCancel() {
@@ -142,11 +155,7 @@ export class UploadComponent extends BaseListComponent implements OnInit {
   }
 
   formatFileSize(bytes: number): string {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
+    return formatFileSize(bytes);
   }
 
   getProgressForFile(file: File): UploadProgress | undefined {

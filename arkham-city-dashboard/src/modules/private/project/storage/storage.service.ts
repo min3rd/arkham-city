@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpEvent, HttpEventType } from '@angular/common/http';
-import { BehaviorSubject, Observable, of, switchMap, map, catchError } from 'rxjs';
+import { BehaviorSubject, Observable, of, switchMap, map, catchError, filter } from 'rxjs';
 import { ConfigService } from '@core/services/config.service';
 import { ApiResponse } from 'arkhamcity';
 import {
@@ -89,11 +89,12 @@ export class StorageService {
           }
           return null;
         }),
+        filter((result): result is StorageFile => result !== null),
         catchError((error) => {
           this.updateUploadProgress(file, 0, 'error', error.message || 'Upload failed');
           throw error;
         })
-      ) as Observable<StorageFile>;
+      );
   }
 
   downloadFile(projectId: string, fileId: string): Observable<Blob> {

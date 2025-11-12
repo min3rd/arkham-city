@@ -6,9 +6,9 @@
     <div class="flex flex-col w-full h-full">
       <div class="p-4 border-b border-neutral-200 dark:border-neutral-700">
         <div class="flex items-center justify-between">
-          <h2 class="text-xl font-semibold">Storage Files</h2>
+          <h2 class="text-xl font-semibold">{{ 'storage files' | transloco | capitalize }}</h2>
           <ark-button (click)="onUploadClick()" size="sm" variant="primary">
-            Upload File
+            {{ 'upload file' | transloco | capitalize }}
           </ark-button>
         </div>
       </div>
@@ -70,7 +70,7 @@
                 <div class="flex items-center gap-2 flex-shrink-0">
                   <ark-button
                     (click)="deleteFile(file, $event)"
-                    size="xs"
+                    size="sm"
                     variant="ghost"
                     title="Delete file"
                   >
