@@ -18,7 +18,6 @@ import {
   ArkDrawer,
   ArkDrawerContainer,
   ArkDrawerContent,
-  ArkTextInput,
   BaseListComponent,
   CapitalizePipe,
 } from 'arkhamcity';
@@ -37,7 +36,6 @@ import { takeUntil, combineLatest } from 'rxjs';
     ArkDrawerContainer,
     ArkDrawer,
     ArkDrawerContent,
-    ArkTextInput,
     ArkButton,
     ArkDatatable,
     NgIconComponent,
@@ -63,10 +61,7 @@ export class ListComponent extends BaseListComponent implements OnInit {
   private readonly translocoService = inject(TranslocoService);
 
   override ngOnInit() {
-    combineLatest([
-      this.storageService.files$,
-      this.storageService.total$,
-    ])
+    combineLatest([this.storageService.files$, this.storageService.total$])
       .pipe(takeUntil(this.unsubscribeAll))
       .subscribe(([files, total]) => {
         this.files.set(files);
@@ -75,12 +70,14 @@ export class ListComponent extends BaseListComponent implements OnInit {
         this.changeDetectorRef.markForCheck();
       });
 
-    this.activatedRoute.params.pipe(takeUntil(this.unsubscribeAll)).subscribe((params) => {
-      if (params['projectId']) {
-        this.projectId.set(params['projectId']);
-        this.loadFiles();
-      }
-    });
+    this.activatedRoute.params
+      .pipe(takeUntil(this.unsubscribeAll))
+      .subscribe((params) => {
+        if (params['projectId']) {
+          this.projectId.set(params['projectId']);
+          this.loadFiles();
+        }
+      });
   }
 
   loadFiles() {
@@ -145,15 +142,17 @@ export class ListComponent extends BaseListComponent implements OnInit {
           window.URL.revokeObjectURL(url);
           document.body.removeChild(a);
         },
-        error: (err) => {
-        },
+        error: (err) => {},
       });
   }
 
   deleteFile(file: StorageFile, event: Event) {
     event.stopPropagation();
 
-    const message = this.translocoService.translate('are you sure you want to delete', { fileName: file.originalName });
+    const message = this.translocoService.translate(
+      'are you sure you want to delete',
+      { fileName: file.originalName },
+    );
     if (!confirm(message)) {
       return;
     }
@@ -165,8 +164,7 @@ export class ListComponent extends BaseListComponent implements OnInit {
         next: () => {
           this.loadFiles();
         },
-        error: (err) => {
-        },
+        error: (err) => {},
       });
   }
 
@@ -179,7 +177,8 @@ export class ListComponent extends BaseListComponent implements OnInit {
     if (mimeType.startsWith('video/')) return 'video';
     if (mimeType.startsWith('audio/')) return 'music';
     if (mimeType.includes('pdf')) return 'file-text';
-    if (mimeType.includes('zip') || mimeType.includes('compressed')) return 'archive';
+    if (mimeType.includes('zip') || mimeType.includes('compressed'))
+      return 'archive';
     return 'file';
   }
 }
