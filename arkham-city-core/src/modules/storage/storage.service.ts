@@ -35,8 +35,18 @@ export class StorageService {
   }
 
   private ensureStorageDirectory(): void {
-    if (!fs.existsSync(this.storageBasePath)) {
-      fs.mkdirSync(this.storageBasePath, { recursive: true });
+    try {
+      if (!fs.existsSync(this.storageBasePath)) {
+        fs.mkdirSync(this.storageBasePath, { recursive: true });
+      }
+    } catch (error) {
+      this.logger.error(
+        `Failed to create storage directory: ${this.storageBasePath}`,
+        error,
+      );
+      throw new Error(
+        `Storage initialization failed: unable to create directory ${this.storageBasePath}`,
+      );
     }
   }
 
@@ -83,7 +93,7 @@ export class StorageService {
     );
 
     try {
-      fs.writeFileSync(filePath, uploadDto.file);
+      await fs.promises.writeFile(filePath, uploadDto.file);
 
       const connection = this.databaseService.createProjectConnection(
         uploadDto.projectId,
@@ -110,7 +120,11 @@ export class StorageService {
     } catch (error) {
       this.logger.error('uploadFile:error', error);
       if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
+        try {
+          await fs.promises.unlink(filePath);
+        } catch (cleanupError) {
+          this.logger.error('uploadFile:cleanupFailed', cleanupError);
+        }
       }
       return new BadResponse(Errors.STORAGE_FILE_UPLOAD_FAILED);
     }
@@ -134,7 +148,7 @@ export class StorageService {
         return new BadResponse(Errors.STORAGE_FILE_NOT_FOUND);
       }
 
-      if (!file.isPublic && userId && file.userId !== userId) {
+      if (!file.isPublic && (!userId || file.userId !== userId)) {
         return new BadResponse(Errors.STORAGE_ACCESS_DENIED);
       }
 
@@ -165,7 +179,7 @@ export class StorageService {
     }
 
     try {
-      const fileBuffer = fs.readFileSync(fileData.path);
+      const fileBuffer = await fs.promises.readFile(fileData.path);
       this.logger.log('downloadFile:end');
       return new GoodResponse(fileBuffer);
     } catch (error) {
@@ -197,7 +211,11 @@ export class StorageService {
       }
 
       if (fs.existsSync(file.path)) {
-        fs.unlinkSync(file.path);
+        await fs.promises.unlink(file.path);
+      } else {
+        this.logger.warn(
+          `File not found on disk during delete: ${file.path}. Metadata will be removed, but file may be orphaned.`,
+        );
       }
 
       await file.deleteOne();
@@ -224,7 +242,7 @@ export class StorageService {
       const filter: any = { projectId: query.projectId };
 
       if (query.userId) {
-        filter.userId = query.userId;
+        filter.$or = [{ isPublic: true }, { userId: query.userId }];
       }
 
       if (query.mimeType) {
@@ -255,15 +273,44 @@ export class StorageService {
     }
   }
 
-  generateSignedUrl(
+  async generateSignedUrl(
     projectId: string,
     fileId: string,
     options: SignedUrlOptions,
-  ): ServiceResponse<string> {
-    this.logger.log('generateSignedUrl:start', { projectId, fileId, options });
+    userId?: string,
+  ): Promise<ServiceResponse<string>> {
+    this.logger.log('generateSignedUrl:start', {
+      projectId,
+      fileId,
+      options,
+      userId,
+    });
+
+    const connection = this.databaseService.createProjectConnection(projectId);
+    const StorageModel = this.getStorageModel(connection);
+    const file = await StorageModel.findOne({ _id: fileId, projectId });
+
+    if (!file) {
+      this.logger.warn('generateSignedUrl:fileNotFound', { projectId, fileId });
+      return new BadResponse(Errors.STORAGE_FILE_NOT_FOUND);
+    }
+
+    if (userId && file.userId && file.userId.toString() !== userId) {
+      this.logger.warn('generateSignedUrl:unauthorized', {
+        projectId,
+        fileId,
+        userId,
+      });
+      return new BadResponse(Errors.STORAGE_ACCESS_DENIED);
+    }
 
     const expiresAt = Date.now() + options.expiresIn * 1000;
-    const secret = this.configService.get<string>('JWT_SECRET') || 'secret';
+    const secret = this.configService.get<string>('STORAGE_SIGNING_SECRET');
+
+    if (!secret) {
+      this.logger.error('STORAGE_SIGNING_SECRET is not configured');
+      throw new Error('Storage signing secret is not configured');
+    }
 
     const payload = `${projectId}:${fileId}:${expiresAt}`;
     const signature = crypto
@@ -286,13 +333,26 @@ export class StorageService {
 
     try {
       const decoded = Buffer.from(signedUrl, 'base64url').toString('utf-8');
-      const [projectId, fileId, expiresAt, signature] = decoded.split(':');
+      const parts = decoded.split(':');
 
-      if (Date.now() > parseInt(expiresAt)) {
+      if (parts.length !== 4) {
+        return new BadResponse(Errors.STORAGE_SIGNED_URL_INVALID);
+      }
+
+      const [projectId, fileId, expiresAt, signature] = parts;
+
+      const expiry = parseInt(expiresAt, 10);
+      if (isNaN(expiry) || Date.now() > expiry) {
         return new BadResponse(Errors.STORAGE_SIGNED_URL_EXPIRED);
       }
 
-      const secret = this.configService.get<string>('JWT_SECRET') || 'secret';
+      const secret = this.configService.get<string>('STORAGE_SIGNING_SECRET');
+
+      if (!secret) {
+        this.logger.error('STORAGE_SIGNING_SECRET is not configured');
+        throw new Error('Storage signing secret is not configured');
+      }
+
       const payload = `${projectId}:${fileId}:${expiresAt}`;
       const expectedSignature = crypto
         .createHmac('sha256', secret)
