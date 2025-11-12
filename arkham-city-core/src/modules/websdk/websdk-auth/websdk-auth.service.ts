@@ -2,7 +2,12 @@ import { Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
-import { BadResponse, Errors, GoodResponse, ServiceResponse } from 'src/core/microservice/microservice.types';
+import {
+  BadResponse,
+  Errors,
+  GoodResponse,
+  ServiceResponse,
+} from 'src/core/microservice/microservice.types';
 import { ProjectApp } from 'src/modules/project/app/project-app.type';
 import { SDKAuthResDto, SDKJwtPayload } from './websdk-auth.interface';
 import { HashService } from 'src/core/hash/hash.service';

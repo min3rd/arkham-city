@@ -91,6 +91,18 @@ export const microserviceConfig = {
       },
     },
   },
+  storage: {
+    name: 'storage',
+    patterns: {
+      upload: 'v1.storage.upload',
+      getFile: 'v1.storage.get-file',
+      download: 'v1.storage.download',
+      delete: 'v1.storage.delete',
+      list: 'v1.storage.list',
+      generateSignedUrl: 'v1.storage.generate-signed-url',
+      downloadBySignedUrl: 'v1.storage.download-by-signed-url',
+    },
+  },
 };
 
 export const getMicroserviceConfigNames = () => {
