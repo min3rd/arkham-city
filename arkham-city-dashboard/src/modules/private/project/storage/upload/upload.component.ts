@@ -15,7 +15,7 @@ import {
   ArkButton,
   ArkTextInput,
   ArkCheckbox,
-  BaseComponent,
+  BaseListComponent,
 } from 'arkhamcity';
 import { StorageService } from '@modules/private/project/storage/storage.service';
 import { UploadProgress } from '@modules/private/project/storage/storage.types';
@@ -38,7 +38,7 @@ import { takeUntil } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   viewProviders: [provideIcons({ ...feathers })],
 })
-export class UploadComponent extends BaseComponent implements OnInit {
+export class UploadComponent extends BaseListComponent implements OnInit {
   uploadForm!: FormGroup;
   selectedFiles = signal<File[]>([]);
   uploadProgress = signal<UploadProgress[]>([]);
@@ -47,8 +47,6 @@ export class UploadComponent extends BaseComponent implements OnInit {
 
   private readonly formBuilder = inject(FormBuilder);
   private readonly storageService = inject(StorageService);
-  private readonly router = inject(Router);
-  private readonly activatedRoute = inject(ActivatedRoute);
 
   override ngOnInit() {
     this.uploadForm = this.formBuilder.group({
