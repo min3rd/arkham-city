@@ -10,12 +10,14 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { provideIcons, NgIconComponent } from '@ng-icons/core';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import * as feathers from '@ng-icons/feather-icons';
 import {
   ArkButton,
   ArkTextInput,
   ArkCheckbox,
   BaseListComponent,
+  CapitalizePipe,
 } from 'arkhamcity';
 import { StorageService } from '@modules/private/project/storage/storage.service';
 import { UploadProgress } from '@modules/private/project/storage/storage.types';
@@ -30,6 +32,8 @@ const UPLOAD_COMPLETE_DELAY_MS = 1000;
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
+    TranslocoModule,
+    CapitalizePipe,
     ArkButton,
     ArkTextInput,
     ArkCheckbox,
@@ -50,6 +54,7 @@ export class UploadComponent extends BaseListComponent implements OnInit {
 
   private readonly formBuilder = inject(FormBuilder);
   private readonly storageService = inject(StorageService);
+  private readonly translocoService = inject(TranslocoService);
 
   override ngOnInit() {
     this.uploadForm = this.formBuilder.group({
@@ -98,7 +103,8 @@ export class UploadComponent extends BaseListComponent implements OnInit {
       try {
         metadata = JSON.parse(formValue.metadata);
       } catch (error) {
-        alert('Invalid JSON format in metadata field. Please check and try again.');
+        const message = this.translocoService.translate('invalid json format in metadata field please check and try again');
+        alert(message);
         this.isUploading.set(false);
         return;
       }

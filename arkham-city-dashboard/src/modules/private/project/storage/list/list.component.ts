@@ -10,7 +10,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { provideIcons, NgIconComponent } from '@ng-icons/core';
-import { TranslocoModule } from '@jsverse/transloco';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import * as feathers from '@ng-icons/feather-icons';
 import {
   ArkButton,
@@ -60,6 +60,7 @@ export class ListComponent extends BaseListComponent implements OnInit {
   isLoading = signal<boolean>(false);
 
   private readonly storageService = inject(StorageService);
+  private readonly translocoService = inject(TranslocoService);
 
   override ngOnInit() {
     combineLatest([
@@ -152,7 +153,8 @@ export class ListComponent extends BaseListComponent implements OnInit {
   deleteFile(file: StorageFile, event: Event) {
     event.stopPropagation();
 
-    if (!confirm(`Are you sure you want to delete "${file.originalName}"?`)) {
+    const message = this.translocoService.translate('are you sure you want to delete', { fileName: file.originalName });
+    if (!confirm(message)) {
       return;
     }
 
