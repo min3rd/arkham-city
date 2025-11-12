@@ -1,12 +1,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ListComponent } from './list/list.component';
 
 @Component({
   selector: 'project-storage',
-  imports: [CommonModule, RouterModule, ListComponent],
-  template: '<project-storage-list></project-storage-list>',
+  imports: [CommonModule, RouterModule],
+  template: `
+    <div class="flex flex-auto flex-col w-full h-full">
+      <router-outlet></router-outlet>
+    </div>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })

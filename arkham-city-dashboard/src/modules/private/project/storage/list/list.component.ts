@@ -78,6 +78,15 @@ export class ListComponent extends BaseListComponent implements OnInit {
           this.loadFiles();
         }
       });
+
+    this.router.events.pipe(takeUntil(this.unsubscribeAll)).subscribe(() => {
+      const hasChildRoute = this.activatedRoute.children.length > 0;
+      if (hasChildRoute && this.drawer) {
+        this.drawer.open();
+      } else if (this.drawer) {
+        this.drawer.close();
+      }
+    });
   }
 
   loadFiles() {

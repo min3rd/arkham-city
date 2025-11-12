@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { StorageComponent } from './storage.component';
+import { ListComponent } from './list/list.component';
 import { UploadComponent } from './upload/upload.component';
 
 export const routes: Routes = [
@@ -8,8 +9,14 @@ export const routes: Routes = [
     component: StorageComponent,
     children: [
       {
-        path: 'upload',
-        component: UploadComponent,
+        path: '',
+        component: ListComponent,
+        children: [
+          {
+            path: 'upload',
+            component: UploadComponent,
+          },
+        ],
       },
     ],
   },
