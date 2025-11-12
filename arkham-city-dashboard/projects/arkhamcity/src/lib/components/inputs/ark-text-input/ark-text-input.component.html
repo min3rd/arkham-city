@@ -32,6 +32,7 @@
     } @else {
       <input
         [(ngModel)]="model"
+        (ngModelChange)="onInternalModelChange($event)"
         type="{{ type }}"
         id="text-input-{{ label }}"
         name="text-input-{{ label }}"
