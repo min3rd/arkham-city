@@ -1,0 +1,157 @@
+<div class="flex flex-col w-full h-full bg-white dark:bg-neutral-900">
+  <div class="p-6 border-b border-neutral-200 dark:border-neutral-700">
+    <div class="flex items-center justify-between">
+      <h2 class="text-2xl font-semibold">Upload Files</h2>
+      <ark-button (click)="onCancel()" size="sm" variant="ghost">
+        <ng-icon name="featherX"></ng-icon>
+      </ark-button>
+    </div>
+  </div>
+
+  <div class="flex-1 overflow-y-auto p-6">
+    <form [formGroup]="uploadForm" class="space-y-6">
+      <div>
+        <span class="block text-sm font-medium mb-2">Select Files</span>
+        <div class="relative">
+          <input
+            type="file"
+            multiple
+            (change)="onFileSelect($event)"
+            class="hidden"
+            #fileInput
+            id="file-input"
+            aria-label="Select files to upload"
+          />
+          <button
+            type="button"
+            (click)="fileInput.click()"
+            class="w-full border-2 border-dashed border-neutral-300 dark:border-neutral-600 rounded-lg p-8 text-center cursor-pointer hover:border-neutral-400 dark:hover:border-neutral-500 transition-colors"
+          >
+            <ng-icon
+              name="featherUploadCloud"
+              class="text-4xl text-neutral-400 dark:text-neutral-500 mx-auto mb-3"
+            ></ng-icon>
+            <p class="text-sm text-neutral-600 dark:text-neutral-400">
+              Click to select files or drag and drop
+            </p>
+            <p class="text-xs text-neutral-500 dark:text-neutral-500 mt-1">
+              Multiple files supported
+            </p>
+          </button>
+        </div>
+      </div>
+
+      @if (selectedFiles().length > 0) {
+        <div>
+          <span class="block text-sm font-medium mb-2">Selected Files ({{ selectedFiles().length }})</span>
+          <div class="space-y-2">
+            @for (file of selectedFiles(); track $index; let i = $index) {
+              <div
+                class="flex items-center justify-between p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg"
+              >
+                <div class="flex items-center gap-3 flex-1 min-w-0">
+                  <ng-icon
+                    name="featherFile"
+                    class="text-xl text-neutral-600 dark:text-neutral-400 flex-shrink-0"
+                  ></ng-icon>
+                  <div class="flex-1 min-w-0">
+                    <div class="font-medium truncate">{{ file.name }}</div>
+                    <div class="text-xs text-neutral-500 dark:text-neutral-400">
+                      {{ formatFileSize(file.size) }}
+                    </div>
+                    @if (getProgressForFile(file); as progress) {
+                      <div class="mt-2">
+                        <div class="flex items-center gap-2 mb-1">
+                          <ng-icon
+                            [name]="getStatusIcon(progress.status)"
+                            [class]="getStatusClass(progress.status)"
+                            class="text-sm"
+                          ></ng-icon>
+                          <span class="text-xs" [class]="getStatusClass(progress.status)">
+                            {{ progress.status }}
+                          </span>
+                          @if (progress.status === 'uploading') {
+                            <span class="text-xs text-neutral-500">{{ progress.progress }}%</span>
+                          }
+                        </div>
+                        @if (progress.status === 'uploading') {
+                          <div class="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-1.5">
+                            <div
+                              class="bg-blue-600 h-1.5 rounded-full transition-all"
+                              [style.width.%]="progress.progress"
+                            ></div>
+                          </div>
+                        }
+                        @if (progress.error) {
+                          <div class="text-xs text-red-600 dark:text-red-400 mt-1">
+                            {{ progress.error }}
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+                </div>
+                @if (!isUploading()) {
+                  <ark-button
+                    (click)="removeFile(i)"
+                    size="xs"
+                    variant="ghost"
+                    title="Remove file"
+                  >
+                    <ng-icon
+                      name="featherX"
+                      class="text-red-600 dark:text-red-400"
+                    ></ng-icon>
+                  </ark-button>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      <div>
+        <span class="block text-sm font-medium mb-2">Options</span>
+        <div class="space-y-3">
+          <ark-checkbox formControlName="isPublic">
+            <span class="text-sm">Make files public</span>
+          </ark-checkbox>
+          
+          <div>
+            <label for="metadata-input" class="block text-sm font-medium mb-1">
+              Metadata (Optional JSON)
+            </label>
+            <ark-text-input
+              id="metadata-input"
+              formControlName="metadata"
+              placeholder='{"key": "value"}'
+              class="w-full"
+            ></ark-text-input>
+            <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+              Enter custom metadata as JSON object
+            </p>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="p-6 border-t border-neutral-200 dark:border-neutral-700">
+    <div class="flex items-center justify-end gap-3">
+      <ark-button (click)="onCancel()" variant="ghost" [disabled]="isUploading()">
+        Cancel
+      </ark-button>
+      <ark-button
+        (click)="onUpload()"
+        variant="primary"
+        [disabled]="selectedFiles().length === 0 || isUploading()"
+      >
+        @if (isUploading()) {
+          <span>Uploading...</span>
+        } @else {
+          <span>Upload {{ selectedFiles().length }} file(s)</span>
+        }
+      </ark-button>
+    </div>
+  </div>
+</div>

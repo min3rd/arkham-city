@@ -21,6 +21,11 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./firestore/firestore.routes').then((r) => r.routes),
       },
+      {
+        path: 'storage',
+        loadChildren: () =>
+          import('./storage/storage.routes').then((r) => r.routes),
+      },
     ],
   },
 ];
