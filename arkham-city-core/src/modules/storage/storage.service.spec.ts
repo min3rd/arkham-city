@@ -1,7 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigService } from '@nestjs/config';
+import { getModelToken } from '@nestjs/mongoose';
 import { StorageService } from './storage.service';
 import { DatabaseService } from '@modules/database/database.service';
+import { Project } from '@modules/project/project.types';
 import * as fs from 'fs';
 
 jest.mock('fs');
@@ -20,6 +22,13 @@ describe('StorageService', () => {
     }),
   };
 
+  const mockProjectModel = {
+    findById: jest.fn().mockResolvedValue({
+      _id: 'test-project',
+      maxFileSize: 50 * 1024 * 1024,
+    }),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -30,6 +39,7 @@ describe('StorageService', () => {
             get: jest.fn().mockImplementation((key: string) => {
               if (key === 'STORAGE_BASE_PATH') return './storage';
               if (key === 'STORAGE_SIGNING_SECRET') return 'test-secret';
+              if (key === 'STORAGE_MAX_FILE_SIZE') return 100 * 1024 * 1024;
               return null;
             }),
           },
@@ -39,6 +49,10 @@ describe('StorageService', () => {
           useValue: {
             createProjectConnection: jest.fn().mockReturnValue(mockConnection),
           },
+        },
+        {
+          provide: getModelToken(Project.name, 'metadata'),
+          useValue: mockProjectModel,
         },
       ],
     }).compile();
