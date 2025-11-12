@@ -1,17 +1,17 @@
 <div class="flex flex-col w-full h-full bg-white dark:bg-neutral-900">
-  <div class="p-6 border-b border-neutral-200 dark:border-neutral-700">
+  <div class="p-3 border-b border-neutral-200 dark:border-neutral-700 flex-shrink-0">
     <div class="flex items-center justify-between">
-      <h2 class="text-2xl font-semibold">{{ 'upload files' | transloco | capitalize }}</h2>
+      <h2 class="text-lg font-semibold">{{ 'upload files' | transloco | capitalize }}</h2>
       <ark-button (click)="onCancel()" size="sm" variant="ghost">
         <ng-icon name="featherX"></ng-icon>
       </ark-button>
     </div>
   </div>
 
-  <div class="flex-1 overflow-y-auto p-6">
-    <form [formGroup]="uploadForm" class="space-y-6">
+  <div class="flex-1 overflow-y-auto p-3">
+    <form [formGroup]="uploadForm" class="space-y-3">
       <div>
-        <span class="block text-sm font-medium mb-2">{{ 'select files' | transloco | capitalize }}</span>
+        <span class="block text-xs font-medium mb-1">{{ 'select files' | transloco | capitalize }}</span>
         <div class="relative">
           <input
             type="file"
@@ -25,16 +25,16 @@
           <button
             type="button"
             (click)="fileInput.click()"
-            class="w-full border-2 border-dashed border-neutral-300 dark:border-neutral-600 rounded-lg p-8 text-center cursor-pointer hover:border-neutral-400 dark:hover:border-neutral-500 transition-colors"
+            class="w-full border-2 border-dashed border-neutral-300 dark:border-neutral-600 rounded-lg p-4 text-center cursor-pointer hover:border-neutral-400 dark:hover:border-neutral-500 transition-colors"
           >
             <ng-icon
               name="featherUploadCloud"
-              class="text-4xl text-neutral-400 dark:text-neutral-500 mx-auto mb-3"
+              class="text-2xl text-neutral-400 dark:text-neutral-500 mx-auto mb-2"
             ></ng-icon>
-            <p class="text-sm text-neutral-600 dark:text-neutral-400">
+            <p class="text-xs text-neutral-600 dark:text-neutral-400">
               {{ 'click to select files or drag and drop' | transloco | capitalize }}
             </p>
-            <p class="text-xs text-neutral-500 dark:text-neutral-500 mt-1">
+            <p class="text-xs text-neutral-500 dark:text-neutral-500 mt-0.5">
               {{ 'multiple files supported' | transloco | capitalize }}
             </p>
           </button>
@@ -43,29 +43,29 @@
 
       @if (selectedFiles().length > 0) {
         <div>
-          <span class="block text-sm font-medium mb-2">{{ 'selected files' | transloco | capitalize }} ({{ selectedFiles().length }})</span>
-          <div class="space-y-2">
+          <span class="block text-xs font-medium mb-1">{{ 'selected files' | transloco | capitalize }} ({{ selectedFiles().length }})</span>
+          <div class="space-y-1.5">
             @for (file of selectedFiles(); track $index; let i = $index) {
               <div
-                class="flex items-center justify-between p-3 bg-neutral-50 dark:bg-neutral-800 rounded-lg"
+                class="flex items-center justify-between p-2 bg-neutral-50 dark:bg-neutral-800 rounded-lg"
               >
-                <div class="flex items-center gap-3 flex-1 min-w-0">
+                <div class="flex items-center gap-2 flex-1 min-w-0">
                   <ng-icon
                     name="featherFile"
-                    class="text-xl text-neutral-600 dark:text-neutral-400 flex-shrink-0"
+                    class="text-base text-neutral-600 dark:text-neutral-400 flex-shrink-0"
                   ></ng-icon>
                   <div class="flex-1 min-w-0">
-                    <div class="font-medium truncate">{{ file.name }}</div>
+                    <div class="text-sm font-medium truncate">{{ file.name }}</div>
                     <div class="text-xs text-neutral-500 dark:text-neutral-400">
                       {{ formatFileSize(file.size) }}
                     </div>
                     @if (getProgressForFile(file); as progress) {
-                      <div class="mt-2">
-                        <div class="flex items-center gap-2 mb-1">
+                      <div class="mt-1">
+                        <div class="flex items-center gap-1.5 mb-0.5">
                           <ng-icon
                             [name]="getStatusIcon(progress.status)"
                             [class]="getStatusClass(progress.status)"
-                            class="text-sm"
+                            class="text-xs"
                           ></ng-icon>
                           <span class="text-xs" [class]="getStatusClass(progress.status)">
                             {{ progress.status | transloco }}
@@ -75,15 +75,15 @@
                           }
                         </div>
                         @if (progress.status === 'uploading') {
-                          <div class="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-1.5">
+                          <div class="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-1">
                             <div
-                              class="bg-blue-600 h-1.5 rounded-full transition-all"
+                              class="bg-blue-600 h-1 rounded-full transition-all"
                               [style.width.%]="progress.progress"
                             ></div>
                           </div>
                         }
                         @if (progress.error) {
-                          <div class="text-xs text-red-600 dark:text-red-400 mt-1">
+                          <div class="text-xs text-red-600 dark:text-red-400 mt-0.5">
                             {{ progress.error }}
                           </div>
                         }
@@ -111,14 +111,14 @@
       }
 
       <div>
-        <span class="block text-sm font-medium mb-2">{{ 'options' | transloco | capitalize }}</span>
-        <div class="space-y-3">
+        <span class="block text-xs font-medium mb-1">{{ 'options' | transloco | capitalize }}</span>
+        <div class="space-y-2">
           <ark-checkbox [formFieldControl]="uploadForm.get('isPublic')">
-            <span class="text-sm">{{ 'make files public' | transloco | capitalize }}</span>
+            <span class="text-xs">{{ 'make files public' | transloco | capitalize }}</span>
           </ark-checkbox>
           
           <div>
-            <label for="metadata-input" class="block text-sm font-medium mb-1">
+            <label for="metadata-input" class="block text-xs font-medium mb-0.5">
               {{ 'metadata optional json' | transloco | capitalize }}
             </label>
             <ark-text-input
@@ -126,8 +126,9 @@
               formControlName="metadata"
               placeholder='{"key": "value"}'
               class="w-full"
+              size="sm"
             ></ark-text-input>
-            <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+            <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
               {{ 'enter custom metadata as json object' | transloco | capitalize }}
             </p>
           </div>
@@ -136,15 +137,16 @@
     </form>
   </div>
 
-  <div class="p-6 border-t border-neutral-200 dark:border-neutral-700">
-    <div class="flex items-center justify-end gap-3">
-      <ark-button (click)="onCancel()" variant="ghost" [disabled]="isUploading()">
+  <div class="p-3 border-t border-neutral-200 dark:border-neutral-700 flex-shrink-0">
+    <div class="flex items-center justify-end gap-2">
+      <ark-button (click)="onCancel()" variant="ghost" [disabled]="isUploading()" size="sm">
         {{ 'cancel' | transloco | capitalize }}
       </ark-button>
       <ark-button
         (click)="onUpload()"
         variant="primary"
         [disabled]="selectedFiles().length === 0 || isUploading()"
+        size="sm"
       >
         @if (isUploading()) {
           <span>{{ 'uploading' | transloco | capitalize }}...</span>
