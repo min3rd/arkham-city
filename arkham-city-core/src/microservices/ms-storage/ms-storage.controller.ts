@@ -11,7 +11,6 @@ import {
   MsStorageGenerateSignedUrlReqPayload,
   MsStorageDownloadBySignedUrlReqPayload,
 } from './ms-storage.interface';
-import { ServiceResponse } from '@src/core/microservice/microservice.types';
 
 @Controller()
 export class MsStorageController {
@@ -114,17 +113,18 @@ export class MsStorageController {
   }
 
   @MessagePattern(microserviceConfig.storage.patterns.generateSignedUrl)
-  generateSignedUrl(payload: MsStorageGenerateSignedUrlReqPayload) {
+  async generateSignedUrl(payload: MsStorageGenerateSignedUrlReqPayload) {
     this.logger.log('generateSignedUrl:start', {
       userId: payload.user.sub,
       projectId: payload.projectId,
       fileId: payload.fileId,
     });
 
-    const result = this.storageService.generateSignedUrl(
+    const result = await this.storageService.generateSignedUrl(
       payload.projectId,
       payload.fileId,
       { expiresIn: payload.expiresIn },
+      payload.user.sub,
     );
 
     this.logger.log('generateSignedUrl:end');

@@ -159,7 +159,7 @@ describe('MsStorageController', () => {
   });
 
   describe('generateSignedUrl', () => {
-    it('should generate a signed URL', () => {
+    it('should generate a signed URL', async () => {
       const payload = {
         user: mockUser,
         projectId: 'project-123',
@@ -169,15 +169,16 @@ describe('MsStorageController', () => {
 
       const expectedResult = new GoodResponse('signed-url-token');
 
-      mockStorageService.generateSignedUrl.mockReturnValue(expectedResult);
+      mockStorageService.generateSignedUrl.mockResolvedValue(expectedResult);
 
-      const result = controller.generateSignedUrl(payload);
+      const result = await controller.generateSignedUrl(payload);
 
       expect(result).toEqual(expectedResult);
       expect(storageService.generateSignedUrl).toHaveBeenCalledWith(
         payload.projectId,
         payload.fileId,
         { expiresIn: payload.expiresIn },
+        mockUser.sub,
       );
     });
   });

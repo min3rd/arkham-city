@@ -30,7 +30,10 @@ Add to `.env`:
 
 ```env
 STORAGE_BASE_PATH=./storage
+STORAGE_SIGNING_SECRET=YourSecureSecretKeyHere
 ```
+
+**Important:** The `STORAGE_SIGNING_SECRET` must be set for signed URL generation to work. This should be a strong, randomly generated secret different from `JWT_SECRET` to decouple storage URL signing from authentication.
 
 ## Message Patterns
 
@@ -93,7 +96,10 @@ const payload: MsStorageListFilesReqPayload = {
 - Access control based on user ID and project ID
 - Public/private file visibility
 - Signed URLs with expiration for temporary access
-- File size validation to prevent abuse
+  - **Important:** Signed URLs provide bearer token authentication. Anyone with a valid signed URL can access the file until expiration, regardless of ownership. This differs from regular download operations which enforce strict user-based access control.
+  - Users can only generate signed URLs for files they own or have access to
+  - The signing secret is separate from JWT authentication (`STORAGE_SIGNING_SECRET`)
+- File size validation to prevent abuse (100MB max)
 - MongoDB TTL indexes for automatic file expiration
 
 ## Storage Structure

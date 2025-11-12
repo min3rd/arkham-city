@@ -29,7 +29,7 @@ describe('StorageService', () => {
           useValue: {
             get: jest.fn().mockImplementation((key: string) => {
               if (key === 'STORAGE_BASE_PATH') return './storage';
-              if (key === 'JWT_SECRET') return 'test-secret';
+              if (key === 'STORAGE_SIGNING_SECRET') return 'test-secret';
               return null;
             }),
           },
@@ -77,26 +77,74 @@ describe('StorageService', () => {
   });
 
   describe('generateSignedUrl', () => {
-    it('should generate a signed URL', () => {
+    it('should generate a signed URL for existing file', async () => {
       const projectId = 'test-project';
       const fileId = 'test-file';
       const options = { expiresIn: 3600 };
 
-      const result = service.generateSignedUrl(projectId, fileId, options);
+      const mockFile = {
+        _id: fileId,
+        projectId,
+        userId: 'user-123',
+      };
+
+      const mockModel = {
+        findOne: jest.fn().mockResolvedValue(mockFile),
+      };
+
+      mockConnection.model.mockReturnValue(mockModel);
+
+      const result = await service.generateSignedUrl(
+        projectId,
+        fileId,
+        options,
+      );
 
       expect(result.error).toBe(false);
       expect(result.data).toBeDefined();
       expect(typeof result.data).toBe('string');
     });
+
+    it('should return error for non-existent file', async () => {
+      const projectId = 'test-project';
+      const fileId = 'non-existent';
+      const options = { expiresIn: 3600 };
+
+      const mockModel = {
+        findOne: jest.fn().mockResolvedValue(null),
+      };
+
+      mockConnection.model.mockReturnValue(mockModel);
+
+      const result = await service.generateSignedUrl(
+        projectId,
+        fileId,
+        options,
+      );
+
+      expect(result.error).toBe(true);
+    });
   });
 
   describe('verifySignedUrl', () => {
-    it('should verify a valid signed URL', () => {
+    it('should verify a valid signed URL', async () => {
       const projectId = 'test-project';
       const fileId = 'test-file';
       const options = { expiresIn: 3600 };
 
-      const generateResult = service.generateSignedUrl(
+      const mockFile = {
+        _id: fileId,
+        projectId,
+        userId: 'user-123',
+      };
+
+      const mockModel = {
+        findOne: jest.fn().mockResolvedValue(mockFile),
+      };
+
+      mockConnection.model.mockReturnValue(mockModel);
+
+      const generateResult = await service.generateSignedUrl(
         projectId,
         fileId,
         options,

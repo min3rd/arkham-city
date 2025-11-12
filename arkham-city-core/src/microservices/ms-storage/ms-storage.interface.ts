@@ -1,9 +1,5 @@
 import { JWTPayload } from '@modules/auth/auth.interface';
-import {
-  UploadFileDto,
-  SignedUrlOptions,
-  ListFilesQuery,
-} from '@modules/storage/storage.types';
+import { ListFilesQuery } from '@modules/storage/storage.types';
 
 export interface MsStorageUploadFileReqPayload {
   user: JWTPayload;
