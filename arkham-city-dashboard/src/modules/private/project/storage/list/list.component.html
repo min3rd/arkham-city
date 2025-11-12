@@ -1,8 +1,8 @@
 <ark-drawer-container>
-  <ark-drawer #drawer [opened]="false" [mode]="'over'" class="w-96 max-w-full" position="end">
+  <ark-drawer #drawer [opened]="false" class="w-96" position="end">
     <router-outlet></router-outlet>
   </ark-drawer>
-  <ark-drawer-content class="flex flex-auto flex-col h-full border-r border-neutral-200 dark:border-neutral-700">
+  <ark-drawer-content class="flex flex-auto flex-col max-w-2xl h-screen border-r border-neutral-200 dark:border-neutral-700">
     <div class="flex flex-col w-full h-full">
       <div class="p-3 border-b border-neutral-200 dark:border-neutral-700 flex-shrink-0">
         <div class="flex items-center justify-between">
