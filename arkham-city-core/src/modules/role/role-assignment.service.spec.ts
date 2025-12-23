@@ -31,7 +31,10 @@ describe('RoleAssignmentService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         RoleAssignmentService,
-        { provide: getModelToken(RoleAssignment.name, 'metadata'), useValue: roleAssignmentModel },
+        {
+          provide: getModelToken(RoleAssignment.name, 'metadata'),
+          useValue: roleAssignmentModel,
+        },
         { provide: getModelToken(Role.name, 'metadata'), useValue: roleModel },
         { provide: getModelToken(User.name, 'metadata'), useValue: userModel },
       ],

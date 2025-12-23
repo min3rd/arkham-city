@@ -148,12 +148,9 @@ export class GwRoleController extends GatewayController {
     @Param('id') id: string,
   ): Promise<boolean | undefined> {
     const res: ServiceResponse<boolean> = await firstValueFrom(
-      this.rmqClient.send(
-        microserviceConfig.role.patterns.deleteAssignment,
-        {
-          assignmentId: id,
-        },
-      ),
+      this.rmqClient.send(microserviceConfig.role.patterns.deleteAssignment, {
+        assignmentId: id,
+      }),
     );
     this.afterCallMicroservice(res);
     return res.data;
@@ -168,8 +165,7 @@ export class GwRoleController extends GatewayController {
     @Query('projectId') projectId?: string,
     @Query('resourceId') resourceId?: string,
   ): Promise<PermissionEvaluation | undefined> {
-    const resolvedUser =
-      userId ?? (req as any)?.[REQUEST_FIELDS.user]?.sub;
+    const resolvedUser = userId ?? (req as any)?.[REQUEST_FIELDS.user]?.sub;
     const res: ServiceResponse<PermissionEvaluation> = await firstValueFrom(
       this.rmqClient.send(
         microserviceConfig.role.patterns.effectivePermissions,

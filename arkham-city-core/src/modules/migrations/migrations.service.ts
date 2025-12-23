@@ -47,10 +47,7 @@ const DEFAULT_ROLES: Array<{
   {
     name: 'editor',
     description: 'Manage project data and storage',
-    permissions: [
-      ...PROJECT_READ_PERMISSIONS,
-      ...PROJECT_WRITE_PERMISSIONS,
-    ],
+    permissions: [...PROJECT_READ_PERMISSIONS, ...PROJECT_WRITE_PERMISSIONS],
     default: false,
   },
   {

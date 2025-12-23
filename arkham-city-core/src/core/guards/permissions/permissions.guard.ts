@@ -28,11 +28,12 @@ export class PermissionGuard implements CanActivate {
         context.getHandler(),
         context.getClass(),
       ]) ?? [];
-    const scopedRequirement =
-      this.reflector.getAllAndOverride<ScopedPermissionMetadata | undefined>(
-        REQUIRE_PERMISSION_SCOPABLE_KEY,
-        [context.getHandler(), context.getClass()],
-      );
+    const scopedRequirement = this.reflector.getAllAndOverride<
+      ScopedPermissionMetadata | undefined
+    >(REQUIRE_PERMISSION_SCOPABLE_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
     if (requiredPermissions.length === 0 && !scopedRequirement) {
       return true;
     }
@@ -59,11 +60,7 @@ export class PermissionGuard implements CanActivate {
     if (scopedRequirement) {
       const scopedPermissions =
         scopedRequirement.scopeType === 'resource'
-          ? new Set([
-              ...scopes.system,
-              ...scopes.project,
-              ...scopes.resource,
-            ])
+          ? new Set([...scopes.system, ...scopes.project, ...scopes.resource])
           : new Set([...scopes.system, ...scopes.project]);
       if (!scopedPermissions.has(scopedRequirement.permission)) {
         throw new ForbiddenException();
@@ -99,7 +96,7 @@ export class PermissionGuard implements CanActivate {
       projectId:
         scopedRequirement?.scopeType === 'resource'
           ? projectIdFromRequest
-          : projectIdFromRequest ?? scopeValue,
+          : (projectIdFromRequest ?? scopeValue),
       resourceId:
         scopedRequirement?.scopeType === 'resource' ? scopeValue : undefined,
     };

@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import { type StringValue } from 'ms';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { RoleModule } from '../role/role.module';
@@ -13,7 +14,8 @@ import { RoleModule } from '../role/role.module';
       global: true,
       secret: process.env.JWT_SECRET,
       signOptions: {
-        expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN,
+        expiresIn: (process.env.JWT_ACCESS_TOKEN_EXPIRES_IN ??
+          undefined) as StringValue | undefined,
       },
     }),
     ClientsModule.register([

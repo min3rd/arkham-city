@@ -14,9 +14,8 @@ import { ConfigService } from '@nestjs/config';
 import { Role } from '../role/role.type';
 import { RoleService } from '../role/role.service';
 import { RoleAssignmentService } from '../role/role-assignment.service';
-import {
-  type PermissionScopes,
-} from './user.permissions';
+import { type PermissionScopes } from './user.permissions';
+import { type StringValue } from 'ms';
 
 const ROLE_MANAGE_PERMISSION = 'roles:write';
 const DUPLICATE_KEY_ERROR_CODE = 11000;
@@ -135,21 +134,18 @@ export class UserService {
       },
       {
         secret: this.configService.get('JWT_SECRET') as string,
-        expiresIn: this.configService.get(
+        expiresIn: (this.configService.get(
           'JWT_REFRESH_TOKEN_EXPIRES_IN',
-        ) as string,
+        ) ?? undefined) as StringValue | undefined,
       },
     );
     user = await user.save();
     this.logger.log(`findOneByEmailAndPassword:end`);
     const userJson = user.toJSON();
     const permissionScopes =
-      await this.roleAssignmentService.resolvePermissionScopes(
-        user._id as string,
-        {
-          baseUser: user as User & { roles?: (Role | string)[] },
-        },
-      );
+      await this.roleAssignmentService.resolvePermissionScopes(user._id, {
+        baseUser: user as User & { roles?: (Role | string)[] },
+      });
     return new GoodResponse({
       ...userJson,
       password: undefined, // ignore password
@@ -172,12 +168,9 @@ export class UserService {
       return new BadResponse(Errors.INCORRECT_REFRESH_TOKEN);
     }
     const permissionScopes =
-      await this.roleAssignmentService.resolvePermissionScopes(
-        user._id as string,
-        {
-          baseUser: user as User & { roles?: (Role | string)[] },
-        },
-      );
+      await this.roleAssignmentService.resolvePermissionScopes(user._id, {
+        baseUser: user as User & { roles?: (Role | string)[] },
+      });
     this.logger.log(`findOneByRefreshToken:end`);
     return new GoodResponse({
       ...user.toJSON(),
@@ -193,12 +186,9 @@ export class UserService {
       return undefined;
     }
     const permissionScopes =
-      await this.roleAssignmentService.resolvePermissionScopes(
-        user._id as string,
-        {
-          baseUser: user as User & { roles?: (Role | string)[] },
-        },
-      );
+      await this.roleAssignmentService.resolvePermissionScopes(user._id, {
+        baseUser: user as User & { roles?: (Role | string)[] },
+      });
     return {
       ...user.toJSON(),
       password: undefined,
