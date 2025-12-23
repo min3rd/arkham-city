@@ -21,6 +21,8 @@ export interface JWTPayload {
   sub?: string;
   username?: string;
   email?: string;
+  roles?: string[];
+  permissions?: string[];
 }
 
 export interface LogInResponseDto {

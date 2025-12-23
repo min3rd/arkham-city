@@ -20,6 +20,9 @@ export interface AuthReqDto {
 
 export interface AuthResDto {
   accessToken?: string;
+  permissions?: string[];
+  roles?: string[];
+  user?: any;
 }
 
 export interface ApiResponse<T> {
@@ -89,6 +92,21 @@ export class SDKManager {
 
   get accessToken(): string {
     return this._accessToken;
+  }
+
+  permissions(): string[] {
+    if (!this.accessToken) {
+      return [];
+    }
+    const payload: any = JwtUtils.decodeJwt(this.accessToken);
+    if (!payload || !payload.permissions) {
+      return [];
+    }
+    return payload.permissions;
+  }
+
+  hasPermission(permission: string): boolean {
+    return this.permissions().includes(permission);
   }
 
   endpoint(uri: string): string {

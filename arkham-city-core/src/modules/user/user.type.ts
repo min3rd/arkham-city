@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
 import { AuditEntity } from '../base/base.type';
+import { Role } from '../role/role.type';
 
 @Schema({
   timestamps: true,
@@ -29,6 +30,18 @@ export class User extends AuditEntity {
 
   @Prop()
   refreshToken: string;
+
+  @Prop({
+    type: [{ type: Types.ObjectId, ref: Role.name }],
+    default: [],
+  })
+  roles: (Role | string)[];
+
+  @Prop({
+    type: [String],
+    default: [],
+  })
+  permissions: string[];
 }
 
 export type UserDocument = HydratedDocument<User>;

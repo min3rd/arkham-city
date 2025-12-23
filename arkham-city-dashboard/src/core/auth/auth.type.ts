@@ -4,12 +4,22 @@ export interface LogInResDto {
   metadata: UserResDto;
 }
 
+export interface RoleResDto {
+  _id?: string;
+  name: string;
+  description?: string;
+  permissions?: string[];
+  default?: boolean;
+}
+
 export interface UserResDto {
   _id: string;
   username: string;
   email: string;
   firstName?: string;
   lastName?: string;
+  roles?: RoleResDto[];
+  permissions?: string[];
   __v?: number;
   avatar?: string;
 }

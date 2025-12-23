@@ -56,6 +56,13 @@ export class NavigationService {
           type: 'basic',
           link: '/projects/projectId/apps',
         },
+        {
+          id: 'roles',
+          title: 'roles',
+          type: 'basic',
+          link: '/roles',
+          permissions: ['roles:write'],
+        },
       ],
     },
   ];

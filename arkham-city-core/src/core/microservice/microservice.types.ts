@@ -215,6 +215,11 @@ export class Errors {
     new Error('01x0038', 'Could not found the record');
   static readonly PROJECT_FIRESTORE_SCHEMA_COULD_NOT_UPDATE_THE_RECORD =
     new Error('01x0039', 'Could not update the record');
+  static readonly ROLE_ALREADY_EXISTS = new Error(
+    '01x0050',
+    'The role already exists',
+  );
+  static readonly ROLE_NOT_FOUND = new Error('01x0051', 'Role not found');
 
   static readonly STORAGE_FILE_SIZE_EXCEEDS_LIMIT = new Error(
     '01x0040',

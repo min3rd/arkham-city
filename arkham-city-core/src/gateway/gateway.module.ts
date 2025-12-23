@@ -7,6 +7,9 @@ import { GwWebsdkModule } from './gw-websdk/gw-websdk.module';
 import { GwStorageModule } from './gw-storage/gw-storage.module';
 import { AuthGuard } from '../core/guards/auth/auth.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { GwRoleModule } from './gw-role/gw-role.module';
+import { PermissionsGuard } from 'src/core/guards/permissions/permissions.guard';
+import { ModulesModule } from 'src/modules/modules.module';
 
 @Module({
   imports: [
@@ -16,11 +19,17 @@ import { APP_GUARD } from '@nestjs/core';
     GwFirestoreModule,
     GwWebsdkModule,
     GwStorageModule,
+    GwRoleModule,
+    ModulesModule,
   ],
   providers: [
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: PermissionsGuard,
     },
   ],
 })
