@@ -13,39 +13,21 @@ import {
 } from '@angular/forms';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import {
-  ArkDrawer,
-} from '../../../../projects/arkhamcity/src/lib/components/drawers/ark-drawer/ark-drawer.component';
-import {
-  ArkDrawerContainer,
-} from '../../../../projects/arkhamcity/src/lib/components/drawers/ark-drawer-container/ark-drawer-container.component';
-import {
-  ArkDrawerContent,
-} from '../../../../projects/arkhamcity/src/lib/components/drawers/ark-drawer-content/ark-drawer-content.component';
-import {
-  ArkDatatable,
-} from '../../../../projects/arkhamcity/src/lib/components/dataviews/ark-datatable/ark-datatable.component';
-import {
   ArkButton,
-} from '../../../../projects/arkhamcity/src/lib/components/buttons/ark-button/ark-button.component';
-import {
-  ArkTextInput,
-} from '../../../../projects/arkhamcity/src/lib/components/inputs/ark-text-input/ark-text-input.component';
-import {
   ArkCheckbox,
-} from '../../../../projects/arkhamcity/src/lib/components/checkboxes/ark-checkbox/ark-checkbox.component';
-import {
+  ArkDatatable,
+  ArkDrawer,
+  ArkDrawerContainer,
+  ArkDrawerContent,
+  ArkSelect,
   ArkTabContent,
-} from '../../../../projects/arkhamcity/src/lib/components/tabs/ark-tab-content/ark-tab-content.component';
-import {
   ArkTabGroup,
   ArkTabTitle,
-} from '../../../../projects/arkhamcity/src/lib/components/tabs/ark-tab-group/ark-tab-group.component';
-import {
-  ArkSelect,
-} from '../../../../projects/arkhamcity/src/lib/components/selects/ark-select/ark-select.component';
-import { BaseListComponent } from '../../../../projects/arkhamcity/src/lib/components/base/base-list/base-list.component';
-import { CapitalizePipe } from '../../../../projects/arkhamcity/src/lib/pipes/capitalize.pipe';
-import { Pagination } from '../../../../projects/arkhamcity/src/lib/type/pagination.types';
+  ArkTextInput,
+  BaseListComponent,
+  CapitalizePipe,
+  Pagination,
+} from 'arkhamcity';
 import { RoleResDto } from '@core/auth/auth.type';
 import {
   CreateRoleAssignmentPayload,
@@ -86,22 +68,10 @@ export class RolesComponent extends BaseListComponent implements OnInit {
     { id: 'users', title: 'Users' },
     { id: 'audit', title: 'Audit' },
   ];
-  readonly defaultPermissionKeys = [
-    'roles:write',
-    'projects:read',
-    'projects:write',
-    'project:read',
-    'project:write',
-    'project:firestore:read',
-    'project:firestore:write',
-    'project:storage:read',
-    'project:storage:write',
-  ];
-
+  private permissionPool = new Set<string>();
   private readonly rolesService = inject(RolesService);
   private readonly formBuilder = inject(FormBuilder);
   private readonly translocoService = inject(TranslocoService);
-  private readonly MIN_USER_QUERY_LENGTH = 2;
   private readonly MIN_USER_QUERY_LENGTH = 2;
 
   drawerOpened = false;
@@ -181,8 +151,7 @@ export class RolesComponent extends BaseListComponent implements OnInit {
 
   availablePermissions(): string[] {
     const existing = new Set<string>([
-      ...this.defaultPermissionKeys,
-      ...this.roles.flatMap((role) => role.permissions ?? []),
+      ...this.permissionPool,
       ...this.selectedPermissions,
     ]);
     return Array.from(existing);
@@ -221,6 +190,7 @@ export class RolesComponent extends BaseListComponent implements OnInit {
       default: role.default ?? false,
     });
     this.selectedPermissions = new Set<string>(role.permissions ?? []);
+    (role.permissions ?? []).forEach((perm) => this.permissionPool.add(perm));
     if (role._id) {
       this.loadAssignments(role._id);
     } else {
@@ -309,6 +279,7 @@ export class RolesComponent extends BaseListComponent implements OnInit {
       return;
     }
     this.selectedPermissions.add(value);
+    this.permissionPool.add(value);
     this.customPermission.reset();
     this.changeDetectorRef.markForCheck();
   }
@@ -332,6 +303,9 @@ export class RolesComponent extends BaseListComponent implements OnInit {
     this.rolesService.list().subscribe({
       next: (roles) => {
         this.roles = roles ?? [];
+        this.permissionPool = new Set(
+          this.roles.flatMap((role) => role.permissions ?? []),
+        );
         this.applyFilters();
         if (focusId) {
           const found = this.roles.find((r) => r._id === focusId);
