@@ -8,7 +8,7 @@ import {
   QueryList,
   ViewEncapsulation,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ArkIcon } from '../../icons/ark-icon/ark-icon.component';
 import { ArkTabContent } from '../ark-tab-content/ark-tab-content.component';
 import { BaseComponent } from '../../base/base/base.component';
@@ -22,7 +22,7 @@ export interface ArkTabTitle {
 
 @Component({
   selector: 'ark-tab-group',
-  imports: [CommonModule, ArkIcon],
+  imports: [ArkIcon],
   templateUrl: './ark-tab-group.component.html',
   encapsulation: ViewEncapsulation.None,
   standalone: true,

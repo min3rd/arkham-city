@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -24,19 +24,18 @@ import { User } from '../user.types';
 @Component({
   selector: 'app-detail',
   imports: [
-    CommonModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule,
-  ],
+    MatButtonModule
+],
   templateUrl: './detail.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DetailComponent implements OnInit, OnDestroy {
-  user!: User;
+  user: User | null = null;
   form!: UntypedFormGroup;
   private formBuilder = inject(UntypedFormBuilder);
   private userService = inject(UserService);
@@ -53,7 +52,7 @@ export class DetailComponent implements OnInit, OnDestroy {
 
     this.userService.user$
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((user) => {
+      .subscribe((user: User | null) => {
         this.form.reset();
         this.user = user;
         if (user) {
@@ -79,12 +78,15 @@ export class DetailComponent implements OnInit, OnDestroy {
       });
   }
   update() {
-    if (this.form.invalid) {
+    if (this.form.invalid || !this.user) {
       return;
     }
     this.userService.update(this.user._id, this.form.getRawValue()).subscribe();
   }
   delete() {
+    if (!this.user) {
+      return;
+    }
     this.userService.delete(this.user._id).subscribe((done: boolean | null) => {
       if (done) {
         this.router.navigate(['/users']);

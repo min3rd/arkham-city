@@ -6,7 +6,7 @@ import {
   signal,
   ViewEncapsulation,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { provideIcons, NgIconComponent } from '@ng-icons/core';
@@ -29,7 +29,6 @@ const UPLOAD_COMPLETE_DELAY_MS = 1000;
 @Component({
   selector: 'project-storage-upload',
   imports: [
-    CommonModule,
     RouterModule,
     ReactiveFormsModule,
     TranslocoModule,
@@ -37,8 +36,8 @@ const UPLOAD_COMPLETE_DELAY_MS = 1000;
     ArkButton,
     ArkTextInput,
     ArkCheckbox,
-    NgIconComponent,
-  ],
+    NgIconComponent
+],
   templateUrl: './upload.component.html',
   encapsulation: ViewEncapsulation.None,
   standalone: true,

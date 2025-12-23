@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
 import { CapitalizePipe } from '../../../../../../projects/arkhamcity/src/lib/pipes/capitalize.pipe';
@@ -9,7 +9,7 @@ import {
 
 @Component({
   selector: 'project-firestore-rule',
-  imports: [CommonModule, RouterModule, TranslocoModule, CapitalizePipe, ArkButton],
+  imports: [RouterModule, TranslocoModule, CapitalizePipe, ArkButton],
   templateUrl: './rule.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

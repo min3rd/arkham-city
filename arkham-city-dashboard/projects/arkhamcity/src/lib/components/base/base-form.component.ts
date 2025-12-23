@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectorRef, Component, inject, OnDestroy, type OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 
 @Component({
   selector: 'base-form-component',
-  imports: [CommonModule],
+  imports: [],
   template: ``,
 })
 export class BaseFormComponent implements OnInit, OnDestroy {

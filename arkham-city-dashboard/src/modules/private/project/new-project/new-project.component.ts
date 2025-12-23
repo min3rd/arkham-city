@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoModule } from '@jsverse/transloco';
 import { CapitalizePipe } from '../../../../../projects/arkhamcity/src/lib/pipes/capitalize.pipe';
@@ -18,15 +18,14 @@ import { BaseFormComponent } from '../../../../../projects/arkhamcity/src/lib/co
 @Component({
   selector: 'projects-new-project',
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     TranslocoModule,
     CapitalizePipe,
     ArkTextInput,
     ArkButton,
-    ArkTextarea,
-  ],
+    ArkTextarea
+],
   templateUrl: './new-project.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

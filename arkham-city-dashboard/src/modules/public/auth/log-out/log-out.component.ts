@@ -8,13 +8,13 @@ import {
 } from '@angular/core';
 import { AuthService } from '@core/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { TranslocoModule } from '@jsverse/transloco';
 import { CapitalizePipe } from 'arkhamcity';
 
 @Component({
   selector: 'app-log-out',
-  imports: [CommonModule, TranslocoModule, CapitalizePipe],
+  imports: [TranslocoModule, CapitalizePipe],
   templateUrl: './log-out.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

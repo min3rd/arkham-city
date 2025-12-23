@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'project-storage',
-  imports: [CommonModule, RouterModule],
+  imports: [RouterModule],
   template: `
     <div class="flex flex-auto flex-col w-full h-full">
       <router-outlet></router-outlet>

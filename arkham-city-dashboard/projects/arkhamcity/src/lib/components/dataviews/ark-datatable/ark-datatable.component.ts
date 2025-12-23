@@ -4,7 +4,7 @@ import { ArkTextInput } from '../../inputs/ark-text-input/ark-text-input.compone
 import { ArkButton } from '../../buttons/ark-button/ark-button.component';
 import { CapitalizePipe } from '../../../pipes/capitalize.pipe';
 import { TranslocoModule } from '@jsverse/transloco';
-import { CommonModule } from '@angular/common';
+
 import { ArkPaginator } from '../../paginators/ark-paginator/ark-paginator.component';
 import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 
@@ -12,14 +12,13 @@ import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup } from '@angu
   selector: 'ark-datatable',
   exportAs: 'arkDatatable',
   imports: [
-    CommonModule,
     TranslocoModule,
     CapitalizePipe,
     ArkTextInput,
     ArkButton,
     ArkPaginator,
-    ReactiveFormsModule,
-  ],
+    ReactiveFormsModule
+],
   templateUrl: './ark-datatable.component.html',
   styleUrl: './ark-datatable.component.css',
   encapsulation: ViewEncapsulation.None,

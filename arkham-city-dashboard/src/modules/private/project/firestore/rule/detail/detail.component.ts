@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormArray, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import {
   ArkTextInput,
@@ -31,7 +31,7 @@ import { SchemaRuleResDto } from '../rule.types';
 
 @Component({
   selector: 'project-firestore-rule-detail',
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, ArkTextInput, ArkButton, TranslocoModule, CapitalizePipe, ArkTabGroup, ArkTabContent, ArkSelect],
+  imports: [RouterModule, FormsModule, ReactiveFormsModule, ArkTextInput, ArkButton, TranslocoModule, CapitalizePipe, ArkTabGroup, ArkTabContent, ArkSelect],
   templateUrl: './detail.component.html',
 })
 export class DetailComponent extends BaseFormComponent implements OnInit {

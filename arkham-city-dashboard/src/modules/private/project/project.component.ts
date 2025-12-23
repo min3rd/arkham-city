@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'project',
-  imports: [CommonModule, RouterModule],
+  imports: [RouterModule],
   templateUrl: './project.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
