@@ -220,6 +220,22 @@ export class Errors {
     'The role already exists',
   );
   static readonly ROLE_NOT_FOUND = new Error('01x0051', 'Role not found');
+  static readonly ROLE_ASSIGNMENT_ALREADY_EXISTS = new Error(
+    '01x0052',
+    'The role assignment already exists',
+  );
+  static readonly ROLE_ASSIGNMENT_NOT_FOUND = new Error(
+    '01x0053',
+    'Role assignment not found',
+  );
+  static readonly ROLE_ASSIGNMENT_PROJECT_REQUIRED = new Error(
+    '01x0054',
+    'Project id is required for project scoped assignment',
+  );
+  static readonly ROLE_ASSIGNMENT_RESOURCE_REQUIRED = new Error(
+    '01x0055',
+    'Resource id is required for resource scoped assignment',
+  );
 
   static readonly STORAGE_FILE_SIZE_EXCEEDS_LIMIT = new Error(
     '01x0040',
