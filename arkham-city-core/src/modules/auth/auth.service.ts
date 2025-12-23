@@ -20,6 +20,7 @@ export class AuthService {
       email: user?.email,
       roles: this.extractRoleIds(user),
       permissions: aggregatePermissions(user as User & { roles?: Role[] }),
+      superAdmin: user?.superAdmin,
     };
     const accessToken = await this.jwtService.signAsync(payload);
     const response: LogInResponseDto = {
@@ -29,6 +30,7 @@ export class AuthService {
         ...user,
         refreshToken: undefined, //ignore refreshToken
         permissions: aggregatePermissions(user as User & { roles?: Role[] }),
+        superAdmin: user?.superAdmin,
       },
     };
     return response;

@@ -23,6 +23,7 @@ export interface JWTPayload {
   email?: string;
   roles?: string[];
   permissions?: string[];
+  superAdmin?: boolean;
 }
 
 export interface LogInResponseDto {

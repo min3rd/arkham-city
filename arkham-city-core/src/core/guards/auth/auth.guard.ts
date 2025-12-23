@@ -46,6 +46,7 @@ export class AuthGuard implements CanActivate {
           ...payload,
           permissions: payload.permissions ?? [],
           roles: payload.roles ?? [],
+          superAdmin: payload.superAdmin ?? false,
         };
       } else if (payload.type === 'websdk') {
         request[REQUEST_FIELDS.auth] = await this.jwtService.verifyAsync(
