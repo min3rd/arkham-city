@@ -10,3 +10,7 @@
 - Microservice patterns live under `microserviceConfig.role.*` for role CRUD.
 - Use the `@Permissions(...permissions)` decorator to mark HTTP handlers; `PermissionsGuard` enforces them using the permissions embedded in JWTs or fetched from the user record.
 - A bootstrap safeguard assigns the `roles:write` permission to the first registered user when no default roles exist so role management remains reachable.
+- On startup, a lightweight migration seeds system roles in the metadata database:
+  - `admin`: system + project read/write permissions.
+  - `editor`: project read/write permissions.
+  - `viewer` (default assigned): project read-only permissions.
