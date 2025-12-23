@@ -39,7 +39,8 @@ export class RoleAssignment extends AuditEntity {
 
 export type RoleAssignmentDocument = HydratedDocument<RoleAssignment>;
 
-export const RoleAssignmentSchema = SchemaFactory.createForClass(RoleAssignment);
+export const RoleAssignmentSchema =
+  SchemaFactory.createForClass(RoleAssignment);
 RoleAssignmentSchema.index(
   { user: 1, role: 1, scope: 1, projectId: 1, resourceId: 1 },
   { unique: true, name: 'unique_role_assignment' },

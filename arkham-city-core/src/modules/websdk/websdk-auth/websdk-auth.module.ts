@@ -8,6 +8,7 @@ import {
   AppSchema as ProjectAppSchema,
 } from 'src/modules/project/app/project-app.type';
 import { JwtModule } from '@nestjs/jwt';
+import { type StringValue } from 'ms';
 import { DatabaseModule } from 'src/modules/database/database.module';
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { DatabaseModule } from 'src/modules/database/database.module';
       global: true,
       secret: process.env.JWT_SECRET,
       signOptions: {
-        expiresIn: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN,
+        expiresIn: (process.env.JWT_ACCESS_TOKEN_EXPIRES_IN ??
+          undefined) as StringValue | undefined,
       },
     }),
     DatabaseModule,

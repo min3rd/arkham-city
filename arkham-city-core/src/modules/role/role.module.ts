@@ -2,10 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Role, RoleSchema } from './role.type';
-import {
-  RoleAssignment,
-  RoleAssignmentSchema,
-} from './role-assignment.type';
+import { RoleAssignment, RoleAssignmentSchema } from './role-assignment.type';
 import { RoleService } from './role.service';
 import { RoleAssignmentService } from './role-assignment.service';
 import { User, UserSchema } from '../user/user.type';

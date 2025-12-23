@@ -15,10 +15,7 @@ import {
   ListRoleAssignmentDto,
   UpdateRoleAssignmentDto,
 } from './role-assignment.interface';
-import {
-  RoleAssignment,
-  RoleAssignmentScope,
-} from './role-assignment.type';
+import { RoleAssignment, RoleAssignmentScope } from './role-assignment.type';
 
 const DUPLICATE_KEY_ERROR_CODE = 11000;
 const PROJECT_SCOPE_PREFIX = 'project:';
@@ -150,9 +147,8 @@ export class RoleAssignmentService {
   }
 
   async delete(assignmentId: string): Promise<ServiceResponse<boolean>> {
-    const result = await this.roleAssignmentModel.findByIdAndDelete(
-      assignmentId,
-    );
+    const result =
+      await this.roleAssignmentModel.findByIdAndDelete(assignmentId);
     if (!result) {
       return new BadResponse(Errors.ROLE_ASSIGNMENT_NOT_FOUND);
     }
