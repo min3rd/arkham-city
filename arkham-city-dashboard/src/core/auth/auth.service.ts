@@ -168,4 +168,18 @@ export class AuthService {
 
     return this.logInByRefreshToken();
   }
+
+  hasPermission(permission: string): boolean {
+    if (!permission) {
+      return false;
+    }
+    return this.user?.permissions?.includes(permission) ?? false;
+  }
+
+  hasAllPermissions(permissions: string[]): boolean {
+    if (!permissions || permissions.length === 0) {
+      return true;
+    }
+    return permissions.every((permission) => this.hasPermission(permission));
+  }
 }

@@ -13,4 +13,5 @@ export interface NavigationItem {
     classes?: string;
   };
   children?: NavigationItem[];
+  permissions?: string[];
 }

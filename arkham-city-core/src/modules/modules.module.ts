@@ -6,6 +6,7 @@ import { UserModule } from './user/user.module';
 import { WebsdkModule } from './websdk/websdk.module';
 import { DatabaseModule } from './database/database.module';
 import { StorageModule } from './storage/storage.module';
+import { RoleModule } from './role/role.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { StorageModule } from './storage/storage.module';
     WebsdkModule,
     DatabaseModule,
     StorageModule,
+    RoleModule,
   ],
   exports: [
     AuthModule,
@@ -23,6 +25,7 @@ import { StorageModule } from './storage/storage.module';
     ProjectModule,
     FirestoreModule,
     StorageModule,
+    RoleModule,
   ],
 })
 export class ModulesModule {}

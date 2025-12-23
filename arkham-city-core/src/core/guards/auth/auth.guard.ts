@@ -42,7 +42,11 @@ export class AuthGuard implements CanActivate {
       // so that we can access it in our route handlers
 
       if (payload.type === 'dashboard') {
-        request[REQUEST_FIELDS.user] = payload;
+        request[REQUEST_FIELDS.user] = {
+          ...payload,
+          permissions: payload.permissions ?? [],
+          roles: payload.roles ?? [],
+        };
       } else if (payload.type === 'websdk') {
         request[REQUEST_FIELDS.auth] = await this.jwtService.verifyAsync(
           token,

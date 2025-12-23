@@ -96,8 +96,8 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((project) => {
         this.project = project;
-        this.navigations = this.navigationService.navigations(
-          project?._id ?? 'no-project-id',
+        this.navigations = this.filterNavigations(
+          this.navigationService.navigations(project?._id ?? 'no-project-id'),
         );
         this.changeDetectorRef.markForCheck();
       });
@@ -119,6 +119,26 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
 
   toggleDrawer() {
     this.drawer.toggle();
+  }
+
+  private filterNavigations(items: NavigationItem[]): NavigationItem[] {
+    const filtered: NavigationItem[] = [];
+    items.forEach((item) => {
+      if (
+        item.permissions &&
+        !this.authService.hasAllPermissions(item.permissions)
+      ) {
+        return;
+      }
+      const clone: NavigationItem = {
+        ...item,
+      };
+      if (clone.children && clone.children.length > 0) {
+        clone.children = this.filterNavigations(clone.children);
+      }
+      filtered.push(clone);
+    });
+    return filtered;
   }
 
   /**

@@ -5,12 +5,13 @@ import { noAuthGuard } from '../core/auth/guards/no-auth.guard';
 import { MainLayoutComponent } from '../core/layouts/main-layout/main-layout.component';
 import { LogOutComponent } from '../modules/public/auth/log-out/log-out.component';
 import { privateResolver } from '../modules/private/private.resolver';
+import { permissionGuard } from '../core/auth/guards/permission.guard';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
   {
     path: '',
-    canActivateChild: [authGuard],
+    canActivateChild: [authGuard, permissionGuard],
     component: MainLayoutComponent,
     resolve: [privateResolver],
     loadChildren: () =>

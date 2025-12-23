@@ -7,6 +7,15 @@ export const microserviceConfig = {
       logInByRefreshToken: 'v1.auth.log-in-by-refresh-token',
     },
   },
+  role: {
+    name: 'role',
+    patterns: {
+      create: 'v1.role.create',
+      update: 'v1.role.update',
+      list: 'v1.role.list',
+      delete: 'v1.role.delete',
+    },
+  },
   firestore: {
     name: 'firestore',
     patterns: {

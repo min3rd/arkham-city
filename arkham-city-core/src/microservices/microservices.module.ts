@@ -5,6 +5,7 @@ import { MsUserModule } from './ms-user/ms-user.module';
 import { MsFirestoreModule } from './ms-firestore/ms-firestore.module';
 import { MsWebsdkModule } from './ms-websdk/ms-websdk.module';
 import { MsStorageModule } from './ms-storage/ms-storage.module';
+import { MsRoleModule } from './ms-role/ms-role.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { MsStorageModule } from './ms-storage/ms-storage.module';
     MsFirestoreModule,
     MsWebsdkModule,
     MsStorageModule,
+    MsRoleModule,
   ],
   exports: [
     MsProjectModule,
@@ -21,6 +23,7 @@ import { MsStorageModule } from './ms-storage/ms-storage.module';
     MsFirestoreModule,
     MsWebsdkModule,
     MsStorageModule,
+    MsRoleModule,
   ],
 })
 export class MicroservicesModule {}

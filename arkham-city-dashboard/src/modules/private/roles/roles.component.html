@@ -1,0 +1,67 @@
+<section class="space-y-4">
+  <div class="flex items-center justify-between">
+    <h2 class="text-xl font-semibold">Roles & permissions</h2>
+    <button type="button" (click)="resetForm()">Reset</button>
+  </div>
+
+  <form class="space-y-2" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="flex flex-col gap-1">
+      <label class="font-medium">Name</label>
+      <input class="border p-2 rounded" formControlName="name" placeholder="Role name" />
+    </div>
+    <div class="flex flex-col gap-1">
+      <label class="font-medium">Description</label>
+      <input class="border p-2 rounded" formControlName="description" placeholder="Description" />
+    </div>
+    <div class="flex flex-col gap-1">
+      <label class="font-medium">Permissions</label>
+      <input
+        class="border p-2 rounded"
+        formControlName="permissions"
+        placeholder="Comma separated permissions"
+      />
+    </div>
+    <div class="flex items-center gap-2">
+      <input type="checkbox" formControlName="default" />
+      <label>Default role for new users</label>
+    </div>
+    <div class="flex gap-2">
+      <button type="submit" [disabled]="form.invalid">
+        {{ form.value.id ? 'Update role' : 'Create role' }}
+      </button>
+      <button type="button" (click)="resetForm()">Clear</button>
+    </div>
+  </form>
+
+  <div *ngIf="loading">Loading roles...</div>
+
+  <div *ngIf="!loading && roles.length === 0">No roles found.</div>
+
+  <div class="space-y-3" *ngIf="!loading && roles.length > 0">
+    <div
+      class="border p-3 rounded"
+      *ngFor="let role of roles"
+    >
+      <div class="flex items-center justify-between">
+        <div class="font-semibold">
+          {{ role.name }}
+          <span *ngIf="role.default" class="text-sm text-green-600">(default)</span>
+        </div>
+        <div class="flex gap-2">
+          <button type="button" (click)="edit(role)">Edit</button>
+          <button type="button" (click)="delete(role)">Delete</button>
+        </div>
+      </div>
+      <div class="text-sm text-gray-700" *ngIf="role.description">
+        {{ role.description }}
+      </div>
+      <div class="text-sm">
+        Permissions:
+        <span *ngIf="role.permissions?.length; else noPermissions">
+          {{ role.permissions?.join(', ') }}
+        </span>
+        <ng-template #noPermissions>None</ng-template>
+      </div>
+    </div>
+  </div>
+</section>

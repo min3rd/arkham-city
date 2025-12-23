@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './user.type';
 import { HashService } from 'src/core/hash/hash.service';
 import { UserService } from './user.service';
+import { RoleModule } from '../role/role.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { UserService } from './user.service';
       [{ name: User.name, schema: UserSchema }],
       'metadata',
     ),
+    RoleModule,
   ],
   providers: [UserService],
   exports: [UserService],
