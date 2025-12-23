@@ -1,7 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { MongoServerError } from 'mongodb';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './user.type';
-import { Model } from 'mongoose';
+import { ClientSession, Model } from 'mongoose';
 import { HashService } from 'src/core/hash/hash.service';
 import {
   BadResponse,
@@ -15,6 +16,7 @@ import { RoleService } from '../role/role.service';
 import { aggregatePermissions } from './user.permissions';
 
 const ROLE_MANAGE_PERMISSION = 'roles:write';
+const DUPLICATE_KEY_ERROR_CODE = 11000;
 
 @Injectable()
 export class UserService {
@@ -37,21 +39,55 @@ export class UserService {
     this.logger.log(
       `registerByEmailAndPassword:start:email=${email},password=${password},firstName=${firstName},lastName=${lastName}`,
     );
-    if ((await this.userModel.countDocuments({ email: email }).exec()) > 0) {
-      return new BadResponse(Errors.DUPLICATE_EMAIL);
-    }
     const defaultRoles = await this.roleService.findDefaults();
     const defaultPermissions = this.bootstrapPermissions(defaultRoles.length);
-    let user = new this.userModel({
-      email: email,
-      username: email,
-      firstName: firstName,
-      lastName: lastName,
-      password: HashService.hash(password),
-      roles: defaultRoles.map((role) => role._id),
-      permissions: defaultPermissions,
-    });
-    user = await user.save();
+    let user: User | undefined;
+    const session = await this.userModel.startSession();
+    const createUser = (superAdmin: boolean, userSession?: ClientSession) => {
+      const newUser = new this.userModel({
+        email: email,
+        username: email,
+        firstName: firstName,
+        lastName: lastName,
+        password: HashService.hash(password),
+        roles: defaultRoles.map((role) => role._id),
+        permissions: defaultPermissions,
+        superAdmin,
+      });
+      return newUser.save(userSession ? { session: userSession } : undefined);
+    };
+    try {
+      await session.withTransaction(async () => {
+        if (await this.userModel.exists({ email }).session(session)) {
+          throw new BadResponse(Errors.DUPLICATE_EMAIL);
+        }
+        const isFirstUser =
+          (await this.userModel
+            .countDocuments({}, { limit: 1 })
+            .session(session)
+            .exec()) === 0;
+        user = await createUser(isFirstUser, session);
+      });
+    } catch (error) {
+      if (error instanceof BadResponse) {
+        return error;
+      }
+      if (
+        error instanceof MongoServerError &&
+        error.code === DUPLICATE_KEY_ERROR_CODE &&
+        ('superAdmin' in (error.keyPattern ?? {}) ||
+          'superAdmin' in (error.keyValue ?? {}))
+      ) {
+        user = await createUser(false);
+      } else {
+        throw error;
+      }
+    } finally {
+      await session.endSession();
+    }
+    if (!user) {
+      throw new Error('User creation failed during registration');
+    }
     const roleDocuments = defaultRoles;
     const userJson = user.toJSON() as User;
     this.logger.log('registerByEmailAndPassword:end');

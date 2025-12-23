@@ -42,8 +42,19 @@ export class User extends AuditEntity {
     default: [],
   })
   permissions: string[];
+
+  @Prop({ default: false })
+  superAdmin: boolean;
 }
 
 export type UserDocument = HydratedDocument<User>;
 
 export const UserSchema = SchemaFactory.createForClass(User);
+UserSchema.index(
+  { superAdmin: 1 },
+  {
+    unique: true,
+    partialFilterExpression: { superAdmin: true },
+    name: 'unique_super_admin',
+  },
+);
