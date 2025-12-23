@@ -197,6 +197,26 @@ export class UserService {
     } as any & { roles?: Role[] };
   }
 
+  async search(options?: { query?: string; limit?: number }) {
+    const limit =
+      options?.limit && options.limit > 0 ? Math.min(options.limit, 50) : 20;
+    const filter: any = {};
+    if (options?.query) {
+      const regex = new RegExp(options.query, 'i');
+      filter.$or = [
+        { email: regex },
+        { username: regex },
+        { firstName: regex },
+        { lastName: regex },
+      ];
+    }
+    const users = await this.userModel
+      .find(filter)
+      .limit(limit)
+      .select('_id email username firstName lastName superAdmin');
+    return users.map((user) => user.toJSON());
+  }
+
   private bootstrapPermissions(defaultRoleCount: number): string[] | undefined {
     if (defaultRoleCount === 0) {
       return [ROLE_MANAGE_PERMISSION];

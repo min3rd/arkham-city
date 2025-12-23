@@ -25,6 +25,7 @@ import { PermissionEvaluation } from 'src/modules/role/role-assignment.service';
 import { RoleAssignment } from 'src/modules/role/role-assignment.type';
 import { UpdateRoleDto, UpsertRoleDto } from 'src/modules/role/role.interface';
 import { Role } from 'src/modules/role/role.type';
+import { UserService } from 'src/modules/user/user.service';
 import {
   GwCreateRoleAssignmentDto,
   GwListRoleAssignmentDto,
@@ -32,11 +33,15 @@ import {
 } from './gw-role-assignment.interface';
 import { GwUpsertRoleDto } from './gw-role.interface';
 
+const DEFAULT_USER_SEARCH_LIMIT = 20;
+const MAX_USER_SEARCH_LIMIT = 50;
+
 @Controller('roles')
 export class GwRoleController extends GatewayController {
   constructor(
     @Inject(microserviceConfig.role.name)
     private readonly rmqClient: ClientRMQ,
+    private readonly userService: UserService,
   ) {
     super();
   }
@@ -49,6 +54,23 @@ export class GwRoleController extends GatewayController {
     );
     this.afterCallMicroservice(res);
     return res.data;
+  }
+
+  @Get('users')
+  @RequirePermission('roles:write')
+  async searchUsers(
+    @Query('q') query?: string,
+    @Query('limit') limit?: string,
+  ) {
+    const parsedLimit = parseInt(limit ?? `${DEFAULT_USER_SEARCH_LIMIT}`, 10);
+    const safeLimit =
+      Number.isNaN(parsedLimit) || parsedLimit <= 0
+        ? DEFAULT_USER_SEARCH_LIMIT
+        : Math.min(parsedLimit, MAX_USER_SEARCH_LIMIT);
+    return this.userService.search({
+      query,
+      limit: safeLimit,
+    });
   }
 
   @Post()

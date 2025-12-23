@@ -4,10 +4,12 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
 import { GwRoleController } from './gw-role.controller';
 import * as process from 'node:process';
+import { ModulesModule } from 'src/modules/modules.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    ModulesModule,
     ClientsModule.register([
       {
         name: microserviceConfig.role.name,
