@@ -45,6 +45,7 @@ export class AuthGuard implements CanActivate {
         request[REQUEST_FIELDS.user] = {
           ...payload,
           permissions: payload.permissions ?? [],
+          permissionScopes: payload.permissionScopes,
           roles: payload.roles ?? [],
           superAdmin: payload.superAdmin ?? false,
         };

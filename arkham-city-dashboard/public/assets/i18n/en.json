@@ -1,4 +1,21 @@
 {
+  "32*": "********************************",
+  "clear": "Clear",
+  "comma separated permissions": "Comma separated permissions",
+  "create role": "Create role",
+  "default": "default",
+  "default role for new users": "Default role for new users",
+  "delete": "Delete",
+  "description": "Description",
+  "edit": "Edit",
   "email": "email",
-  "32*": "********************************"
+  "loading roles": "Loading roles",
+  "name": "Name",
+  "no roles found": "No roles found",
+  "none": "None",
+  "permissions": "Permissions",
+  "reset": "Reset",
+  "role name": "Role name",
+  "roles & permissions": "Roles & permissions",
+  "update role": "Update role"
 }

@@ -14,11 +14,12 @@ import {
 } from '@angular/forms';
 import { RoleResDto } from '@core/auth/auth.type';
 import { RolesService, UpsertRolePayload } from './roles.service';
+import { TranslocoModule } from '@ngneat/transloco';
 
 @Component({
   selector: 'app-roles',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslocoModule],
   templateUrl: './roles.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

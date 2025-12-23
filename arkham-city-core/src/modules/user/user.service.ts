@@ -13,7 +13,11 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { Role } from '../role/role.type';
 import { RoleService } from '../role/role.service';
-import { aggregatePermissions } from './user.permissions';
+import {
+  aggregatePermissionScopes,
+  aggregatePermissions,
+  type PermissionScopes,
+} from './user.permissions';
 
 const ROLE_MANAGE_PERMISSION = 'roles:write';
 const DUPLICATE_KEY_ERROR_CODE = 11000;
@@ -86,18 +90,22 @@ export class UserService {
       await session.endSession();
     }
     if (!user) {
-      throw new Error('User creation failed during registration');
+      return new BadResponse(Errors.COULD_NOT_SAVE_THE_RECORD);
     }
     const roleDocuments = defaultRoles;
     const userJson = user.toJSON() as User;
-    this.logger.log('registerByEmailAndPassword:end');
-    return new GoodResponse<User>({
+    const permissionScopes = aggregatePermissionScopes({
       ...userJson,
       roles: roleDocuments,
-      permissions: aggregatePermissions({
-        ...userJson,
-        roles: roleDocuments,
-      }),
+    });
+    this.logger.log('registerByEmailAndPassword:end');
+    return new GoodResponse<
+      User & { roles?: Role[]; permissionScopes: PermissionScopes }
+    >({
+      ...userJson,
+      roles: roleDocuments,
+      permissions: [...permissionScopes.system, ...permissionScopes.project],
+      permissionScopes,
     });
   }
 
@@ -128,12 +136,15 @@ export class UserService {
     );
     user = await user.save();
     this.logger.log(`findOneByEmailAndPassword:end`);
+    const userJson = user.toJSON();
+    const permissionScopes = aggregatePermissionScopes(
+      user as User & { roles?: (Role | string)[] },
+    );
     return new GoodResponse({
-      ...user.toJSON(),
+      ...userJson,
       password: undefined, // ignore password
-      permissions: aggregatePermissions(
-        user as User & { roles?: (Role | string)[] },
-      ),
+      permissions: [...permissionScopes.system, ...permissionScopes.project],
+      permissionScopes,
     });
   }
 
@@ -150,13 +161,15 @@ export class UserService {
     if (!payload) {
       return new BadResponse(Errors.INCORRECT_REFRESH_TOKEN);
     }
+    const permissionScopes = aggregatePermissionScopes(
+      user as User & { roles?: (Role | string)[] },
+    );
     this.logger.log(`findOneByRefreshToken:end`);
     return new GoodResponse({
       ...user.toJSON(),
       password: undefined, // ignore return password
-      permissions: aggregatePermissions(
-        user as User & { roles?: (Role | string)[] },
-      ),
+      permissions: [...permissionScopes.system, ...permissionScopes.project],
+      permissionScopes,
     });
   }
 
@@ -165,12 +178,14 @@ export class UserService {
     if (!user) {
       return undefined;
     }
+    const permissionScopes = aggregatePermissionScopes(
+      user as User & { roles?: (Role | string)[] },
+    );
     return {
       ...user.toJSON(),
       password: undefined,
-      permissions: aggregatePermissions(
-        user as User & { roles?: (Role | string)[] },
-      ),
+      permissions: [...permissionScopes.system, ...permissionScopes.project],
+      permissionScopes,
     } as User & { roles?: Role[] };
   }
 
