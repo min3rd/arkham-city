@@ -9,8 +9,9 @@
     'translate-x-full': mode === 'over' && !opened && position === 'end',
     'w-3/4 sm:w-1/2 md:w-1/3 lg:w-1/4': mode === 'over',
     'shadow-lg': mode === 'over' && opened,
-    'w-0 overflow-hidden': mode === 'side' && !opened,
-    'w-full': mode === 'side' && opened,
+    'max-w-0 w-0 overflow-hidden opacity-0 pointer-events-none':
+      mode === 'side' && !opened,
+    'max-w-full opacity-100': mode === 'side' && opened,
   }"
   class="flex-none h-full border-neutral-200 dark:border-neutral-700 transition-all ease-out duration-300 bg-white dark:bg-neutral-800"
 >

@@ -102,6 +102,7 @@ export class RolesComponent extends BaseListComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
   private readonly translocoService = inject(TranslocoService);
   private readonly MIN_USER_QUERY_LENGTH = 2;
+  private readonly MIN_USER_QUERY_LENGTH = 2;
 
   drawerOpened = false;
   activeTab = 0;
@@ -416,6 +417,10 @@ export class RolesComponent extends BaseListComponent implements OnInit {
       this.userResults = users ?? [];
       this.changeDetectorRef.markForCheck();
     });
+  }
+
+  onDrawerOpenedChange(opened: boolean): void {
+    this.drawerOpened = opened;
   }
 
   pickUser(user: RoleUser): void {

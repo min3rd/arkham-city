@@ -40,7 +40,10 @@ export class ArkDrawer implements OnChanges {
 
   @HostBinding('class') get classList(): any {
     return {
-      'border border-l': this.mode === 'side' && this.opened && this.position === 'start',
+      'border border-r border-neutral-200 dark:border-neutral-700':
+        this.mode === 'side' && this.opened && this.position === 'start',
+      'border border-l border-neutral-200 dark:border-neutral-700':
+        this.mode === 'side' && this.opened && this.position === 'end',
     };
   }
 

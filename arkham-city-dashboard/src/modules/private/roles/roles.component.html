@@ -1,13 +1,13 @@
 <div class="flex flex-col h-full">
-  <div class="flex items-center justify-between p-4 border-b border-neutral-200 dark:border-neutral-700">
+  <div class="flex items-center justify-between px-3 py-2 border-b border-neutral-200 dark:border-neutral-700">
     <div class="space-y-1">
       <p class="text-xs uppercase text-neutral-500 dark:text-neutral-400">
         {{ 'roles & permissions' | transloco | capitalize }}
       </p>
-      <h1 class="text-xl font-semibold">
+      <h1 class="text-lg font-semibold">
         {{ 'project roles' | transloco | capitalize }}
       </h1>
-      <p class="text-sm text-neutral-500 dark:text-neutral-400">
+      <p class="text-xs text-neutral-500 dark:text-neutral-400">
         {{ 'Manage access with roles, permissions and assignments' | transloco | capitalize }}
       </p>
     </div>
@@ -24,13 +24,14 @@
     <ark-drawer
       #drawer
       [opened]="drawerOpened"
+      (openedChanged)="onDrawerOpenedChange($event)"
       position="end"
-      mode="over"
-      class="w-full lg:w-3/5"
+      mode="side"
+      class="w-full md:w-3/5 lg:w-2/5 xl:w-1/3"
     >
       <div class="flex flex-col h-full bg-white dark:bg-neutral-900">
         <div
-          class="flex items-start justify-between gap-4 p-4 border-b border-neutral-200 dark:border-neutral-700"
+          class="flex items-start justify-between gap-3 px-3 py-2 border-b border-neutral-200 dark:border-neutral-700"
         >
           <div class="space-y-1">
             <p class="text-xs text-neutral-500 dark:text-neutral-400">
@@ -53,25 +54,27 @@
               }}
             </p>
           </div>
-          <div class="flex gap-2">
+          <div class="flex items-center gap-1">
             <ark-button
-              variant="secondary"
+              ghost
+              color="gray"
               size="sm"
+              icon="x"
               (click)="closeDrawer()"
-              label="{{ 'close' | transloco | capitalize }}"
             ></ark-button>
             @if (selectedRole?._id) {
               <ark-button
-                variant="danger"
+                ghost
+                color="red"
                 size="sm"
+                icon="trash-2"
                 (click)="deleteRole()"
-                label="{{ 'delete' | transloco | capitalize }}"
               ></ark-button>
             }
           </div>
         </div>
 
-        <div class="p-4 flex-1 overflow-y-auto">
+        <div class="p-3 flex-1 overflow-y-auto">
           <ark-tab-group
             [titles]="tabs"
             [activeIndex]="activeTab"
@@ -109,7 +112,8 @@
                   ></ark-button>
                   <ark-button
                     size="sm"
-                    variant="secondary"
+                    ghost
+                    color="gray"
                     (click)="openCreate()"
                     label="{{ 'reset form' | transloco | capitalize }}"
                   ></ark-button>
@@ -118,7 +122,7 @@
             </ark-tab-content>
 
             <ark-tab-content>
-              <div class="space-y-4">
+              <div class="space-y-3">
                 <div class="grid gap-3 md:grid-cols-2">
                   <ark-text-input
                     label="{{ 'search permissions' | transloco | capitalize }}"
@@ -180,7 +184,7 @@
             </ark-tab-content>
 
             <ark-tab-content>
-              <div class="space-y-4">
+              <div class="space-y-3">
                 @if (!selectedRole?._id) {
                   <div class="text-sm text-neutral-500 dark:text-neutral-400">
                     {{
@@ -284,7 +288,8 @@
                         </div>
                         <ark-button
                           size="sm"
-                          variant="secondary"
+                          ghost
+                          color="gray"
                           (click)="removeAssignment(assignment._id)"
                           label="{{ 'remove' | transloco | capitalize }}"
                         ></ark-button>
@@ -306,9 +311,9 @@
     </ark-drawer>
 
     <ark-drawer-content
-      class="flex flex-col flex-1 h-full border-r border-neutral-200 dark:border-neutral-700"
+      class="flex flex-col flex-1 h-full"
     >
-      <div class="p-4 space-y-4">
+      <div class="p-3 h-full flex flex-col gap-3">
         <div class="grid gap-3 md:grid-cols-3">
           <ark-text-input
             label="{{ 'search' | transloco | capitalize }}"
@@ -320,7 +325,7 @@
             placeholder="project:read"
             [formFieldControl]="filtersForm.get('permission')"
           ></ark-text-input>
-          <div class="flex items-center gap-3 pt-3">
+          <div class="flex items-center gap-3 pt-1">
             <ark-checkbox
               label="{{ 'default only' | transloco | capitalize }}"
               [formFieldControl]="filtersForm.get('defaultOnly')"
