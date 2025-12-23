@@ -14,6 +14,11 @@ export const microserviceConfig = {
       update: 'v1.role.update',
       list: 'v1.role.list',
       delete: 'v1.role.delete',
+      createAssignment: 'v1.role.assignment.create',
+      updateAssignment: 'v1.role.assignment.update',
+      listAssignments: 'v1.role.assignment.list',
+      deleteAssignment: 'v1.role.assignment.delete',
+      effectivePermissions: 'v1.role.effective-permissions',
     },
   },
   firestore: {

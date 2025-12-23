@@ -13,8 +13,8 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { Role } from '../role/role.type';
 import { RoleService } from '../role/role.service';
+import { RoleAssignmentService } from '../role/role-assignment.service';
 import {
-  aggregatePermissionScopes,
   type PermissionScopes,
 } from './user.permissions';
 
@@ -31,6 +31,7 @@ export class UserService {
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
     private readonly roleService: RoleService,
+    private readonly roleAssignmentService: RoleAssignmentService,
   ) {}
 
   async registerByEmailAndPassword(
@@ -93,17 +94,23 @@ export class UserService {
     }
     const roleDocuments = defaultRoles;
     const userJson = (user as any).toJSON() as User;
-    const permissionScopes = aggregatePermissionScopes({
-      ...userJson,
-      roles: roleDocuments,
-    });
+    const permissionScopes =
+      await this.roleAssignmentService.resolvePermissionScopes(
+        userJson._id as string,
+        {
+          baseUser: {
+            ...(userJson as any),
+            roles: roleDocuments as any,
+          },
+        },
+      );
     this.logger.log('registerByEmailAndPassword:end');
     return new GoodResponse<
       User & { roles?: Role[]; permissionScopes: PermissionScopes }
     >({
       ...userJson,
       roles: roleDocuments,
-      permissions: [...permissionScopes.system, ...permissionScopes.project],
+      permissions: permissionScopes.effective,
       permissionScopes,
     });
   }
@@ -136,13 +143,17 @@ export class UserService {
     user = await user.save();
     this.logger.log(`findOneByEmailAndPassword:end`);
     const userJson = user.toJSON();
-    const permissionScopes = aggregatePermissionScopes(
-      user as User & { roles?: (Role | string)[] },
-    );
+    const permissionScopes =
+      await this.roleAssignmentService.resolvePermissionScopes(
+        user._id as string,
+        {
+          baseUser: user as User & { roles?: (Role | string)[] },
+        },
+      );
     return new GoodResponse({
       ...userJson,
       password: undefined, // ignore password
-      permissions: [...permissionScopes.system, ...permissionScopes.project],
+      permissions: permissionScopes.effective,
       permissionScopes,
     });
   }
@@ -160,14 +171,18 @@ export class UserService {
     if (!payload) {
       return new BadResponse(Errors.INCORRECT_REFRESH_TOKEN);
     }
-    const permissionScopes = aggregatePermissionScopes(
-      user as User & { roles?: (Role | string)[] },
-    );
+    const permissionScopes =
+      await this.roleAssignmentService.resolvePermissionScopes(
+        user._id as string,
+        {
+          baseUser: user as User & { roles?: (Role | string)[] },
+        },
+      );
     this.logger.log(`findOneByRefreshToken:end`);
     return new GoodResponse({
       ...user.toJSON(),
       password: undefined, // ignore return password
-      permissions: [...permissionScopes.system, ...permissionScopes.project],
+      permissions: permissionScopes.effective,
       permissionScopes,
     });
   }
@@ -177,13 +192,17 @@ export class UserService {
     if (!user) {
       return undefined;
     }
-    const permissionScopes = aggregatePermissionScopes(
-      user as User & { roles?: (Role | string)[] },
-    );
+    const permissionScopes =
+      await this.roleAssignmentService.resolvePermissionScopes(
+        user._id as string,
+        {
+          baseUser: user as User & { roles?: (Role | string)[] },
+        },
+      );
     return {
       ...user.toJSON(),
       password: undefined,
-      permissions: [...permissionScopes.system, ...permissionScopes.project],
+      permissions: permissionScopes.effective,
       permissionScopes,
     } as any & { roles?: Role[] };
   }

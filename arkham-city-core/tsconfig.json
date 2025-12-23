@@ -12,6 +12,9 @@
       ],
       "@microservices/*": [
         "./src/microservices/*"
+      ],
+      "src/*": [
+        "./src/*"
       ]
     },
     "module": "commonjs",

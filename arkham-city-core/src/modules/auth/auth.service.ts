@@ -3,20 +3,29 @@ import { User } from '../user/user.type';
 import { JwtService } from '@nestjs/jwt';
 import { JWTPayload, LogInResponseDto } from './auth.interface';
 import { Role } from '../role/role.type';
-import { aggregatePermissionScopes } from '../user/user.permissions';
+import { RoleAssignmentService } from '../role/role-assignment.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly roleAssignmentService: RoleAssignmentService,
+  ) {}
 
   async compileLogInResponse(
     user: User | undefined,
     ignoreRefreshToken: boolean = false,
   ): Promise<LogInResponseDto> {
-    const permissionScopes = aggregatePermissionScopes(
-      user as User & { roles?: Role[] },
-    );
-    const permissions = [...permissionScopes.system, ...permissionScopes.project];
+    const permissionScopes =
+      (user as any)?.permissionScopes ??
+      (await this.roleAssignmentService.resolvePermissionScopes(
+        user?._id as string,
+        {
+          baseUser: user as User & { roles?: Role[] },
+        },
+      ));
+    const permissions =
+      (user as any)?.permissions ?? permissionScopes.effective;
     const payload: JWTPayload = {
       type: 'dashboard',
       sub: user?._id,

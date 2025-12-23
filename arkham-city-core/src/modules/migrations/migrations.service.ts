@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { MongoServerError } from 'mongodb';
 import { Model } from 'mongoose';
 import { Role } from '../role/role.type';
+import { RoleAssignment } from '../role/role-assignment.type';
+import { User } from '../user/user.type';
 import { Migration } from './migrations.type';
 
 type MigrationDefinition = {
@@ -67,6 +69,10 @@ export class MigrationsService implements OnModuleInit {
       key: 'seed-default-roles-v1',
       handler: this.seedDefaultRoles.bind(this),
     },
+    {
+      key: 'assign-admin-role-v1',
+      handler: this.assignAdminRoleToSuperAdmins.bind(this),
+    },
   ];
 
   constructor(
@@ -74,6 +80,10 @@ export class MigrationsService implements OnModuleInit {
     private readonly migrationModel: Model<Migration>,
     @InjectModel(Role.name, 'metadata')
     private readonly roleModel: Model<Role>,
+    @InjectModel(RoleAssignment.name, 'metadata')
+    private readonly roleAssignmentModel: Model<RoleAssignment>,
+    @InjectModel(User.name, 'metadata')
+    private readonly userModel: Model<User>,
   ) {}
 
   async onModuleInit(): Promise<void> {
@@ -132,6 +142,45 @@ export class MigrationsService implements OnModuleInit {
             },
             $setOnInsert: {
               name: role.name,
+            },
+          },
+          upsert: true,
+        },
+      })),
+    );
+  }
+
+  private buildGlobalAssignmentFilter(userId: any, roleId: any) {
+    return {
+      user: userId,
+      role: roleId,
+      scope: 'global',
+      projectId: { $in: [null, undefined] },
+      resourceId: { $in: [null, undefined] },
+    };
+  }
+
+  private async assignAdminRoleToSuperAdmins(): Promise<void> {
+    const adminRole = await this.roleModel.findOne({ name: 'admin' });
+    if (!adminRole) {
+      return;
+    }
+    const superAdmins = await this.userModel.find({ superAdmin: true });
+    if (superAdmins.length === 0) {
+      return;
+    }
+    await this.roleAssignmentModel.bulkWrite(
+      superAdmins.map((user) => ({
+        updateOne: {
+          filter: this.buildGlobalAssignmentFilter(user._id, adminRole._id),
+          update: {
+            $set: {
+              scope: 'global',
+            },
+            $unset: { projectId: '', resourceId: '' },
+            $setOnInsert: {
+              user: user._id,
+              role: adminRole._id,
             },
           },
           upsert: true,

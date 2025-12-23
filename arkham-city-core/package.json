@@ -93,7 +93,8 @@
       "@/(.*)$": "<rootDir>/$1",
       "@src/(.*)$": "<rootDir>/$1",
       "@modules/(.*)$": "<rootDir>/modules/$1",
-      "@core/(.*)$": "<rootDir>/core/$1"
+      "@core/(.*)$": "<rootDir>/core/$1",
+      "src/(.*)$": "<rootDir>/$1"
     }
   }
 }

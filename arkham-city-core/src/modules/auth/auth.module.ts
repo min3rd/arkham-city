@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { microserviceConfig } from 'src/config/microservice.config';
+import { RoleModule } from '../role/role.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { microserviceConfig } from 'src/config/microservice.config';
         },
       },
     ]),
+    RoleModule,
   ],
   providers: [AuthService],
   exports: [AuthService],
