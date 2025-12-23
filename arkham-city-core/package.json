@@ -34,6 +34,7 @@
     "@nestjs/swagger": "^11.2.0",
     "amqp-connection-manager": "4.1.14",
     "amqplib": "0.10.8",
+    "class-validator": "^0.14.3",
     "crypto-js": "4.2.0",
     "ioredis": "5.6.0",
     "moment": "2.30.1",

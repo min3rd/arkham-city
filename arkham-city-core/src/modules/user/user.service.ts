@@ -15,7 +15,6 @@ import { Role } from '../role/role.type';
 import { RoleService } from '../role/role.service';
 import {
   aggregatePermissionScopes,
-  aggregatePermissions,
   type PermissionScopes,
 } from './user.permissions';
 
@@ -93,7 +92,7 @@ export class UserService {
       return new BadResponse(Errors.COULD_NOT_SAVE_THE_RECORD);
     }
     const roleDocuments = defaultRoles;
-    const userJson = user.toJSON() as User;
+    const userJson = (user as any).toJSON() as User;
     const permissionScopes = aggregatePermissionScopes({
       ...userJson,
       roles: roleDocuments,
@@ -186,7 +185,7 @@ export class UserService {
       password: undefined,
       permissions: [...permissionScopes.system, ...permissionScopes.project],
       permissionScopes,
-    } as User & { roles?: Role[] };
+    } as any & { roles?: Role[] };
   }
 
   private bootstrapPermissions(defaultRoleCount: number): string[] | undefined {
