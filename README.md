@@ -10,6 +10,8 @@ Arkham City is a modern, scalable application built on a microservice architectu
 managing and analyzing data with a user-friendly dashboard interface. The system is designed for high performance,
 reliability, and ease of deployment using containerization.
 
+For dashboard role management usage, see [docs/RBAC.md](docs/RBAC.md).
+
 ## Deployment
 
 This repository contains Docker configuration files for deploying the Arkham City application stack.

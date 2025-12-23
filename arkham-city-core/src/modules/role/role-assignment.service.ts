@@ -78,7 +78,10 @@ export class RoleAssignmentService {
         projectId: payload.projectId,
         resourceId: payload.resourceId,
       });
-      await assignment.populate('role');
+      await assignment.populate([
+        'role',
+        { path: 'user', select: 'email username firstName lastName' },
+      ]);
       return new GoodResponse<RoleAssignment>(assignment.toJSON());
     } catch (error) {
       if (
@@ -133,7 +136,10 @@ export class RoleAssignmentService {
     }
     try {
       const saved = await assignment.save();
-      await saved.populate('role');
+      await saved.populate([
+        'role',
+        { path: 'user', select: 'email username firstName lastName' },
+      ]);
       return new GoodResponse<RoleAssignment>(saved.toJSON());
     } catch (error) {
       if (
@@ -176,7 +182,10 @@ export class RoleAssignmentService {
     }
     const assignments = await this.roleAssignmentModel
       .find(query)
-      .populate('role');
+      .populate([
+        'role',
+        { path: 'user', select: 'email username firstName lastName' },
+      ]);
     return new GoodResponse<RoleAssignment[]>(
       assignments.map((assignment) => assignment.toJSON()),
     );
