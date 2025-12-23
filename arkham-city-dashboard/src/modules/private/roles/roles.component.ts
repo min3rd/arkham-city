@@ -14,12 +14,13 @@ import {
 } from '@angular/forms';
 import { RoleResDto } from '@core/auth/auth.type';
 import { RolesService, UpsertRolePayload } from './roles.service';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslocoModule } from '@jsverse/transloco';
+import { CapitalizePipe } from 'arkhamcity';
 
 @Component({
   selector: 'app-roles',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslocoModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslocoModule, CapitalizePipe],
   templateUrl: './roles.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -28,15 +29,17 @@ export class RolesComponent implements OnInit {
   loading = false;
   form = new FormGroup({
     id: new FormControl<string | null>(null),
-    name: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
+    name: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
     description: new FormControl<string>(''),
     permissions: new FormControl<string>(''),
     default: new FormControl<boolean>(false),
   });
   private readonly rolesService: RolesService = inject(RolesService);
-  private readonly changeDetectorRef: ChangeDetectorRef = inject(
-    ChangeDetectorRef,
-  );
+  private readonly changeDetectorRef: ChangeDetectorRef =
+    inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     this.loadRoles();
