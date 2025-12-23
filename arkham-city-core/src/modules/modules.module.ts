@@ -7,6 +7,7 @@ import { WebsdkModule } from './websdk/websdk.module';
 import { DatabaseModule } from './database/database.module';
 import { StorageModule } from './storage/storage.module';
 import { RoleModule } from './role/role.module';
+import { MigrationsModule } from './migrations/migrations.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { RoleModule } from './role/role.module';
     DatabaseModule,
     StorageModule,
     RoleModule,
+    MigrationsModule,
   ],
   exports: [
     AuthModule,
@@ -26,6 +28,7 @@ import { RoleModule } from './role/role.module';
     FirestoreModule,
     StorageModule,
     RoleModule,
+    MigrationsModule,
   ],
 })
 export class ModulesModule {}
