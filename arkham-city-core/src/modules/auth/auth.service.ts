@@ -46,10 +46,9 @@ export class AuthService {
     if (!user) {
       return [];
     }
-    return (
-      (user.roles as (Role | string)[] | undefined)?.map((role) =>
-        typeof role === 'string' ? role : role._id,
-      ) ?? []
-    );
+    const ids = (user.roles as (Role | string)[])?.map((role) =>
+      typeof role === 'string' ? role : role._id,
+    ) ?? [];
+    return ids.filter((id): id is string => typeof id === 'string');
   }
 }
