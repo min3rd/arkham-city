@@ -12,6 +12,11 @@ export interface RoleResDto {
   default?: boolean;
 }
 
+export interface PermissionScopes {
+  system?: string[];
+  project?: string[];
+}
+
 export interface UserResDto {
   _id: string;
   username: string;
@@ -20,6 +25,7 @@ export interface UserResDto {
   lastName?: string;
   roles?: RoleResDto[];
   permissions?: string[];
+  permissionScopes?: PermissionScopes;
   __v?: number;
   avatar?: string;
 }

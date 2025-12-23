@@ -31,7 +31,8 @@ export class PermissionsGuard implements CanActivate {
     if (user.superAdmin) {
       return true;
     }
-    const permissions = user.permissions ?? [];
+    const permissions =
+      user.permissionScopes?.system ?? user.permissions ?? [];
     const hasPermission = requiredPermissions.every((permission) =>
       permissions.includes(permission),
     );

@@ -173,13 +173,19 @@ export class AuthService {
     if (!permission) {
       return false;
     }
-    return this.user?.permissions?.includes(permission) ?? false;
+    const permissions =
+      this.user?.permissionScopes?.system ?? this.user?.permissions ?? [];
+    return permissions.includes(permission);
   }
 
   hasAllPermissions(permissions: string[]): boolean {
     if (!permissions || permissions.length === 0) {
       return true;
     }
-    return permissions.every((permission) => this.hasPermission(permission));
+    const systemPermissions =
+      this.user?.permissionScopes?.system ?? this.user?.permissions ?? [];
+    return permissions.every((permission) =>
+      systemPermissions.includes(permission),
+    );
   }
 }

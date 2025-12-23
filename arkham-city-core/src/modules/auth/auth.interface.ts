@@ -1,3 +1,5 @@
+import type { PermissionScopes } from '../user/user.permissions';
+
 export interface RegisterByEmailAndPasswordDto {
   email: string;
   password: string;
@@ -23,6 +25,7 @@ export interface JWTPayload {
   email?: string;
   roles?: string[];
   permissions?: string[];
+  permissionScopes?: PermissionScopes;
   superAdmin?: boolean;
 }
 

@@ -1,1 +1,21 @@
-{}
+{
+  "32*": "********************************",
+  "clear": "Limpiar",
+  "comma separated permissions": "Permisos separados por comas",
+  "create role": "Crear rol",
+  "default": "predeterminado",
+  "default role for new users": "Rol predeterminado para nuevos usuarios",
+  "delete": "Eliminar",
+  "description": "Descripción",
+  "edit": "Editar",
+  "email": "correo electrónico",
+  "loading roles": "Cargando roles",
+  "name": "Nombre",
+  "no roles found": "No se encontraron roles",
+  "none": "Ninguno",
+  "permissions": "Permisos",
+  "reset": "Restablecer",
+  "role name": "Nombre del rol",
+  "roles & permissions": "Roles y permisos",
+  "update role": "Actualizar rol"
+}
