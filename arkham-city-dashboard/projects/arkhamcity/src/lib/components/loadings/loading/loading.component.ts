@@ -1,12 +1,12 @@
 import { ChangeDetectorRef, Component, inject, OnDestroy, type OnInit, ViewEncapsulation } from '@angular/core';
 import { LoadingService } from '../../../services/loading/loading.service';
 import { Subject, takeUntil } from 'rxjs';
-import { CommonModule } from '@angular/common';
+
 import { ArkProgressBar } from '../../progress-bars/ark-progress-bar/ark-progress-bar.component';
 
 @Component({
   selector: 'ark-loading',
-  imports: [CommonModule, ArkProgressBar],
+  imports: [ArkProgressBar],
   templateUrl: './loading.component.html',
   encapsulation: ViewEncapsulation.None,
   standalone: true,

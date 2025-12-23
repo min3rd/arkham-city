@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoModule } from '@jsverse/transloco';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -9,7 +9,6 @@ import { AuthService } from '@core/auth/auth.service';
 @Component({
   selector: 'app-login',
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     TranslocoModule,
@@ -18,8 +17,8 @@ import { AuthService } from '@core/auth/auth.service';
     ArkButton,
     ArkCheckbox,
     ArkDivider,
-    CapitalizePipe,
-  ],
+    CapitalizePipe
+],
   templateUrl: './log-in.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

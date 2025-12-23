@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   ArkTextInput,
@@ -27,7 +27,6 @@ import { BaseFormComponent } from '../../../../../../projects/arkhamcity/src/lib
 @Component({
   selector: 'project-app-list-detail',
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     TranslocoModule,
@@ -36,8 +35,8 @@ import { BaseFormComponent } from '../../../../../../projects/arkhamcity/src/lib
     ArkTextInput,
     ArkButton,
     ArkSelect,
-    ArkTextarea,
-  ],
+    ArkTextarea
+],
   templateUrl: './detail.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

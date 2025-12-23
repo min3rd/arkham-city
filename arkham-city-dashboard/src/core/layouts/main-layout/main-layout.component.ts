@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -36,7 +36,6 @@ import { ProjectService } from '@modules/private/project/project.service';
 @Component({
   selector: 'main-layout',
   imports: [
-    CommonModule,
     RouterModule,
     TranslocoModule,
     CapitalizePipe,
@@ -48,8 +47,8 @@ import { ProjectService } from '@modules/private/project/project.service';
     ArkDrawerContainer,
     ArkDrawer,
     ArkDrawerContent,
-    ArkLoading,
-  ],
+    ArkLoading
+],
   templateUrl: './main-layout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [provideIcons({ ...feathers })],
@@ -72,7 +71,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   private _unsubscribeAll = new Subject<any>();
 
   @HostListener('window:resize', ['$event'])
-  onResize() {
+  onResize(_event: Event) {
     this.checkScreenSize();
   }
 

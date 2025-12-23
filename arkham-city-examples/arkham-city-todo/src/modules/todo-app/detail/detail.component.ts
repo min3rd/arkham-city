@@ -17,7 +17,7 @@ import {
 import { TaskService } from '../task.service';
 import { Router, RouterModule } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
-import { CommonModule } from '@angular/common';
+
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -47,22 +47,21 @@ export const StatusSelects = [
 @Component({
   selector: 'app-detail',
   imports: [
-    CommonModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
-    MatSelectModule,
-  ],
+    MatSelectModule
+],
   templateUrl: './detail.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DetailComponent implements OnInit, OnDestroy {
   statuses = StatusSelects;
-  task!: Task;
-  users!: User[];
+  task: Task | null = null;
+  users: User[] = [];
   form!: UntypedFormGroup;
   private formBuilder = inject(UntypedFormBuilder);
   private taskService = inject(TaskService);
@@ -80,14 +79,14 @@ export class DetailComponent implements OnInit, OnDestroy {
 
     this.userService.users$
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((users) => {
-        this.users = users;
+      .subscribe((users: User[] | null) => {
+        this.users = users ?? [];
         this.changeDetectorRef.markForCheck();
       });
 
     this.taskService.task$
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((task) => {
+      .subscribe((task: Task | null) => {
         this.form.reset();
         if (task) {
           this.form.patchValue(task);
@@ -101,7 +100,7 @@ export class DetailComponent implements OnInit, OnDestroy {
     if (this.form.invalid) {
       return;
     }
-    this.taskService.create(this.form.getRawValue()).subscribe((task) => {
+    this.taskService.create(this.form.getRawValue()).subscribe((task: Task | null) => {
       if (!task) {
         return;
       }
@@ -109,12 +108,12 @@ export class DetailComponent implements OnInit, OnDestroy {
     });
   }
   update() {
-    if (this.form.invalid) {
+    if (this.form.invalid || !this.task) {
       return;
     }
     this.taskService
       .update(this.task._id, { ...this.task, ...this.form.getRawValue() })
-      .subscribe((task) => {
+      .subscribe((task: Task | null) => {
         if (!task) {
           return;
         }
@@ -122,6 +121,9 @@ export class DetailComponent implements OnInit, OnDestroy {
       });
   }
   delete() {
+    if (!this.task) {
+      return;
+    }
     this.taskService.delete(this.task._id).subscribe((result) => {
       if (result) {
         this.router.navigate(['/todo']);

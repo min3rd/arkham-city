@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,17 +12,16 @@ import { firestore } from 'arkham-city-websdk/dist/firestore';
 @Component({
   selector: 'app-todo-app',
   imports: [
-    CommonModule,
     RouterModule,
     MatButtonModule,
     MatToolbarModule,
-    MatIconModule,
-  ],
+    MatIconModule
+],
   templateUrl: './todo-app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TodoAppComponent implements OnInit, OnDestroy {
-  tasks!: Task[];
+  tasks: Task[] = [];
   private readonly alphabet = 'abcdefghijklmnopqrstuvwxyz';
   private taskService = inject(TaskService);
   private changeDetectorRef = inject(ChangeDetectorRef);
@@ -31,8 +30,8 @@ export class TodoAppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.taskService.tasks$
       .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((tasks) => {
-        this.tasks = tasks;
+      .subscribe((tasks: Task[] | null) => {
+        this.tasks = tasks ?? [];
         this.changeDetectorRef.markForCheck();
       });
   }

@@ -7,22 +7,22 @@ import { firestore } from 'arkham-city-websdk/dist/firestore';
   providedIn: 'root',
 })
 export class UserService {
-  private _users: BehaviorSubject<User[]> = new BehaviorSubject<any>(null);
-  private _user: BehaviorSubject<User> = new BehaviorSubject<any>(null);
-  get users$(): Observable<User[]> {
+  private _users = new BehaviorSubject<User[] | null>(null);
+  private _user = new BehaviorSubject<User | null>(null);
+  get users$(): Observable<User[] | null> {
     return this._users.asObservable();
   }
-  get user$(): Observable<User> {
+  get user$(): Observable<User | null> {
     return this._user.asObservable();
   }
   reset() {
-    this._user.next(null as any);
+    this._user.next(null);
   }
   all() {
     return firestore('user')
       .select<any, User[]>({})
       .pipe(
-        tap((users) => {
+        tap((users: User[] | null) => {
           if (!users) {
             return;
           }
@@ -38,7 +38,7 @@ export class UserService {
       .get<User>(id)
       .pipe(
         tap((user: User | null) => {
-          this._user.next(user as any);
+          this._user.next(user);
         }),
       );
   }
@@ -46,8 +46,8 @@ export class UserService {
     return firestore('user')
       .update<User, User>(id, user)
       .pipe(
-        tap((user) => {
-          this._user.next(user as any);
+        tap((user: User | null) => {
+          this._user.next(user);
         }),
       );
   }

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -20,7 +20,7 @@ import { CapitalizePipe } from 'arkhamcity';
 @Component({
   selector: 'app-roles',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslocoModule, CapitalizePipe],
+  imports: [ReactiveFormsModule, TranslocoModule, CapitalizePipe],
   templateUrl: './roles.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

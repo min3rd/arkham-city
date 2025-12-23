@@ -1,11 +1,11 @@
 import { AfterContentInit, Component, ContentChild, Input, TemplateRef } from '@angular/core';
 import { FormElement } from '../form-element/form-element.component';
 import { AbstractControl, FormControl } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'form-control-element',
-  imports: [CommonModule],
+  imports: [],
   template: ``,
 })
 export class FormControlElement extends FormElement implements AfterContentInit {

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
 import {
@@ -14,7 +14,7 @@ import {
 
 @Component({
   selector: 'project-firestore-rule-list',
-  imports: [CommonModule, RouterModule, TranslocoModule, ArkBadge],
+  imports: [RouterModule, TranslocoModule, ArkBadge],
   templateUrl: './list.component.html',
 })
 export class ListComponent extends BaseListComponent implements OnInit {

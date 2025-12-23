@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,12 +8,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 @Component({
   selector: 'app-root',
   imports: [
-    CommonModule,
     RouterModule,
     MatIconModule,
     MatButtonModule,
-    MatTooltipModule,
-  ],
+    MatTooltipModule
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

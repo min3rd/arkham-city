@@ -7,24 +7,24 @@ import { firestore } from 'arkham-city-websdk/dist/firestore';
   providedIn: 'root',
 })
 export class TaskService {
-  private _tasks: BehaviorSubject<Task[]> = new BehaviorSubject<any>(null);
-  private _task: BehaviorSubject<Task> = new BehaviorSubject<any>(null);
-  get tasks$(): Observable<Task[]> {
+  private _tasks = new BehaviorSubject<Task[] | null>(null);
+  private _task = new BehaviorSubject<Task | null>(null);
+  get tasks$(): Observable<Task[] | null> {
     return this._tasks.asObservable();
   }
-  get task$(): Observable<Task> {
+  get task$(): Observable<Task | null> {
     return this._task.asObservable();
   }
 
   reset(): Observable<boolean> {
-    this._task.next(null as any);
+    this._task.next(null);
     return of(true);
   }
   all() {
     return firestore('task')
       .select<any, Task[]>({})
       .pipe(
-        tap((tasks) => {
+        tap((tasks: Task[] | null) => {
           if (!tasks) {
             return;
           }
@@ -40,7 +40,7 @@ export class TaskService {
       .get<Task>(id)
       .pipe(
         tap((task: Task | null) => {
-          this._task.next(task as any);
+          this._task.next(task);
         }),
       );
   }
@@ -48,8 +48,8 @@ export class TaskService {
     return firestore('task')
       .update<Task, Task>(id, task)
       .pipe(
-        tap((task) => {
-          this._task.next(task as any);
+        tap((task: Task | null) => {
+          this._task.next(task);
         }),
       );
   }

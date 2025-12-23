@@ -15,7 +15,7 @@
         class="border p-2 rounded"
         formControlName="name"
         [placeholder]="'role name' | transloco | capitalize"
-      />
+        />
     </div>
     <div class="flex flex-col gap-1">
       <label class="font-medium">{{
@@ -25,7 +25,7 @@
         class="border p-2 rounded"
         formControlName="description"
         [placeholder]="'description' | transloco | capitalize"
-      />
+        />
     </div>
     <div class="flex flex-col gap-1">
       <label class="font-medium">{{
@@ -37,7 +37,7 @@
         [placeholder]="
           'comma separated permissions' | transloco | capitalize
         "
-      />
+        />
     </div>
     <div class="flex items-center gap-2">
       <input type="checkbox" formControlName="default" />
@@ -48,9 +48,9 @@
     <div class="flex gap-2">
       <button type="submit" [disabled]="form.invalid">
         {{
-          form.value.id
-            ? ('update role' | transloco | capitalize)
-            : ('create role' | transloco | capitalize)
+        form.value.id
+        ? ('update role' | transloco | capitalize)
+        : ('create role' | transloco | capitalize)
         }}
       </button>
       <button type="button" (click)="resetForm()">
@@ -59,47 +59,59 @@
     </div>
   </form>
 
-  <div *ngIf="loading">
-    {{ 'loading roles' | transloco | capitalize }}...
-  </div>
-
-  <div *ngIf="!loading && roles.length === 0">
-    {{ 'no roles found' | transloco | capitalize }}.
-  </div>
-
-  <div class="space-y-3" *ngIf="!loading && roles.length > 0">
-    <div
-      class="border p-3 rounded"
-      *ngFor="let role of roles"
-    >
-      <div class="flex items-center justify-between">
-        <div class="font-semibold">
-          {{ role.name }}
-          <span *ngIf="role.default" class="text-sm text-green-600">
-            ({{ 'default' | transloco }})
-          </span>
-        </div>
-        <div class="flex gap-2">
-          <button type="button" (click)="edit(role)">
-            {{ 'edit' | transloco | capitalize }}
-          </button>
-          <button type="button" (click)="delete(role)">
-            {{ 'delete' | transloco | capitalize }}
-          </button>
-        </div>
-      </div>
-      <div class="text-sm text-gray-700" *ngIf="role.description">
-        {{ role.description }}
-      </div>
-      <div class="text-sm">
-        {{ 'permissions' | transloco | capitalize }}:
-        <span *ngIf="role.permissions?.length; else noPermissions">
-          {{ role.permissions?.join(', ') }}
-        </span>
-        <ng-template #noPermissions>
-          {{ 'none' | transloco | capitalize }}
-        </ng-template>
-      </div>
+  @if (loading) {
+    <div>
+      {{ 'loading roles' | transloco | capitalize }}...
     </div>
-  </div>
+  }
+
+  @if (!loading && roles.length === 0) {
+    <div>
+      {{ 'no roles found' | transloco | capitalize }}.
+    </div>
+  }
+
+  @if (!loading && roles.length > 0) {
+    <div class="space-y-3">
+      @for (role of roles; track role) {
+        <div
+          class="border p-3 rounded"
+          >
+          <div class="flex items-center justify-between">
+            <div class="font-semibold">
+              {{ role.name }}
+              @if (role.default) {
+                <span class="text-sm text-green-600">
+                  ({{ 'default' | transloco }})
+                </span>
+              }
+            </div>
+            <div class="flex gap-2">
+              <button type="button" (click)="edit(role)">
+                {{ 'edit' | transloco | capitalize }}
+              </button>
+              <button type="button" (click)="delete(role)">
+                {{ 'delete' | transloco | capitalize }}
+              </button>
+            </div>
+          </div>
+          @if (role.description) {
+            <div class="text-sm text-gray-700">
+              {{ role.description }}
+            </div>
+          }
+          <div class="text-sm">
+            {{ 'permissions' | transloco | capitalize }}:
+            @if (role.permissions?.length) {
+              <span>
+                {{ role.permissions?.join(', ') }}
+              </span>
+            } @else {
+              {{ 'none' | transloco | capitalize }}
+            }
+          </div>
+        </div>
+      }
+    </div>
+  }
 </section>

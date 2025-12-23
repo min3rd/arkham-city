@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
@@ -7,7 +7,7 @@ import {
 
 @Component({
   selector: 'app-auth',
-  imports: [CommonModule, RouterModule, ArkSwitchTheme],
+  imports: [RouterModule, ArkSwitchTheme],
   templateUrl: './auth.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
