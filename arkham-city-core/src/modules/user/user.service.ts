@@ -28,6 +28,7 @@ import {
 
 const ROLE_MANAGE_PERMISSION = 'roles:write';
 const DUPLICATE_KEY_ERROR_CODE = 11000;
+const MAX_USER_PAGE_LIMIT = 100;
 
 @Injectable()
 export class UserService {
@@ -242,7 +243,9 @@ export class UserService {
   ): Promise<ServiceResponse<UserListResult<any>>> {
     const page = options?.page && options.page > 0 ? options.page : 1;
     const limit =
-      options?.limit && options.limit > 0 ? Math.min(options.limit, 100) : 20;
+      options?.limit && options.limit > 0
+        ? Math.min(options.limit, MAX_USER_PAGE_LIMIT)
+        : 20;
     const filter: any = {};
     if (options?.search) {
       const regex = new RegExp(options.search, 'i');
@@ -281,8 +284,7 @@ export class UserService {
     ]);
     return new GoodResponse<UserListResult<any>>({
       items: users.map((user) => {
-        const raw = user.toJSON();
-        delete (raw as any).password;
+        const { password: _password, ...raw } = user.toJSON();
         return raw;
       }),
       total,
@@ -324,7 +326,7 @@ export class UserService {
       permissions: payload.permissions ?? [],
       roles: roles.map((role) => role._id),
       status: payload.status ?? 'active',
-      activated: payload.status ? payload.status === 'active' : undefined,
+      activated: payload.status !== 'disabled',
       metadata: payload.metadata,
       createdBy: payload.actorId,
       updatedBy: payload.actorId,
@@ -375,10 +377,10 @@ export class UserService {
         return new BadResponse(Errors.USER_STATUS_INVALID);
       }
       user.status = payload.status;
-      user.activated = payload.status === 'active';
+      user.activated = payload.status !== 'disabled';
     }
     if (payload.permissions !== undefined) {
-      user.permissions = payload.permissions ?? [];
+      user.permissions = payload.permissions;
     }
     if (payload.metadata !== undefined) {
       user.metadata = payload.metadata;
