@@ -43,6 +43,17 @@ export class User extends AuditEntity {
   })
   permissions: string[];
 
+  @Prop({
+    default: 'active',
+  })
+  status: 'active' | 'disabled';
+
+  @Prop()
+  lastActiveAt?: Date;
+
+  @Prop({ type: Object })
+  metadata?: Record<string, any>;
+
   @Prop({ default: false })
   superAdmin: boolean;
 }

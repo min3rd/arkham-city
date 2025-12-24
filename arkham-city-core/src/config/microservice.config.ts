@@ -21,6 +21,18 @@ export const microserviceConfig = {
       effectivePermissions: 'v1.role.effective-permissions',
     },
   },
+  user: {
+    name: 'user',
+    patterns: {
+      create: 'v1.user.create',
+      update: 'v1.user.update',
+      delete: 'v1.user.delete',
+      get: 'v1.user.get',
+      list: 'v1.user.list',
+      setStatus: 'v1.user.set-status',
+      assignRoles: 'v1.user.assign-roles',
+    },
+  },
   firestore: {
     name: 'firestore',
     patterns: {

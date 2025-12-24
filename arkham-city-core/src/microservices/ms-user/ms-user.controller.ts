@@ -7,6 +7,13 @@ import {
   LogInByRefreshToken,
   RegisterByEmailAndPasswordDto,
 } from '../../modules/auth/auth.interface';
+import {
+  AdminCreateUserDto,
+  AdminUpdateUserDto,
+  AssignRolesDto,
+  ListUsersDto,
+  SetUserStatusDto,
+} from 'src/modules/user/user.interface';
 
 @Controller()
 export class MsUserController {
@@ -38,5 +45,40 @@ export class MsUserController {
   @MessagePattern(microserviceConfig.auth.patterns.logInByRefreshToken)
   logInByRefreshToken(@Payload() payload: LogInByRefreshToken) {
     return this.userService.findOneByRefreshToken(payload.refreshToken);
+  }
+
+  @MessagePattern(microserviceConfig.user.patterns.create)
+  create(@Payload() payload: AdminCreateUserDto) {
+    return this.userService.create(payload);
+  }
+
+  @MessagePattern(microserviceConfig.user.patterns.update)
+  update(@Payload() payload: AdminUpdateUserDto & { userId: string }) {
+    return this.userService.update(payload.userId, payload);
+  }
+
+  @MessagePattern(microserviceConfig.user.patterns.get)
+  get(@Payload() payload: { userId: string }) {
+    return this.userService.get(payload.userId);
+  }
+
+  @MessagePattern(microserviceConfig.user.patterns.list)
+  list(@Payload() payload: ListUsersDto) {
+    return this.userService.list(payload);
+  }
+
+  @MessagePattern(microserviceConfig.user.patterns.delete)
+  delete(@Payload() payload: { userId: string }) {
+    return this.userService.delete(payload.userId);
+  }
+
+  @MessagePattern(microserviceConfig.user.patterns.setStatus)
+  setStatus(@Payload() payload: SetUserStatusDto & { userId: string }) {
+    return this.userService.setStatus(payload.userId, payload);
+  }
+
+  @MessagePattern(microserviceConfig.user.patterns.assignRoles)
+  assignRoles(@Payload() payload: AssignRolesDto & { userId: string }) {
+    return this.userService.assignRoles(payload.userId, payload);
   }
 }
