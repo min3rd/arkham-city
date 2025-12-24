@@ -29,8 +29,8 @@ export class ThemeService {
     rendererFactory: RendererFactory2,
   ) {
     this.renderer = rendererFactory.createRenderer(null, null);
-    const cached = localStorage.getItem('theme');
-    if (cached === 'dark' || cached === 'light') {
+    const cached = this.readStoredTheme();
+    if (cached) {
       this.theme = cached;
     }
   }
@@ -49,13 +49,14 @@ export class ThemeService {
 
   applyTheme(mode: ArkThemeMode): void {
     this.theme = mode;
-    localStorage.setItem('theme', mode);
+    this.persistTheme(mode);
     const tokens = mode === 'dark' ? arkDarkTokens : arkLightTokens;
     const root = this.document.documentElement;
-    this.renderer[mode === 'dark' ? 'addClass' : 'removeClass'](
-      root,
-      'dark',
-    );
+    if (mode === 'dark') {
+      this.renderer.addClass(root, 'dark');
+    } else {
+      this.renderer.removeClass(root, 'dark');
+    }
     this.applyTokens(tokens);
   }
 
@@ -72,18 +73,43 @@ export class ThemeService {
     this.writeMap(style, arkElevationVarMap, tokens.elevation);
   }
 
-  private writeMap<T extends object>(
+  private writeMap<T extends Record<string, string | number>>(
     style: CSSStyleDeclaration,
     map: Record<string, keyof T>,
     values: T,
   ) {
     Object.entries(map).forEach(([cssVar, tokenKey]) => {
-      const value = (values as Record<string, string | number>)[
-        tokenKey as string
-      ];
+      const value = values[tokenKey];
       if (value) {
         style.setProperty(`--${cssVar}`, String(value));
       }
     });
+  }
+
+  private readStoredTheme(): ArkThemeMode | null {
+    try {
+      const cached = localStorage.getItem('theme');
+      if (cached === 'dark' || cached === 'light') {
+        return cached;
+      }
+    } catch {
+      // ignore
+    }
+    if (
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches
+    ) {
+      return 'dark';
+    }
+    return null;
+  }
+
+  private persistTheme(mode: ArkThemeMode): void {
+    try {
+      localStorage.setItem('theme', mode);
+    } catch {
+      // Ignore storage failures (SSR/incognito)
+    }
   }
 }
