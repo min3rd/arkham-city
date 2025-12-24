@@ -16,11 +16,32 @@ export const routes: Routes = [
   },
   {
     path: 'users',
-    loadComponent: () =>
-      import('./users/users.component').then((m) => m.UsersComponent),
-    data: {
-      permissions: ['roles:write'],
-    },
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./users/users.component').then((m) => m.UsersComponent),
+        data: {
+          permissions: ['roles:write'],
+        },
+      },
+      {
+        path: 'new',
+        loadComponent: () =>
+          import('./users/users.component').then((m) => m.UsersComponent),
+        data: {
+          permissions: ['roles:write'],
+        },
+      },
+      {
+        path: ':id',
+        loadComponent: () =>
+          import('./users/users.component').then((m) => m.UsersComponent),
+        data: {
+          permissions: ['roles:write'],
+        },
+      },
+    ],
   },
   {
     path: 'projects',
