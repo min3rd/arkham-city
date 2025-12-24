@@ -63,6 +63,13 @@ export class NavigationService {
           link: '/roles',
           permissions: ['roles:write'],
         },
+        {
+          id: 'users',
+          title: 'users',
+          type: 'basic',
+          link: '/users',
+          permissions: ['roles:write'],
+        },
       ],
     },
   ];
