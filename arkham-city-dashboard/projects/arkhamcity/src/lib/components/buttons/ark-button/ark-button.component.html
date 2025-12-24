@@ -27,15 +27,19 @@
     'bg-red-100 text-red-800 hover:bg-red-200 dark:text-red-500 dark:bg-red-800/30 dark:hover:bg-red-800/20': color === 'red' && isSoft(),
     'bg-yellow-100 text-yellow-800 hover:bg-yellow-200 dark:text-yellow-500 dark:bg-yellow-800/30 dark:hover:bg-yellow-800/20': color === 'yellow' && isSoft(),
     'text-teal-600 hover:text-teal-800 focus:text-teal-800 dark:text-teal-500 dark:hover:text-teal-400': isLink(),
-    'rounded-xs': rounded === 'sm',
-    'rounded-md': rounded === 'md',
-    'rounded-lg': rounded === 'lg',
-    'rounded-full': rounded === 'full',
-    'py-3 px-4': size ==='md',
-    'py-2 px-3': size ==='sm',
-    'p-4 sm:p-5': size ==='lg',
+    'rounded-xs': rounded === 'sm' && !isCompact(),
+    'rounded-md': rounded === 'md' && !isCompact(),
+    'rounded-lg': rounded === 'lg' && !isCompact(),
+    'rounded-full': rounded === 'full' && !isCompact(),
+    'py-3 px-4': size ==='md' && !isCompact(),
+    'py-2 px-3': size ==='sm' && !isCompact(),
+    'p-4 sm:p-5': size ==='lg' && !isCompact(),
+    'py-[var(--ark-space-compact-y)] px-[var(--ark-space-compact-x)]': isCompact(),
+    'text-[var(--ark-font-size-sm)]': isCompact(),
   }"
   class="w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium focus:outline-hidden disabled:opacity-50 disabled:pointer-events-none hover:cursor-pointer"
+  [style.borderRadius]="isCompact() ? 'var(--ark-radius-sm)' : null"
+  [style.boxShadow]="isCompact() ? 'var(--ark-elevation-low)' : null"
   type="button"
 >
   @if (!enableIgnoreLoading() && onLoading) {

@@ -12,6 +12,7 @@ export class BaseComponent {
   @Input() rounded: 'full' | 'lg' | 'md' | 'sm' | 'none' = 'md';
   @Input() disabled: boolean | string = false;
   @Input() ignoreLoading: boolean | string = false;
+  @Input() compact: boolean | string = false;
 
   enableDisabled() {
     return (this.disabled || this.disabled === '') as boolean;
@@ -19,5 +20,9 @@ export class BaseComponent {
 
   enableIgnoreLoading(): boolean {
     return (this.ignoreLoading || this.ignoreLoading === 'true') as boolean;
+  }
+
+  isCompact(): boolean {
+    return (this.compact || this.compact === '') as boolean;
   }
 }

@@ -5,15 +5,18 @@
     'bg-blue-600 text-white': color === 'blue',
     'bg-red-500 text-white': color === 'red',
     'bg-yellow-500 text-white': color === 'yellow',
-    'py-1 px-2.5': size === 'md',
-    'py-0.5 px-1.5': size === 'sm',
-    'p-2 sm:p-3': size === 'lg',
-    'rounded-xs': rounded === 'sm',
-    'rounded-md': rounded === 'md',
-    'rounded-lg': rounded === 'lg',
-    'rounded-full': rounded === 'full',
+    'py-1 px-2.5': size === 'md' && !isCompact(),
+    'py-0.5 px-1.5': size === 'sm' && !isCompact(),
+    'p-2 sm:p-3': size === 'lg' && !isCompact(),
+    'rounded-xs': rounded === 'sm' && !isCompact(),
+    'rounded-md': rounded === 'md' && !isCompact(),
+    'rounded-lg': rounded === 'lg' && !isCompact(),
+    'rounded-full': rounded === 'full' && !isCompact(),
+    'py-[var(--ark-space-compact-y)] px-[var(--ark-space-compact-x)]': isCompact(),
+    'text-[var(--ark-font-size-xs)]': isCompact(),
   }"
   class="inline-flex items-center gap-x-1.5 text-xs font-medium"
+  [style.borderRadius]="isCompact() ? 'var(--ark-radius-full)' : null"
 >
   <ng-content></ng-content>
 </span>

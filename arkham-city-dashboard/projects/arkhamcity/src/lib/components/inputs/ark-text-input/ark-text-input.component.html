@@ -18,16 +18,20 @@
         [ngClass]="{
           'bg-neutral-200 dark:bg-neutral-700 border-neutral-300 dark:border-neutral-600': !invalid,
           'bg-red-100 dark:bg-red-100 border-red-500': invalid,
-          'rounded-xs': rounded === 'sm',
-          'rounded-md': rounded === 'md',
-          'rounded-lg': rounded === 'lg',
-          'rounded-full': rounded === 'full',
-          'py-3 px-4': size ==='md',
-          'py-2 px-3': size ==='sm',
-          'p-4 sm:p-5': size ==='lg',
+          'rounded-xs': rounded === 'sm' && !isCompact(),
+          'rounded-md': rounded === 'md' && !isCompact(),
+          'rounded-lg': rounded === 'lg' && !isCompact(),
+          'rounded-full': rounded === 'full' && !isCompact(),
+          'py-3 px-4': size ==='md' && !isCompact(),
+          'py-2 px-3': size ==='sm' && !isCompact(),
+          'p-4 sm:p-5': size ==='lg' && !isCompact(),
+          'py-[var(--ark-space-compact-y)] px-[var(--ark-space-compact-x)]': isCompact(),
+          'text-[var(--ark-font-size-sm)]': isCompact(),
         }"
         placeholder="{{ placeholder }}"
         [disabled]="onLoading || enableDisabled()"
+        [style.borderRadius]="isCompact() ? 'var(--ark-radius-sm)' : null"
+        [style.boxShadow]="isCompact() ? 'inset 0 0 0 1px var(--ark-color-border)' : null"
       />
     } @else {
       <input
@@ -38,16 +42,20 @@
         name="text-input-{{ label }}"
         class="block w-full sm:text-sm bg-neutral-200 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600"
         [ngClass]="{
-          'rounded-xs': rounded === 'sm',
-          'rounded-md': rounded === 'md',
-          'rounded-lg': rounded === 'lg',
-          'rounded-full': rounded === 'full',
-          'py-3 px-4': size ==='md',
-          'py-2 px-3': size ==='sm',
-          'p-4 sm:p-5': size ==='lg',
+          'rounded-xs': rounded === 'sm' && !isCompact(),
+          'rounded-md': rounded === 'md' && !isCompact(),
+          'rounded-lg': rounded === 'lg' && !isCompact(),
+          'rounded-full': rounded === 'full' && !isCompact(),
+          'py-3 px-4': size ==='md' && !isCompact(),
+          'py-2 px-3': size ==='sm' && !isCompact(),
+          'p-4 sm:p-5': size ==='lg' && !isCompact(),
+          'py-[var(--ark-space-compact-y)] px-[var(--ark-space-compact-x)]': isCompact(),
+          'text-[var(--ark-font-size-sm)]': isCompact(),
         }"
         placeholder="{{ placeholder }}"
         [disabled]="onLoading || enableDisabled()"
+        [style.borderRadius]="isCompact() ? 'var(--ark-radius-sm)' : null"
+        [style.boxShadow]="isCompact() ? 'inset 0 0 0 1px var(--ark-color-border)' : null"
       />
     }
     @if (invalid) {
