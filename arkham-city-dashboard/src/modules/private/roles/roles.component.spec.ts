@@ -2,11 +2,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RolesComponent } from './roles.component';
 import { RolesService } from './roles.service';
 import { TranslocoService } from '@jsverse/transloco';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
+import { ActivatedRoute, Router, convertToParamMap } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('RolesComponent', () => {
   let component: RolesComponent;
   let fixture: ComponentFixture<RolesComponent>;
+  let router: Router;
+  let queryParams$: BehaviorSubject<any>;
+  let paramMap$: BehaviorSubject<any>;
 
   const rolesServiceMock = {
     list: jasmine.createSpy('list').and.returnValue(of([])),
@@ -26,11 +31,24 @@ describe('RolesComponent', () => {
   };
 
   beforeEach(async () => {
+    queryParams$ = new BehaviorSubject(convertToParamMap({ page: '2', limit: '5', search: 'view' }));
+    paramMap$ = new BehaviorSubject(convertToParamMap({}));
     await TestBed.configureTestingModule({
-      imports: [RolesComponent],
+      imports: [RolesComponent, RouterTestingModule],
       providers: [
         { provide: RolesService, useValue: rolesServiceMock },
         { provide: TranslocoService, useValue: { translate: (key: string) => key } },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              queryParamMap: queryParams$.value,
+              paramMap: paramMap$.value,
+            },
+            queryParamMap: queryParams$.asObservable(),
+            paramMap: paramMap$.asObservable(),
+          },
+        },
       ],
     })
       .overrideComponent(RolesComponent, {
@@ -40,6 +58,8 @@ describe('RolesComponent', () => {
 
     fixture = TestBed.createComponent(RolesComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
     fixture.detectChanges();
   });
 
@@ -71,9 +91,28 @@ describe('RolesComponent', () => {
   it('should merge available permissions', () => {
     component.roles = [{ _id: '1', name: 'RoleA', permissions: ['custom:perm'] }];
     component.selectedPermissions = new Set<string>(['extra:perm']);
+    (component as any).permissionPool = new Set<string>(
+      component.roles.flatMap((r) => r.permissions ?? []),
+    );
     const available = component.availablePermissions();
     expect(available).toContain('custom:perm');
     expect(available).toContain('extra:perm');
-    expect(available).toContain('roles:write');
+  });
+
+  it('should restore state from query params', () => {
+    expect(component.pageRoles.page).toBe(2);
+    expect(component.pageRoles.size).toBe(5);
+    expect(component.filtersForm.value.search).toBe('view');
+  });
+
+  it('should navigate with role id when selecting role', () => {
+    const role = { _id: '10', name: 'ops', permissions: [] };
+    component.selectRole(role as any);
+    expect(router.navigate).toHaveBeenCalledWith(
+      ['/roles', '10'],
+      jasmine.objectContaining({
+        queryParams: jasmine.objectContaining({ page: 2, limit: 5, search: 'view' }),
+      }),
+    );
   });
 });

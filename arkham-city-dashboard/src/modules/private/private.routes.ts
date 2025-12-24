@@ -15,6 +15,14 @@ export const routes: Routes = [
     },
   },
   {
+    path: 'roles/:id',
+    loadComponent: () =>
+      import('./roles/roles.component').then((m) => m.RolesComponent),
+    data: {
+      permissions: ['roles:write'],
+    },
+  },
+  {
     path: 'users',
     children: [
       {
