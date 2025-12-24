@@ -1,7 +1,8 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { featherMoon, featherSun } from '@ng-icons/feather-icons';
+import { ThemeService } from '../../../services/theme/theme.service';
 
 @Component({
   selector: 'ark-switch-theme',
@@ -12,30 +13,16 @@ import { featherMoon, featherSun } from '@ng-icons/feather-icons';
 export class ArkSwitchTheme implements OnInit {
 
   get isDarkMode() {
-    return localStorage.getItem('theme') === 'dark';
+    return this.themeService.currentTheme === 'dark';
   }
 
+  private themeService = inject(ThemeService);
+
   ngOnInit() {
-    if (!localStorage.getItem('theme')) {
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        localStorage.setItem('theme', 'dark');
-      } else {
-        localStorage.setItem('theme', 'light');
-      }
-    }
-    document.documentElement.classList.toggle(
-      'dark',
-      localStorage.getItem('theme') === 'dark',
-    );
+    this.themeService.initTheme();
   }
 
   toggle() {
-    if (this.isDarkMode) {
-      localStorage.setItem('theme', 'light');
-      document.documentElement.classList.remove('dark');
-    } else {
-      localStorage.setItem('theme', 'dark');
-      document.documentElement.classList.add('dark');
-    }
+    this.themeService.toggleTheme();
   }
 }

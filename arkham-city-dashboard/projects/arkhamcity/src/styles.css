@@ -1,3 +1,57 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --ark-color-background: #f5f6fb;
+  --ark-color-surface: #ffffff;
+  --ark-color-elevated: #ffffff;
+  --ark-color-border: #e2e8f0;
+  --ark-color-text: #0f172a;
+  --ark-color-text-muted: #475569;
+  --ark-color-focus: #4338ca;
+  --ark-color-primary: #4f46e5;
+  --ark-color-primary-strong: #4338ca;
+  --ark-color-success: #22c55e;
+  --ark-color-warning: #fbbf24;
+  --ark-color-danger: #ef4444;
+  --ark-space-2xs: 4px;
+  --ark-space-xs: 6px;
+  --ark-space-sm: 8px;
+  --ark-space-md: 12px;
+  --ark-space-lg: 16px;
+  --ark-space-xl: 20px;
+  --ark-space-compact-y: 6px;
+  --ark-space-compact-x: 10px;
+  --ark-radius-sm: 6px;
+  --ark-radius-md: 10px;
+  --ark-radius-lg: 14px;
+  --ark-radius-full: 9999px;
+  --ark-font-size-xs: 12px;
+  --ark-font-size-sm: 14px;
+  --ark-font-size-md: 16px;
+  --ark-font-size-lg: 18px;
+  --ark-font-weight-regular: 400;
+  --ark-font-weight-medium: 500;
+  --ark-font-weight-semibold: 600;
+  --ark-elevation-low: 0 1px 2px rgba(15, 23, 42, 0.08);
+  --ark-elevation-medium: 0 8px 18px rgba(15, 23, 42, 0.12);
+}
+
+:root.dark,
+.dark {
+  --ark-color-background: #0b1021;
+  --ark-color-surface: #0f172a;
+  --ark-color-elevated: #111827;
+  --ark-color-border: #1f2937;
+  --ark-color-text: #e2e8f0;
+  --ark-color-text-muted: #cbd5e1;
+  --ark-color-focus: #a5b4fc;
+  --ark-color-primary: #818cf8;
+  --ark-color-primary-strong: #6366f1;
+  --ark-color-success: #34d399;
+  --ark-color-warning: #facc15;
+  --ark-color-danger: #f87171;
+  --ark-elevation-low: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --ark-elevation-medium: 0 10px 22px rgba(0, 0, 0, 0.65);
+}

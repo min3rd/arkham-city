@@ -2,6 +2,12 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.0.
 
+## Design tokens & theming
+
+- Semantic tokens live in `src/lib/theme/tokens.ts` and are exported on the public API. Light/Dark palettes map to CSS variables prefixed with `--ark-`.
+- `ThemeService` applies tokens to the document and toggles the `dark` class; use the `<ark-switch-theme>` button or call `applyTheme('light' | 'dark')`.
+- Core primitives (buttons, text inputs, badges) accept a `compact` input to render with reduced spacing that aligns to the shared spacing scale (`--ark-space-compact-*`).
+
 ## Code scaffolding
 
 Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
