@@ -181,16 +181,7 @@ export class UsersComponent extends BaseListComponent implements OnInit {
       this.userForm.markAllAsTouched();
       return;
     }
-    const formValue = this.userForm.getRawValue();
-    const payload: UpsertUserPayload = {
-      email: formValue.email ?? '',
-      firstName: formValue.firstName ?? undefined,
-      lastName: formValue.lastName ?? undefined,
-      phoneNumber: formValue.phoneNumber ?? undefined,
-      password: formValue.password || undefined,
-      roles: formValue.roles ?? [],
-      status: (formValue.status as UserStatus) ?? 'active',
-    };
+    const payload = this.buildPayload();
     const request = this.selectedUser
       ? this.usersService.update(this.selectedUser._id, payload)
       : this.usersService.create(payload);
@@ -220,7 +211,7 @@ export class UsersComponent extends BaseListComponent implements OnInit {
   }
 
   deleteUser(user: UserListItem) {
-    if (!confirm('Delete this user?')) {
+    if (!this.confirmDeleteUser(user)) {
       return;
     }
     this.usersService
@@ -248,5 +239,23 @@ export class UsersComponent extends BaseListComponent implements OnInit {
 
   statusColor(status?: UserStatus): string {
     return status === 'disabled' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700';
+  }
+
+  private buildPayload(): UpsertUserPayload {
+    const formValue = this.userForm.getRawValue();
+    return {
+      email: formValue.email ?? '',
+      firstName: formValue.firstName ?? undefined,
+      lastName: formValue.lastName ?? undefined,
+      phoneNumber: formValue.phoneNumber ?? undefined,
+      password: formValue.password || undefined,
+      roles: formValue.roles ?? [],
+      status: (formValue.status as UserStatus) ?? 'active',
+    };
+  }
+
+  private confirmDeleteUser(user: UserListItem): boolean {
+    const label = this.userDisplay(user);
+    return window.confirm(`Delete ${label || 'this user'}?`);
   }
 }
