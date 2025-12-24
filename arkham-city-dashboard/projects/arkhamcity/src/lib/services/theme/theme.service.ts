@@ -29,9 +29,9 @@ export class ThemeService {
     rendererFactory: RendererFactory2,
   ) {
     this.renderer = rendererFactory.createRenderer(null, null);
-    const cached = localStorage.getItem('theme') as ArkThemeMode | null;
-    if (cached === 'dark') {
-      this.theme = 'dark';
+    const cached = localStorage.getItem('theme');
+    if (cached === 'dark' || cached === 'light') {
+      this.theme = cached;
     }
   }
 
@@ -78,9 +78,9 @@ export class ThemeService {
     values: T,
   ) {
     Object.entries(map).forEach(([cssVar, tokenKey]) => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore - dynamic property access
-      const value = values[tokenKey];
+      const value = (values as Record<string, string | number>)[
+        tokenKey as string
+      ];
       if (value) {
         style.setProperty(`--${cssVar}`, String(value));
       }

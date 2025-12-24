@@ -91,6 +91,39 @@ const basePalette: ArkColorPalette = {
   danger500: '#ef4444',
 };
 
+const baseSpacing: ArkSpacingScale = {
+  '2xs': '4px',
+  xs: '6px',
+  sm: '8px',
+  md: '12px',
+  lg: '16px',
+  xl: '20px',
+  compactY: '6px',
+  compactX: '10px',
+};
+
+const baseTypography: ArkTypeScale = {
+  xs: '12px',
+  sm: '14px',
+  md: '16px',
+  lg: '18px',
+  weightRegular: '400',
+  weightMedium: '500',
+  weightSemibold: '600',
+};
+
+const baseRadii: ArkRadii = {
+  sm: '6px',
+  md: '10px',
+  lg: '14px',
+  full: '9999px',
+};
+
+const baseElevation: ArkElevation = {
+  low: '0 1px 2px rgba(15, 23, 42, 0.08)',
+  medium: '0 8px 18px rgba(15, 23, 42, 0.12)',
+};
+
 export const arkLightTokens: ArkDesignTokens = {
   palette: basePalette,
   semantic: {
@@ -107,35 +140,10 @@ export const arkLightTokens: ArkDesignTokens = {
     warning: basePalette.warning500,
     danger: basePalette.danger500,
   },
-  spacing: {
-    '2xs': '4px',
-    xs: '6px',
-    sm: '8px',
-    md: '12px',
-    lg: '16px',
-    xl: '20px',
-    compactY: '6px',
-    compactX: '10px',
-  },
-  typography: {
-    xs: '12px',
-    sm: '14px',
-    md: '16px',
-    lg: '18px',
-    weightRegular: '400',
-    weightMedium: '500',
-    weightSemibold: '600',
-  },
-  radii: {
-    sm: '6px',
-    md: '10px',
-    lg: '14px',
-    full: '9999px',
-  },
-  elevation: {
-    low: '0 1px 2px rgba(15, 23, 42, 0.08)',
-    medium: '0 8px 18px rgba(15, 23, 42, 0.12)',
-  },
+  spacing: { ...baseSpacing },
+  typography: { ...baseTypography },
+  radii: { ...baseRadii },
+  elevation: { ...baseElevation },
 };
 
 export const arkDarkTokens: ArkDesignTokens = {
@@ -154,31 +162,9 @@ export const arkDarkTokens: ArkDesignTokens = {
     warning: '#facc15',
     danger: '#f87171',
   },
-  spacing: {
-    '2xs': '4px',
-    xs: '6px',
-    sm: '8px',
-    md: '12px',
-    lg: '16px',
-    xl: '20px',
-    compactY: '6px',
-    compactX: '10px',
-  },
-  typography: {
-    xs: '12px',
-    sm: '14px',
-    md: '16px',
-    lg: '18px',
-    weightRegular: '400',
-    weightMedium: '500',
-    weightSemibold: '600',
-  },
-  radii: {
-    sm: '6px',
-    md: '10px',
-    lg: '14px',
-    full: '9999px',
-  },
+  spacing: { ...baseSpacing },
+  typography: { ...baseTypography },
+  radii: { ...baseRadii },
   elevation: {
     low: '0 1px 2px rgba(0, 0, 0, 0.45)',
     medium: '0 10px 22px rgba(0, 0, 0, 0.65)',
