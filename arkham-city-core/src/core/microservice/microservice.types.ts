@@ -58,6 +58,14 @@ export class Errors {
     '01x0004',
     'The user can not be founded',
   );
+  static readonly USER_DISABLED = new Error(
+    '01x0056',
+    'The user is disabled',
+  );
+  static readonly USER_STATUS_INVALID = new Error(
+    '01x0057',
+    'The user status is invalid',
+  );
   static readonly INCORRECT_REFRESH_TOKEN = new Error(
     '01x0005',
     'The refresh token was incorrected',

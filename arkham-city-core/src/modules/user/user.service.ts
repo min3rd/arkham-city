@@ -8,6 +8,7 @@ import {
   BadResponse,
   Errors,
   GoodResponse,
+  ServiceResponse,
 } from 'src/core/microservice/microservice.types';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -16,6 +17,14 @@ import { RoleService } from '../role/role.service';
 import { RoleAssignmentService } from '../role/role-assignment.service';
 import { type PermissionScopes } from './user.permissions';
 import { type StringValue } from 'ms';
+import {
+  AdminCreateUserDto,
+  AdminUpdateUserDto,
+  AssignRolesDto,
+  ListUsersDto,
+  SetUserStatusDto,
+  UserListResult,
+} from './user.interface';
 
 const ROLE_MANAGE_PERMISSION = 'roles:write';
 const DUPLICATE_KEY_ERROR_CODE = 11000;
@@ -27,6 +36,8 @@ export class UserService {
   constructor(
     @InjectModel(User.name, 'metadata')
     private readonly userModel: Model<User>,
+    @InjectModel(Role.name, 'metadata')
+    private readonly roleModel: Model<Role>,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
     private readonly roleService: RoleService,
@@ -124,6 +135,9 @@ export class UserService {
     if (!user) {
       return new BadResponse(Errors.EMAIL_NOT_FOUND);
     }
+    if (user.status === 'disabled') {
+      return new BadResponse(Errors.USER_DISABLED);
+    }
     if (!HashService.compare(password, user.password)) {
       return new BadResponse(Errors.PASSWORD_IS_INCORRECT);
     }
@@ -139,6 +153,7 @@ export class UserService {
         ) ?? undefined) as StringValue | undefined,
       },
     );
+    user.lastActiveAt = new Date();
     user = await user.save();
     this.logger.log(`findOneByEmailAndPassword:end`);
     const userJson = user.toJSON();
@@ -162,11 +177,16 @@ export class UserService {
     if (!user) {
       return new BadResponse(Errors.USER_NOT_FOUND);
     }
+    if (user.status === 'disabled') {
+      return new BadResponse(Errors.USER_DISABLED);
+    }
     await user.populate('roles');
     const payload = await this.jwtService.verifyAsync(refreshToken);
     if (!payload) {
       return new BadResponse(Errors.INCORRECT_REFRESH_TOKEN);
     }
+    user.lastActiveAt = new Date();
+    await user.save();
     const permissionScopes =
       await this.roleAssignmentService.resolvePermissionScopes(user._id, {
         baseUser: user as User & { roles?: (Role | string)[] },
@@ -213,8 +233,188 @@ export class UserService {
     const users = await this.userModel
       .find(filter)
       .limit(limit)
-      .select('_id email username firstName lastName superAdmin');
+      .select('_id email username firstName lastName superAdmin status');
     return users.map((user) => user.toJSON());
+  }
+
+  async list(
+    options?: ListUsersDto,
+  ): Promise<ServiceResponse<UserListResult<any>>> {
+    const page = options?.page && options.page > 0 ? options.page : 1;
+    const limit =
+      options?.limit && options.limit > 0 ? Math.min(options.limit, 100) : 20;
+    const filter: any = {};
+    if (options?.search) {
+      const regex = new RegExp(options.search, 'i');
+      filter.$or = [
+        { email: regex },
+        { username: regex },
+        { firstName: regex },
+        { lastName: regex },
+      ];
+    }
+    if (options?.roles?.length) {
+      filter.roles = { $in: options.roles };
+    }
+    if (options?.status) {
+      if (!['active', 'disabled'].includes(options.status)) {
+        return new BadResponse(Errors.USER_STATUS_INVALID);
+      }
+      filter.status = options.status;
+    }
+    const query = this.userModel
+      .find(filter)
+      .populate('roles')
+      .select(
+        '_id email username firstName lastName superAdmin status lastActiveAt createdAt updatedAt roles',
+      )
+      .skip((page - 1) * limit)
+      .limit(limit);
+    if (options?.sortBy) {
+      query.sort({
+        [options.sortBy]: options.sortOrder === 'desc' ? -1 : 1,
+      });
+    }
+    const [users, total] = await Promise.all([
+      query.exec(),
+      this.userModel.countDocuments(filter),
+    ]);
+    return new GoodResponse<UserListResult<any>>({
+      items: users.map((user) => {
+        const raw = user.toJSON();
+        delete (raw as any).password;
+        return raw;
+      }),
+      total,
+      page,
+      limit,
+    });
+  }
+
+  async get(userId: string) {
+    const user = await this.userModel.findById(userId).populate('roles');
+    if (!user) {
+      return new BadResponse(Errors.USER_NOT_FOUND);
+    }
+    return this.buildUserResponse(user as any);
+  }
+
+  async create(
+    payload: AdminCreateUserDto,
+  ): Promise<ServiceResponse<any | undefined>> {
+    if (await this.userModel.exists({ email: payload.email })) {
+      return new BadResponse(Errors.DUPLICATE_EMAIL);
+    }
+    let roles: Role[] = [];
+    if (payload.roles?.length) {
+      roles = await this.roleModel.find({ _id: { $in: payload.roles } });
+      if (roles.length !== payload.roles.length) {
+        return new BadResponse(Errors.ROLE_NOT_FOUND);
+      }
+    } else {
+      roles = await this.roleService.findDefaults();
+    }
+    const user = await this.userModel.create({
+      email: payload.email,
+      username: payload.username ?? payload.email,
+      password: payload.password ? HashService.hash(payload.password) : null,
+      firstName: payload.firstName,
+      lastName: payload.lastName,
+      phoneNumber: payload.phoneNumber,
+      permissions: payload.permissions ?? [],
+      roles: roles.map((role) => role._id),
+      status: payload.status ?? 'active',
+      activated: payload.status ? payload.status === 'active' : undefined,
+      metadata: payload.metadata,
+      createdBy: payload.actorId,
+      updatedBy: payload.actorId,
+    });
+    await user.populate('roles');
+    return this.buildUserResponse(user as any);
+  }
+
+  async update(
+    userId: string,
+    payload: AdminUpdateUserDto,
+  ): Promise<ServiceResponse<any | undefined>> {
+    const user = await this.userModel.findById(userId);
+    if (!user) {
+      return new BadResponse(Errors.USER_NOT_FOUND);
+    }
+    if (
+      payload.email &&
+      payload.email !== user.email &&
+      (await this.userModel.exists({ _id: { $ne: userId }, email: payload.email }))
+    ) {
+      return new BadResponse(Errors.DUPLICATE_EMAIL);
+    }
+    if (payload.roles !== undefined) {
+      const roles = await this.roleModel.find({ _id: { $in: payload.roles } });
+      if (roles.length !== payload.roles.length) {
+        return new BadResponse(Errors.ROLE_NOT_FOUND);
+      }
+      user.roles = payload.roles as any;
+    }
+    if (payload.username !== undefined) {
+      user.username = payload.username;
+    }
+    if (payload.firstName !== undefined) {
+      user.firstName = payload.firstName;
+    }
+    if (payload.lastName !== undefined) {
+      user.lastName = payload.lastName;
+    }
+    if (payload.phoneNumber !== undefined) {
+      user.phoneNumber = payload.phoneNumber;
+    }
+    if (payload.password) {
+      user.password = HashService.hash(payload.password);
+    }
+    if (payload.status) {
+      if (!['active', 'disabled'].includes(payload.status)) {
+        return new BadResponse(Errors.USER_STATUS_INVALID);
+      }
+      user.status = payload.status;
+      user.activated = payload.status === 'active';
+    }
+    if (payload.permissions !== undefined) {
+      user.permissions = payload.permissions ?? [];
+    }
+    if (payload.metadata !== undefined) {
+      user.metadata = payload.metadata;
+    }
+    user.updatedBy = payload.actorId ?? user.updatedBy;
+    const saved = await user.save();
+    await saved.populate('roles');
+    return this.buildUserResponse(saved as any);
+  }
+
+  async setStatus(
+    userId: string,
+    payload: SetUserStatusDto,
+  ): Promise<ServiceResponse<any | undefined>> {
+    return this.update(userId, {
+      status: payload.status,
+      actorId: payload.actorId,
+    });
+  }
+
+  async assignRoles(
+    userId: string,
+    payload: AssignRolesDto,
+  ): Promise<ServiceResponse<any | undefined>> {
+    return this.update(userId, {
+      roles: payload.roles,
+      actorId: payload.actorId,
+    });
+  }
+
+  async delete(userId: string): Promise<ServiceResponse<boolean>> {
+    const result = await this.userModel.findByIdAndDelete(userId);
+    if (!result) {
+      return new BadResponse(Errors.USER_NOT_FOUND);
+    }
+    return new GoodResponse<boolean>(true);
   }
 
   private bootstrapPermissions(defaultRoleCount: number): string[] | undefined {
@@ -222,5 +422,29 @@ export class UserService {
       return [ROLE_MANAGE_PERMISSION];
     }
     return undefined;
+  }
+
+  private async buildUserResponse(
+    user: User & { roles?: (Role | string)[] },
+  ): Promise<ServiceResponse<User & { roles?: Role[]; permissionScopes: any }>> {
+    const userJson = (user as any).toJSON() as User & { roles?: any[] };
+    const permissionScopes =
+      await this.roleAssignmentService.resolvePermissionScopes(
+        userJson._id as string,
+        {
+          baseUser: {
+            ...(userJson as any),
+            roles: userJson.roles as any,
+          },
+        },
+      );
+    return new GoodResponse<
+      User & { roles?: Role[]; permissionScopes: PermissionScopes }
+    >({
+      ...userJson,
+      password: undefined,
+      permissions: permissionScopes.effective,
+      permissionScopes,
+    } as any);
   }
 }

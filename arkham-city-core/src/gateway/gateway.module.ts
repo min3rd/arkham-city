@@ -10,6 +10,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { GwRoleModule } from './gw-role/gw-role.module';
 import { PermissionGuard } from 'src/core/guards/permissions/permissions.guard';
 import { ModulesModule } from 'src/modules/modules.module';
+import { GwUserModule } from './gw-user/gw-user.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ModulesModule } from 'src/modules/modules.module';
     GwWebsdkModule,
     GwStorageModule,
     GwRoleModule,
+    GwUserModule,
     ModulesModule,
   ],
   providers: [
