@@ -11,9 +11,7 @@
       </h1>
       <p class="text-xs text-neutral-500 dark:text-neutral-400">
         {{
-          'Manage accounts, roles, status and access'
-            | transloco
-            | capitalize
+          'Manage accounts, roles, status and access' | transloco | capitalize
         }}
       </p>
     </div>
@@ -27,7 +25,7 @@
     </div>
   </div>
 
-  <ark-drawer-container class="flex flex-1 h-full">
+  <ark-drawer-container class="flex flex-auto h-full">
     <ark-drawer
       position="end"
       mode="side"
@@ -43,7 +41,8 @@
               {{
                 (selectedUser?._id
                   ? ('edit user' | transloco)
-                  : ('create user' | transloco)) | capitalize
+                  : ('create user' | transloco)
+                ) | capitalize
               }}
             </p>
             <h2 class="text-lg font-semibold">
@@ -130,7 +129,7 @@
       </div>
     </ark-drawer>
 
-    <ark-drawer-content class="flex flex-1 flex-col">
+    <ark-drawer-content class="flex flex-1 flex-col border-r border-neutral-200 dark:border-neutral-700">
       <div
         class="grid gap-2 md:grid-cols-3 p-2 border-b border-neutral-200 dark:border-neutral-700"
       >
@@ -155,7 +154,9 @@
           [formFieldControl]="filtersForm.get('status')"
         >
           <ng-template #options>
-            <option value="">{{ 'all status' | transloco | capitalize }}</option>
+            <option value="">
+              {{ 'all status' | transloco | capitalize }}
+            </option>
             <option value="active">active</option>
             <option value="disabled">disabled</option>
           </ng-template>
@@ -172,11 +173,21 @@
           (pageSizeChange)="onPageSizeChange($event)"
         >
           <div class="grid grid-cols-10 font-semibold text-xs uppercase">
-            <div class="col-span-3 px-2 py-1">{{ 'user' | transloco | capitalize }}</div>
-            <div class="col-span-2 px-2 py-1">{{ 'roles' | transloco | capitalize }}</div>
-            <div class="col-span-2 px-2 py-1">{{ 'status' | transloco | capitalize }}</div>
-            <div class="col-span-2 px-2 py-1">{{ 'last active' | transloco | capitalize }}</div>
-            <div class="col-span-1 px-2 py-1 text-right">{{ 'actions' | transloco | capitalize }}</div>
+            <div class="col-span-3 px-2 py-1">
+              {{ 'user' | transloco | capitalize }}
+            </div>
+            <div class="col-span-2 px-2 py-1">
+              {{ 'roles' | transloco | capitalize }}
+            </div>
+            <div class="col-span-2 px-2 py-1">
+              {{ 'status' | transloco | capitalize }}
+            </div>
+            <div class="col-span-2 px-2 py-1">
+              {{ 'last active' | transloco | capitalize }}
+            </div>
+            <div class="col-span-1 px-2 py-1 text-right">
+              {{ 'actions' | transloco | capitalize }}
+            </div>
           </div>
           @for (user of users; track user._id) {
           <div
@@ -192,14 +203,12 @@
                 <span class="text-xs text-neutral-500">{{
                   'no roles' | transloco | capitalize
                 }}</span>
-                } @else {
-                @for (role of user.roles; track role._id) {
+                } @else { @for (role of user.roles; track role._id) {
                 <span
                   class="text-xs px-2 py-1 rounded-md border border-neutral-200 dark:border-neutral-700"
                   >{{ role.name }}</span
                 >
-                }
-                }
+                } }
               </div>
             </div>
             <div class="col-span-2 px-2 py-2">
@@ -227,7 +236,9 @@
                 size="sm"
                 ghost
                 [color]="user.status === 'disabled' ? 'green' : 'red'"
-                [icon]="user.status === 'disabled' ? 'featherUnlock' : 'featherSlash'"
+                [icon]="
+                  user.status === 'disabled' ? 'featherUnlock' : 'featherSlash'
+                "
                 (click)="toggleStatus(user)"
               ></ark-button>
               <ark-button
