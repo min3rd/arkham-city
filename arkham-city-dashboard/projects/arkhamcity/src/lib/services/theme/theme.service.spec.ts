@@ -19,6 +19,9 @@ describe('ThemeService', () => {
     expect(root.getPropertyValue('--ark-color-primary')).toBe(
       arkLightTokens.semantic.primary,
     );
+    expect(root.getPropertyValue('--ark-control-outline')).toBe(
+      arkLightTokens.elevation.controlOutline,
+    );
     expect(service.currentTheme).toBe('light');
   });
 
@@ -30,5 +33,8 @@ describe('ThemeService', () => {
     expect(
       rootElement.style.getPropertyValue('--ark-color-primary'),
     ).toBe(arkDarkTokens.semantic.primary);
+    expect(
+      rootElement.style.getPropertyValue('--ark-control-outline'),
+    ).toBe(arkDarkTokens.elevation.controlOutline);
   });
 });

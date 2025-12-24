@@ -31,7 +31,7 @@
         placeholder="{{ placeholder }}"
         [disabled]="onLoading || enableDisabled()"
         [style.borderRadius]="isCompact() ? 'var(--ark-radius-sm)' : null"
-        [style.boxShadow]="isCompact() ? 'inset 0 0 0 1px var(--ark-color-border)' : null"
+        [style.boxShadow]="isCompact() ? 'var(--ark-control-outline)' : null"
       />
     } @else {
       <input
@@ -55,7 +55,7 @@
         placeholder="{{ placeholder }}"
         [disabled]="onLoading || enableDisabled()"
         [style.borderRadius]="isCompact() ? 'var(--ark-radius-sm)' : null"
-        [style.boxShadow]="isCompact() ? 'inset 0 0 0 1px var(--ark-color-border)' : null"
+        [style.boxShadow]="isCompact() ? 'var(--ark-control-outline)' : null"
       />
     }
     @if (invalid) {

@@ -17,7 +17,7 @@ export interface ArkColorPalette {
   danger500: string;
 }
 
-export interface ArkSemanticTokens {
+export interface ArkSemanticTokens extends Record<string, string> {
   background: string;
   surface: string;
   elevated: string;
@@ -32,7 +32,7 @@ export interface ArkSemanticTokens {
   danger: string;
 }
 
-export interface ArkSpacingScale {
+export interface ArkSpacingScale extends Record<string, string> {
   '2xs': string;
   xs: string;
   sm: string;
@@ -43,7 +43,7 @@ export interface ArkSpacingScale {
   compactX: string;
 }
 
-export interface ArkTypeScale {
+export interface ArkTypeScale extends Record<string, string> {
   xs: string;
   sm: string;
   md: string;
@@ -53,16 +53,17 @@ export interface ArkTypeScale {
   weightSemibold: string;
 }
 
-export interface ArkRadii {
+export interface ArkRadii extends Record<string, string> {
   sm: string;
   md: string;
   lg: string;
   full: string;
 }
 
-export interface ArkElevation {
+export interface ArkElevation extends Record<string, string> {
   low: string;
   medium: string;
+  controlOutline: string;
 }
 
 export interface ArkDesignTokens {
@@ -122,6 +123,7 @@ const baseRadii: ArkRadii = {
 const baseElevation: ArkElevation = {
   low: '0 1px 2px rgba(15, 23, 42, 0.08)',
   medium: '0 8px 18px rgba(15, 23, 42, 0.12)',
+  controlOutline: 'inset 0 0 0 1px var(--ark-color-border)',
 };
 
 export const arkLightTokens: ArkDesignTokens = {
@@ -166,6 +168,7 @@ export const arkDarkTokens: ArkDesignTokens = {
   typography: { ...baseTypography },
   radii: { ...baseRadii },
   elevation: {
+    ...baseElevation,
     low: '0 1px 2px rgba(0, 0, 0, 0.45)',
     medium: '0 10px 22px rgba(0, 0, 0, 0.65)',
   },
@@ -217,4 +220,5 @@ export const arkTypographyVarMap: Record<string, keyof ArkTypeScale> = {
 export const arkElevationVarMap: Record<string, keyof ArkElevation> = {
   'ark-elevation-low': 'low',
   'ark-elevation-medium': 'medium',
+  'ark-control-outline': 'controlOutline',
 };
