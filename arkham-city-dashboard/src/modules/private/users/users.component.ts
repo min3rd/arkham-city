@@ -104,7 +104,7 @@ export class UsersComponent extends BaseListComponent implements OnInit {
     this.usersService
       .list({
         search: search ?? undefined,
-        roleId: roleId ?? undefined,
+        roles: roleId ? [roleId] : undefined,
         status: (status as UserStatus | undefined) ?? undefined,
         page,
         limit: this.limit,
@@ -162,7 +162,7 @@ export class UsersComponent extends BaseListComponent implements OnInit {
       email: user.email,
       firstName: user.firstName ?? '',
       lastName: user.lastName ?? '',
-      phoneNumber: user['phoneNumber' as keyof UserListItem] as string | undefined,
+      phoneNumber: user.phoneNumber ?? '',
       password: '',
       roles: (user.roles ?? []).map((role) => role._id as string),
       status: (user.status as UserStatus) ?? 'active',

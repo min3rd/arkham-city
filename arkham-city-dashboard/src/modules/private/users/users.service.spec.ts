@@ -31,20 +31,22 @@ describe('UsersService', () => {
       limit: 5,
     };
     service
-      .list({ search: 'john', roleId: 'role-1', status: 'active', page: 2, limit: 5 })
+      .list({ search: 'john', roles: ['role-1'], status: 'active', page: 2, limit: 5 })
       .subscribe((res) => {
         expect(res).toEqual(mockResponse);
       });
 
-    const req = httpMock.expectOne(
-      (r) =>
+    const req = httpMock.expectOne((r) => {
+      const roles = r.params.getAll('roles') ?? [];
+      return (
         r.url === 'http://api.test/v1/users' &&
         r.params.get('search') === 'john' &&
-        r.params.get('roles') === 'role-1' &&
+        roles.includes('role-1') &&
         r.params.get('status') === 'active' &&
         r.params.get('page') === '2' &&
-        r.params.get('limit') === '5',
-    );
+        r.params.get('limit') === '5'
+      );
+    });
     expect(req.request.method).toBe('GET');
     req.flush({ data: mockResponse });
   });
