@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnInit,
   inject,
@@ -23,7 +24,7 @@ import {
   BaseListComponent,
   CapitalizePipe,
 } from 'arkhamcity';
-import { debounceTime, takeUntil } from 'rxjs';
+import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { RoleResDto } from '@core/auth/auth.type';
 import { RolesService } from '../roles/roles.service';
 import {
@@ -32,6 +33,7 @@ import {
   UserStatus,
   UsersService,
 } from './users.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -56,9 +58,14 @@ export class UsersComponent extends BaseListComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly usersService = inject(UsersService);
   private readonly rolesService = inject(RolesService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  protected override changeDetectorRef = inject(ChangeDetectorRef);
+  protected override unsubscribeAll = new Subject<any>();
 
   drawerOpened = false;
   loading = false;
+  loadingUser = false;
 
   users: UserListItem[] = [];
   roles: RoleResDto[] = [];
@@ -90,6 +97,18 @@ export class UsersComponent extends BaseListComponent implements OnInit {
     this.filtersForm.valueChanges
       .pipe(debounceTime(200), takeUntil(this.unsubscribeAll))
       .subscribe(() => this.onFilterChange());
+    this.route.params.pipe(takeUntil(this.unsubscribeAll)).subscribe((params) => {
+      if (params['id']) {
+        this.openEditById(params['id']);
+        return;
+      }
+      const path = this.route.routeConfig?.path;
+      if (path === 'new') {
+        this.openCreate();
+        return;
+      }
+      this.closeDrawer();
+    });
   }
 
   onFilterChange() {
@@ -141,6 +160,7 @@ export class UsersComponent extends BaseListComponent implements OnInit {
   }
 
   openCreate() {
+    this.router.navigate(['/users/new']);
     this.selectedUser = null;
     this.drawerOpened = true;
     this.userForm.reset({
@@ -155,7 +175,10 @@ export class UsersComponent extends BaseListComponent implements OnInit {
     this.changeDetectorRef.markForCheck();
   }
 
-  editUser(user: UserListItem) {
+  editUser(user: UserListItem, navigate = true) {
+    if (navigate) {
+      this.router.navigate(['/users', user._id]);
+    }
     this.selectedUser = user;
     this.drawerOpened = true;
     this.userForm.reset({
@@ -173,6 +196,7 @@ export class UsersComponent extends BaseListComponent implements OnInit {
   closeDrawer() {
     this.drawerOpened = false;
     this.selectedUser = null;
+    this.router.navigate(['/users']);
     this.changeDetectorRef.markForCheck();
   }
 
@@ -257,5 +281,30 @@ export class UsersComponent extends BaseListComponent implements OnInit {
   private confirmDeleteUser(user: UserListItem): boolean {
     const label = this.userDisplay(user);
     return window.confirm(`Delete ${label || 'this user'}?`);
+  }
+
+  private openEditById(userId: string) {
+    this.loadingUser = true;
+    this.drawerOpened = true;
+    this.changeDetectorRef.markForCheck();
+    this.usersService
+      .get(userId)
+      .pipe(takeUntil(this.unsubscribeAll))
+      .subscribe({
+        next: (user) => {
+          if (user) {
+            this.editUser(user, false);
+          } else {
+            this.closeDrawer();
+          }
+          this.loadingUser = false;
+          this.changeDetectorRef.markForCheck();
+        },
+        error: () => {
+          this.loadingUser = false;
+          this.closeDrawer();
+          this.changeDetectorRef.markForCheck();
+        },
+      });
   }
 }
