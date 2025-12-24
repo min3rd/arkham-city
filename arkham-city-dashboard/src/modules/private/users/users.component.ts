@@ -24,7 +24,7 @@ import {
   BaseListComponent,
   CapitalizePipe,
 } from 'arkhamcity';
-import { Subject, debounceTime, takeUntil } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs';
 import { RoleResDto } from '@core/auth/auth.type';
 import { RolesService } from '../roles/roles.service';
 import {
@@ -58,10 +58,8 @@ export class UsersComponent extends BaseListComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly usersService = inject(UsersService);
   private readonly rolesService = inject(RolesService);
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  protected override changeDetectorRef = inject(ChangeDetectorRef);
-  protected override unsubscribeAll = new Subject<any>();
+  override router = inject(Router);
+  override activatedRoute = inject(ActivatedRoute);
 
   drawerOpened = false;
   loading = false;
@@ -97,17 +95,19 @@ export class UsersComponent extends BaseListComponent implements OnInit {
     this.filtersForm.valueChanges
       .pipe(debounceTime(200), takeUntil(this.unsubscribeAll))
       .subscribe(() => this.onFilterChange());
-    this.route.params.pipe(takeUntil(this.unsubscribeAll)).subscribe((params) => {
-      if (params['id']) {
-        this.openEditById(params['id']);
-        return;
-      }
-      const path = this.route.routeConfig?.path;
-      if (path === 'new') {
-        this.openCreate();
-        return;
-      }
-      this.closeDrawer();
+    this.activatedRoute.params
+      .pipe(takeUntil(this.unsubscribeAll))
+      .subscribe((params) => {
+        if (params['id']) {
+          this.openEditById(params['id']);
+          return;
+        }
+        const path = this.activatedRoute.routeConfig?.path;
+        if (path === 'new') {
+          this.openCreate();
+          return;
+        }
+        this.closeDrawer();
     });
   }
 

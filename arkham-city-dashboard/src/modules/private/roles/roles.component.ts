@@ -11,6 +11,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { ParamMap } from '@angular/router';
 import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import {
   ArkButton,
@@ -37,7 +38,12 @@ import {
   RolesService,
   UpsertRolePayload,
 } from './roles.service';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  forkJoin,
+  takeUntil,
+} from 'rxjs';
 
 @Component({
   selector: 'app-roles',
@@ -73,6 +79,7 @@ export class RolesComponent extends BaseListComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
   private readonly translocoService = inject(TranslocoService);
   private readonly MIN_USER_QUERY_LENGTH = 2;
+  private syncingFromRoute = false;
 
   drawerOpened = false;
   activeTab = 0;
@@ -93,6 +100,7 @@ export class RolesComponent extends BaseListComponent implements OnInit {
     search: [''],
     defaultOnly: [false],
     permission: [''],
+    sort: [''],
   });
 
   roleForm = this.formBuilder.group({
@@ -106,6 +114,7 @@ export class RolesComponent extends BaseListComponent implements OnInit {
   selectedPermissions: Set<string> = new Set<string>();
   permissionSearch = new FormControl<string>('');
   customPermission = new FormControl<string>('');
+  bulkPermission = new FormControl<string>('');
 
   assignments: RoleAssignmentRes[] = [];
   assignmentsLoading = false;
@@ -118,12 +127,25 @@ export class RolesComponent extends BaseListComponent implements OnInit {
   userSearch = new FormControl<string>('');
   userResults: RoleUser[] = [];
   selectedUser?: RoleUser;
+  bulkSelection: Set<string> = new Set<string>();
+  expandedBadges: Set<string> = new Set<string>();
+  bulkLoading = false;
 
   override ngOnInit(): void {
-    this.loadRoles();
+    this.restoreStateFromRoute(this.activatedRoute.snapshot.queryParamMap);
+    this.loadRoles(this.activatedRoute.snapshot.paramMap.get('id') ?? undefined);
+    this.activatedRoute.queryParamMap
+      .pipe(takeUntil(this.unsubscribeAll))
+      .subscribe((params) => this.restoreStateFromRoute(params));
+    this.activatedRoute.paramMap
+      .pipe(takeUntil(this.unsubscribeAll))
+      .subscribe((params) => this.handleRouteRoleChange(params));
     this.filtersForm.valueChanges
       .pipe(takeUntil(this.unsubscribeAll))
-      .subscribe(() => this.applyFilters());
+      .subscribe(() => {
+        this.applyFilters(1);
+        this.persistState();
+      });
     this.permissionSearch.valueChanges
       .pipe(takeUntil(this.unsubscribeAll))
       .subscribe(() => this.changeDetectorRef.markForCheck());
@@ -176,10 +198,12 @@ export class RolesComponent extends BaseListComponent implements OnInit {
       projectId: '',
       resourceId: '',
     });
+    this.bulkSelection.clear();
+    this.navigateWithState();
     this.changeDetectorRef.markForCheck();
   }
 
-  selectRole(role: RoleResDto): void {
+  selectRole(role: RoleResDto, options?: { skipNav?: boolean }): void {
     this.selectedRole = role;
     this.drawerOpened = true;
     this.activeTab = 0;
@@ -197,11 +221,15 @@ export class RolesComponent extends BaseListComponent implements OnInit {
       this.assignments = [];
     }
     this.changeDetectorRef.markForCheck();
+    if (!options?.skipNav) {
+      this.navigateWithState(role._id);
+    }
   }
 
   closeDrawer(): void {
     this.drawerOpened = false;
     this.selectedRole = null;
+    this.navigateWithState();
     this.changeDetectorRef.markForCheck();
   }
 
@@ -211,11 +239,13 @@ export class RolesComponent extends BaseListComponent implements OnInit {
 
   onPageChange(page: number): void {
     this.updatePage(page);
+    this.persistState();
   }
 
   onPageSizeChange(size: number): void {
     this.pageRoles.size = size;
     this.updatePage(1);
+    this.persistState();
   }
 
   saveRole(): void {
@@ -264,6 +294,26 @@ export class RolesComponent extends BaseListComponent implements OnInit {
     });
   }
 
+  deleteRoleById(role: RoleResDto): void {
+    if (!role._id) {
+      return;
+    }
+    this.loadingRoles = true;
+    this.rolesService.delete(role._id).subscribe({
+      next: () => {
+        if (this.selectedRole?._id === role._id) {
+          this.closeDrawer();
+        }
+        this.bulkSelection.delete(role._id as string);
+        this.loadRoles();
+      },
+      error: () => {
+        this.loadingRoles = false;
+        this.changeDetectorRef.markForCheck();
+      },
+    });
+  }
+
   togglePermission(permission: string): void {
     if (this.selectedPermissions.has(permission)) {
       this.selectedPermissions.delete(permission);
@@ -293,6 +343,146 @@ export class RolesComponent extends BaseListComponent implements OnInit {
     this.changeDetectorRef.markForCheck();
   }
 
+  toggleBadgeExpansion(roleId?: string): void {
+    if (!roleId) {
+      return;
+    }
+    if (this.expandedBadges.has(roleId)) {
+      this.expandedBadges.delete(roleId);
+    } else {
+      this.expandedBadges.add(roleId);
+    }
+    this.changeDetectorRef.markForCheck();
+  }
+
+  permissionsPreview(role: RoleResDto): string[] {
+    if (this.expandedBadges.has(role._id ?? '')) {
+      return role.permissions ?? [];
+    }
+    return (role.permissions ?? []).slice(0, 3);
+  }
+
+  remainingPermissions(role: RoleResDto): number {
+    const total = role.permissions?.length ?? 0;
+    return total > 3 ? total - 3 : 0;
+  }
+
+  toggleBulkSelection(roleId?: string, checked?: boolean): void {
+    if (!roleId) {
+      return;
+    }
+    if (checked) {
+      this.bulkSelection.add(roleId);
+    } else {
+      this.bulkSelection.delete(roleId);
+    }
+    this.changeDetectorRef.markForCheck();
+  }
+
+  toggleSelectAll(checked: boolean): void {
+    if (checked) {
+      this.pageRoles.data
+        .map((role) => role._id)
+        .filter(Boolean)
+        .forEach((id) => this.bulkSelection.add(id as string));
+    } else {
+      this.pageRoles.data
+        .map((role) => role._id)
+        .filter(Boolean)
+        .forEach((id) => this.bulkSelection.delete(id as string));
+    }
+    this.changeDetectorRef.markForCheck();
+  }
+
+  isSelected(roleId?: string): boolean {
+    return roleId ? this.bulkSelection.has(roleId) : false;
+  }
+
+  bulkDeleteSelected(): void {
+    const ids = Array.from(this.bulkSelection);
+    if (ids.length === 0) {
+      return;
+    }
+    this.bulkLoading = true;
+    forkJoin(ids.map((id) => this.rolesService.delete(id))).subscribe({
+      next: () => {
+        this.bulkSelection.clear();
+        this.bulkLoading = false;
+        this.loadRoles();
+      },
+      error: () => {
+        this.bulkLoading = false;
+        this.changeDetectorRef.markForCheck();
+      },
+    });
+  }
+
+  bulkAssign(mode: 'assign' | 'revoke'): void {
+    const permission = (this.bulkPermission.value ?? '').trim();
+    if (!permission || !this.isValidPermission(permission)) {
+      return;
+    }
+    const ids = Array.from(this.bulkSelection);
+    if (ids.length === 0) {
+      return;
+    }
+    this.bulkLoading = true;
+    const updates = ids
+      .map((id) => this.roles.find((role) => role._id === id))
+      .filter((role): role is RoleResDto => !!role)
+      .map((role) => {
+        const current = new Set<string>(role.permissions ?? []);
+        if (mode === 'assign') {
+          current.add(permission);
+        } else {
+          current.delete(permission);
+        }
+        return this.rolesService.update(role!._id as string, {
+          name: role.name,
+          description: role.description,
+          permissions: Array.from(current),
+          default: role.default,
+        });
+      });
+    if (updates.length === 0) {
+      this.bulkLoading = false;
+      return;
+    }
+    forkJoin(updates).subscribe({
+      next: () => {
+        this.bulkPermission.reset();
+        this.bulkLoading = false;
+        this.loadRoles();
+      },
+      error: () => {
+        this.bulkLoading = false;
+        this.changeDetectorRef.markForCheck();
+      },
+    });
+  }
+
+  duplicateRole(role: RoleResDto): void {
+    this.selectedRole = null;
+    this.drawerOpened = true;
+    this.activeTab = 0;
+    const baseName = `${role.name} Copy`;
+    const existing = new Set(this.roles.map((r) => r.name));
+    let candidate = baseName;
+    let counter = 2;
+    while (existing.has(candidate)) {
+      candidate = `${baseName} ${counter++}`;
+    }
+    this.roleForm.reset({
+      id: '',
+      name: candidate,
+      description: role.description ?? '',
+      default: false,
+    });
+    this.selectedPermissions = new Set<string>(role.permissions ?? []);
+    this.navigateWithState();
+    this.changeDetectorRef.markForCheck();
+  }
+
   private isValidPermission(permission: string): boolean {
     const pattern = /^[a-z0-9]+([.:][a-z0-9-]+)+$/i;
     return pattern.test(permission.trim());
@@ -306,11 +496,12 @@ export class RolesComponent extends BaseListComponent implements OnInit {
         this.permissionPool = new Set(
           this.roles.flatMap((role) => role.permissions ?? []),
         );
-        this.applyFilters();
-        if (focusId) {
-          const found = this.roles.find((r) => r._id === focusId);
+        this.applyFilters(this.pageRoles.page);
+        const targetId = focusId ?? this.activatedRoute.snapshot.paramMap.get('id');
+        if (targetId) {
+          const found = this.roles.find((r) => r._id === targetId);
           if (found) {
-            this.selectRole(found);
+            this.selectRole(found, { skipNav: true });
           }
         }
         this.loadingRoles = false;
@@ -323,24 +514,36 @@ export class RolesComponent extends BaseListComponent implements OnInit {
     });
   }
 
-  private applyFilters(): void {
-    const { search, defaultOnly, permission } = this.filtersForm.value;
+  private applyFilters(page?: number): void {
+    const { search, defaultOnly, permission, sort } = this.filtersForm.value;
     const normalizedSearch = (search ?? '').toLowerCase();
     const permissionFilter = (permission ?? '').toLowerCase();
-    this.filteredRoles = this.roles.filter((role) => {
-      const matchesSearch =
-        !normalizedSearch ||
-        role.name.toLowerCase().includes(normalizedSearch) ||
-        (role.description ?? '').toLowerCase().includes(normalizedSearch);
-      const matchesDefault = !defaultOnly || role.default;
-      const matchesPermission =
-        !permissionFilter ||
-        (role.permissions ?? []).some((p) =>
-          p.toLowerCase().includes(permissionFilter),
-        );
-      return matchesSearch && matchesDefault && matchesPermission;
-    });
-    this.updatePage(1);
+    this.filteredRoles = this.roles
+      .filter((role) => {
+        const matchesSearch =
+          !normalizedSearch ||
+          role.name.toLowerCase().includes(normalizedSearch) ||
+          (role.description ?? '').toLowerCase().includes(normalizedSearch);
+        const matchesDefault = !defaultOnly || role.default;
+        const matchesPermission =
+          !permissionFilter ||
+          (role.permissions ?? []).some((p) =>
+            p.toLowerCase().includes(permissionFilter),
+          );
+        return matchesSearch && matchesDefault && matchesPermission;
+      })
+      .sort((a, b) => {
+        if (!sort) {
+          return 0;
+        }
+        const [field, direction] = sort.split(':');
+        const dir = direction === 'desc' ? -1 : 1;
+        if (field === 'name') {
+          return a.name.localeCompare(b.name) * dir;
+        }
+        return 0;
+      });
+    this.updatePage(page ?? 1);
   }
 
   private updatePage(page: number): void {
@@ -395,6 +598,9 @@ export class RolesComponent extends BaseListComponent implements OnInit {
 
   onDrawerOpenedChange(opened: boolean): void {
     this.drawerOpened = opened;
+    if (!opened) {
+      this.navigateWithState();
+    }
   }
 
   pickUser(user: RoleUser): void {
@@ -461,5 +667,69 @@ export class RolesComponent extends BaseListComponent implements OnInit {
 
   permissionLabel(permission: string): string {
     return permission || this.translocoService.translate('permission');
+  }
+
+  private restoreStateFromRoute(params: ParamMap): void {
+    this.syncingFromRoute = true;
+    const page = Number(params.get('page') ?? this.pageRoles.page) || 1;
+    const size =
+      Number(params.get('limit') ?? this.pageRoles.size) || this.pageRoles.size;
+    const search = params.get('search') ?? '';
+    const permission = params.get('permission') ?? '';
+    const defaultOnly = params.get('defaultOnly') === 'true';
+    const sort = params.get('sort') ?? '';
+    this.pageRoles.page = page;
+    this.pageRoles.size = size;
+    this.filtersForm.patchValue(
+      { search, permission, defaultOnly, sort },
+      { emitEvent: false },
+    );
+    this.applyFilters(this.pageRoles.page);
+    this.syncingFromRoute = false;
+  }
+
+  private persistState(): void {
+    const activeRoleId =
+      this.selectedRole?._id ??
+      this.activatedRoute.snapshot.paramMap.get('id') ??
+      undefined;
+    this.navigateWithState(activeRoleId || undefined);
+  }
+
+  private navigateWithState(roleId?: string): void {
+    if (this.syncingFromRoute) {
+      return;
+    }
+    const commands = roleId ? ['/roles', roleId] : ['/roles'];
+    this.router.navigate(commands, {
+      queryParams: this.buildQueryParams(),
+      replaceUrl: true,
+    });
+  }
+
+  private buildQueryParams(): Record<string, unknown> {
+    const { search, defaultOnly, permission, sort } = this.filtersForm.value;
+    return {
+      page: this.pageRoles.page,
+      limit: this.pageRoles.size,
+      ...(search ? { search } : {}),
+      ...(permission ? { permission } : {}),
+      ...(sort ? { sort } : {}),
+      ...(defaultOnly ? { defaultOnly: true } : {}),
+    };
+  }
+
+  private handleRouteRoleChange(params: ParamMap): void {
+    const roleId = params.get('id');
+    if (!roleId) {
+      this.drawerOpened = false;
+      this.selectedRole = null;
+      this.changeDetectorRef.markForCheck();
+      return;
+    }
+    const found = this.roles.find((r) => r._id === roleId);
+    if (found) {
+      this.selectRole(found, { skipNav: true });
+    }
   }
 }
