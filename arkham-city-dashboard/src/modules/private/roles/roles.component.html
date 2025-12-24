@@ -1,5 +1,7 @@
 <div class="flex flex-col h-full">
-  <div class="flex items-center justify-between px-2 py-2 border-b border-neutral-200 dark:border-neutral-700">
+  <div
+    class="flex items-center justify-between px-2 py-2 border-b border-neutral-200 dark:border-neutral-700"
+  >
     <div class="space-y-1">
       <p class="text-xs uppercase text-neutral-500 dark:text-neutral-400">
         {{ 'roles & permissions' | transloco | capitalize }}
@@ -8,7 +10,11 @@
         {{ 'project roles' | transloco | capitalize }}
       </h1>
       <p class="text-xs text-neutral-500 dark:text-neutral-400">
-        {{ 'Manage access with roles, permissions and assignments' | transloco | capitalize }}
+        {{
+          'Manage access with roles, permissions and assignments'
+            | transloco
+            | capitalize
+        }}
       </p>
     </div>
     <div class="flex gap-2">
@@ -27,7 +33,7 @@
       (openedChanged)="onDrawerOpenedChange($event)"
       position="end"
       mode="side"
-      class="h-full"
+      class="h-full min-w-1/3"
     >
       <div class="flex flex-col h-full bg-neutral-50 dark:bg-neutral-900">
         <div
@@ -38,19 +44,17 @@
               {{
                 (selectedRole?._id
                   ? ('edit role' | transloco)
-                  : ('create role' | transloco)) | capitalize
+                  : ('create role' | transloco)
+                ) | capitalize
               }}
             </p>
             <h2 class="text-lg font-semibold">
-              {{
-                selectedRole?.name
-                  || ('new role' | transloco | capitalize)
-              }}
+              {{ selectedRole?.name || ('new role' | transloco | capitalize) }}
             </h2>
             <p class="text-sm text-neutral-500 dark:text-neutral-400">
               {{
-                selectedRole?.description
-                  || ('Set permissions and assign users' | transloco | capitalize)
+                selectedRole?.description ||
+                  ('Set permissions and assign users' | transloco | capitalize)
               }}
             </p>
           </div>
@@ -63,18 +67,18 @@
               (click)="closeDrawer()"
             ></ark-button>
             @if (selectedRole?._id) {
-              <ark-button
-                ghost
-                color="red"
-                size="sm"
-                icon="featherTrash2"
-                (click)="deleteRole()"
-              ></ark-button>
+            <ark-button
+              ghost
+              color="red"
+              size="sm"
+              icon="featherTrash2"
+              (click)="deleteRole()"
+            ></ark-button>
             }
           </div>
         </div>
 
-        <div class="p-2 flex-1 overflow-y-auto">
+        <div class="flex-1 overflow-y-auto">
           <ark-tab-group
             [titles]="tabs"
             [activeIndex]="activeTab"
@@ -82,7 +86,7 @@
             class="flex flex-col flex-1 overflow-hidden"
           >
             <ark-tab-content>
-              <form class="space-y-3" [formGroup]="roleForm">
+              <form class="p-2 space-y-3" [formGroup]="roleForm">
                 <ark-text-input
                   label="{{ 'name' | transloco | capitalize }}"
                   placeholder="{{ 'role name' | transloco | capitalize }}"
@@ -95,7 +99,9 @@
                 ></ark-text-input>
                 <div class="flex items-center gap-2">
                   <ark-checkbox
-                    label="{{ 'default role for new users' | transloco | capitalize }}"
+                    label="{{
+                      'default role for new users' | transloco | capitalize
+                    }}"
                     [formFieldControl]="roleForm.get('default')"
                   ></ark-checkbox>
                 </div>
@@ -122,186 +128,187 @@
             </ark-tab-content>
 
             <ark-tab-content>
-              <div class="space-y-3">
-                <div class="grid gap-2 md:grid-cols-2">
-                  <ark-text-input
-                    label="{{ 'search permissions' | transloco | capitalize }}"
-                    placeholder="{{ 'project:read' | transloco }}"
-                    [formFieldControl]="permissionSearch"
-                  ></ark-text-input>
-                  <div class="flex items-end gap-2">
-                    <ark-text-input
-                      label="{{ 'add permission' | transloco | capitalize }}"
-                      placeholder="project:write"
-                      [formFieldControl]="customPermission"
-                    ></ark-text-input>
-                    <ark-button
-                      size="sm"
-                      variant="secondary"
-                      (click)="addCustomPermission()"
-                      label="{{ 'add' | transloco | capitalize }}"
-                    ></ark-button>
-                  </div>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-2">
-                  @if (filteredPermissions.length === 0) {
-                    <div class="text-sm text-neutral-500 dark:text-neutral-400">
-                      {{ 'no permissions found' | transloco | capitalize }}
-                    </div>
-                  }
-                  @for (permission of filteredPermissions; track permission) {
-                    <div
-                      class="flex items-center justify-between gap-3 border border-neutral-200 dark:border-neutral-700 rounded-md px-3 py-2"
-                    >
-                      <div class="flex flex-col">
-                        <span class="font-medium">{{ permission }}</span>
-                        @if (isPermissionSelected(permission)) {
-                          <span class="text-xs text-green-600">
-                            {{ 'selected' | transloco | capitalize }}
-                          </span>
-                        }
-                      </div>
-                      <div class="flex items-center gap-2">
-                        <input
-                          type="checkbox"
-                          class="h-4 w-4 border border-neutral-400 rounded-sm"
-                          [id]="'perm-' + permission"
-                          [checked]="isPermissionSelected(permission)"
-                          (change)="togglePermission(permission)"
-                          />
-                        <label
-                          class="text-sm text-neutral-600 dark:text-neutral-300"
-                          [for]="'perm-' + permission"
-                        >
-                          {{ 'allow' | transloco | capitalize }}
-                        </label>
-                      </div>
-                    </div>
-                  }
-                </div>
+              <div
+                class="p-2 flex items-end justify-between gap-2 border-b border-neutral-200 dark:border-neutral-700"
+              >
+                <ark-text-input
+                  label="{{ 'search permissions' | transloco | capitalize }}"
+                  placeholder="{{ 'project:read' | transloco }}"
+                  [formFieldControl]="permissionSearch"
+                  noSuffixSpace="true"
+                ></ark-text-input>
+                <ark-text-input
+                  label="{{ 'add permission' | transloco | capitalize }}"
+                  placeholder="project:write"
+                  [formFieldControl]="customPermission"
+                  noSuffixSpace="true"
+                ></ark-text-input>
+                <ark-button
+                  size="sm"
+                  variant="secondary"
+                  (click)="addCustomPermission()"
+                  label="{{ 'add' | transloco | capitalize }}"
+                ></ark-button>
               </div>
-            </ark-tab-content>
 
-            <ark-tab-content>
-              <div class="space-y-3">
-                @if (!selectedRole?._id) {
-                  <div class="text-sm text-neutral-500 dark:text-neutral-400">
-                    {{
-                      'Save the role before assigning users'
-                        | transloco
-                        | capitalize
-                    }}
+              <div class="p-2 grid md:grid-cols-2 gap-2">
+                @if (filteredPermissions.length === 0) {
+                <div class="text-sm text-neutral-500 dark:text-neutral-400">
+                  {{ 'no permissions found' | transloco | capitalize }}
+                </div>
+                } @for (permission of filteredPermissions; track permission) {
+                <div
+                  class="flex items-center justify-between gap-3 border border-neutral-200 dark:border-neutral-700 rounded-md px-3 py-2"
+                >
+                  <div class="flex flex-col">
+                    <span class="font-medium">{{ permission }}</span>
+                    @if (isPermissionSelected(permission)) {
+                    <span class="text-xs text-green-600">
+                      {{ 'selected' | transloco | capitalize }}
+                    </span>
+                    }
                   </div>
-                } @else {
-                  <div class="grid gap-2 md:grid-cols-2">
-                    <ark-text-input
-                      label="{{ 'search users' | transloco | capitalize }}"
-                      placeholder="{{ 'email or name' | transloco | capitalize }}"
-                      [formFieldControl]="userSearch"
-                    ></ark-text-input>
-                    <ark-select
-                      label="{{ 'scope' | transloco | capitalize }}"
-                      [formFieldControl]="assignmentForm.get('scope')"
-                      size="sm"
+                  <div class="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      class="h-4 w-4 border border-neutral-400 rounded-sm"
+                      [id]="'perm-' + permission"
+                      [checked]="isPermissionSelected(permission)"
+                      (change)="togglePermission(permission)"
+                    />
+                    <label
+                      class="text-sm text-neutral-600 dark:text-neutral-300"
+                      [for]="'perm-' + permission"
                     >
-                      <ng-template #options>
-                        <option value="global">global</option>
-                        <option value="project">project</option>
-                        <option value="resource">resource</option>
-                      </ng-template>
-                    </ark-select>
-                    <ark-text-input
-                      label="{{ 'project id (optional)' | transloco | capitalize }}"
-                      [formFieldControl]="assignmentForm.get('projectId')"
-                    ></ark-text-input>
-                    <ark-text-input
-                      label="{{ 'resource id (optional)' | transloco | capitalize }}"
-                      [formFieldControl]="assignmentForm.get('resourceId')"
-                    ></ark-text-input>
-                    <ark-text-input
-                      label="{{ 'user id' | transloco | capitalize }}"
-                      placeholder="{{ 'Select a user or paste id' | transloco | capitalize }}"
-                      [formFieldControl]="assignmentForm.get('userId')"
-                    ></ark-text-input>
+                      {{ 'allow' | transloco | capitalize }}
+                    </label>
                   </div>
-
-                  @if (userResults.length > 0) {
-                    <div class="flex flex-wrap gap-2">
-                      @for (user of userResults; track user._id) {
-                        <button
-                          type="button"
-                          class="border border-neutral-200 dark:border-neutral-700 rounded-md px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-left"
-                          (click)="pickUser(user)"
-                        >
-                          <div class="font-medium">
-                            {{ userDisplay(user) }}
-                          </div>
-                          <div class="text-xs text-neutral-500">
-                            {{ user.email || user.username }}
-                          </div>
-                        </button>
-                      }
-                    </div>
-                  }
-
-                  <div class="flex gap-2">
-                    <ark-button
-                      size="sm"
-                      (click)="saveAssignment()"
-                      [disabled]="assignmentForm.invalid || assignmentsLoading"
-                      label="{{ 'assign user' | transloco | capitalize }}"
-                    ></ark-button>
-                  </div>
-
-                  <div class="space-y-2">
-                    <div class="text-sm font-semibold">
-                      {{ 'assigned users' | transloco | capitalize }}
-                    </div>
-                    @if (assignmentsLoading) {
-                      <div class="text-sm text-neutral-500">
-                        {{ 'loading assignments' | transloco | capitalize }}...
-                      </div>
-                    }
-                    @if (!assignmentsLoading && assignments.length === 0) {
-                      <div class="text-sm text-neutral-500">
-                        {{ 'no assignments yet' | transloco | capitalize }}
-                      </div>
-                    }
-                    @for (assignment of assignments; track assignment._id) {
-                      <div
-                        class="flex items-center justify-between border border-neutral-200 dark:border-neutral-700 rounded-md px-3 py-2"
-                      >
-                        <div class="flex flex-col">
-                          <div class="font-medium">
-                            {{ userDisplay(assignment.user) }}
-                          </div>
-                          <div class="text-xs text-neutral-500">
-                            {{ assignment.scope }}
-                            @if (assignment.projectId) {
-                              · {{ assignment.projectId }}
-                            }
-                            @if (assignment.resourceId) {
-                              · {{ assignment.resourceId }}
-                            }
-                          </div>
-                        </div>
-                        <ark-button
-                          size="sm"
-                          ghost
-                          color="gray"
-                          (click)="removeAssignment(assignment._id)"
-                          label="{{ 'remove' | transloco | capitalize }}"
-                        ></ark-button>
-                      </div>
-                    }
-                  </div>
+                </div>
                 }
               </div>
             </ark-tab-content>
 
             <ark-tab-content>
-              <div class="text-sm text-neutral-500 dark:text-neutral-400">
+              <div class="p-2 space-y-3">
+                @if (!selectedRole?._id) {
+                <div class="text-sm text-neutral-500 dark:text-neutral-400">
+                  {{
+                    'Save the role before assigning users'
+                      | transloco
+                      | capitalize
+                  }}
+                </div>
+                } @else {
+                <div class="grid gap-2 md:grid-cols-2">
+                  <ark-text-input
+                    label="{{ 'search users' | transloco | capitalize }}"
+                    placeholder="{{ 'email or name' | transloco | capitalize }}"
+                    [formFieldControl]="userSearch"
+                  ></ark-text-input>
+                  <ark-select
+                    label="{{ 'scope' | transloco | capitalize }}"
+                    [formFieldControl]="assignmentForm.get('scope')"
+                    size="sm"
+                  >
+                    <ng-template #options>
+                      <option value="global">global</option>
+                      <option value="project">project</option>
+                      <option value="resource">resource</option>
+                    </ng-template>
+                  </ark-select>
+                  <ark-text-input
+                    label="{{
+                      'project id (optional)' | transloco | capitalize
+                    }}"
+                    [formFieldControl]="assignmentForm.get('projectId')"
+                  ></ark-text-input>
+                  <ark-text-input
+                    label="{{
+                      'resource id (optional)' | transloco | capitalize
+                    }}"
+                    [formFieldControl]="assignmentForm.get('resourceId')"
+                  ></ark-text-input>
+                  <ark-text-input
+                    label="{{ 'user id' | transloco | capitalize }}"
+                    placeholder="{{
+                      'Select a user or paste id' | transloco | capitalize
+                    }}"
+                    [formFieldControl]="assignmentForm.get('userId')"
+                  ></ark-text-input>
+                </div>
+
+                @if (userResults.length > 0) {
+                <div class="flex flex-wrap gap-2">
+                  @for (user of userResults; track user._id) {
+                  <button
+                    type="button"
+                    class="border border-neutral-200 dark:border-neutral-700 rounded-md px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 text-left"
+                    (click)="pickUser(user)"
+                  >
+                    <div class="font-medium">
+                      {{ userDisplay(user) }}
+                    </div>
+                    <div class="text-xs text-neutral-500">
+                      {{ user.email || user.username }}
+                    </div>
+                  </button>
+                  }
+                </div>
+                }
+
+                <div class="flex gap-2 border-neutral-200 dark:border-neutral-700 pt-2">
+                  <ark-button
+                    size="sm"
+                    (click)="saveAssignment()"
+                    [disabled]="assignmentForm.invalid || assignmentsLoading"
+                    label="{{ 'assign user' | transloco | capitalize }}"
+                  ></ark-button>
+                </div>
+
+                <div class="space-y-2">
+                  <div class="text-sm font-semibold">
+                    {{ 'assigned users' | transloco | capitalize }}
+                  </div>
+                  @if (assignmentsLoading) {
+                  <div class="text-sm text-neutral-500">
+                    {{ 'loading assignments' | transloco | capitalize }}...
+                  </div>
+                  } @if (!assignmentsLoading && assignments.length === 0) {
+                  <div class="text-sm text-neutral-500">
+                    {{ 'no assignments yet' | transloco | capitalize }}
+                  </div>
+                  } @for (assignment of assignments; track assignment._id) {
+                  <div
+                    class="flex items-center justify-between border border-neutral-200 dark:border-neutral-700 rounded-md px-3 py-2"
+                  >
+                    <div class="flex flex-col">
+                      <div class="font-medium">
+                        {{ userDisplay(assignment.user) }}
+                      </div>
+                      <div class="text-xs text-neutral-500">
+                        {{ assignment.scope }}
+                        @if (assignment.projectId) { ·
+                        {{ assignment.projectId }} } @if (assignment.resourceId)
+                        { · {{ assignment.resourceId }}
+                        }
+                      </div>
+                    </div>
+                    <ark-button
+                      size="sm"
+                      ghost
+                      color="gray"
+                      (click)="removeAssignment(assignment._id)"
+                      label="{{ 'remove' | transloco | capitalize }}"
+                    ></ark-button>
+                  </div>
+                  }
+                </div>
+                }
+              </div>
+            </ark-tab-content>
+
+            <ark-tab-content>
+              <div class="p-2 text-sm text-neutral-500 dark:text-neutral-400">
                 {{ 'Audit and history coming soon' | transloco | capitalize }}
               </div>
             </ark-tab-content>
@@ -311,24 +318,29 @@
     </ark-drawer>
 
     <ark-drawer-content
-      class="flex flex-col flex-1 h-full bg-neutral-50 dark:bg-neutral-900"
+      class="flex flex-col flex-1 h-full bg-neutral-50 dark:bg-neutral-900 border-r border-neutral-200 dark:border-neutral-700"
     >
-      <div class="p-2 h-full flex flex-col gap-2">
-        <div class="grid gap-2 md:grid-cols-3">
+      <div class="h-full flex flex-col gap-2">
+        <div
+          class="p-2 items-start grid gap-2 md:grid-cols-3 border-b border-neutral-200 dark:border-neutral-700"
+        >
           <ark-text-input
             label="{{ 'search' | transloco | capitalize }}"
             placeholder="{{ 'search roles' | transloco | capitalize }}"
             [formFieldControl]="filtersForm.get('search')"
+            noSuffixSpace="true"
           ></ark-text-input>
           <ark-text-input
             label="{{ 'permission filter' | transloco | capitalize }}"
             placeholder="project:read"
             [formFieldControl]="filtersForm.get('permission')"
+            noSuffixSpace="true"
           ></ark-text-input>
           <div class="flex items-center gap-2 pt-1">
             <ark-checkbox
               label="{{ 'default only' | transloco | capitalize }}"
               [formFieldControl]="filtersForm.get('defaultOnly')"
+              
             ></ark-checkbox>
           </div>
         </div>
@@ -341,48 +353,48 @@
           [page]="pageRoles.page"
           [pageSize]="pageRoles.size"
           [total]="pageRoles.total"
-           class="flex flex-col flex-1 w-full h-full rounded-md"
+          class="flex flex-col flex-1 w-full h-full rounded-md"
           size="sm"
         >
           @if (loadingRoles) {
-            <div class="p-4 text-sm text-neutral-500">
-              {{ 'loading roles' | transloco | capitalize }}...
-            </div>
-          }
-          @if (!loadingRoles && pageRoles.total === 0) {
-            <div class="p-4 text-sm text-neutral-500">
-              {{ 'no roles found' | transloco | capitalize }}
-            </div>
-          }
-          @if (!loadingRoles && pageRoles.total > 0) {
-            @for (role of pageRoles.data; track role._id ?? role.name) {
-              <button
-                type="button"
-                class="w-full text-left p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md"
-                (click)="selectRole(role)"
-              >
-                <div class="flex items-center justify-between gap-2">
-                  <div class="space-y-1">
-                    <div class="font-semibold">{{ role.name }}</div>
-                    @if (role.description) {
-                      <div class="text-xs text-neutral-500 dark:text-neutral-400">
-                        {{ role.description }}
-                      </div>
-                    }
-                    <div class="text-xs text-neutral-500">
-                      {{ (role.permissions?.length || 0) }} {{ 'permissions' | transloco }}
-                    </div>
-                  </div>
-                  @if (role.default) {
-                    <span class="text-xs text-green-600 font-medium">
-                      {{ 'default' | transloco | capitalize }}
-                    </span>
-                  }
+          <div class="p-4 text-sm text-neutral-500">
+            {{ 'loading roles' | transloco | capitalize }}...
+          </div>
+          } @if (!loadingRoles && pageRoles.total === 0) {
+          <div class="p-4 text-sm text-neutral-500">
+            {{ 'no roles found' | transloco | capitalize }}
+          </div>
+          } @if (!loadingRoles && pageRoles.total > 0) { @for (role of
+          pageRoles.data; track role._id ?? role.name) {
+          <button
+            type="button"
+            class="w-full text-left p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+            (click)="selectRole(role)"
+          >
+            <div class="flex items-center justify-between gap-2">
+              <div class="space-y-1">
+                <div class="font-semibold">{{ role.name }}</div>
+                @if (role.description) {
+                <div class="text-xs text-neutral-500 dark:text-neutral-400">
+                  {{ role.description }}
                 </div>
-              </button>
-              <div class="border-b border-neutral-200 dark:border-neutral-700"></div>
-            }
-          }
+                }
+                <div class="text-xs text-neutral-500">
+                  {{ role.permissions?.length || 0 }}
+                  {{ 'permissions' | transloco }}
+                </div>
+              </div>
+              @if (role.default) {
+              <span class="text-xs text-green-600 font-medium">
+                {{ 'default' | transloco | capitalize }}
+              </span>
+              }
+            </div>
+          </button>
+          <div
+            class="border-b border-neutral-200 dark:border-neutral-700"
+          ></div>
+          } }
         </ark-datatable>
       </div>
     </ark-drawer-content>

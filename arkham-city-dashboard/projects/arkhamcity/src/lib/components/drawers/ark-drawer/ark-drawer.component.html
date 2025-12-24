@@ -18,12 +18,12 @@
   <ng-content></ng-content>
 </div>
 @if (mode === 'over' && opened) {
-  <div
-    class="fixed inset-0 bg-black bg-opacity-50 z-30 transition-opacity duration-300 ease-in-out opacity-40"
-    (click)="close()"
-    (keydown.escape)="close()"
-    tabindex="0"
-    role="button"
-    aria-label="Close drawer"
-  ></div>
+<div
+  class="fixed inset-0 bg-black bg-opacity-50 z-30 transition-opacity duration-300 ease-in-out opacity-40"
+  (click)="close()"
+  (keydown.escape)="close()"
+  tabindex="0"
+  role="button"
+  aria-label="Close drawer"
+></div>
 }

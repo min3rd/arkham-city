@@ -32,20 +32,34 @@ export class ArkDrawerContainer implements AfterContentInit {
 
   ngAfterContentInit() {
     this.opened = this._allDrawers.some((drawer) => drawer.opened);
-    this.mode = this._allDrawers.some((drawer) => drawer.mode === 'over') ? 'over' : 'side';
-    this.position = this._allDrawers.some((drawer) => drawer.position === 'end') ? 'end' : 'start';
+    this.mode = this._allDrawers.some((drawer) => drawer.mode === 'over')
+      ? 'over'
+      : 'side';
+    this.position = this._allDrawers.some((drawer) => drawer.position === 'end')
+      ? 'end'
+      : 'start';
 
     this._allDrawers.forEach((drawer) => {
-      drawer.openedChanged.pipe(takeUntil(this._unsubscribedAll)).subscribe((opened) => {
-        this.opened = opened;
-      });
-      drawer.modeChanged.pipe(takeUntil(this._unsubscribedAll)).subscribe((mode) => {
-        this.mode = mode as ArkhamCityMode;
-      });
-      drawer.positionChanged.pipe(takeUntil(this._unsubscribedAll)).subscribe((position) => {
-        this.position = position as ArkhamCityPosition;
-      });
+      drawer.openedChanged
+        .pipe(takeUntil(this._unsubscribedAll))
+        .subscribe((opened) => {
+          this.opened = opened;
+        });
+      drawer.modeChanged
+        .pipe(takeUntil(this._unsubscribedAll))
+        .subscribe((mode) => {
+          this.mode = mode as ArkhamCityMode;
+        });
+      drawer.positionChanged
+        .pipe(takeUntil(this._unsubscribedAll))
+        .subscribe((position) => {
+          this.position = position as ArkhamCityPosition;
+        });
+    });
+
+    this._allContents.forEach((content) => {
+      content.opened = this.opened;
+      content.mode = this.mode;
     });
   }
-
 }
