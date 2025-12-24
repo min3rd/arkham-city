@@ -15,6 +15,14 @@ export const routes: Routes = [
     },
   },
   {
+    path: 'users',
+    loadComponent: () =>
+      import('./users/users.component').then((m) => m.UsersComponent),
+    data: {
+      permissions: ['roles:write'],
+    },
+  },
+  {
     path: 'projects',
     loadChildren: () =>
       import('./project/project.routes').then((r) => r.routes),
