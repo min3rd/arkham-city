@@ -40,7 +40,7 @@ export interface UpsertUserPayload {
 
 export interface ListUsersQuery {
   search?: string;
-  roleId?: string;
+  roles?: string[];
   status?: UserStatus;
   page?: number;
   limit?: number;
@@ -60,8 +60,10 @@ export class UsersService {
     if (query.search) {
       params = params.set('search', query.search);
     }
-    if (query.roleId) {
-      params = params.append('roles', query.roleId);
+    if (query.roles?.length) {
+      query.roles.forEach((role) => {
+        params = params.append('roles', role);
+      });
     }
     if (query.status) {
       params = params.set('status', query.status);
